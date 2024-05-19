@@ -2,6 +2,17 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "paths": {
+      "core": [
+        "./dist/core"
+      ],
+      "features": [
+        "./dist/features"
+      ],
+      "shared": [
+        "./dist/shared"
+      ]
+    },
     "outDir": "./dist/out-tsc",
     "strict": true,
     "noImplicitOverride": true,
