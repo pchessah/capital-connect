@@ -1,0 +1,30 @@
+// Font Families
+$font-family-sans-serif: "Helvetica Neue", Arial, sans-serif;
+$font-family-serif: Georgia, "Times New Roman", serif;
+$font-family-monospace: Menlo, Monaco, Consolas, "Courier New", monospace;
+
+// Font Sizes
+$font-size-base: 1rem; // 16px
+$font-size-sm: 0.875rem; // 14px
+$font-size-lg: 1.25rem; // 20px
+
+// Font Weights
+$font-weight-light: 300;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+// Line Heights
+$line-height-base: 1.5;
+
+// Mixins
+@mixin font-default {
+  font-family: $font-family-sans-serif;
+  font-size: $font-size-base;
+  font-weight: $font-weight-normal;
+  line-height: $line-height-base;
+}
+
+@mixin font-heading {
+  font-family: $font-family-serif;
+  font-weight: $font-weight-bold;
+}

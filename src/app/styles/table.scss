@@ -1,0 +1,38 @@
+@import 'colors';
+@import 'fonts';
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: $text-color;
+
+  th,
+  td {
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid $gray-300;
+  }
+
+  thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid $gray-300;
+  }
+
+  tbody + tbody {
+    border-top: 2px solid $gray-300;
+  }
+
+  .table-sm th,
+  .table-sm td {
+    padding: 0.3rem;
+  }
+
+  .table-bordered {
+    border: 1px solid $gray-300;
+    
+    th,
+    td {
+      border: 1px solid $gray-300;
+    }
+  }
+}
