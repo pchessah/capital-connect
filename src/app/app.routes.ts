@@ -2,10 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
-    path: 'auth',
-    loadChildren: () => import('./features/auth/modules/auth.routing.module').then(m => m.AppRoutingModule)
+    path: 'landing',
+    loadChildren: () => import('./features/landing/modules/landing/landing.routing.module').then(m => m.LandingRoutingModule)
   },
   {
-    path: '', redirectTo: '/auth', pathMatch: 'full'
+    path: '', redirectTo: '/landing', pathMatch: 'full'
   }
 ];

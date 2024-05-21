@@ -3,11 +3,11 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: '', loadComponent: () => import('../pages/auth/auth.component').then(c => c.AuthComponent)},
+  { path: '', loadComponent: () => import('../../pages/landing/landing.component').then(c => c.LandingComponent)},
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class LandingRoutingModule { }
