@@ -1,1 +1,53 @@
 @import '../../../../styles/main.scss';
+
+.main__section{
+    gap: 10%;
+    width: 100%;
+    margin: auto;
+    display: flex;
+    padding: 2rem;
+    height: 100svh;
+    max-width: 1440px;
+    align-items: center;
+    background-color: $white;
+    
+    
+    .hero__section{
+        width: 50%;
+        height: 100%;
+        overflow: hidden;
+        isolation: isolate;
+        position: relative;
+        border-radius: 1rem;
+        
+        .overlay{
+            height: 100%;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            justify-content: space-between;
+            
+            h2{
+                color: $white;
+                padding: 2rem 0;
+                font-size: 2.875rem;
+                text-align: center;
+                font-weight: $font-weight-bold;
+                font-family: $font-family-sans-serif;
+            }
+
+            img{
+                inset: 0;
+                width: 100%;
+                z-index: -1;
+                height: 100%;
+                object-fit: fill;
+                position: absolute;
+            }
+
+            >*{
+                flex: 1;
+            }
+        }
+    }
+}
