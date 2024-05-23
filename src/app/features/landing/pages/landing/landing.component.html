@@ -1,23 +1,24 @@
 <div class="main__section">
-    <section class="hero__section">
-        <div class="overlay">
-            <img src="assets/img/hero.jpeg" alt="hero"/>
-            <div class=""><h2>Welcome to <br /> <strong>Capital Connect</strong></h2></div>
-            <app-carousel />
-        </div>
-    </section>
-    <section class="form__section">
-        <div class="forms__group">
-            <img src="assets/img/logo2.png" alt="Logo"/>
-            <h3 class="form__role__label" *ngIf="active_form ==forms.SIGNUP">Sign Up</h3>
-            <h3 class="form__role__label" *ngIf="active_form ==forms.SIGNIN">Sign In</h3>
-            <div class="tabs">
-                <button [class.active] ="active_form ==forms.SIGNUP" (click)="seSignup()">Sign Up</button>
-                <button [class.active] ="active_form ==forms.SIGNIN" (click)="seSignin()">Sign In</button>
-            </div>
-            <app-sign-up-form *ngIf="active_form ==forms.SIGNUP"/>
-            <app-log-in-form *ngIf="active_form ==forms.SIGNIN"/>
-        </div>
-    </section>
+  <section class="hero__section">
+    <div class="overlay">
+      <img src="assets/img/hero.jpeg" alt="hero" />
+      <div class="">
+        <h2>Welcome to <br /> <strong>Capital Connect</strong></h2>
+      </div>
+      <app-carousel />
+    </div>
+  </section>
+  <section class="form__section">
+    <div class="forms__group">
+      <img src="assets/img/logo.png" alt="Logo" />
+      <h3 class="form__role__label" *ngIf="active_form ==forms.SIGNUP">Sign Up</h3>
+      <h3 class="form__role__label" *ngIf="active_form ==forms.SIGNIN">Sign In</h3>
+      <div class="tabs">
+        <button [class.active]="active_form ==forms.SIGNUP" (click)="seSignup()">Sign Up</button>
+        <button [class.active]="active_form ==forms.SIGNIN" (click)="seSignin()">Sign In</button>
+      </div>
+      <app-sign-up-form *ngIf="active_form ==forms.SIGNUP" />
+      <app-log-in-form *ngIf="active_form ==forms.SIGNIN" />
+    </div>
+  </section>
 </div>
-
