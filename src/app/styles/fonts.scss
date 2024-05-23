@@ -1,3 +1,17 @@
+@font-face {
+  font-weight: 500;
+  font-family: 'Helvetica Neue';
+  src: url('../../assets/fonts/helveticaneuemedium-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/helveticaneuemedium-webfont.woff') format('woff');
+}
+
+@font-face {
+  // font-weight: 700;
+  font-family: 'Helvetica Neue';
+  src: url('../../assets/fonts/helveticaneuebold-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/helveticaneuebold-webfont.woff') format('woff');
+}
+
 // Font Families
 $font-family-sans-serif: "Helvetica Neue", Arial, sans-serif;
 $font-family-serif: Georgia, "Times New Roman", serif;
