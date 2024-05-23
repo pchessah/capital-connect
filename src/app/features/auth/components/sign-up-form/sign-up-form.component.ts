@@ -5,9 +5,9 @@ import { AuthModule } from '../../modules/auth.module';
   selector: 'app-sign-in-form',
   standalone: true,
   imports: [AuthModule],
-  templateUrl: './sign-in-form.component.html',
-  styleUrl: './sign-in-form.component.scss'
+  templateUrl: './sign-up-form.component.html',
+  styleUrl: './sign-up-form.component.scss'
 })
-export class SignInFormComponent {
+export class SignUpFormComponent {
 
 }
