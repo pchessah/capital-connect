@@ -1,0 +1,32 @@
+@import '../../styles/main.scss';
+
+.items__slider{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: linear-gradient(to bottom, #5ba3630c 0%, #223d25d0 100%);
+    
+    .active__item{
+        gap: 1.125rem;
+        display: flex;
+        color: $white;
+        text-align: center;
+        flex-direction: column;
+        justify-content: center;
+        font-weight: $font-weight-normal;
+        font-family: $font-family-sans-serif;
+        
+        h3{
+            font-size: 2.5rem;
+            line-height: 3rem;
+        }
+        
+        p{
+            margin: auto;
+            max-width: 50%;
+            line-height: 2rem;
+            font-size: 1.375rem;
+        }
+    }
+}
