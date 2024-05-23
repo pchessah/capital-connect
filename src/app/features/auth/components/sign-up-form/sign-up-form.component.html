@@ -1,16 +1,18 @@
 <form class="user__auth__form">
-    <div class="input__wrapper">
-        <label class="input__label">Email</label>
-        <input type="email" name="email" class="input__field" placeholder="Enter email"/>
-    </div>
-    <div class="input__wrapper">
-        <label class="input__label">Password</label>
-        <input type="password" name="password" class="input__field" placeholder="Enter password"/>
-    </div>
-    <ul>
-        <li *ngFor="let check in password_validation_checks">
-            {{check.check}}
-        </li>
-    </ul>
-    <button class="btn btn-primary">Create Account</button>
+  <div class="input__wrapper">
+    <label class="input__label">Email</label>
+    <input type="email" name="email" class="input__field" placeholder="Enter email" />
+  </div>
+  <div class="input__wrapper">
+    <label class="input__label">Password</label>
+    <input type="password" name="password" class="input__field" placeholder="Enter password" />
+  </div>
+  <ul>
+    @for (check of password_validation_checks; track $index) {
+    <li class="check">
+      {{check.check}}
+    </li>
+    }
+  </ul>
+  <button class="btn btn-primary">Create Account</button>
 </form>
