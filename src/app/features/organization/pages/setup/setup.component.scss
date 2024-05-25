@@ -1,0 +1,146 @@
+@import '../../../../styles/main.scss';
+
+.main{
+    gap: 1rem;
+    display: grid;
+    padding: 2rem 3rem;
+    grid-template-rows: max-content auto;
+
+    .logo{
+        padding: 0 4rem;
+        img{
+            height: 91px;
+            display: block;
+        }
+    }
+
+    .title__bar{
+        gap: 1.5rem;
+        display: flex;
+        text-align: center;
+        flex-direction: column;
+        font-family: $font-family-sans-serif;
+
+        >h2{
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 2.5rem;
+        }
+        >p{
+            color: $gray-550;
+            font-weight: 400;
+            font-size: 1.5rem;
+            line-height: 1.75rem;
+        }
+    }
+    .main__content__section{
+        gap: 2rem;
+        width: 80%;
+        display: flex;
+        margin: 0 auto;
+        flex-direction: column;
+        
+        .content{
+            gap: 3rem;
+            padding: 3rem 4rem;
+            display: flex;
+            flex-direction: column;
+            border-radius: 2.125rem;
+            border: 1px solid #EFF0F6;
+            box-shadow: 0 5px 1rem #080f3409;
+            .steps{
+                gap: 7rem;
+                display: flex;
+                justify-content: center;
+                .step{
+                    width: 34px;
+                    height: 34px;
+                    display: flex;
+                    font-size: 1rem;
+                    font-weight: 400;
+                    border-radius: 50%;
+                    position: relative;
+                    align-items: center;
+                    line-height: 1.485rem;
+                    color: $primary-color;
+                    justify-content: center;
+                    background-color: #EEF4EE;
+                    font-family: "DM Sans", sans-serif;
+                    
+                    &.active::before,
+                    &.done::after,
+                    &::after{
+                        content: '';
+                        height: 6px;
+                        width: 6rem;
+                        left: 2.7rem;
+                        display: block;
+                        position: absolute;
+                        border-radius: 2.5rem;
+                        background-color: #EEF4EE;
+                    }
+                    &.done::after{
+                        background-color: $primary-color;
+                    }
+                    &:last-child::before,
+                    &:last-child::after{
+                        display: none;
+                    }
+                    
+                    
+                    &.active,
+                    &.done{
+                        color: #FFFFFF;
+                        background-color: $primary-color;
+                        
+                        &::before{
+                            z-index: 2;
+                            width: 3rem;
+                            background-color: $primary-color;
+                        }
+                }
+            }
+        }
+        .hr{
+            height: 1px;
+            width: 100%;
+            background-color: #B2B2B2;
+        }
+        
+    }
+    .buttons__group{
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        button{
+            display: block;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            background: none;
+            border-radius: 6px;
+            padding: .9rem 4rem;
+            line-height: 19.54px;
+            border: 1px solid transparent;
+            font-family: $font-family-sans-serif;
+            &.outline{
+                color: $primary-color;
+                border-color: $primary-color;
+            }
+            &.fill{
+                color: white;
+                background-color: $primary-color;
+            }
+        }
+        .form__controls{
+            gap:1rem;
+            flex: 1;
+            display: flex;
+            align-self: flex-end;
+            justify-content: flex-end;
+        }
+    }
+    }
+
+}
