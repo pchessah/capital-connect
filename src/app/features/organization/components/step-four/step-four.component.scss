@@ -1,0 +1,31 @@
+@import '../../../../styles/main.scss';
+
+.main__content{
+    gap: 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .content{
+        gap: 1rem;
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+        >p{
+            margin: auto;
+            max-width: 80%;
+            color: $gray-550;
+            font-weight: 400;
+            font-size: 1.5rem;
+            text-align: center;
+            line-height: 28.63px;
+            font-family: $font-family-sans-serif;
+        }
+        >h1{
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 39.07px;
+            font-family: $font-family-sans-serif;
+        }
+    }
+}
