@@ -1,0 +1,43 @@
+@import '../../styles/main.scss';
+
+.form__grid{
+    gap: 2rem 3rem;
+    display: grid;
+    padding: 0 1rem;
+    transition: all .3s linear;
+    grid-template-columns: repeat(2, 1fr);
+
+    .input__wrapper{
+        sup{
+            color: #FF5151;
+        }
+        select{
+            background:none ;
+        }
+    }
+    >p{
+        font-size: 1rem;
+        font-weight: 500;
+        text-align: right;
+        font-family: $font-family-sans-serif;
+        sup{
+            color: #FF5151;
+        }
+    }
+    .inline__wrapper{
+        gap: 2rem;
+        display: flex;
+
+        .inline__field{
+            gap: .6rem;
+            display: flex;
+            
+            >*{
+                display: block;
+                font-size: 1rem;
+                font-weight: 400;
+                font-family: "Sarabun", sans-serif;
+            }
+        }
+    }
+}
