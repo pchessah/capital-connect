@@ -1,0 +1,29 @@
+@import '../../../../styles/main.scss';
+
+.main__content{
+    gap: 2rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    .buttons__group{
+        gap: 2rem;
+        display: flex;
+
+        button{
+            gap: 1rem;
+            display: flex;
+            background:none ;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            padding: 10px 20px;
+            border-radius: 8px;
+            align-items: center;
+            color: $primary-color;
+            border:1px solid #AFCDB3;
+            font-family: $font-family-sans-serif;
+        }
+    }
+}
