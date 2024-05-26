@@ -1,0 +1,35 @@
+$breakpoint-sm: 576px;
+$breakpoint-medium: 768px;
+$breakpoint-large: 992px;
+$breakpoint-xlarge: 1200px;
+
+
+@mixin when-screen-is-atmost($breakpoint) {
+    @if $breakpoint == small {
+        @media (max-width: $breakpoint-small) { @content; }
+    }
+    @else if $breakpoint == medium {
+        @media (max-width: $breakpoint-medium) { @content; }
+    }
+    @else if $breakpoint == large {
+        @media (max-width: $breakpoint-large) { @content; }
+    }
+    @else if $breakpoint == xlarge {
+        @media (max-width: $breakpoint-xlarge) { @content; }
+    }
+}
+
+@mixin when-screen-is-atleast($breakpoint) {
+    @if $breakpoint == small {
+        @media (min-width: $breakpoint-small) { @content; }
+    }
+    @else if $breakpoint == medium {
+        @media (min-width: $breakpoint-medium) { @content; }
+    }
+    @else if $breakpoint == large {
+        @media (min-width: $breakpoint-large) { @content; }
+    }
+    @else if $breakpoint == xlarge {
+        @media (min-width: $breakpoint-xlarge) { @content; }
+    }
+}
