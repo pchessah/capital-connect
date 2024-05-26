@@ -1,1 +1,15 @@
-@import '../../organization.styles.scss'
+@import '../../organization.styles.scss';
+
+.form__grid{
+    .inline__wrapper{
+        flex-direction: column;
+    }
+}
+
+@include when-screen-is-atleast(large){
+    .form__grid{
+        .inline__wrapper{
+            flex-direction: row;
+        }
+    }
+}
