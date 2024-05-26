@@ -1,11 +1,11 @@
 @import '../../../../styles/main.scss';
 
 .main__section{
+    padding: 0 1rem;
     width: 100%;
     margin: auto;
-    display: grid;
-    padding: 2rem;
-    height: 100vh;
+    display: block;
+    height: 100svh;
     max-width: 1440px;
     align-items: center;
     background-color: $white;
@@ -13,6 +13,7 @@
     
     
     .hero__section{
+        display: none;
         height: 100%;
         overflow: hidden;
         isolation: isolate;
@@ -52,22 +53,22 @@
 
     .form__section{
         gap: 1rem;
-        display: flex;
         width: 100%;
+        display: block;
+        padding: 2rem 0;
         align-items: center;
         flex-direction: column;
         .logo__wrapper{
             width: 100%;
-            background-color: red;
         }
 
         img{
-            width: 300px;
-            height: 150px;
+            width: 150px;
+            display: block;
+            margin: 0 auto;
         }
 
         .forms__group{
-            width: 60%;
             gap: 1rem;
             display: flex;
             flex-direction: column;
@@ -106,6 +107,32 @@
                 }
                 
             }
+        }
+    }
+}
+
+@include when-screen-is-atleast(large){
+    .main__section{
+        display: grid;
+        padding: 2rem;
+        .hero__section{
+            display: block;
+        }
+
+        .form__section{
+            padding: 0;
+            display: flex;
+            .forms__group{
+                >img{
+                    margin: 0;
+                    width: 300px;
+                    height: 150px;
+                }
+                .forms__group{
+                    width: 60%;
+                }
+            }
+
         }
     }
 }
