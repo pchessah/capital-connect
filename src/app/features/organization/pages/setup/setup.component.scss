@@ -3,53 +3,50 @@
 .main{
     gap: 1rem;
     display: grid;
-    padding: 2rem 3rem;
+    padding: 1rem;
     grid-template-rows: max-content auto;
-
     .logo{
-        padding: 0 4rem;
+        display: flex;
+        padding: 1rem 0 0 0;
+        justify-content: center;
         img{
-            height: 91px;
+            height: 80px;
             display: block;
         }
     }
 
     .title__bar{
-        gap: 1.5rem;
+        gap: .35rem;
         display: flex;
         text-align: center;
         flex-direction: column;
         font-family: $font-family-sans-serif;
 
         >h2{
-            font-size: 2rem;
+            font-size: 1.25rem;
             font-weight: 500;
-            line-height: 2.5rem;
         }
         >p{
             color: $gray-550;
             font-weight: 400;
-            font-size: 1.5rem;
-            line-height: 1.75rem;
+            font-size: 1.1rem;
         }
     }
     .main__content__section{
         gap: 2rem;
-        width: 80%;
         display: flex;
-        margin: 0 auto;
         flex-direction: column;
         
         .content{
             gap: 3rem;
-            padding: 3rem 4rem;
             display: flex;
+            padding: 3rem 1rem;
+            border-radius: 1rem;
             flex-direction: column;
-            border-radius: 2.125rem;
             border: 1px solid #EFF0F6;
             box-shadow: 0 5px 1rem #080f3409;
             .steps{
-                gap: 7rem;
+                gap: 3rem;
                 display: flex;
                 justify-content: center;
                 .step{
@@ -72,8 +69,8 @@
                     &::after{
                         content: '';
                         height: 6px;
-                        width: 6rem;
-                        left: 2.7rem;
+                        left: 2.3rem;
+                        width: 2.6rem;
                         display: block;
                         position: absolute;
                         border-radius: 2.5rem;
@@ -95,12 +92,12 @@
                         
                         &::before{
                             z-index: 2;
-                            width: 3rem;
+                            width: 1.8rem;
                             background-color: $primary-color;
                         }
+                    }
                 }
             }
-        }
         .hr{
             height: 1px;
             width: 100%;
@@ -109,19 +106,19 @@
         
     }
     .buttons__group{
+        gap: 1rem;
         display: flex;
-        align-items: center;
-        justify-content: space-between;
+        flex-direction: column-reverse;
 
         button{
             display: block;
-            font-size: 1rem;
+            font-size: .8rem;
             cursor: pointer;
             font-weight: 500;
             background: none;
             border-radius: 6px;
-            padding: .9rem 4rem;
             line-height: 19.54px;
+            padding: .75rem 2.2rem;
             border: 1px solid transparent;
             font-family: $font-family-sans-serif;
             &.outline{
@@ -134,13 +131,84 @@
             }
         }
         .form__controls{
-            gap:1rem;
             flex: 1;
+            gap:1rem;
             display: flex;
-            align-self: flex-end;
-            justify-content: flex-end;
+            align-items: center;
+            justify-content: space-between;
+            >*{
+                width: 100%;;
+            }
         }
     }
     }
 
+}
+
+@include when-screen-is-atleast(large){
+    .main{
+        padding: 2rem 3rem;
+        .logo{
+            padding: 0 4rem;
+            justify-content: flex-start;
+            img{
+                height: 91px;
+            }
+        }
+        .main__content__section{
+            width: 80%;
+            margin: 0 auto;
+            .title__bar{
+                gap: 1.5rem;
+                h2{
+                    font-size: 2rem;
+                    line-height: 2.5rem;
+                }
+                p{
+                    font-size: 1.5rem;
+                    line-height: 1.75rem;
+                }
+            }
+            .content{
+                gap: 3rem;
+                padding: 3rem 4rem;
+                .steps{
+                    gap: 7rem;
+                    .step{
+                        &.active::before,
+                        &.done::after,
+                        &::after{
+                            content: '';
+                            left: 2.7rem;
+                            width: 6rem;
+                        }
+                        &.active,
+                        &.done{
+                            &::before{
+                                width: 3rem;
+                            }
+                        }
+                    }
+                }
+            }
+            .buttons__group{
+                display: flex;
+                align-items: center;
+                flex-direction: row;
+                justify-content: space-between;
+        
+                button{
+                    font-size: 1rem;
+                    padding: .9rem 4rem;
+                }
+                .form__controls{
+                    align-self: flex-end;
+                    justify-content: flex-end;
+                    >*{
+                        width: max-content!important;
+                    }
+                }
+            }
+        }
+    }
 }
