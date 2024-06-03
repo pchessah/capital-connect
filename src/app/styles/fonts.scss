@@ -23,6 +23,12 @@
        url('../../assets/fonts/helveticaneuebold-webfont.woff') format('woff');
 }
 
+@font-face {
+  font-weight: 800;
+  font-family: 'Helvetica Neue';
+  src: url('../../assets/fonts/helveticaneueblack-webfont.woff2') format('woff2'),
+       url('../../assets/fonts/helveticaneueblack-webfont.woff') format('woff');
+}
 // Font Families
 $font-family-roboto: "Roboto", sans-serif;
 $font-family-serif: Georgia, "Times New Roman", serif;
