@@ -2,7 +2,9 @@
     <app-navbar />
     <main>
         <div class="bg__white">
-            <app-index />
+            <app-index *ngIf="current_step ==1" (nextStep)="setNextStep($event)"/>
+            <app-steps *ngIf="current_step ==2" (nextStep)="setNextStep($event)"/>
+            <app-success-screen *ngIf="current_step ==3" />
         </div>
     </main>
 </div>
