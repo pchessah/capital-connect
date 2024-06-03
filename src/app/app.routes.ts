@@ -15,4 +15,10 @@ export const routes: Routes = [
     loadChildren: () =>import('./features/organization/modules/organization/organization.routing').then(m =>m.OrganizationRoutingModule),
 
   },
+
+  {
+    path: 'business',
+    loadChildren: () =>import('./features/business/modules/business.routing').then(m =>m.BusinessROutingModule),
+
+  },
 ];

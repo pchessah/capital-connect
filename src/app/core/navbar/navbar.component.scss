@@ -1,0 +1,98 @@
+@import '../../styles/main.scss';
+
+.header{
+    gap: 3rem;
+    display: flex;
+    padding: .75rem 3rem;
+    align-items: center;
+    box-shadow: 0 0 3px rgba($color: #000000, $alpha: .5);
+    .logo{
+        height: auto;
+        width: 120px;
+        display: block;
+    }
+
+    .nav__content{
+        flex: 1;
+        display: flex;
+        padding: 0 2rem;
+        align-items: center;
+        justify-content: space-between;
+        > *{
+            flex: 1;
+            display: block;
+        } 
+        strong{
+            color: #031D16;
+            font-weight: 700;
+            line-height: 2rem;
+            font-size: 1.35rem;
+            font-family: $font-family-sans-serif;
+        }
+        .navbar{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .search__box{
+                display: flex;
+                overflow: hidden;
+                padding-left: .5rem;
+                align-items: center;
+                border-radius: 1rem;
+                background-color: #F9FAFB;
+                >*{
+                    display: flex;
+                    background: none;
+                    align-items: center;
+                }
+                input{
+                    padding-left: 0;
+                    padding: .75rem 1rem;
+                }
+                button{
+                    color: $gray-550;
+                    padding-left:.5rem;
+                }
+            }
+            ul{
+                gap: 2rem;
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                li{
+                    *{
+                        color: $gray-550;
+                    }
+                    &.profile{
+                        gap: .5rem;
+                        display: flex;
+                        align-items: flex-start;
+                        .avatar{
+                            display: block;
+                            width: 2.25rem;
+                            height: 2.25rem;
+                            object-fit: cover;
+                            border-radius: 50%;
+                        }
+                        .selection{
+                            display: flex;
+                            font-weight: 500;
+                            flex-direction: column;
+                            font-family: $font-family-sans-serif;
+                            .title{
+                                font-size: .8rem;
+                                line-height: 17.09px;
+                                color: #000000;
+                            }
+                            .plan{
+                                font-size: .7rem;
+                                color: #FF5151;
+                                line-height: 17.09px;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

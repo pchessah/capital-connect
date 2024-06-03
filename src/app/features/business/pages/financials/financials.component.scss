@@ -1,0 +1,20 @@
+@import '../../../../styles/main.scss';
+
+.main__content{
+    display: grid;
+    min-height: 100svh;
+    grid-template-rows: max-content auto;
+
+    main{
+        height: 100%;
+        isolation: isolate;
+        position: relative;
+        background-image: linear-gradient(140deg, #00FFC226, #FFFFFF00);
+        .bg__white{
+            inset: 0;
+            z-index: -1;
+            position: absolute;
+            background-color: #ffffff8f;
+        }
+    }
+}

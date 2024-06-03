@@ -1,0 +1,39 @@
+@import '../../../../styles/main.scss';
+
+.main__content{
+    display: grid;
+    padding-bottom: 1rem;
+    grid-template-rows: auto max-content;
+
+    .container{
+        gap: 2rem;
+        margin: auto;
+        width: 40rem;
+        display: flex;
+        padding-top: 3rem;
+        text-align: center;
+        align-items: center;
+        flex-direction: column;
+        >h2{
+            font-size: 2rem;
+            font-weight: $font-weight-medium;
+            font-family: $font-family-sans-serif;
+        }
+        >a{
+            display: block;
+            line-height: 17.09px;
+            color: $primary-color;
+            text-decoration: none;
+            font-size: $font-size-sm;
+            font-weight: $font-weight-medium;
+            font-family: $font-family-sans-serif;
+        }
+    }
+
+    img{
+        width: 90%;
+        margin: 0 auto;
+        display: block;
+        margin-bottom: 2rem;
+    }
+}
