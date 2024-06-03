@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 
 @Component({
   selector: 'app-index',
@@ -8,5 +8,10 @@ import { Component } from '@angular/core';
   styleUrl: './index.component.scss'
 })
 export class IndexComponent {
+  @Output() nextStep = new EventEmitter<number>();
+
+  setNextStep() {
+    this.nextStep.emit(1);
+  }
 
 }
