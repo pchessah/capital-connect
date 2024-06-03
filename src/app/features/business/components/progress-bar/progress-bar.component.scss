@@ -1,0 +1,104 @@
+@import '../../../../styles/main.scss';
+
+$py: 1rem;
+$gap: 30px;
+
+.progress-bar{
+    display: flex;
+    padding: 2rem 0;
+    justify-content: center;
+    background-color: #e6edeb;
+
+    .steps{
+        gap: $gap;
+        display: flex;
+        overflow: hidden;
+        position: relative;
+        border-radius: 6px;
+        align-items: center;
+        border: 1px solid #b2b2b2;
+    }
+    .step{
+        .step__content{
+            gap: 1rem;
+            display: flex;
+            color: $gray-550;
+            position: relative;
+            padding: 1rem 2rem;
+            padding-left: 1rem;
+            align-items: center;
+
+            > h4{
+                display: flex;
+                width: 2.5rem;
+                height: 2.5rem;
+                font-size: 14px;
+                border-radius: 50%;
+                align-items: center;
+                line-height: 18.75px;
+                justify-content: center;
+                border: 2px solid $gray-550;
+                font-weight: $font-weight-medium;
+                font-family: $font-family-roboto;
+            }
+            .description{
+                line-height: 20px;
+                font-size: .975rem;
+                text-transform: capitalize;
+                font-weight: $font-weight-medium;
+                font-family: $font-family-roboto;
+                p{
+                    font-size: 12px;
+                }
+            }
+
+            &::after,
+            &::before{
+                content: "";
+                right: 5%;
+                width: 1px;
+                height: 59%;
+                display: block;
+                position: absolute;
+                transform-origin: top right;
+                border-left: 1px solid #b2b2b2;
+            }
+
+            &::after{
+                top: 0;
+                transform: rotate(-30deg);
+                transform-origin: top right;
+            }
+
+            &::before{
+                bottom: 0;
+                transform: rotate(30deg);
+                transform-origin: bottom right;
+            }
+
+            &.active{
+                color: white;
+                background-color: $primary-color;
+                clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+                > h4{
+                    border-color: transparent;
+                    background-color: $secondary-color;
+                }
+                &::after,
+                &::before{
+                    display: none;
+                }
+            }
+
+        }
+        &:last-child{
+            .step__content{
+                &::after,
+                &::before{
+                    display: none;
+                }
+
+            }
+        }
+    }
+}

@@ -1,0 +1,15 @@
+<section class="progress-bar">
+    <ol class="steps">
+        @for (step of steps; track $index) {
+            <li class="step" [class.fill]="$index <=current_step">
+                <div class="step__content" [class.active]="$index ==current_step">
+                    <h4>{{$index +1 <10? '0'+($index +1): $index}}</h4>
+                    <div class="description">
+                        <h3>{{step.name}}</h3>
+                        <p>{{step.status}}</p>
+                    </div>
+                </div>
+            </li>
+        }
+    </ol>
+</section>
