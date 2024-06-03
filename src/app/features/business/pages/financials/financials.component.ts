@@ -1,15 +1,25 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from '../../../../core/navbar/navbar.component';
+import { CommonModule } from '@angular/common';
+import { StepsComponent } from '../../components/steps/steps.component';
 import { IndexComponent } from '../../components/index/index.component';
-import { ProgressBarComponent } from '../../components/progress-bar/progress-bar.component';
+import { NavbarComponent } from '../../../../core/navbar/navbar.component';
+import { SuccessScreenComponent } from '../../components/success-screen/success-screen.component';
 
 @Component({
-  selector: 'app-financials',
   standalone: true,
-  imports: [NavbarComponent, IndexComponent, ProgressBarComponent],
+  selector: 'app-financials',
+  styleUrl: './financials.component.scss',
   templateUrl: './financials.component.html',
-  styleUrl: './financials.component.scss'
+  imports: [CommonModule, NavbarComponent, IndexComponent, StepsComponent, SuccessScreenComponent],
 })
-export class FinancialsComponent {
 
+export class FinancialsComponent {
+  steps =3;
+  current_step =1;
+
+  setNextStep(step =1){
+    if ((step <0 && this.current_step ==1) || (step >0 && this.current_step >=this.steps)) return;
+    this.current_step +=step;
+
+  }
 }
