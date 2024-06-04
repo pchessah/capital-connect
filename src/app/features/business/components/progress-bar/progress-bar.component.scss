@@ -5,26 +5,25 @@ $gap: 30px;
 
 .progress-bar{
     display: flex;
-    padding: 2rem 0;
-    justify-content: center;
+    padding: 1rem;
     background-color: #e6edeb;
 
     .steps{
         gap: $gap;
-        display: flex;
         overflow: hidden;
         position: relative;
         border-radius: 6px;
         align-items: center;
         border: 1px solid #b2b2b2;
+        width: 100%;
     }
     .step{
         .step__content{
             gap: 1rem;
-            display: flex;
+            display: none;
             color: $gray-550;
             position: relative;
-            padding: 1rem 2rem;
+            padding: 1.5rem 2rem;
             padding-left: 1rem;
             align-items: center;
 
@@ -77,9 +76,9 @@ $gap: 30px;
             }
 
             &.active{
+                display: flex;
                 color: white;
                 background-color: $primary-color;
-                clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
                 > h4{
                     border-color: transparent;
                     background-color: $secondary-color;
@@ -98,6 +97,26 @@ $gap: 30px;
                     display: none;
                 }
 
+            }
+        }
+    }
+}
+
+@include when-screen-is-atleast(large){
+    .progress-bar{
+        padding: 2rem 0;
+        justify-content: center;
+        .steps{
+            width: auto;
+            display: flex;
+        }
+        .step{
+            .step__content{
+                display: flex;
+                padding: 1rem 2rem;
+                &.active{
+                    clip-path: polygon(0 0, 90% 0, 100% 50%, 90% 100%, 0 100%);
+                }
             }
         }
     }
