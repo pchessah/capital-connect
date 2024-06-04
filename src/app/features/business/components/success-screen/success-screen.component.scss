@@ -4,18 +4,22 @@
     display: grid;
     padding-bottom: 1rem;
     grid-template-rows: auto max-content;
-
+    
     .container{
         gap: 2rem;
         margin: auto;
-        width: 40rem;
+        width: 100%;
         display: flex;
-        padding-top: 3rem;
+        padding: 3rem .5rem;
         text-align: center;
         align-items: center;
         flex-direction: column;
+        >svg{
+            width: 120px;
+            height: 120px;
+        }
         >h2{
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: $font-weight-medium;
             font-family: $font-family-sans-serif;
         }
@@ -31,9 +35,29 @@
     }
 
     img{
-        width: 90%;
+        width: 100%;
         margin: 0 auto;
         display: block;
         margin-bottom: 2rem;
+    }
+}
+
+
+@include when-screen-is-atleast(large){
+    .main__content{
+        .container{
+            width: 40rem;
+            padding: 3rem 0 0 0;
+            >svg{
+                width: 180px;
+                height: 180px;
+            }
+            >h2{
+                font-size: 2rem;
+            }
+        }
+        img{
+            width: 90%;
+        }
     }
 }
