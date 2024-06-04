@@ -30,7 +30,7 @@ form{
             gap: 2rem;
             width: 100%;
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            
             > *{
                 flex: 1;
             }
@@ -40,6 +40,14 @@ form{
             }
            
 
+        }
+    }
+}
+
+@include when-screen-is-atleast(large){
+    .input__wrapper{
+        .form__row{
+            grid-template-columns: repeat(2, 1fr);
         }
     }
 }

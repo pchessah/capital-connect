@@ -2,14 +2,14 @@
 
 .main__content{
     gap: 3rem;
-    width: 60%;
+    width: 100%;
     margin: auto;
-    padding: 2rem;
     display: flex;
+    padding: 2rem 1rem;
     flex-direction: column;
 
     .content__container{
-        padding: 2rem 3rem;
+        padding: 2rem 1rem;
         border-radius: 1rem;
         background-color: #FFFFFF;
         border: 1px solid #EFF0F6;
@@ -63,8 +63,7 @@
     .cta__group{
         gap: 1rem;
         display: flex;
-        align-items: center;
-        justify-content: flex-end;
+        flex-direction: column-reverse;
 
         button{
             padding: .75rem 2rem;
@@ -85,6 +84,21 @@
             font-size: $font-size-sm;
             font-weight: $font-weight-medium;
             font-family: $font-family-sans-serif;
+        }
+    }
+}
+
+@include when-screen-is-atleast(large){
+    .main__content{
+        width: 60%;
+        padding: 2rem;
+        .content__container{
+            padding: 2rem 3rem;
+        }
+        .cta__group{
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
         }
     }
 }
