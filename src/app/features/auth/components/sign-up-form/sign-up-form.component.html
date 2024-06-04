@@ -1,5 +1,19 @@
 <form class="user__auth__form">
   <div class="input__wrapper">
+    <label class="input__label">Account Type</label>
+    <select class="input__field" style="background: none;">
+      <option value="">select account type</option>
+  </select>
+  </div>
+  <div class="input__wrapper">
+    <label class="input__label">First Name</label>
+    <input type="text" name="first__name" class="input__field" placeholder="Enter first name" />
+  </div>
+  <div class="input__wrapper">
+    <label class="input__label">Last Name</label>
+    <input type="text" name="last__name" class="input__field" placeholder="Enter last name" />
+  </div>
+  <div class="input__wrapper">
     <label class="input__label">Email</label>
     <input type="email" name="email" class="input__field" placeholder="Enter email" />
   </div>
@@ -7,12 +21,9 @@
     <label class="input__label">Password</label>
     <input type="password" name="password" class="input__field" placeholder="Enter password" />
   </div>
-  <ul>
-    @for (check of password_validation_checks; track $index) {
-    <li class="check">
-      {{check.check}}
-    </li>
-    }
-  </ul>
+  <div class="input__wrapper">
+    <label class="input__label">Confirm Password</label>
+    <input type="password" name="confirm__password" class="input__field" placeholder="Enter password again" />
+  </div>
   <button class="btn btn-primary">Create Account</button>
 </form>

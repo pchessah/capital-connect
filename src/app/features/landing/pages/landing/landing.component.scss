@@ -5,16 +5,17 @@
     width: 100%;
     margin: auto;
     display: block;
-    height: 100vh;
     max-width: 1440px;
+    min-height: 100svh;
     align-items: center;
+    padding-bottom: 2rem;
     background-color: $white;
     grid-template-columns:repeat(2, 1fr) ;
     
     
     .hero__section{
-        display: none;
         height: 100%;
+        display: none;
         overflow: hidden;
         isolation: isolate;
         position: relative;
