@@ -3,23 +3,90 @@
 .header{
     gap: 3rem;
     display: flex;
-    padding: .75rem 3rem;
+    padding: .75rem 1rem;
     align-items: center;
+    justify-content: space-between;
     box-shadow: 0 0 3px rgba($color: #000000, $alpha: .5);
+
+    .menu__button{
+        display: flex;
+        cursor: pointer;
+        background: none;
+        align-items: center;
+        justify-content: center;
+    }
     .logo{
+        width: 90px;
         height: auto;
-        width: 120px;
         display: block;
     }
 
     .nav__content{
         flex: 1;
-        display: flex;
+        display: none;
+        overflow: hidden;
         padding: 0 2rem;
-        align-items: center;
-        justify-content: space-between;
+        &.drawer {
+            top: 0;
+            left: 0;
+            width: 0;
+            gap: 2rem;
+            z-index: 9;
+            height: 100svh;
+            display: flex;
+            position: fixed;
+            overflow: hidden;
+            border-radius: 1rem;
+            flex-direction: column;
+            background-color: white;
+            justify-content: flex-start;
+            padding: 1rem 2rem 2rem 1rem;
+            animation: slide_in_right .4s linear forwards;
+            box-shadow: 0 0 8px rgba($color: #000000, $alpha: .1);
+            .drawer__header{
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+            }
+            strong{
+                height: max-content;
+            }
+            .navbar{
+                gap: 2rem;
+                height: 100%;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                .search__box{
+                    width: 100%;
+                }
+                ul{
+                    width: 100%;
+                    height: 100%;
+                    flex-direction: column;
+                    align-items: flex-start;
+                    justify-content: flex-start;
+                    position: relative;
+                    li{
+                        gap: .5rem;
+                        display: flex;
+                        span{
+                            display: block;
+                            color: #031D16;
+                            font-size: .95rem;
+                            font-weight: 500;
+                            font-family: $font-family-sans-serif;
+                        }
+                    }
+                    li:last-child{
+                        left: 0;
+                        bottom: 0;
+                        position: absolute;
+                    }
+                }
+            }
+        }
         > *{
-            flex: 1;
             display: block;
         } 
         strong{
@@ -63,6 +130,9 @@
                     *{
                         color: $gray-550;
                     }
+                    >span{
+                        display: none;
+                    }
                     &.profile{
                         gap: .5rem;
                         display: flex;
@@ -94,5 +164,50 @@
                 }
             }
         }
+    }
+}
+
+@include when-screen-is-atleast(large){
+    .header{
+        gap: 3rem;
+        padding: .75rem 3rem;
+        justify-content: flex-start;
+        .menu__button{
+            display: none!important;
+        }
+        .logo{
+            width: 120px;
+        }
+        .nav__content{
+            &.drawer{
+                display: none;
+            }
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            
+            > *{
+                flex: 1;
+            } 
+        }
+    }
+}
+
+@keyframes slide_in_right {
+    from{
+        width: 0;
+    }
+    to{
+        width: 90%;
+        opacity: 1;
+    }
+}
+
+@keyframes slide_out_left {
+    from{
+        width: 90%;
+    }
+    to{
+        width: 0;
     }
 }
