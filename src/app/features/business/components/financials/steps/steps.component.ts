@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { StepOneComponent } from '../step-one/step-one.component';
 import { StepTwoComponent } from '../step-two/step-two.component';
 import { StepThreeComponent } from '../step-three/step-three.component';
-import { BusinessPageService } from '../../../../core/business.page.service';
-import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+import { BusinessPageService } from '../../../../../core/business.page.service';
+import { ProgressBarComponent } from '../../progress-bar/progress-bar.component';
 
 @Component({
   selector: 'app-steps',
