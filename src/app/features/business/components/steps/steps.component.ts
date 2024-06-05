@@ -1,9 +1,10 @@
-import { Component, EventEmitter, Output } from '@angular/core';
-import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { StepOneComponent } from '../step-one/step-one.component';
 import { StepTwoComponent } from '../step-two/step-two.component';
 import { StepThreeComponent } from '../step-three/step-three.component';
-import { CommonModule } from '@angular/common';
+import { BusinessPageService } from '../../../../core/business.page.service';
+import { ProgressBarComponent } from '../progress-bar/progress-bar.component';
 
 @Component({
   selector: 'app-steps',
@@ -13,20 +14,12 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule, ProgressBarComponent, StepOneComponent, StepTwoComponent, StepThreeComponent],
 })
 export class StepsComponent {
-  steps =3;
   current_step =1;
-  
+  constructor(private businessPageService: BusinessPageService) {}
 
-  @Output() nextStep = new EventEmitter<number>();
-
-  setNextScreen(step: number) {
-    this.setNextStep(step);
-    if (this.current_step >this.steps || (this.current_step <1 && step <0)) this.nextStep.emit(step);
-  }
-
-  setNextStep(step =1){
-    if ((step <0 && this.current_step <1) || (step >0 && this.current_step >this.steps)) return;
-    this.current_step +=step;
-
+  ngOnInit() {
+    this.businessPageService.current_step$.subscribe(step => {
+      this.current_step = step;
+    });
   }
 }
