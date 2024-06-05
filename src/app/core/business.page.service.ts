@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class BusinessPageService {
-  private currentPageSource = new BehaviorSubject<number>(1);
+  private currentPageSource = new BehaviorSubject<number>(3);
   private currentStepSource = new BehaviorSubject<number>(1);
   current_page$ = this.currentPageSource.asObservable();
   current_step$ = this.currentStepSource.asObservable();

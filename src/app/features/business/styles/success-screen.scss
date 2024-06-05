@@ -1,0 +1,44 @@
+@import '../../../styles/main.scss';
+
+.container{
+    gap: 2rem;
+    margin: auto;
+    width: 100%;
+    display: flex;
+    padding: 3rem .5rem;
+    text-align: center;
+    align-items: center;
+    flex-direction: column;
+    >svg{
+        width: 120px;
+        height: 120px;
+    }
+    >h2{
+        font-size: 1.5rem;
+        font-weight: $font-weight-medium;
+        font-family: $font-family-sans-serif;
+    }
+    >a{
+        display: block;
+        line-height: 17.09px;
+        color: $primary-color;
+        text-decoration: none;
+        font-size: $font-size-sm;
+        font-weight: $font-weight-medium;
+        font-family: $font-family-sans-serif;
+    }
+}
+
+@include when-screen-is-atleast(large){
+    .container{
+        width: 40rem;
+        padding: 3rem 0 0 0;
+        >svg{
+            width: 180px;
+            height: 180px;
+        }
+        >h2{
+            font-size: 2rem;
+        }
+    }
+}
