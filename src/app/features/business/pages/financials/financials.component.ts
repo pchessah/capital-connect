@@ -7,6 +7,7 @@ import { LayoutComponent } from '../../../../shared/business/layout/layout.compo
 import { IndexLayoutComponent } from '../../../../shared/business/components/index-layout/index-layout.component';
 import { FormsLayoutComponent } from '../../../../shared/business/components/forms-layout/forms-layout.component';
 import { SuccessScreenComponent } from '../../components/financials/success-screen/success-screen.component';
+import { tap } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -17,11 +18,8 @@ import { SuccessScreenComponent } from '../../components/financials/success-scre
 })
 
 export class FinancialsComponent {
-  current_screen: number =1;
 
-  constructor(private screenService: BusinessPageService) {
-    this.screenService.current_page$.subscribe(screen => {
-      this.current_screen = screen;
-    });
-  }
+  constructor(private screenService: BusinessPageService) {}
+
+  currentPage$ = this.screenService.current_page$
 }

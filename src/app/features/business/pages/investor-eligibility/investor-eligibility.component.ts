@@ -7,6 +7,7 @@ import { StepsComponent } from '../../components/investor-eligibility/steps/step
 import { IndexLayoutComponent } from '../../../../shared/business/components/index-layout/index-layout.component';
 import { FormsLayoutComponent } from '../../../../shared/business/components/forms-layout/forms-layout.component';
 import { SuccessScreenComponent } from '../../components/investor-eligibility/success-screen/success-screen.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-investor-eligibility',
@@ -18,9 +19,8 @@ import { SuccessScreenComponent } from '../../components/investor-eligibility/su
 export class InvestorEligibilityComponent {
   current_screen: number =1;
 
-  constructor(private screenService: BusinessPageService) {
-    this.screenService.current_page$.subscribe(screen => {
-      this.current_screen = screen;
-    });
-  }
+  constructor(private screenService: BusinessPageService) {}
+  currentStep$ = this.screenService.current_step$.pipe(tap(step => {
+    this.current_screen = step;
+  }))
 }
