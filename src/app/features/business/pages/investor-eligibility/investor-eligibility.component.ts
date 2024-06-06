@@ -17,10 +17,7 @@ import { tap } from 'rxjs';
   styleUrl: './investor-eligibility.component.scss'
 })
 export class InvestorEligibilityComponent {
-  current_screen: number =1;
-
   constructor(private screenService: BusinessPageService) {}
-  currentStep$ = this.screenService.current_step$.pipe(tap(step => {
-    this.current_screen = step;
-  }))
+
+  currentPage$ = this.screenService.current_page$
 }
