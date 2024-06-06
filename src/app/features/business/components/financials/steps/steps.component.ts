@@ -5,6 +5,7 @@ import { StepTwoComponent } from '../step-two/step-two.component';
 import { StepThreeComponent } from '../step-three/step-three.component';
 import { BusinessPageService } from '../../../../../core/business.page.service';
 import { ProgressBarComponent } from '../../progress-bar/progress-bar.component';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-steps',
@@ -16,10 +17,8 @@ import { ProgressBarComponent } from '../../progress-bar/progress-bar.component'
 export class StepsComponent {
   current_step =1;
   constructor(private businessPageService: BusinessPageService) {}
-
-  ngOnInit() {
-    this.businessPageService.current_step$.subscribe(step => {
-      this.current_step = step;
-    });
-  }
+ 
+  currentStep$ = this.businessPageService.current_step$.pipe(tap(step => {
+    this.current_step = step;
+  }))
 }
