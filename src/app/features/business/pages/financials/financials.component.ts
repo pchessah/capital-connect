@@ -1,25 +1,25 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { StepsComponent } from '../../components/steps/steps.component';
-import { IndexComponent } from '../../components/index/index.component';
-import { NavbarComponent } from '../../../../core/navbar/navbar.component';
-import { SuccessScreenComponent } from '../../components/success-screen/success-screen.component';
+import { BusinessPageService } from '../../../../core/business.page.service';
+import { IndexComponent } from '../../components/financials/index/index.component';
+import { StepsComponent } from '../../components/financials/steps/steps.component';
+import { LayoutComponent } from '../../../../shared/business/layout/layout.component';
+import { IndexLayoutComponent } from '../../../../shared/business/components/index-layout/index-layout.component';
+import { FormsLayoutComponent } from '../../../../shared/business/components/forms-layout/forms-layout.component';
+import { SuccessScreenComponent } from '../../components/financials/success-screen/success-screen.component';
+import { tap } from 'rxjs';
 
 @Component({
   standalone: true,
   selector: 'app-financials',
   styleUrl: './financials.component.scss',
   templateUrl: './financials.component.html',
-  imports: [CommonModule, NavbarComponent, IndexComponent, StepsComponent, SuccessScreenComponent],
+  imports: [CommonModule, LayoutComponent, IndexLayoutComponent, FormsLayoutComponent, IndexComponent, StepsComponent, SuccessScreenComponent],
 })
 
 export class FinancialsComponent {
-  steps =3;
-  current_step =1;
 
-  setNextStep(step =1){
-    if ((step <0 && this.current_step ==1) || (step >0 && this.current_step >=this.steps)) return;
-    this.current_step +=step;
+  constructor(private screenService: BusinessPageService) {}
 
-  }
+  currentPage$ = this.screenService.current_page$
 }

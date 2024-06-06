@@ -1,0 +1,24 @@
+<app-progress-bar />
+<div class="main__content">
+    <div class="content__container">
+        <div class="header">
+            <div class="steps__bar">
+                <p>Step {{current_step}} of {{steps}}</p>
+                <ul class="indicators">
+                    @for (step of [].constructor(steps); track $index){
+                        <li [class.active] ="($index +1) <= current_step"></li>
+                    }
+                </ul>
+            </div>
+            <strong>{{title}}</strong>
+        </div>
+        <ng-content></ng-content>
+    </div>
+    
+    <div class="cta__group">
+        <a href="">Skip and go to dashboard</a>
+        <button class="btn btn-primary outline" (click)="setNextScreen(-1)">Back</button>
+        <button class="btn btn-primary" (click)="setNextScreen(1)">Next</button>
+    </div>
+</div>
+

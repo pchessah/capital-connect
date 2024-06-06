@@ -1,0 +1,59 @@
+@import '../../../styles/main.scss';
+
+form{
+    gap: 2rem;
+    display: flex;
+    flex-direction: column;
+    .input__wrapper{
+
+        .input__label{
+            font-size: 18px;
+            font-weight: 400;
+            line-height: 24px;
+            sup{
+                color: #FF5151;
+            }
+        }
+        .form__col{
+            gap: .3rem;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+        a{
+
+            font-size: 13px;
+            color: $gray-550;
+            font-weight: 400;
+            line-height: 22px;
+            width: max-content;
+            display: inline-block;
+            text-decoration: underline;
+            text-decoration-style: dotted;
+            font-family: $font-family-sans-serif;
+        }
+        .form__row{
+            gap: 2rem;
+            width: 100%;
+            display: grid;
+            
+            > *{
+                flex: 1;
+            }
+            
+            select{
+                background:none ;
+            }
+           
+
+        }
+    }
+}
+
+@include when-screen-is-atleast(large){
+    .input__wrapper{
+        .form__row{
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+}
