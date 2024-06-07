@@ -1,29 +1,60 @@
-<form class="user__auth__form">
+<ng-container *ngIf="listenToFormChanges$ | async"></ng-container>
+
+<form [formGroup]="signUpForm" class="user__auth__form">
   <div class="input__wrapper">
     <label class="input__label">Account Type</label>
-    <select class="input__field" style="background: none;">
+    <select formControlName="accountType" class="input__field account-type-selector">
       <option value="">select account type</option>
-  </select>
+      <option value="User">User</option>
+    </select>
   </div>
   <div class="input__wrapper">
     <label class="input__label">First Name</label>
-    <input type="text" name="first__name" class="input__field" placeholder="Enter first name" />
+    <input [ngClass]="{'input-error' : isTouchedOrDirty('firstName') && !isValid('firstName') }" formControlName="firstName" type="text" name="first__name" class="input__field"
+      placeholder="Enter first name" />
+    <ng-container *ngIf="isTouchedOrDirty('firstName')">
+      <span *ngIf="!isValid('firstName')" class="error-text">First Name is required</span>
+    </ng-container>
   </div>
   <div class="input__wrapper">
     <label class="input__label">Last Name</label>
-    <input type="text" name="last__name" class="input__field" placeholder="Enter last name" />
+    <input [ngClass]="{'input-error' : isTouchedOrDirty('lastName') && !isValid('lastName') }" formControlName="lastName" type="text" name="last__name" class="input__field"
+      placeholder="Enter last name" />
+    <ng-container *ngIf="isTouchedOrDirty('lastName')">
+      <span *ngIf="!isValid('lastName')" class="error-text">Last Name is required</span>
+    </ng-container>
   </div>
   <div class="input__wrapper">
     <label class="input__label">Email</label>
-    <input type="email" name="email" class="input__field" placeholder="Enter email" />
+    <input  [ngClass]="{'input-error' : isTouchedOrDirty('email') && !isValid('email') }" formControlName="email" type="email" name="email" class="input__field" placeholder="Enter email" />
+    <ng-container *ngIf="isTouchedOrDirty('email')">
+      <span class="error-text">
+        {{ getEmailFieldError ? 'Email is required' : 'Please enter a valid email'}}
+      </span>
+
+    </ng-container>
+
   </div>
   <div class="input__wrapper">
     <label class="input__label">Password</label>
-    <input type="password" name="password" class="input__field" placeholder="Enter password" />
+    <input  [ngClass]="{'input-error': isTouchedOrDirty('password') && !isValid('password') }" formControlName="password" type="password" name="password" class="input__field"
+      placeholder="Enter password" />
+    <ng-container *ngIf="isTouchedOrDirty('password')">
+      <span *ngIf="!isValid('password')" class="error-text">Password is required</span>
+    </ng-container>
   </div>
   <div class="input__wrapper">
     <label class="input__label">Confirm Password</label>
-    <input type="password" name="confirm__password" class="input__field" placeholder="Enter password again" />
+    <input [ngClass]="{'input-error': isTouchedOrDirty('password') && !passwordsAreSame}"  formControlName="confirmPassword" type="password" name="confirm__password" class="input__field"
+      placeholder="Enter password again" />
+    <ng-container *ngIf="isTouchedOrDirty('confirmPassword')">
+      <span *ngIf="!passwordsAreSame" class="error-text">
+        Passwords do not match
+      </span>
+
+    </ng-container>
   </div>
-  <button class="btn btn-primary">Create Account</button>
+  <button [ngClass]="{'disabled-btn': signUpForm.invalid || !passwordIsValid}"
+    [disabled]="signUpForm.invalid || !passwordIsValid" (click)="submitForm()" class="btn btn-primary">Create
+    Account</button>
 </form>
