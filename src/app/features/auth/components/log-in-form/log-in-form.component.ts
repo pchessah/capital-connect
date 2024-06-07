@@ -18,9 +18,6 @@ export class LogInFormComponent {
     email: ['', Validators.required],
     password: ['', Validators.required]
   })
-  listenToFormChanges$ = this.signInForm.valueChanges.pipe(
-    tap(credentials => {})
-  );
 
   isTouchedOrDirty(formControlName:string){
 
