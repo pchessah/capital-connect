@@ -139,3 +139,12 @@
   cursor: not-allowed;
   background-color: $gray-550 ;
 }
+
+.error-text {
+  color:$danger-color ;
+  font-size:$font-size-xsm ;
+}
+
+.input-error {
+  outline: 1px solid $danger-color;
+}
