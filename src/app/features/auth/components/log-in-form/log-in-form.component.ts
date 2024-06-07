@@ -2,6 +2,7 @@ import {Component, inject} from '@angular/core';
 import { AuthModule } from '../../modules/auth.module';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-log-in-form',
@@ -12,6 +13,7 @@ import { CommonModule } from "@angular/common";
 })
 export class LogInFormComponent {
   private _formBuilder = inject(FormBuilder);
+  private _router =inject(Router);
 
   signInForm = this._formBuilder.group({
     email: ['', Validators.required],
@@ -31,6 +33,6 @@ export class LogInFormComponent {
 
   submitCredentials(){
     const credentials = this.signInForm.value;
-    debugger
+    this._router.navigateByUrl('/organization/setup')
   }
 }
