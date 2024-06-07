@@ -11,14 +11,26 @@
   <section class="form__section">
     <div class="forms__group">
       <img src="assets/img/logo.png" alt="Logo" />
-      <h3 class="form__role__label" *ngIf="active_form ==forms.SIGNUP">Sign Up</h3>
-      <h3 class="form__role__label" *ngIf="active_form ==forms.SIGNIN">Sign In</h3>
+
+      @if(active_form === forms.SIGNUP) {
+      <h3 class="form__role__label">Sign Up</h3>
       <div class="tabs">
-        <button [class.active]="active_form ==forms.SIGNUP" (click)="seSignup()">Sign Up</button>
-        <button [class.active]="active_form ==forms.SIGNIN" (click)="seSignin()">Sign In</button>
+        <button [class.active]="true" (click)="seSignup()">Sign Up</button>
+        <button (click)="seSignin()">Sign In</button>
       </div>
-      <app-sign-up-form *ngIf="active_form ==forms.SIGNUP" />
-      <app-log-in-form *ngIf="active_form ==forms.SIGNIN" />
+      <app-sign-up-form />
+      }
+
+      @if (active_form == forms.SIGNIN) {
+      <h3 class="form__role__label">Sign In</h3>
+      <div class="tabs">
+        <button  (click)="seSignup()">Sign Up</button>
+        <button [class.active]="true" (click)="seSignin()">Sign In</button>
+      </div>
+      <app-log-in-form />
+      }
+
+
     </div>
   </section>
 </div>

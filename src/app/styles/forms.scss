@@ -131,3 +131,11 @@
   flex-direction: column;
   transition: all .5s linear;
 }
+
+.disabled-btn, .disabled-btn:hover {
+  color: $white;
+  border: none;
+  outline: none;
+  cursor: not-allowed;
+  background-color: $gray-550 ;
+}

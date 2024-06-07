@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { BusinessPageService } from '../../../../../core/business.page.service';
 
 @Component({
@@ -9,12 +9,10 @@ import { BusinessPageService } from '../../../../../core/business.page.service';
   styleUrl: './index.component.scss',
 })
 export class IndexComponent {
-  @Output() nextStep = new EventEmitter<number>();
-
-  constructor(private pageService: BusinessPageService) {}
+  private _pageService: BusinessPageService = inject(BusinessPageService);
 
   setNextScreen() {
-    this.pageService.setCurrentPage(2);
+    this._pageService.setCurrentPage(2);
   }
 
 }
