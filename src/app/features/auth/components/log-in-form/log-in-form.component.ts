@@ -2,7 +2,6 @@ import {Component, inject} from '@angular/core';
 import { AuthModule } from '../../modules/auth.module';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import {tap} from "rxjs";
 
 @Component({
   selector: 'app-log-in-form',
