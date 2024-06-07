@@ -1,12 +1,18 @@
-<form class="user__auth__form">
+<form [formGroup]="signInForm" class="user__auth__form">
     <div class="input__wrapper">
         <label class="input__label">Email</label>
-        <input type="email" name="email" class="input__field" placeholder="Enter email"/>
+        <input [ngClass]="{'input-error' : isTouchedOrDirty('email') && !isValid('email') }" formControlName ="email" type="text" name="email" class="input__field" placeholder="Enter email"/>
+      <ng-container *ngIf="isTouchedOrDirty('email')">
+        <span *ngIf="!isValid('email')" class="error-text">Email is required <sup>*</sup></span>
+      </ng-container>
     </div>
     <div class="input__wrapper">
         <label class="input__label">Password</label>
-        <input type="password" name="password" class="input__field" placeholder="Enter password"/>
+        <input [ngClass]="{'input-error' : isTouchedOrDirty('password') && !isValid('password') }" formControlName ="password" type="password" name="password" class="input__field" placeholder="Enter password"/>
+      <ng-container *ngIf="isTouchedOrDirty('password')">
+        <span *ngIf="!isValid('password')" class="error-text">Password is required <sup>*</sup></span>
+      </ng-container>
     </div>
     <p class="muted__action__link"><a href="">Forgot Password?</a></p>
-    <button class="btn btn-primary">Login</button>
+    <button [ngClass]="{'disabled-btn': signInForm.invalid}" (click)="submitCredentials()"  class="btn btn-primary">Login</button>
 </form>

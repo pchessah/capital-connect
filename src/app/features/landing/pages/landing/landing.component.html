@@ -15,17 +15,17 @@
       @if(active_form === forms.SIGNUP) {
       <h3 class="form__role__label">Sign Up</h3>
       <div class="tabs">
-        <button [class.active]="true" (click)="seSignup()">Sign Up</button>
-        <button (click)="seSignin()">Sign In</button>
+        <button [class.active]="true" (click)="setSignup()">Sign Up</button>
+        <button (click)="setSignin()">Sign In</button>
       </div>
-      <app-sign-up-form />
+      <app-sign-up-form (changeFormTypeEvent) ="setSignin()" />
       }
 
       @if (active_form == forms.SIGNIN) {
       <h3 class="form__role__label">Sign In</h3>
       <div class="tabs">
-        <button  (click)="seSignup()">Sign Up</button>
-        <button [class.active]="true" (click)="seSignin()">Sign In</button>
+        <button  (click)="setSignup()">Sign Up</button>
+        <button [class.active]="true" (click)="setSignin()">Sign In</button>
       </div>
       <app-log-in-form />
       }

@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
-import { AuthModule } from '../../modules/auth.module';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
-import { tap } from 'rxjs'
-import { PASSWORD_STRENGTH } from '../../../../shared/interfaces/password-strength.enum';
+import {Component, EventEmitter, inject, Output} from '@angular/core';
+import {AuthModule} from '../../modules/auth.module';
+import {CommonModule} from '@angular/common';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
+import {tap} from 'rxjs'
+import {PASSWORD_STRENGTH} from '../../../../shared/interfaces/password-strength.enum';
+import {FORM_TYPE} from "../../../../shared/interfaces/form-type.enum";
 
 @Component({
   selector: 'app-sign-up-form',
@@ -13,6 +14,7 @@ import { PASSWORD_STRENGTH } from '../../../../shared/interfaces/password-streng
   styleUrl: './sign-up-form.component.scss'
 })
 export class SignUpFormComponent {
+@Output() changeFormTypeEvent = new EventEmitter<FORM_TYPE>();
 
   private _formBuilder = inject(FormBuilder);
 
@@ -40,7 +42,7 @@ export class SignUpFormComponent {
     this.password_validation_checks = [
       {
         check: 'Password Strength',
-        isValid: this._getPasswordStrength(password) === PASSWORD_STRENGTH.STRONG || 
+        isValid: this._getPasswordStrength(password) === PASSWORD_STRENGTH.STRONG ||
                  this._getPasswordStrength(password) === PASSWORD_STRENGTH.MEDIUM
       },
       {
@@ -60,7 +62,7 @@ export class SignUpFormComponent {
         isValid:password === confirmPassword
       }
     ];
-    
+
 
     //TODO: @j-netcom-dev Check for  passwords will change here
     this.passwordIsValid = password === confirmPassword
@@ -87,7 +89,7 @@ export class SignUpFormComponent {
   }
 
   isTouchedOrDirty(formControlName:string){
-    return (this.isDirty(formControlName) || this.isTouched(formControlName))  
+    return (this.isDirty(formControlName) || this.isTouched(formControlName))
   }
 
   isValid(formControlName:string){
@@ -104,6 +106,6 @@ export class SignUpFormComponent {
 
   submitForm() {
     const formValue = this.signUpForm.value;
-    debugger
+    this.changeFormTypeEvent.emit(FORM_TYPE.SIGNIN);
   }
 }
