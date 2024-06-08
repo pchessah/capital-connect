@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavbarComponent } from '../../../core/navbar/navbar.component';
+import { NavbarComponent } from '../../../core/components/navbar/navbar.component';
 
 @Component({
   selector: 'app-layout',
@@ -9,5 +9,5 @@ import { NavbarComponent } from '../../../core/navbar/navbar.component';
   styleUrl: './layout.component.scss'
 })
 export class LayoutComponent {
-    
+
 }
