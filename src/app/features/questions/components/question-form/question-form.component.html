@@ -1,0 +1,28 @@
+<form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="outline">
+    <mat-label>Question Text</mat-label>
+    <input matInput formControlName="questionText" required>
+    <mat-error *ngIf="questionText.invalid">Question text is required</mat-error>
+  </mat-form-field>
+
+  <div formArrayName="options">
+    <div *ngFor="let option of options.controls; let i = index" [formGroupName]="i">
+      <mat-form-field appearance="outline">
+        <mat-label>Option {{i + 1}}</mat-label>
+        <input matInput formControlName="text" required>
+        <mat-error *ngIf="option.get('text')?.invalid">Option text is required</mat-error>
+        <button mat-icon-button type="button" (click)="removeOption(i)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-form-field>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" type="button" (click)="addOption()">
+    Add Option
+  </button>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="questionForm.invalid">
+    Create Question
+  </button>
+</form>
