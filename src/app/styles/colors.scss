@@ -12,17 +12,28 @@ $warning-color: #ffc107;
 $danger-color: #dc3545;
 $success-color: #28a745;
 
-// Text Colors
+// Colors
+
+// gray shades
 $gray-100: #f8f9fa;
 $gray-200: #e9ecef;
 $gray-300: #dee2e6;
+
 $gray-400: #ced4da;
 $gray-500: #adb5bd;
+$gray-525: #b2b2b2;
 $gray-550: #8c8c8c;
 $gray-600: #6c757d;
 $gray-700: #495057;
 $gray-800: #343a40;
 $gray-900: #212529;
+
+// yellow shades
+$yellow-500: #f0bb62;
+$yellow-900: #654f29;
+
+// orange shades
+$orange-500: #e36867;
 
 $text-color: $black;
 $text-muted: $gray-600;
