@@ -1,0 +1,13 @@
+<div class="status__container">
+  <h2>Complete Profile</h2>
+  <ul class="steps">
+    <li *ngFor="let step of steps; index as i" [ngClass]="{done: step.status ==STATUS.COMPLETE, active: i+1 ==currentStep}" >
+      <span class="indicator"></span>
+      <div class="content">
+        <p>Step {{i +1}}</p>
+        <h3>{{step.title}}</h3>
+        <p class="step__status">{{step.status}}</p>
+      </div>
+    </li>
+  </ul>
+</div>
