@@ -1,6 +1,13 @@
 @import "../../../../../styles/main.scss";
 
-main{
+.main{
   height: 100%;
+  display: grid;
   background-color: #F9FAFB;
+  grid-template-rows: max-content auto;
+  main{
+    display: grid;
+    padding: 1rem 2rem;
+    grid-template-columns: auto 30%;
+  }
 }
