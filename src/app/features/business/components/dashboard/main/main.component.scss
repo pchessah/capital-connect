@@ -6,7 +6,7 @@
   background-color: #F9FAFB;
   grid-template-rows: max-content auto;
   main{
-    gap: 2rem;
+    gap: 1rem;
     display: grid;
     padding: 1rem 2rem;
     grid-template-columns: auto 350px;
@@ -14,9 +14,12 @@
     .left__col,
     .right__col{
       width: 100%;
-      gap: 2rem;
+      gap: 1rem;
       display: flex;
       flex-direction: column;
+    }
+    .right__col{
+      gap: 2rem;
     }
   }
 }
