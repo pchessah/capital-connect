@@ -6,6 +6,7 @@ import {AssessmentSummaryComponent} from "../assessment-summary/assessment-summa
 import {AdvertisementSpaceComponent} from "../advertisement-space/advertisement-space.component";
 import {OverviewSectionComponent} from "../overview-section/overview-section.component";
 import {SchedulesSectionComponent} from "../schedules-section/schedules-section.component";
+import {ScoreSectionComponent} from "../score-section/score-section.component";
 
 @Component({
   selector: 'app-main',
@@ -13,7 +14,7 @@ import {SchedulesSectionComponent} from "../schedules-section/schedules-section.
   imports: [
     NavbarComponent, ProfileStatusComponent, NotificationsComponent,
     AssessmentSummaryComponent, AdvertisementSpaceComponent, OverviewSectionComponent,
-    SchedulesSectionComponent,
+    SchedulesSectionComponent, ScoreSectionComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'

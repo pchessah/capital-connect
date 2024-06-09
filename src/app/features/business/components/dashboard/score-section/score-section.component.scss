@@ -1,0 +1,88 @@
+@import "../../../../../styles/main.scss";
+
+section{
+  gap: 1rem;
+  display: flex;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-radius: .5rem;
+  flex-direction: column;
+  background-color: $green-50;
+  font-family: $font-family-sans-serif;
+  .content{
+    display: grid;
+    grid-template-columns: auto max-content;
+    .text__content{
+      gap: 1rem;
+      display: flex;
+      flex-direction: column;
+      h3{
+        font-weight: 800;
+        line-height: 28px;
+        font-size: 1.125rem;
+      }
+      p{
+        font-weight: 400;
+        max-width: 340px;
+        font-size: .875rem;
+        line-height: 1.5rem;
+      }
+      .processes{
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+        li{
+          gap: 1rem;
+          display: flex;
+          align-items: center;
+          *{
+            display: block;
+          }
+          .icon{
+            *{
+              display: flex;
+              font-size: 1rem;
+              align-items: center;
+              justify-content: center;
+            }
+            &.red{
+              color: $danger-color;
+            }
+            &.green{
+              color: $primary-color;
+            }
+          }
+        }
+      }
+    }
+    .chart__content{
+      width: 180px;
+      height: 180px;
+      overflow: hidden;
+      position: relative;
+      border-radius: 50%;
+      isolation: isolate;
+      .ratio{
+        inset: 0;
+        z-index: -1;
+        display: flex;
+        color: #0f3c3e;
+        font-weight: 800;
+        line-height: 28px;
+        position: absolute;
+        align-items: center;
+        font-size: 1.125rem;
+        justify-content: center;
+        background-color: $green-50;
+      }
+    }
+  }
+  >button{
+    color: $white;
+    display: block;
+    margin: auto auto;
+    border-radius: 6px;
+    padding: .875rem 2rem;
+    background-color: $primary-color;
+  }
+}
