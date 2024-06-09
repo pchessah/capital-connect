@@ -5,20 +5,14 @@
       <option value="">Last 30 days</option>
     </select>
   </div>
-  <ul class="cards__grid">
-    <li *ngFor="let detail of overview; index as i" [ngClass]="{featured: detail.featured}">
-      <div class="card__title">
-        <h3>{{detail.title}}</h3>
-        <span><mat-icon>more_horiz</mat-icon></span>
-      </div>
-      <div class="card__body">
-        <h2>{{detail.value}}</h2>
-        <p *ngIf="detail?.period">{{detail?.period}}</p>
-      </div>
-      <div class="hr"></div>
-      <div class="card__footer">
-        {{detail.action}}
-      </div>
-    </li>
-  </ul>
+  <div class="cards__grid">
+        <app-card [detail]="{title: 'Investor Preparedness', value: '30 %', featured: true}">
+          <p class="helper__text text__yellow">See suggested actions</p>
+        </app-card>
+        <app-card [detail]="{title: 'Profile Views', value: '30', featured: false}" >
+          <p class="helper__text text__red">10 interesting views</p>
+        </app-card>
+        <app-card [detail]="{title: 'Matched Advisors', value: '4', featured: false, period: '+2 Past Months'}" ></app-card>
+        <app-card [detail]="{title: 'Matched Investors', value: '4', featured: false, period: '+2 Past Months'}" ></app-card>
+  </div>
 </section>
