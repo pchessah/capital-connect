@@ -12,7 +12,7 @@ import {Chart, registerables} from "chart.js";
 })
 export class ScoreSectionComponent {
   processes =[
-    {process: 'Business Financials', completed: true},
+    {process: 'Business Financials', completed: false},
     {process: 'Investor Eligibility', completed: false},
     {process: 'Investor Preparedness', completed: false},
   ]
