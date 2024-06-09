@@ -13,7 +13,7 @@ import { StepFourComponent } from '../../components/step-four/step-four.componen
   styleUrl: './setup.component.scss'
 })
 export class SetupComponent {
-  current_step =0;
+  current_step = 0;
   steps =[1, 2, 3, 4];
 
   setStep(direction:number){
