@@ -4,11 +4,15 @@ import {ProfileStatusComponent} from "../profile-status/profile-status.component
 import {NotificationsComponent} from "../notifications/notifications.component";
 import {AssessmentSummaryComponent} from "../assessment-summary/assessment-summary.component";
 import {AdvertisementSpaceComponent} from "../advertisement-space/advertisement-space.component";
+import {OverviewSectionComponent} from "../overview-section/overview-section.component";
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [NavbarComponent, ProfileStatusComponent, NotificationsComponent, AssessmentSummaryComponent, AdvertisementSpaceComponent],
+  imports: [
+    NavbarComponent, ProfileStatusComponent, NotificationsComponent,
+    AssessmentSummaryComponent, AdvertisementSpaceComponent, OverviewSectionComponent
+  ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
