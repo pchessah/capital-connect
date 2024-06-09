@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
+import {SharedModule} from "../../../../../shared/shared.module";
 
 enum STEP_STATUS {
   COMPLETE ='complete',
@@ -9,7 +10,7 @@ enum STEP_STATUS {
 @Component({
   selector: 'app-profile-status',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SharedModule],
   templateUrl: './profile-status.component.html',
   styleUrl: './profile-status.component.scss'
 })

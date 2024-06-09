@@ -40,6 +40,13 @@ $indicator_size: 20px;
         .indicator{
           opacity: 1;
           background-color: $secondary-color;
+          >*{
+            display: flex;
+            color: $white;
+            font-size: .75rem;
+            align-items: center;
+            justify-content: center;
+          }
         }
       }
       &.active{
