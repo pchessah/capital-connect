@@ -6,10 +6,10 @@
   background-color: #F9FAFB;
   grid-template-rows: max-content auto;
   main{
-    gap: 1rem;
+    gap: 2rem;
     display: grid;
     padding: 1rem 2rem;
-    grid-template-columns: auto 350px;
+    grid-template-columns: auto 360px;
 
     .left__col,
     .right__col{
