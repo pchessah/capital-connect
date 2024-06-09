@@ -1,1 +1,15 @@
 @import '../../../../styles/main.scss';
+
+mat-form-field {
+  width: 100%;
+}
+
+hr {
+  margin: 1rem 0;
+}
+
+.btn-container{
+  button {
+    width: 100%;
+  }
+}

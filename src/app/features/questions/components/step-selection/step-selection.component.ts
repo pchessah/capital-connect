@@ -1,10 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { SharedModule } from '../../../../shared/shared.module';
 
 @Component({
   selector: 'app-step-selection',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, SharedModule],
   templateUrl: './step-selection.component.html',
   styleUrl: './step-selection.component.scss'
 })

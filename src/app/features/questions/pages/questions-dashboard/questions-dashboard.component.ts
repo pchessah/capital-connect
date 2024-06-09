@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { SESSION_STORAGE, WebStorageService } from 'ngx-webstorage-service';
 import { SharedModule } from '../../../../shared/shared.module';
 import { NavbarComponent } from '../../../../core/navbar/navbar.component';
 import { SectionSelectionComponent } from '../../components/section-selection/section-selection.component'
 import { StepSelectionComponent } from '../../components/step-selection/step-selection.component';
 import { QuestionFormComponent } from '../../components/question-form/question-form.component';
 import { CommonModule } from '@angular/common';
+import { Question, Section } from '../../../../shared/interfaces/questions.interface';
 
 @Component({
   selector: 'app-questions-dashboard',
@@ -14,23 +16,24 @@ import { CommonModule } from '@angular/common';
   styleUrl: './questions-dashboard.component.scss'
 })
 export class QuestionsDashboardComponent {
-  selectedSection:  { name: string; steps: number[] } | null  = null;
+  selectedSection!:  Section;
   selectedStep: number | null = null;
   steps: number[] = [];
 
-  sections:{ name: string; steps: number[] } [] = [
+  sections:Section[] = [
     { name: 'Section 1', steps: [1, 2, 3] },
     { name: 'Section 2', steps: [1, 2] }
   ];
 
+  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService) { }
+
   ngOnInit() {
-    // Set the initial section (optional)
-    this.selectedSection = this.sections[0]; 
+    this.questions = this.storage.get('questions') || [];
     this.updateSteps();
   }
 
   onSectionSelected(sectionName: string) {
-    this.selectedSection = this.sections.find(s => s['name'] === sectionName) ?? null;
+    this.selectedSection = this.sections.find(s => s['name'] === sectionName) as Section;
     this.selectedStep = null; // Reset selected step when section changes
     this.updateSteps();
   }
@@ -41,6 +44,13 @@ export class QuestionsDashboardComponent {
 
   updateSteps() {
     this.steps = this.selectedSection?.['steps'] as [] ?? [];
+  }
+
+  questions: Question[] = [];
+  displayedColumns: string[] = ['section', 'step', 'questionText', 'options'];
+
+  addQuestion(question: Question) {
+    this.questions.push(question);
   }
 
 }
