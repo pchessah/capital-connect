@@ -9,5 +9,11 @@
     display: grid;
     padding: 1rem 2rem;
     grid-template-columns: auto 30%;
+
+    .left__col,
+    .right__col{
+      width: 100%;
+    }
+
   }
 }

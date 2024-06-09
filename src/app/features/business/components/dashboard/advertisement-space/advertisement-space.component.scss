@@ -1,0 +1,40 @@
+@import "../../../../../styles/main.scss";
+
+.main__section{
+  height: 350px;
+  overflow: hidden;
+  border-radius: 1rem;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: url("https://s3-alpha-sig.figma.com/img/7569/c0ef/80bf322795aca74f31b0002aff280bb1?Expires=1718582400&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=XwambOfXDHMZs6oxZ9JHeTLz41IaMAsFafCw9XqLRpPDFAFbCoT5cPD9uCmiVhGXc103ILADDcWVdD1SP9mAxrGwVNy840DpOxmTbcQ84JizTXGN7rfe8zg~4RiEHO4nWwcQQ8pELIloouDeN3xJHHNLYS2xNZUeFhB~A5t6H-hpJImZeiuhXawHPowfPhTpbrWbs4M29xvZBF41AlwQu3zhk7ISxW-nt1PpbXYp0-UWuWUkMVXhdzEeVBe94hK~jR3NN7WbGOmQRikSaO9EP0gdcx1DPTsgOWloN9JIW1KSeCbDKaso-LtEBao9RDfyPjD698Jv0DjtAj7EDRDSlA__");
+  box-shadow: 0 11px 20px 0 #0510371A;
+  .overlay{
+    gap: .5rem;
+    height: 100%;
+    display: flex;
+    color: $white;
+    padding: 2rem;
+    flex-direction: column;
+    justify-content: flex-end;
+    font-family: $font-family-sans-serif;
+    background-image: linear-gradient(to top, #040506, #1E202C00);
+    h2{
+
+    }
+    button{
+      color: $white;
+      display: flex;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      width: max-content;
+      text-align: center;
+      border-radius: 6px;
+      background: $primary-color;
+      padding: 9px 14px 11px 14px;
+      font-family: $font-family-sans-serif;
+    }
+  }
+}
+
+

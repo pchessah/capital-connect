@@ -1,0 +1,30 @@
+@import "../../../../../styles/main.scss";
+
+.wrapper{
+  gap: 1rem;
+  display: flex;
+  overflow: hidden;
+  border-radius: 10px;
+  line-height: 1.5rem;
+  flex-direction: column;
+  background-color: $green-50;
+  font-family: $font-family-sans-serif;
+  h2{
+    color: $white;
+    font-weight: 700;
+    font-size: 1.125rem;
+    background-color: $green-800;
+    padding: 10px 10px 10px 24px;
+  }
+  .body{
+    gap: 1rem;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    p{
+      opacity: .8;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+  }
+}
