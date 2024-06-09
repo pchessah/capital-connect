@@ -69,6 +69,18 @@ $width: 250px;
     display: flex;
     flex-direction: column;
     li{
+      &.marked{
+        position: relative;
+        &::after{
+          content: '';
+          position: absolute;
+          border-radius: 50%;
+          top: .6rem; right: 2rem;
+          height: 9px; width: 9px;
+          background-color: $danger-color;
+
+        }
+      }
       a{
         gap: 1rem;
         display: flex;
