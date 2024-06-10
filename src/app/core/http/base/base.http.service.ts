@@ -6,33 +6,33 @@ import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
 })
-export class BaseHttpService<T> {
+export class BaseHttpService {
   constructor(private _http: HttpClient) { }
 
   // Create a new item
-  create(url: string, item: T): Observable<T> {
-    return this._http.post<T>(url, item).pipe(
+  create(url: string, item: unknown): Observable<unknown> {
+    return this._http.post<unknown>(url, item).pipe(
       catchError(this.handleError)
     );
   }
 
   // Read all items
-  read(url: string): Observable<T[]> {
-    return this._http.get<T[]>(url).pipe(
+  read(url: string): Observable<unknown[]> {
+    return this._http.get<unknown[]>(url).pipe(
       catchError(this.handleError)
     );
   }
 
   // Read a single item by ID
-  readById(url: string, id: number): Observable<T> {
-    return this._http.get<T>(`${url}/${id}`).pipe(
+  readById(url: string, id: number): Observable<unknown> {
+    return this._http.get<unknown>(`${url}/${id}`).pipe(
       catchError(this.handleError)
     );
   }
 
   // Update an item
-  update(url: string, id: number, updatedItem: T): Observable<T> {
-    return this._http.put<T>(`${url}/${id}`, updatedItem).pipe(
+  update(url: string, id: number, updatedItem: unknown): Observable<unknown> {
+    return this._http.put<unknown>(`${url}/${id}`, updatedItem).pipe(
       catchError(this.handleError)
     );
   }
