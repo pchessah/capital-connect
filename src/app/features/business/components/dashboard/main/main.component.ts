@@ -7,6 +7,10 @@ import {AdvertisementSpaceComponent} from "../advertisement-space/advertisement-
 import {OverviewSectionComponent} from "../overview-section/overview-section.component";
 import {SchedulesSectionComponent} from "../schedules-section/schedules-section.component";
 import {ScoreSectionComponent} from "../score-section/score-section.component";
+import {SharedModule} from "../../../../../shared/shared.module";
+import {BusinessPageService} from "../../../../../core/services/business.page.service";
+import {tap} from "rxjs";
+import {NavbarToggleService} from "../../../../../core/services/navbar.toggle.service";
 
 @Component({
   selector: 'app-main',
@@ -14,11 +18,15 @@ import {ScoreSectionComponent} from "../score-section/score-section.component";
   imports: [
     NavbarComponent, ProfileStatusComponent, NotificationsComponent,
     AssessmentSummaryComponent, AdvertisementSpaceComponent, OverviewSectionComponent,
-    SchedulesSectionComponent, ScoreSectionComponent,
+    SchedulesSectionComponent, ScoreSectionComponent, SharedModule,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
+  constructor(private toggleService: NavbarToggleService) {}
+  toggleVisibility(){
+    this.toggleService.toggleVisibility();
+  }
 
 }

@@ -1,5 +1,7 @@
-<nav class="side__nav" [ngClass] ="{shrunk: !show_nav}" >
-  <button class="floating__action__button" (click)="toggle_navbar()"><mat-icon *ngIf="show_nav">chevron_left</mat-icon><mat-icon *ngIf="!show_nav">chevron_right</mat-icon></button>
+<ng-container  *ngIf="sideNavIsHidden$ | async as isHidden">
+<nav  class="side__nav" [ngClass] ="{shrunk: !show_nav, }" >
+  <button class="floating__action__button" *ngIf="!isHidden" (click)="toggle_navbar()"><mat-icon *ngIf="show_nav">chevron_left</mat-icon><mat-icon *ngIf="!show_nav">chevron_right</mat-icon></button>
+  <button class="floating__action__button" *ngIf="isHidden" (click)="hide_navbar()"><mat-icon *ngIf="show_nav">chevron_left</mat-icon><mat-icon *ngIf="!show_nav">chevron_right</mat-icon></button>
   <img src="assets/img/logo.png" alt="logo" class="logo" />
   <ul class="links">
     <li><a href="/business" class="active"><mat-icon>grid_view</mat-icon> <span>Dashboard</span></a></li>
@@ -12,3 +14,4 @@
   </ul>
   <app-pro-badge *ngIf="show_nav"/>
 </nav>
+</ng-container>

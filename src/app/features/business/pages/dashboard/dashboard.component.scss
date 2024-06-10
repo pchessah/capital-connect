@@ -1,7 +1,13 @@
 @import '../../../../styles/main.scss';
 
 .main__content{
-  min-height: 100svh;
   display: grid;
-  grid-template-columns: max-content auto;
+  min-height: 100svh;
+
+}
+
+@include when-screen-is-atleast(large){
+  .main__content{
+    grid-template-columns: max-content auto;
+  }
 }

@@ -18,9 +18,8 @@ section{
     }
     h3{
       color: #031D16;
-      font-weight: 700;
-      line-height: 2rem;
-      font-size: 1.35rem;
+      font-size: 1rem;
+      font-weight: 500;
     }
   }
   .schedule__section{
@@ -61,6 +60,18 @@ section{
             color: $gray-525;
           }
         }
+      }
+    }
+  }
+}
+@include when-screen-is-atleast(large){
+  section{
+    .schedule__header{
+      h3{
+        color: #031D16;
+        font-weight: 700;
+        line-height: 2rem;
+        font-size: 1.35rem;
       }
     }
   }

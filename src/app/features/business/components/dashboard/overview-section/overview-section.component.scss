@@ -7,8 +7,8 @@
     justify-content: space-between;
 
     h2{
-      font-weight: 400;
-      font-size: 2rem;
+      font-weight: 500;
+      font-size: 1.2rem;
       font-family: $font-family-sans-serif;
     }
 
@@ -24,7 +24,6 @@
     gap: 2rem;
     display: grid;
     padding: 1.5rem 0;
-    grid-template-columns: repeat(2, 1fr);
 
     .helper__text{
       font-size: 1rem;
@@ -37,6 +36,21 @@
       &.text__red{
         color: $danger-color;
       }
+    }
+  }
+}
+
+@include when-screen-is-atleast(large){
+  .overview__section{
+    .title__bar {
+
+      h2 {
+        font-size: 2rem;
+        font-weight: 400;
+      }
+    }
+    .cards__grid{
+      grid-template-columns: repeat(2, 1fr);
     }
   }
 }

@@ -1,6 +1,11 @@
 <div class="main">
-  <app-navbar on_dashboard="true"/>
+  <div class="navbar">
+    <button (click)="toggleVisibility()"><mat-icon>menu</mat-icon></button>
+    <app-navbar on_dashboard="true"/>
+  </div>
+
   <main>
+    <p class="brand__name">Business Name</p>
     <div class="left__col">
       <app-profile-status />
       <app-overview-section />

@@ -1,6 +1,7 @@
 @import '../../../styles/main.scss';
 
 .pro__card{
+  display: none;
   overflow: hidden;
   position: relative;
   border-radius: 1.25rem;
@@ -54,5 +55,11 @@
       border-radius: .5rem;
       background-color: $yellow-900;
     }
+  }
+}
+
+@include when-screen-is-atleast(large){
+  .pro__card{
+    display: block;
   }
 }

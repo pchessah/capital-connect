@@ -10,5 +10,9 @@ import {SidenavComponent} from "../../../../core/components/sidenav/sidenav.comp
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
+  hidden =true;
 
+  toggle_hidden(){
+    this.hidden = !this.hidden;
+  }
 }

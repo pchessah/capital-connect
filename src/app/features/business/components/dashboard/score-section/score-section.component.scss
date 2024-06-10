@@ -3,7 +3,7 @@
 section{
   gap: 1rem;
   display: flex;
-  padding: 1.5rem;
+  padding: 1rem;
   margin-top: 2rem;
   border-radius: .5rem;
   flex-direction: column;
@@ -11,7 +11,7 @@ section{
   font-family: $font-family-sans-serif;
   .content{
     display: grid;
-    grid-template-columns: auto max-content;
+    gap: 2rem 0;
     .text__content{
       gap: 1rem;
       display: flex;
@@ -23,7 +23,6 @@ section{
       }
       p{
         font-weight: 400;
-        max-width: 340px;
         font-size: .875rem;
         line-height: 1.5rem;
       }
@@ -58,6 +57,7 @@ section{
     .chart__content{
       width: 180px;
       height: 180px;
+      margin: auto auto;
       overflow: hidden;
       position: relative;
       border-radius: 50%;
@@ -84,5 +84,20 @@ section{
     border-radius: 6px;
     padding: .875rem 2rem;
     background-color: $primary-color;
+  }
+}
+
+@include when-screen-is-atleast(large){
+  section{
+    padding: 1.5rem;
+    .content{
+      grid-template-columns: auto max-content;
+      .text__content{
+
+        p {
+          max-width: 340px;
+        }
+      }
+    }
   }
 }

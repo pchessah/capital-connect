@@ -2,8 +2,8 @@
 $indicator_size: 20px;
 
 .status__container{
+  display: none;
   gap: 1.5rem;
-  display: flex;
   flex-direction: column;
   > h2{
     font-weight: 400;
@@ -12,10 +12,11 @@ $indicator_size: 20px;
     font-family: $font-family-sans-serif;
   }
   .steps{
+    gap: 1rem;
     width: 100%;
     display: flex;
     color: #0D0B26;
-    gap: 1rem;
+    //flex-direction: column;
     justify-content: space-between;
     font-family: $font-family-roboto;
 
@@ -100,6 +101,15 @@ $indicator_size: 20px;
           display: none;
         }
       }
+    }
+  }
+}
+
+@include when-screen-is-atleast(large){
+  .status__container{
+    //display: flex;
+    .steps{
+      //flex-direction: row;
     }
   }
 }

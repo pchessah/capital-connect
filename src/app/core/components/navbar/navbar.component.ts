@@ -10,6 +10,7 @@ import {SharedModule} from "../../../shared/shared.module";
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
+  @Input({transform: booleanAttribute}) hidden:boolean =false;
   @Input({transform: booleanAttribute}) on_dashboard =false;
   drawer_showing =false;
   toggleDrawer(){ this.drawer_showing =!this.drawer_showing; }
