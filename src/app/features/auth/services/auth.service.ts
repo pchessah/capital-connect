@@ -1,11 +1,11 @@
-import { inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { BaseHttpService } from '../../../core/http/base/base.http.service';
 import { CreateUserInput } from '../interfaces/auth.interface';
 import { HttpClient } from '@angular/common/http';
 import { BASE_URL } from '../../../core/http/base/constants';
 
 @Injectable({ providedIn: 'root' })
-export class AuthService extends BaseHttpService<CreateUserInput> {
+export class AuthService extends BaseHttpService {
 
 
   constructor(private _httpClient: HttpClient) {
