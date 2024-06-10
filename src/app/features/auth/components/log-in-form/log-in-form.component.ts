@@ -1,8 +1,8 @@
-import {Component, inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { AuthModule } from '../../modules/auth.module';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { CommonModule } from "@angular/common";
-import {Router} from "@angular/router";
+import { Router } from "@angular/router";
 
 @Component({
   selector: 'app-log-in-form',
@@ -13,25 +13,25 @@ import {Router} from "@angular/router";
 })
 export class LogInFormComponent {
   private _formBuilder = inject(FormBuilder);
-  private _router =inject(Router);
+  private _router = inject(Router);
 
   signInForm = this._formBuilder.group({
     email: ['', Validators.required],
     password: ['', Validators.required]
   })
 
-  isTouchedOrDirty(formControlName:string){
+  isTouchedOrDirty(formControlName: string) {
 
-    const fieldIsTouched =this.signInForm.get(formControlName)?.touched;
-    const fieldIsDirty =this.signInForm.get(formControlName)?.dirty;
+    const fieldIsTouched = this.signInForm.get(formControlName)?.touched;
+    const fieldIsDirty = this.signInForm.get(formControlName)?.dirty;
     return fieldIsTouched || fieldIsDirty;
   }
 
-  isValid(formControlName:string){
-    return  this.signInForm.get(formControlName)?.valid;
+  isValid(formControlName: string) {
+    return this.signInForm.get(formControlName)?.valid;
   }
 
-  submitCredentials(){
+  submitCredentials() {
     const credentials = this.signInForm.value;
     this._router.navigateByUrl('/organization/setup')
   }

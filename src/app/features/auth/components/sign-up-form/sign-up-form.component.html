@@ -1,32 +1,38 @@
-<ng-container *ngIf="listenToFormChanges$ | async"></ng-container>
+<ng-container *ngIf="{ listenToChanges: listenToFormChanges$ | async,
+                        signUp: signUp$ | async } as observables">
+</ng-container>
+
 
 <form [formGroup]="signUpForm" class="user__auth__form">
   <div class="input__wrapper">
     <label class="input__label">Account Type</label>
     <select formControlName="accountType" class="input__field account-type-selector">
-      <option value="">select account type</option>
-      <option value="User">User</option>
+      @for (type of accountTypes; track $index) {
+      <!-- TODO: @pchessah, the below should be enabled to allow users to select the correct role -->
+      <option disabled [value]="type">{{type | uppercase}}</option>
+      }
     </select>
   </div>
   <div class="input__wrapper">
     <label class="input__label">First Name</label>
-    <input [ngClass]="{'input-error' : isTouchedOrDirty('firstName') && !isValid('firstName') }" formControlName="firstName" type="text" name="first__name" class="input__field"
-      placeholder="Enter first name" />
+    <input [ngClass]="{'input-error' : isTouchedOrDirty('firstName') && !isValid('firstName') }"
+      formControlName="firstName" type="text" name="first__name" class="input__field" placeholder="Enter first name" />
     <ng-container *ngIf="isTouchedOrDirty('firstName')">
       <span *ngIf="!isValid('firstName')" class="error-text">First Name is required</span>
     </ng-container>
   </div>
   <div class="input__wrapper">
     <label class="input__label">Last Name</label>
-    <input [ngClass]="{'input-error' : isTouchedOrDirty('lastName') && !isValid('lastName') }" formControlName="lastName" type="text" name="last__name" class="input__field"
-      placeholder="Enter last name" />
+    <input [ngClass]="{'input-error' : isTouchedOrDirty('lastName') && !isValid('lastName') }"
+      formControlName="lastName" type="text" name="last__name" class="input__field" placeholder="Enter last name" />
     <ng-container *ngIf="isTouchedOrDirty('lastName')">
       <span *ngIf="!isValid('lastName')" class="error-text">Last Name is required</span>
     </ng-container>
   </div>
   <div class="input__wrapper">
     <label class="input__label">Email</label>
-    <input  [ngClass]="{'input-error' : isTouchedOrDirty('email') && !isValid('email') }" formControlName="email" type="email" name="email" class="input__field" placeholder="Enter email" />
+    <input [ngClass]="{'input-error' : isTouchedOrDirty('email') && !isValid('email') }" formControlName="email"
+      type="email" name="email" class="input__field" placeholder="Enter email" />
     <ng-container *ngIf="isTouchedOrDirty('email')">
       <span class="error-text">
         {{ getEmailFieldError ? 'Email is required' : 'Please enter a valid email'}}
@@ -37,15 +43,16 @@
   </div>
   <div class="input__wrapper">
     <label class="input__label">Password</label>
-    <input  [ngClass]="{'input-error': isTouchedOrDirty('password') && !isValid('password') }" formControlName="password" type="password" name="password" class="input__field"
-      placeholder="Enter password" />
+    <input [ngClass]="{'input-error': isTouchedOrDirty('password') && !isValid('password') }" formControlName="password"
+      type="password" name="password" class="input__field" placeholder="Enter password" />
     <ng-container *ngIf="isTouchedOrDirty('password')">
       <span *ngIf="!isValid('password')" class="error-text">Password is required</span>
     </ng-container>
   </div>
   <div class="input__wrapper">
     <label class="input__label">Confirm Password</label>
-    <input [ngClass]="{'input-error': isTouchedOrDirty('password') && !passwordsAreSame}"  formControlName="confirmPassword" type="password" name="confirm__password" class="input__field"
+    <input [ngClass]="{'input-error': isTouchedOrDirty('password') && !passwordsAreSame}"
+      formControlName="confirmPassword" type="password" name="confirm__password" class="input__field"
       placeholder="Enter password again" />
     <ng-container *ngIf="isTouchedOrDirty('confirmPassword')">
       <span *ngIf="!passwordsAreSame" class="error-text">
