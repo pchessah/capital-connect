@@ -5,7 +5,7 @@ export interface CreateUserInput {
   password: string;
   firstName: string;
   lastName: string;
-  roles: USER_ROLES[];
+  roles: string;
 }
 
 export enum PASSWORD_STRENGTH {
