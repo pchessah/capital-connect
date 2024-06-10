@@ -35,7 +35,7 @@
       type="email" name="email" class="input__field" placeholder="Enter email" />
     <ng-container *ngIf="isTouchedOrDirty('email')">
       <span class="error-text">
-        {{ getEmailFieldError ? 'Email is required' : 'Please enter a valid email'}}
+        {{ getEmailFieldError ? 'Email is required' : !isValid('email') ? 'Please enter a valid email' : ''}}
       </span>
 
     </ng-container>
