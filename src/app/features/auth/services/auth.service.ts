@@ -13,7 +13,7 @@ export class AuthService extends BaseHttpService {
   }
 
   signUpUser(user: CreateUserInput) {
-    return this.create(`${BASE_URL}/auth/signup`, user)
+    return this.create(`${BASE_URL}/auth/signup`, JSON.stringify(user))
   }
 
 }
