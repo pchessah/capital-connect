@@ -1,10 +1,12 @@
-import {Component, EventEmitter, inject, Output} from '@angular/core';
-import {AuthModule} from '../../modules/auth.module';
-import {CommonModule} from '@angular/common';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
-import {tap} from 'rxjs'
-import {PASSWORD_STRENGTH} from '../../../../shared/interfaces/password-strength.enum';
-import {FORM_TYPE} from "../../../../shared/interfaces/form-type.enum";
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { AuthModule } from '../../modules/auth.module';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { catchError, EMPTY, Observable, tap } from 'rxjs'
+
+import { AuthService } from '../../services/auth.service';
+import { CreateUserInput, FORM_TYPE, PASSWORD_STRENGTH } from '../../interfaces/auth.interface';
+import { USER_ROLES } from '../../../../shared/interfaces/user.interface';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -14,12 +16,14 @@ import {FORM_TYPE} from "../../../../shared/interfaces/form-type.enum";
   styleUrl: './sign-up-form.component.scss'
 })
 export class SignUpFormComponent {
-@Output() changeFormTypeEvent = new EventEmitter<FORM_TYPE>();
-
   private _formBuilder = inject(FormBuilder);
+  private _authService = inject(AuthService);
+
+  @Output() changeFormTypeEvent = new EventEmitter<FORM_TYPE>();
+
 
   signUpForm = this._formBuilder.group({
-    accountType: ['User', Validators.required],
+    accountType: [USER_ROLES.USER, Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
@@ -30,24 +34,27 @@ export class SignUpFormComponent {
   listenToFormChanges$ = this.signUpForm.valueChanges.pipe(
     tap(formVals => {
       !!formVals.password?.length && !!formVals.confirmPassword?.length ? this._updatePasswordValidationChecks(formVals.password as string, formVals.email as string, formVals.confirmPassword as string)
-                                                                        : this.passwordIsValid = false;
+        : this.passwordIsValid = false;
     })
   );
+  signUp$!:Observable<unknown>;
 
   passwordIsValid = false;
   password_validation_checks: { check: string; isValid?: boolean; }[] = [];
 
-   private _updatePasswordValidationChecks(password: string, email: string, confirmPassword: string) {
+  accountTypes: USER_ROLES[] = [USER_ROLES.ADVISOR, USER_ROLES.USER, USER_ROLES.INVESTOR, USER_ROLES.ADMIN]
+
+  private _updatePasswordValidationChecks(password: string, email: string, confirmPassword: string) {
 
     this.password_validation_checks = [
       {
         check: 'Password Strength',
         isValid: this._getPasswordStrength(password) === PASSWORD_STRENGTH.STRONG ||
-                 this._getPasswordStrength(password) === PASSWORD_STRENGTH.MEDIUM
+          this._getPasswordStrength(password) === PASSWORD_STRENGTH.MEDIUM
       },
       {
         check: 'Cannot contain your name or email address',
-        isValid:  !password.includes(email)
+        isValid: !password.includes(email)
       },
       {
         check: 'At least 8 characters',
@@ -59,7 +66,7 @@ export class SignUpFormComponent {
       },
       {
         check: 'Passwords dont match',
-        isValid:password === confirmPassword
+        isValid: password === confirmPassword
       }
     ];
 
@@ -73,39 +80,54 @@ export class SignUpFormComponent {
     if (password.length >= 12 && /[A-Z]/.test(password) && /[0-9]/.test(password) && /[!@#$%^&*]/.test(password)) {
       return PASSWORD_STRENGTH.STRONG;
     } else if (password.length >= 8) {
-      return  PASSWORD_STRENGTH.MEDIUM;
+      return PASSWORD_STRENGTH.MEDIUM;
     } else {
-      return  PASSWORD_STRENGTH.WEAK
+      return PASSWORD_STRENGTH.WEAK
     }
   }
 
-  isTouched(formControlName:string) {
+  isTouched(formControlName: string) {
     return this.signUpForm.get(formControlName)?.touched
 
   }
 
-  isDirty(formControlName:string){
+  isDirty(formControlName: string) {
     return this.signUpForm.get(formControlName)?.dirty
   }
 
-  isTouchedOrDirty(formControlName:string){
+  isTouchedOrDirty(formControlName: string) {
     return (this.isDirty(formControlName) || this.isTouched(formControlName))
   }
 
-  isValid(formControlName:string){
-    return  this.signUpForm.get(formControlName)?.valid
+  isValid(formControlName: string) {
+    return this.signUpForm.get(formControlName)?.valid
   }
 
-  get getEmailFieldError(){
+  get getEmailFieldError() {
     return this.signUpForm.get('email')?.errors?.['required']
   }
 
-  get passwordsAreSame () {
+  get passwordsAreSame() {
     return this.signUpForm.get('password')?.value === this.signUpForm.get('confirmPassword')?.value
   }
 
   submitForm() {
     const formValue = this.signUpForm.value;
-    this.changeFormTypeEvent.emit(FORM_TYPE.SIGNIN);
+    const input: CreateUserInput = {
+      username: formValue.email as string,
+      password: formValue.password as string,
+      roles: [formValue.accountType as USER_ROLES],
+      firstName: formValue.firstName as string,
+      lastName: formValue.lastName as string,
+    }
+
+    this.signUp$ = this._authService.signUpUser(input).pipe(tap((res) => {
+      debugger
+      this.changeFormTypeEvent.emit(FORM_TYPE.SIGNIN);
+    }), catchError(err => {
+      console.error(err);
+      return EMPTY
+    }))
+
   }
 }
