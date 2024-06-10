@@ -14,3 +14,10 @@
   background: none;
 }
 
+form {
+  max-height: 40rem;
+  overflow-y: auto;
+  padding-right: 2px;
+  padding-left: 2px;
+}
+
