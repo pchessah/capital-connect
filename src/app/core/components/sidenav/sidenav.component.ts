@@ -1,8 +1,8 @@
 import { Component, HostListener, inject } from '@angular/core';
 import { ProBadgeComponent } from "../pro-badge/pro-badge.component";
-import { SharedModule } from "../../../shared/shared.module";
+import { SharedModule } from "../../../shared";
 import { CommonModule } from "@angular/common";
-import { NavbarToggleService } from "../../services/navbar.toggle.service";
+import { NavbarToggleService } from "../../services/navbar-toggle/navbar.toggle.service";
 import { tap } from "rxjs";
 
 @Component({

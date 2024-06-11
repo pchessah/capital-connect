@@ -18,7 +18,7 @@
         <button [class.active]="true" (click)="setSignup()">Sign Up</button>
         <button (click)="setSignin()">Sign In</button>
       </div>
-      <app-sign-up-form (changeFormTypeEvent) ="setSignin()" />
+      <app-sign-up-form (changeFormTypeEvent)="setSignin()" />
       }
 
       @if (active_form == forms.SIGNIN) {
@@ -29,8 +29,6 @@
       </div>
       <app-log-in-form />
       }
-
-
     </div>
   </section>
 </div>

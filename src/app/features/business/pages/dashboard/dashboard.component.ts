@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import {MainComponent} from "../../components/dashboard/main/main.component";
-import {SidenavComponent} from "../../../../core/components/sidenav/sidenav.component";
+import { SidenavComponent } from '../../../../core';
+
 
 @Component({
   selector: 'app-dashboard',

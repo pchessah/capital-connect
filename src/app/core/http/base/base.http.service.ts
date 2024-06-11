@@ -1,45 +1,46 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BaseHttpService<T> {
+export class BaseHttpService {
+  private _headers = new HttpHeaders().set('Content-Type', 'application/json; charset=utf-8');
   constructor(private _http: HttpClient) { }
 
   // Create a new item
-  create(url: string, item: T): Observable<T> {
-    return this._http.post<T>(url, item).pipe(
+  create(url: string, item: unknown, headers = this._headers): Observable<unknown> {
+    return this._http.post<unknown>(url,item, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
   // Read all items
-  read(url: string): Observable<T[]> {
-    return this._http.get<T[]>(url).pipe(
+  read(url: string,  headers = this._headers): Observable<unknown[]> {
+    return this._http.get<unknown[]>(url, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
   // Read a single item by ID
-  readById(url: string, id: number): Observable<T> {
-    return this._http.get<T>(`${url}/${id}`).pipe(
+  readById(url: string, id: number,  headers = this._headers): Observable<unknown> {
+    return this._http.get<unknown>(`${url}/${id}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
   // Update an item
-  update(url: string, id: number, updatedItem: T): Observable<T> {
-    return this._http.put<T>(`${url}/${id}`, updatedItem).pipe(
+  update(url: string, id: number, updatedItem: unknown,  headers = this._headers): Observable<unknown> {
+    return this._http.put<unknown>(`${url}/${id}`, updatedItem, { headers }).pipe(
       catchError(this.handleError)
     );
   }
 
   // Delete an item
-  delete(url: string, id: number): Observable<void> {
-    return this._http.delete<void>(`${url}/${id}`).pipe(
+  delete(url: string, id: number,  headers = this._headers): Observable<void> {
+    return this._http.delete<void>(`${url}/${id}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }

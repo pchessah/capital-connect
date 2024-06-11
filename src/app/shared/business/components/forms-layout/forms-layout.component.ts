@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { BusinessPageService } from '../../../../core/services/business.page.service';
+import { BusinessPageService } from '../../../../features/business/services/business-page/business.page.service';
 import { ProgressBarComponent } from '../../../../features/business/components/progress-bar/progress-bar.component';
 
 @Component({
