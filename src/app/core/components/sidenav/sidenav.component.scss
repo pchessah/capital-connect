@@ -1,0 +1,150 @@
+@import "../../../styles/main.scss";
+
+$width: 250px;
+.side__nav{
+  &.hidden{
+    display: none;
+  }
+  inset: 0;
+  gap: 2rem;
+  z-index: 99;
+  height: 100%;
+  display: flex;
+  width: 94%;
+  position: fixed;
+  padding: 1rem 1.5rem;
+  flex-direction: column;
+  background-color: $white;
+  border-right: 1px solid $gray-400;
+  &.shrunk{
+    width: auto;
+    padding: 1rem;
+    img{
+      width: 80px;
+    }
+    .links{
+      li{
+        a {
+          width: max-content;
+          span{
+            display: none;
+          }
+        }
+      }
+    }
+  }
+  .floating__action__button{
+    z-index: 5;
+    top: 1.5rem;
+    width: 30px;
+    height: 30px;
+    right: -1rem;
+    cursor: pointer;
+    overflow: hidden;
+    border-radius: 50%;
+    position: absolute;
+    vertical-align: center;
+    transition: .2s linear;
+    background-color: $white;
+    border: 1px solid #0000001A;
+    box-shadow: 0 0 4px #0000001A;
+    &:hover{
+      transform: scale(1.25);
+    }
+    >* {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      font-size: 1.5rem;
+      align-items: center;
+      justify-content: center;
+    }
+  }
+
+  img{
+    border: 0;
+    width: 140px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .links{
+    gap: .5rem;
+    display: flex;
+    flex-direction: column;
+    li{
+      &.marked{
+        position: relative;
+        &::after{
+          content: '';
+          position: absolute;
+          border-radius: 50%;
+          top: .6rem; right: 2rem;
+          height: 9px; width: 9px;
+          background-color: $danger-color;
+
+        }
+      }
+      a{
+        gap: 1rem;
+        display: flex;
+        font-size: 1rem;
+        font-weight: 500;
+        color: $gray-550;
+        align-items: center;
+        line-height: 19.54px;
+        text-decoration: none;
+        padding: .75rem 1rem;
+        border-radius: .5rem;
+        font-family: $font-family-sans-serif;
+        svg{
+          width: 2rem;
+          height: 2rem;
+        }
+        &.active{
+          color: $white;
+          box-shadow: 0 0 20px #3745571a;
+          background-color: #519259;
+        }
+      }
+      &:last-child{
+        margin-bottom: 6rem;
+      }
+    }
+  }
+}
+
+@include when-screen-is-atleast(medium){
+  .side__nav {
+    width: $width;
+    position: relative;
+  }
+}
+
+@keyframes slide_in_right {
+  from{
+    width: 0;
+  }
+  to{
+    width: 94%;
+  }
+}
+
+@keyframes shrink {
+  from{
+    width: $width;
+  }
+  to{
+    width: auto;
+  }
+}
+
+@keyframes expand{
+  from{
+    width: auto;
+  }
+  to{
+    width: $width;
+  }
+}

@@ -1,0 +1,38 @@
+@import "../../../../../styles/main.scss";
+
+.tile{
+  .left__content{
+    gap: .5rem;
+    display: flex;
+    align-items: center;
+    img{
+      width: 30px;
+      height: 30px;
+      display: block;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .text__content{
+        flex: 1;
+        p{
+          font-weight: 400;
+          color: $gray-525;
+          line-height: 1.5rem;
+          font-size: .875rem;
+          font-family: $font-family-sans-serif;
+        }
+        .tile__meta{
+          flex: 1;
+          display: flex;
+          justify-content: space-between;
+          h3{
+            color: #2D3748;
+            font-weight: 500;
+            line-height: 17.09px;
+            font-size: .875rem;
+            font-family: $font-family-sans-serif;
+          }
+        }
+    }
+  }
+}
