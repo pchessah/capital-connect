@@ -1,0 +1,58 @@
+@import "../../../../../styles/main.scss";
+
+.collage{
+  gap: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  button{
+    gap: 10px;
+    display: flex;
+    cursor: pointer;
+    background: none;
+    align-items: center;
+    color: $secondary-color;
+    padding: 9px 0 11px 14px;
+    justify-content: space-between;
+    &:hover{
+      color: $primary-color;
+    }
+    *{
+      display: flex;
+      align-items: center;
+      transition: .2s linear;
+      justify-content: center;
+    }
+    span{
+      font-size: 14px;
+      font-weight: 500;
+      font-family: $font-family-sans-serif;
+    }
+  }
+  .photo__list{
+    position: relative;
+    display: flex;
+    .img{
+      width: 32px;
+      height: 32px;
+      display: flex;
+      border-radius: 50%;
+      margin-left: -10px;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid $white;
+      background-color: #eef4ee;
+      &:first-child{
+        margin-left: 0;
+      }
+      img{
+        width: 95%;
+        height: 95%;
+        display: block;
+        border-radius: 50%;
+      }
+
+    }
+  }
+}

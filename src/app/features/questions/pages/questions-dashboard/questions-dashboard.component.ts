@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
 import { SESSION_STORAGE, WebStorageService } from 'ngx-webstorage-service';
-import { SharedModule } from '../../../../shared/shared.module';
-import { NavbarComponent } from '../../../../core/navbar/navbar.component';
 import { SectionSelectionComponent } from '../../components/section-selection/section-selection.component'
 import { StepSelectionComponent } from '../../components/step-selection/step-selection.component';
 import { QuestionFormComponent } from '../../components/question-form/question-form.component';
 import { CommonModule } from '@angular/common';
 import { Question, Section } from '../../../../shared/interfaces/questions.interface';
+import {SharedModule} from "../../../../shared/shared.module";
+import {NavbarComponent} from "../../../../core/components/navbar/navbar.component";
 
 @Component({
   selector: 'app-questions-dashboard',
