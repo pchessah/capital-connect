@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { StepOneComponent } from '../step-one/step-one.component';
 import { StepTwoComponent } from '../step-two/step-two.component';
 import { StepThreeComponent } from '../step-three/step-three.component';
-import { BusinessPageService } from '../../../../../core/services/business.page.service';
+import { BusinessPageService } from '../../../services/business-page/business.page.service';
 import { ProgressBarComponent } from '../../progress-bar/progress-bar.component';
 import { tap } from 'rxjs';
 

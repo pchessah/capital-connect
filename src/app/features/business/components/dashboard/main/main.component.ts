@@ -8,9 +8,9 @@ import {OverviewSectionComponent} from "../overview-section/overview-section.com
 import {SchedulesSectionComponent} from "../schedules-section/schedules-section.component";
 import {ScoreSectionComponent} from "../score-section/score-section.component";
 import {SharedModule} from "../../../../../shared/shared.module";
-import {BusinessPageService} from "../../../../../core/services/business.page.service";
+import {BusinessPageService} from "../../../services/business-page/business.page.service";
 import {tap} from "rxjs";
-import {NavbarToggleService} from "../../../../../core/services/navbar.toggle.service";
+import {NavbarToggleService} from "../../../../../core/services/navbar-toggle/navbar.toggle.service";
 
 @Component({
   selector: 'app-main',

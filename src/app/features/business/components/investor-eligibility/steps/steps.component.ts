@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BusinessPageService } from '../../../../../core/services/business.page.service';
+import { BusinessPageService } from '../../../services/business-page/business.page.service';
 import { ProgressBarComponent } from '../../progress-bar/progress-bar.component';
 import { StepOneComponent } from '../step-one/step-one.component';
 import { StepTwoComponent } from '../step-two/step-two.component';

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { BusinessPageService } from '../../../../../core/services/business.page.service';
+import { BusinessPageService } from '../../../services/business-page/business.page.service';
 
 @Component({
   selector: 'app-index',

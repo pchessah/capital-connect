@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BusinessPageService } from '../../../../core/services/business.page.service';
+import { BusinessPageService } from '../../services/business-page/business.page.service';
 import { LayoutComponent } from '../../../../shared/business/layout/layout.component';
 import { IndexComponent } from '../../components/investor-eligibility/index/index.component';
 import { StepsComponent } from '../../components/investor-eligibility/steps/steps.component';
