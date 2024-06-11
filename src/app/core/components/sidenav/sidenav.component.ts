@@ -1,9 +1,9 @@
-import {booleanAttribute, Component, Input} from '@angular/core';
-import {ProBadgeComponent} from "../pro-badge/pro-badge.component";
-import {SharedModule} from "../../../shared/shared.module";
-import {CommonModule} from "@angular/common";
-import {NavbarToggleService} from "../../services/navbar.toggle.service";
-import {tap} from "rxjs";
+import { Component, HostListener, inject } from '@angular/core';
+import { ProBadgeComponent } from "../pro-badge/pro-badge.component";
+import { SharedModule } from "../../../shared/shared.module";
+import { CommonModule } from "@angular/common";
+import { NavbarToggleService } from "../../services/navbar.toggle.service";
+import { tap } from "rxjs";
 
 @Component({
   selector: 'app-sidenav',
@@ -14,21 +14,34 @@ import {tap} from "rxjs";
 })
 
 export class SidenavComponent {
-  isHidden: boolean | undefined;
-  show_nav =true;
-  constructor(private toggleService: NavbarToggleService) {}
-  sideNavIsHidden$ =this.toggleService.navBarIsHidden$.pipe(tap(state =>{
-    this.isHidden =state;
-  }));
+  private toggleService = inject(NavbarToggleService);
 
-  toggle_navbar(){
-    this.show_nav = !this.show_nav;
+  @HostListener('window:resize', ['$event'])
+  onResize(_event: any) {
+    if (window.innerWidth > 991) {
+      this.toggleService.showNavBar()
+    }
   }
 
-  hide_navbar(){
-    this.toggleService.toggleVisibility();
-    this.sideNavIsHidden$ =this.toggleService.navBarIsHidden$.pipe(tap(state =>{
-      this.isHidden =state;
-    }));
+  sideNavIsHidden$ = this.toggleService.navBarIsHidden$.pipe(tap(state => {
+    this.isHidden = state;
+  }));
+
+  isHidden: boolean | undefined;
+  showNav = true;
+
+  toggle_navbar() {
+    this.showNav = !this.showNav;
+  }
+
+  hide_navbar() {
+    const screenWidth = window.innerWidth;
+    if (screenWidth > 991) {
+      //In desktop we do not remove the sidebar from the screen
+      this.showNav = !this.showNav;
+    } else {
+      this.toggleService.toggleVisibility();
+    }
+
   }
 }

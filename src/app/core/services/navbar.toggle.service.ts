@@ -5,12 +5,17 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class NavbarToggleService {
-  isHidden =false;
-  private navBarIsHiddenSource = new BehaviorSubject<boolean>(this.isHidden);
-  navBarIsHidden$ = this.navBarIsHiddenSource.asObservable();
+  private _isHidden = window.innerWidth > 991; //we open the toggler when we are in desktop mode
+
+  private _navBarIsHiddenSource = new BehaviorSubject<boolean>(this._isHidden);
+  navBarIsHidden$ = this._navBarIsHiddenSource.asObservable();
 
   toggleVisibility (){
-    this.isHidden = !this.navBarIsHiddenSource.value;
-    this.navBarIsHiddenSource.next(!this.navBarIsHiddenSource.value);
+    this._isHidden = !this._navBarIsHiddenSource.value;
+    this._navBarIsHiddenSource.next(!this._navBarIsHiddenSource.value);
+  }
+
+  showNavBar() {
+    this._navBarIsHiddenSource.next(true)
   }
 }
