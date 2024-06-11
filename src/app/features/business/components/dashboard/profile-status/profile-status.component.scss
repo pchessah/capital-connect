@@ -2,7 +2,6 @@
 $indicator_size: 20px;
 
 .status__container{
-  display: none;
   gap: 1.5rem;
   flex-direction: column;
   > h2{
@@ -16,13 +15,16 @@ $indicator_size: 20px;
     width: 100%;
     display: flex;
     color: #0D0B26;
-    //flex-direction: column;
+    flex-direction: column;
     justify-content: space-between;
     font-family: $font-family-roboto;
 
     li{
       flex: 1;
+      gap: 1.5rem;
+      display: flex;
       position: relative;
+      align-items: center;
       .indicator{
         opacity: .4;
         display: flex;
@@ -33,7 +35,6 @@ $indicator_size: 20px;
         width: $indicator_size;
         height: $indicator_size;
         background-color: #FF5151;
-
       }
       &.done{
         .step__status{
@@ -89,10 +90,10 @@ $indicator_size: 20px;
       }
       &::after{
         content: "";
-        height: 1px;
-        width: 80%;
-        top: calc($indicator_size / 2);
-        left: 15%;
+        width: 1px;
+        height: 80%;
+        top: 70%;
+        left: calc($indicator_size / 2);
         position: absolute;
         background-color: #CFD6DC;
       }
@@ -107,9 +108,21 @@ $indicator_size: 20px;
 
 @include when-screen-is-atleast(large){
   .status__container{
-    //display: flex;
+    display: flex;
     .steps{
-      //flex-direction: row;
+      flex-direction: row;
+      li{
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+
+        &::after{
+          height: 1px;
+          width: 80%;
+          top: calc($indicator_size / 2);
+          left: 15%;
+        }
+      }
     }
   }
 }
