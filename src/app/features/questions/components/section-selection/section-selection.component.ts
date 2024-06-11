@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { SharedModule } from '../../../../shared/shared.module';
+import { SharedModule } from '../../../../shared';
 import { CommonModule } from '@angular/common';
 
 @Component({

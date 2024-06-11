@@ -1,13 +1,13 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
-import {SharedModule} from "../../../../../shared/shared.module";
+import {SharedModule} from "../../../../../shared";
 import {Chart, registerables} from "chart.js";
 import {SCORE_TYPE} from "../../../interfaces/score.type";
 
 @Component({
   selector: 'app-score-section',
   standalone: true,
-  imports: [CommonModule, SharedModule, ],
+  imports: [CommonModule, SharedModule],
   templateUrl: './score-section.component.html',
   styleUrl: './score-section.component.scss'
 })

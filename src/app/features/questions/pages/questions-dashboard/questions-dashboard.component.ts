@@ -1,12 +1,12 @@
 import { Component, Inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { SESSION_STORAGE, WebStorageService } from 'ngx-webstorage-service';
 import { SectionSelectionComponent } from '../../components/section-selection/section-selection.component'
 import { StepSelectionComponent } from '../../components/step-selection/step-selection.component';
 import { QuestionFormComponent } from '../../components/question-form/question-form.component';
-import { CommonModule } from '@angular/common';
 import { Question, Section } from '../../../../shared/interfaces/questions.interface';
-import {SharedModule} from "../../../../shared/shared.module";
-import {NavbarComponent} from "../../../../core/components/navbar/navbar.component";
+import { NavbarComponent } from "../../../../core";
+import { SharedModule } from '../../../../shared';
 
 @Component({
   selector: 'app-questions-dashboard',
@@ -16,11 +16,11 @@ import {NavbarComponent} from "../../../../core/components/navbar/navbar.compone
   styleUrl: './questions-dashboard.component.scss'
 })
 export class QuestionsDashboardComponent {
-  selectedSection!:  Section;
+  selectedSection!: Section;
   selectedStep: number | null = null;
   steps: number[] = [];
 
-  sections:Section[] = [
+  sections: Section[] = [
     { name: 'Section 1', steps: [1, 2, 3] },
     { name: 'Section 2', steps: [1, 2] }
   ];
@@ -34,7 +34,7 @@ export class QuestionsDashboardComponent {
 
   onSectionSelected(sectionName: string) {
     this.selectedSection = this.sections.find(s => s['name'] === sectionName) as Section;
-    this.selectedStep = null; // Reset selected step when section changes
+    this.selectedStep = null;
     this.updateSteps();
   }
 
