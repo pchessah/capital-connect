@@ -13,4 +13,14 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class FeedbackComponent {
   constructor(@Inject(MAT_DIALOG_DATA) public data: { title: string, message: string, type: string }) { }
+
+  getIcon(type: string): string {
+    switch(type) {
+      case 'info': return 'info';
+      case 'success': return 'check_circle';
+      case 'warning': return 'warning';
+      case 'error': return 'error';
+      default: return 'info';
+    }
+  }
 }

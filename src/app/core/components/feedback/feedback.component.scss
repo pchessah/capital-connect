@@ -8,23 +8,37 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  color: $white;
   flex-direction: column;
 }
 
 .feedback-dialog.info {
   background-color: $info-color-alt;
-  color: $white;
 }
 .feedback-dialog.success {
   background-color: $success-color-alt;
-  color: $white;
 }
 .feedback-dialog.warning {
   background-color:$warning-color-alt;
-  color: $white;
 }
 .feedback-dialog.error {
   background-color:$danger-color-alt;
+}
+
+.title, .message {
+  color: $white !important;
+  margin: 1rem 0;
+}
+
+.button {
+  background-color: $white;
+  outline: 1px solid $white;
+  border-radius: 5px;
+  padding: 15px 30px;
+  margin: 1rem 0;
+}
+
+.dialog-icon {
+  font-size: $font-size-xlg;
+  margin-right: 10px;
   color: $white;
 }
