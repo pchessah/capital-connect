@@ -88,7 +88,6 @@ export class SignUpFormComponent {
 
   isTouched(formControlName: string) {
     return this.signUpForm.get(formControlName)?.touched
-
   }
 
   isDirty(formControlName: string) {
@@ -116,13 +115,12 @@ export class SignUpFormComponent {
     const input: CreateUserInput = {
       username: formValue.email as string,
       password: formValue.password as string,
-      roles: [formValue.accountType as USER_ROLES],
+      roles: formValue.accountType as USER_ROLES,
       firstName: formValue.firstName as string,
       lastName: formValue.lastName as string,
     }
 
     this.signUp$ = this._authService.signUpUser(input).pipe(tap((res) => {
-      debugger
       this.changeFormTypeEvent.emit(FORM_TYPE.SIGNIN);
     }), catchError(err => {
       console.error(err);
