@@ -1,0 +1,30 @@
+@import "../../../styles/main.scss";
+
+.feedback-dialog {
+  width: 100%;
+  max-width: 70vw;
+  text-align: center;
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: $white;
+  flex-direction: column;
+}
+
+.feedback-dialog.info {
+  background-color: $info-color-alt;
+  color: $white;
+}
+.feedback-dialog.success {
+  background-color: $success-color-alt;
+  color: $white;
+}
+.feedback-dialog.warning {
+  background-color:$warning-color-alt;
+  color: $white;
+}
+.feedback-dialog.error {
+  background-color:$danger-color-alt;
+  color: $white;
+}
