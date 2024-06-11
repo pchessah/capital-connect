@@ -1,6 +1,6 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { SharedModule } from '../../../../shared/shared.module';
+import { SharedModule } from '../../../../shared';
 import { CommonModule } from '@angular/common';
 import { Question, Section } from '../../../../shared/interfaces/questions.interface';
 

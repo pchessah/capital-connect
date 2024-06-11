@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CarouselComponent } from '../../../carousel/carousel.component';
 import { LogInFormComponent } from '../../../auth/components/log-in-form/log-in-form.component';
 import { SignUpFormComponent } from '../../../auth/components/sign-up-form/sign-up-form.component';
 import { FORM_TYPE } from '../../../auth/interfaces/auth.interface';
+import { FeedbackService } from '../../../../core';
+
 
 @Component({
   selector: 'app-landing',
@@ -14,8 +16,10 @@ import { FORM_TYPE } from '../../../auth/interfaces/auth.interface';
 })
 
 export class LandingComponent {
-  forms = FORM_TYPE
+  forms = FORM_TYPE;
   active_form = this.forms.SIGNUP;
+
   setSignup() { this.active_form = this.forms.SIGNUP };
   setSignin() { this.active_form = this.forms.SIGNIN };
+
 }

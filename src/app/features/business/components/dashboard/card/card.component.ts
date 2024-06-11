@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { SharedModule } from "../../../../../shared/shared.module";
+import { SharedModule } from "../../../../../shared";
 import {DETAIL_TYPE} from "../../../interfaces/detail.type";
 
 

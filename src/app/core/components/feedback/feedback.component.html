@@ -1,0 +1,12 @@
+<div class="feedback-dialog" [ngClass]="data.type">
+ 
+  <div mat-dialog-title class="dialog-title">
+    <mat-icon [ngStyle]="{'color':'white'}" class="dialog-icon">{{ getIcon(data.type) }}</mat-icon>
+    <h1 class="title" mat-dialog-title>{{ data.title }}</h1>
+  </div>
+
+  <div class="message" mat-dialog-content>{{ data.message }}</div>
+  <div mat-dialog-actions>
+    <button class="button" mat-dialog-close>Close</button>
+  </div>
+</div>
