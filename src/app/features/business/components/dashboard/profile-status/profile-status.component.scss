@@ -106,7 +106,7 @@ $indicator_size: 20px;
   }
 }
 
-@include when-screen-is-atleast(large){
+@include when-screen-is-atleast(medium){
   .status__container{
     display: flex;
     .steps{

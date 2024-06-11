@@ -39,18 +39,24 @@
     }
   }
 }
-
-@include when-screen-is-atleast(large){
+@include when-screen-is-atleast(medium){
   .overview__section{
     .title__bar {
-
       h2 {
-        font-size: 2rem;
+        font-size: 1.6rem;
         font-weight: 400;
       }
     }
     .cards__grid{
       grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}
+
+.overview__section{
+  .title__bar {
+    h2 {
+      font-size: 2rem;
     }
   }
 }

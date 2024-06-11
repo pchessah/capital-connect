@@ -1,9 +1,9 @@
 @import "../../../../../styles/main.scss";
 
 section{
-  gap: 1rem;
+  gap: 2rem;
   display: flex;
-  padding: 1rem;
+  padding: 2rem 1rem;
   margin-top: 2rem;
   border-radius: .5rem;
   flex-direction: column;
@@ -86,14 +86,23 @@ section{
     background-color: $primary-color;
   }
 }
-
-@include when-screen-is-atleast(large){
+@include when-screen-is-atleast(medium){
   section{
     padding: 1.5rem;
     .content{
       grid-template-columns: auto max-content;
-      .text__content{
+    }
+    >button{
+      margin: 0;
+      width: max-content;
+    }
+  }
+}
 
+@include when-screen-is-atleast(large){
+  section{
+    .content{
+      .text__content{
         p {
           max-width: 340px;
         }

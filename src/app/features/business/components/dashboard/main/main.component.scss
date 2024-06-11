@@ -40,9 +40,9 @@
 }
 
 
-@include when-screen-is-atleast(large){
+@include when-screen-is-atleast(medium){
   .main{
-    grid-template-rows: max-content auto;
+
     .navbar{
       padding: 0;
       display: block;
@@ -54,8 +54,24 @@
       .brand__name{
         display: none;
       }
+      .right__col{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}
+
+@include when-screen-is-atleast(large){
+  .main{
+    grid-template-rows: max-content auto;
+
+    main{
       grid-template-columns: auto 360px;
       padding: 1rem 2rem;
+      .right__col{
+        display: flex;
+      }
     }
   }
 }

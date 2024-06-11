@@ -209,7 +209,30 @@
         }
     }
 }
+@include when-screen-is-atleast(medium){
+  .header{
+    &.on__dashboard {
+      .nav__content {
+        padding: 0 2rem;
+        .navbar {
+          ul {
+            .profile {
+              .selection {
+                display: flex;
+              }
+            }
+          }
 
+        }
+        .drawer__header {
+          display: block;
+        }
+      }
+
+    }
+  }
+
+}
 @include when-screen-is-atleast(large){
     .header{
         gap: 3rem;
@@ -224,7 +247,6 @@
         }
       &.on__dashboard {
         .nav__content {
-          padding: 0 2rem;
           .navbar {
             .search__box{
               display: flex;
@@ -232,11 +254,6 @@
             ul {
               .search{
                 display: none;
-              }
-              .profile {
-                .selection {
-                  display: flex;
-                }
               }
             }
 
