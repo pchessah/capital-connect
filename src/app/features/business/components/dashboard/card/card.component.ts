@@ -1,13 +1,9 @@
 import {Component, Input} from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../../../shared/shared.module";
+import {DETAIL_TYPE} from "../../../interfaces/detail.type";
 
-type DETAIL_TYPE ={
-  title: string,
-  value: string,
-  period?: string,
-  featured: boolean,
-}
+
 
 @Component({
   selector: 'app-card',
