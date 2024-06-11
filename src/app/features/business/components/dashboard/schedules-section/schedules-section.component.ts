@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../../../shared/shared.module";
+import {SCHEDULE_TYPE} from "../../../interfaces/schedules.type";
 
-type SCHEDULE_TYPE ={
-  activity: string,
-  datetime: string,
-}
+
 
 @Component({
   selector: 'app-schedules-section',
