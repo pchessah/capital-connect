@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {NavbarComponent} from "../../../../../core/components/navbar/navbar.component";
 import {ProfileStatusComponent} from "../profile-status/profile-status.component";
 import {NotificationsComponent} from "../notifications/notifications.component";
@@ -24,9 +24,9 @@ import {NavbarToggleService} from "../../../../../core/services/navbar.toggle.se
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
-  constructor(private toggleService: NavbarToggleService) {}
+  private _toggleService =  inject(NavbarToggleService)
   toggleVisibility(){
-    this.toggleService.toggleVisibility();
+    this._toggleService.toggleVisibility();
   }
 
 }
