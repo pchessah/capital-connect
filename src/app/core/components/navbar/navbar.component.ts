@@ -1,5 +1,5 @@
-import {booleanAttribute, Component, Input} from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {booleanAttribute, Component, Input} from '@angular/core';
 import {SharedModule} from "../../../shared/shared.module";
 
 @Component({
@@ -10,8 +10,7 @@ import {SharedModule} from "../../../shared/shared.module";
   styleUrl: './navbar.component.scss'
 })
 export class NavbarComponent {
-  @Input({transform: booleanAttribute}) hidden:boolean =false;
-  @Input({transform: booleanAttribute}) on_dashboard =false;
+  @Input({transform: booleanAttribute}) on_dashboard:boolean =false;
   drawer_showing =false;
   toggleDrawer(){ this.drawer_showing =!this.drawer_showing; }
 }

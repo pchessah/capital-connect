@@ -24,7 +24,7 @@
       @if (active_form == forms.SIGNIN) {
       <h3 class="form__role__label">Sign In</h3>
       <div class="tabs">
-        <button  (click)="setSignup()">Sign Up</button>
+        <button (click)="setSignup()">Sign Up</button>
         <button [class.active]="true" (click)="setSignin()">Sign In</button>
       </div>
       <app-log-in-form />
