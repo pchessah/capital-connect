@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../../../shared/shared.module";
 import {Chart, registerables} from "chart.js";
+import {SCORE_TYPE} from "../../../interfaces/score.type";
 
 @Component({
   selector: 'app-score-section',
@@ -11,7 +12,7 @@ import {Chart, registerables} from "chart.js";
   styleUrl: './score-section.component.scss'
 })
 export class ScoreSectionComponent {
-  processes =[
+  processes: SCORE_TYPE[] =[
     {process: 'Business Financials', completed: false},
     {process: 'Investor Eligibility', completed: false},
     {process: 'Investor Preparedness', completed: false},
