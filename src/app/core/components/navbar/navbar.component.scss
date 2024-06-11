@@ -213,7 +213,7 @@
   .header{
     &.on__dashboard {
       .nav__content {
-        padding: 0 2rem;
+        padding: 0 1rem;
         .navbar {
           ul {
             .profile {
@@ -247,6 +247,7 @@
         }
       &.on__dashboard {
         .nav__content {
+          padding: 0 2rem;
           .navbar {
             .search__box{
               display: flex;

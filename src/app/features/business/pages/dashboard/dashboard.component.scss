@@ -6,7 +6,7 @@
 
 }
 
-@include when-screen-is-atleast(large){
+@include when-screen-is-atleast(medium){
   .main__content{
     grid-template-columns: max-content auto;
   }

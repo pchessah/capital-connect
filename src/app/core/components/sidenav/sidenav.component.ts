@@ -16,9 +16,18 @@ import { tap } from "rxjs";
 export class SidenavComponent {
   private toggleService = inject(NavbarToggleService);
 
+  ngOnInit(){
+    if (window.innerWidth > 991) {
+      this.toggleService.showNavBar();
+    }
+    else if (window.innerWidth > 767) {
+      this.toggleService.showNavBar();
+      this.showNav =false;
+    }
+  }
   @HostListener('window:resize', ['$event'])
   onResize(_event: any) {
-    if (window.innerWidth > 991) {
+    if (window.innerWidth > 767) {
       this.toggleService.showNavBar()
     }
   }
@@ -34,14 +43,15 @@ export class SidenavComponent {
     this.showNav = !this.showNav;
   }
 
+
   hide_navbar() {
     const screenWidth = window.innerWidth;
-    if (screenWidth > 991) {
+    if (screenWidth > 767) {
       //In desktop we do not remove the sidebar from the screen
       this.showNav = !this.showNav;
-    } else {
+    }
+    else {
       this.toggleService.toggleVisibility();
     }
-
   }
 }

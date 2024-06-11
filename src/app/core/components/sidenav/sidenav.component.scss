@@ -115,7 +115,7 @@ $width: 250px;
   }
 }
 
-@include when-screen-is-atleast(large){
+@include when-screen-is-atleast(medium){
   .side__nav {
     width: $width;
     position: relative;
