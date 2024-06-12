@@ -18,7 +18,8 @@ You can check your versions by running the following commands in your terminal:
 ```
 node -v
 npm -v
-ng version ```
+ng version
+```
 
 If you don't have Angular CLI installed, you can install it globally using npm:
 
