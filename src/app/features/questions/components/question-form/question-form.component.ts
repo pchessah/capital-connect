@@ -1,8 +1,8 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, inject, Input, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedModule } from '../../../../shared';
 import { CommonModule } from '@angular/common';
-import { Question, Section } from '../../../../shared/interfaces/questions.interface';
+import { FormStateService } from '../../services/form-state/form-state.service';
 
 @Component({
   selector: 'app-question-form',
@@ -12,57 +12,58 @@ import { Question, Section } from '../../../../shared/interfaces/questions.inter
   styleUrl: './question-form.component.scss'
 })
 export class QuestionFormComponent {
-  @Input() currentStep: number | null = null;
-  @Input() currentSection!: Section;
-  @Output() questionCreated = new EventEmitter<Question>();
+  questionForm: FormGroup;
+  questionTypes: string[] = ['MULTIPLE_CHOICE', 'SINGLE_CHOICE', 'TRUE_FALSE', 'SHORT_ANSWER'];
 
-  private fb = inject(FormBuilder);
-  questionForm!: FormGroup;
-
-  constructor() {
+  constructor(private fb: FormBuilder, private formStateService: FormStateService) {
     this.questionForm = this.fb.group({
-      questionText: ['', Validators.required],
-      options: this.fb.array([this.createOption()])
+      questions: this.fb.array([])
     });
   }
 
-  addOption() {
-    (this.questionForm.get('options') as FormArray).push(this.createOption());
+  ngOnInit() {
+    this.formStateService.setQuestionForm(this.questionForm);
   }
 
-  get questionText() {
-    return this.questionForm.get('questionText')!;
+  get questions(): FormArray {
+    return this.questionForm.get('questions') as FormArray;
   }
 
-  get options() {
-    return this.questionForm.get('options') as FormArray;
-  }
-
-  createOption(): FormGroup {
-    return this.fb.group({
-      text: ['', Validators.required]
+  addQuestion() {
+    const questionGroup = this.fb.group({
+      text: ['', Validators.required],
+      type: ['', Validators.required],
+      options: this.fb.array([])
     });
+    this.questions.push(questionGroup);
   }
 
-  removeOption(index: number) {
-    this.options.removeAt(index);
+  addOption(questionIndex: number) {
+    const options = this.getOptions(questionIndex);
+    options.push(this.fb.control('', Validators.required));
   }
 
-  onSubmit() {
-    if (this.questionForm.valid) {
-      const question: Question = {
-        section: this.currentSection?.name || '',
-        step: this.currentStep || 0,             
-        questionText: this.questionForm.value.questionText,
-        options: this.questionForm.value.options.map((opt: { text: string }) => opt.text)
-      };
+  getOptions(questionIndex: number): FormArray {
+    return this.questions.at(questionIndex).get('options') as FormArray;
+  }
 
-      this.questionCreated.emit(question);
+  removeQuestion(index: number) {
+    this.questions.removeAt(index);
+  }
 
-      this.questionForm.reset();
-      while (this.options.length > 1) {
-        this.options.removeAt(1); // Keep one default option
-      }
+  questionTypeChange(questionIndex: number) {
+    const type = this.questions.at(questionIndex).get('type')?.value;
+    const options = this.getOptions(questionIndex);
+    while (options.length) {
+      options.removeAt(0);
+    }
+    if (type === 'MULTIPLE_CHOICE' || type === 'SINGLE_CHOICE') {
+      options.push(this.fb.control('', Validators.required));
+    } else if (type === 'TRUE_FALSE') {
+      options.push(this.fb.control('True', Validators.required));
+      options.push(this.fb.control('False', Validators.required));
     }
   }
+  
+
 }
