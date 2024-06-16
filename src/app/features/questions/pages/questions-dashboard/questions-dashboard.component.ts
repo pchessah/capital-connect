@@ -1,56 +1,49 @@
-import { Component, Inject } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { SESSION_STORAGE, WebStorageService } from 'ngx-webstorage-service';
-import { SectionSelectionComponent } from '../../components/section-selection/section-selection.component'
-import { StepSelectionComponent } from '../../components/step-selection/step-selection.component';
 import { QuestionFormComponent } from '../../components/question-form/question-form.component';
-import { Question, Section } from '../../../../shared/interfaces/questions.interface';
 import { NavbarComponent } from "../../../../core";
 import { SharedModule } from '../../../../shared';
+import { MatStepper } from '@angular/material/stepper';
+import { FormStateService } from '../../services/form-state/form-state.service';
+import { SubSectionFormComponent } from '../../components/sub-section-form/sub-section-form.component';
+import { SectionFormComponent } from '../../components/section-form/section-form.component';
 
 @Component({
   selector: 'app-questions-dashboard',
   standalone: true,
-  imports: [SharedModule, NavbarComponent, SectionSelectionComponent, StepSelectionComponent, QuestionFormComponent, CommonModule],
+  imports: [SharedModule, NavbarComponent, QuestionFormComponent, SectionFormComponent, CommonModule, SubSectionFormComponent],
   templateUrl: './questions-dashboard.component.html',
   styleUrl: './questions-dashboard.component.scss'
 })
 export class QuestionsDashboardComponent {
-  selectedSection!: Section;
-  selectedStep: number | null = null;
-  steps: number[] = [];
+  
+  @ViewChild('stepper') private stepper!: MatStepper;
 
-  sections: Section[] = [
-    { name: 'Section 1', steps: [1, 2, 3] },
-    { name: 'Section 2', steps: [1, 2] }
-  ];
+  constructor(private formStateService: FormStateService) { }
 
-  constructor(@Inject(SESSION_STORAGE) private storage: WebStorageService) { }
+  ngOnInit() { }
 
-  ngOnInit() {
-    this.questions = this.storage.get('questions') || [];
-    this.updateSteps();
+  nextStep() {
+    const currentStepIndex = this.stepper.selectedIndex;
+    let formValid = false;
+
+    if (currentStepIndex === 0) {
+      this.formStateService.getSectionForm().subscribe(form => formValid = form?.valid || false);
+    } else if (currentStepIndex === 1) {
+      this.formStateService.getSubsectionForm().subscribe(form => formValid = form?.valid || false);
+    } else if (currentStepIndex === 2) {
+      this.formStateService.getQuestionForm().subscribe(form => formValid = form?.valid || false);
+    }
+
+    if (formValid) {
+      this.stepper.next();
+    }
   }
 
-  onSectionSelected(sectionName: string) {
-    this.selectedSection = this.sections.find(s => s['name'] === sectionName) as Section;
-    this.selectedStep = null;
-    this.updateSteps();
+  prevStep() {
+    this.stepper.previous();
   }
 
-  onStepSelected(step: number) {
-    this.selectedStep = step;
-  }
-
-  updateSteps() {
-    this.steps = this.selectedSection?.['steps'] as [] ?? [];
-  }
-
-  questions: Question[] = [];
-  displayedColumns: string[] = ['section', 'step', 'questionText', 'options'];
-
-  addQuestion(question: Question) {
-    this.questions.push(question);
-  }
+ 
 
 }
