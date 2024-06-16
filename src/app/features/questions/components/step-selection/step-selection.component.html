@@ -1,6 +1,0 @@
-<mat-form-field appearance="outline" *ngIf="steps.length > 0">
-  <mat-label>Select Step</mat-label>
-  <mat-select (selectionChange)="onStepChange($event)">
-    <mat-option *ngFor="let step of steps" [value]="step">{{ step }}</mat-option>
-  </mat-select>
-</mat-form-field>
