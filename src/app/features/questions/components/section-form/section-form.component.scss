@@ -1,0 +1,13 @@
+@import "../../../../styles/main.scss";
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.full-width {
+  width: 100%;
+}
+mat-card-title {
+  padding: 1em;
+}
