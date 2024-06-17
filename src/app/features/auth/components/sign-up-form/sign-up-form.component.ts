@@ -3,7 +3,6 @@ import { AuthModule } from '../../modules/auth.module';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { catchError, EMPTY, Observable, tap } from 'rxjs'
-
 import { AuthService } from '../../services/auth.service';
 import { CreateUserInput, FORM_TYPE, PASSWORD_STRENGTH } from '../../interfaces/auth.interface';
 import { USER_ROLES } from '../../../../shared/interfaces/user.interface';
@@ -20,7 +19,6 @@ export class SignUpFormComponent {
   private _authService = inject(AuthService);
 
   @Output() changeFormTypeEvent = new EventEmitter<FORM_TYPE>();
-
 
   signUpForm = this._formBuilder.group({
     accountType: [USER_ROLES.USER, Validators.required],
@@ -69,7 +67,6 @@ export class SignUpFormComponent {
         isValid: password === confirmPassword
       }
     ];
-
 
     //TODO: @j-netcom-dev Check for  passwords will change here
     this.passwordIsValid = password === confirmPassword

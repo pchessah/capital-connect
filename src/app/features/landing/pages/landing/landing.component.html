@@ -12,20 +12,20 @@
     <div class="forms__group">
       <img src="assets/img/logo.png" alt="Logo" />
 
-      @if(active_form === forms.SIGNUP) {
+      @if(activeForm === forms.SIGNUP) {
       <h3 class="form__role__label">Sign Up</h3>
       <div class="tabs">
-        <button [class.active]="true" (click)="setSignup()">Sign Up</button>
-        <button (click)="setSignin()">Sign In</button>
+        <button [class.active]="true" (click)="setActiveForm(forms.SIGNUP)">Sign Up</button>
+        <button (click)="setActiveForm(forms.SIGNIN)">Sign In</button>
       </div>
-      <app-sign-up-form (changeFormTypeEvent)="setSignin()" />
+      <app-sign-up-form (changeFormTypeEvent)="setActiveForm(forms.SIGNIN)" />
       }
 
-      @if (active_form == forms.SIGNIN) {
+      @if (activeForm == forms.SIGNIN) {
       <h3 class="form__role__label">Sign In</h3>
       <div class="tabs">
-        <button (click)="setSignup()">Sign Up</button>
-        <button [class.active]="true" (click)="setSignin()">Sign In</button>
+        <button (click)="setActiveForm(forms.SIGNUP)">Sign Up</button>
+        <button [class.active]="true" (click)="setActiveForm(forms.SIGNIN)">Sign In</button>
       </div>
       <app-log-in-form />
       }

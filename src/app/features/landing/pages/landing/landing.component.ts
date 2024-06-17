@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { CarouselComponent } from '../../../carousel/carousel.component';
 import { LogInFormComponent } from '../../../auth/components/log-in-form/log-in-form.component';
 import { SignUpFormComponent } from '../../../auth/components/sign-up-form/sign-up-form.component';
 import { FORM_TYPE } from '../../../auth/interfaces/auth.interface';
-
 
 @Component({
   selector: 'app-landing',
@@ -15,10 +15,13 @@ import { FORM_TYPE } from '../../../auth/interfaces/auth.interface';
 })
 
 export class LandingComponent {
+  private _router = inject(Router);
+  activeRouteData: { mode: FORM_TYPE } = this._router.getCurrentNavigation()?.extras.state as any
   forms = FORM_TYPE;
-  active_form = this.forms.SIGNUP;
+  activeForm = this.activeRouteData.mode === FORM_TYPE.SIGNIN ? FORM_TYPE.SIGNIN : FORM_TYPE.SIGNUP;
 
-  setSignup() { this.active_form = this.forms.SIGNUP };
-  setSignin() { this.active_form = this.forms.SIGNIN };
+  setActiveForm(formType: FORM_TYPE){
+    this.activeForm = formType;
+  }
 
 }

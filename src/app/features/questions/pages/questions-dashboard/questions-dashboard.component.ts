@@ -1,9 +1,10 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, inject, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatStepper } from '@angular/material/stepper';
+import { Observable, tap } from 'rxjs';
 import { QuestionFormComponent } from '../../components/question-form/question-form.component';
 import { NavbarComponent } from "../../../../core";
 import { SharedModule } from '../../../../shared';
-import { MatStepper } from '@angular/material/stepper';
 import { FormStateService } from '../../services/form-state/form-state.service';
 import { SubSectionFormComponent } from '../../components/sub-section-form/sub-section-form.component';
 import { SectionFormComponent } from '../../components/section-form/section-form.component';
@@ -16,27 +17,41 @@ import { SectionFormComponent } from '../../components/section-form/section-form
   styleUrl: './questions-dashboard.component.scss'
 })
 export class QuestionsDashboardComponent {
-  
+
+  private _formStateService = inject(FormStateService);
+  nextOperation$ = new Observable<unknown>();
+
   @ViewChild('stepper') private stepper!: MatStepper;
 
-  constructor(private formStateService: FormStateService) { }
+  isSectionFormValid$ = this._formStateService.sectionFormIsValid$.pipe(tap(isValid => {
+    this.isSectionFormValid = isValid;
+  }))
 
-  ngOnInit() { }
+  isSubsectionFormValid$ = this._formStateService.subsectionFormIsValid$.pipe(tap(isValid => {
+    this.isSubsectionFormValid = isValid;
+  }))
 
-  nextStep() {
-    const currentStepIndex = this.stepper.selectedIndex;
-    let formValid = false;
+  isQuestionFormValid$ = this._formStateService.questionForm$.pipe(tap(form => {
+    this.isQuestionFormValid = form?.valid as boolean
+  }))
 
-    if (currentStepIndex === 0) {
-      this.formStateService.getSectionForm().subscribe(form => formValid = form?.valid || false);
-    } else if (currentStepIndex === 1) {
-      this.formStateService.getSubsectionForm().subscribe(form => formValid = form?.valid || false);
-    } else if (currentStepIndex === 2) {
-      this.formStateService.getQuestionForm().subscribe(form => formValid = form?.valid || false);
-    }
+  isQuestionFormValid = false;
+  isSubsectionFormValid = false;
+  isSectionFormValid =  false;
 
-    if (formValid) {
-      this.stepper.next();
+  nextStep(form: 'section-form' | 'question-form' | 'subsection-form') {
+    switch(form){
+      case 'section-form':
+        this.nextOperation$ = this._formStateService.createSection().pipe(tap(res => {
+          this.stepper.next();
+        }));
+        break;
+      case 'subsection-form' :
+        this.nextOperation$ = this._formStateService.createSubsection().pipe(tap(res => {
+          this.stepper.next();
+          debugger
+        }));
+        break;
     }
   }
 
@@ -44,6 +59,9 @@ export class QuestionsDashboardComponent {
     this.stepper.previous();
   }
 
- 
+  isNextButtonDisabled() {
+    return false
+  }
+
 
 }

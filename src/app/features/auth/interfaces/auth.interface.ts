@@ -1,5 +1,3 @@
-import { USER_ROLES } from "../../../shared/interfaces/user.interface";
-
 export interface CreateUserInput {
   username: string;
   password: string;

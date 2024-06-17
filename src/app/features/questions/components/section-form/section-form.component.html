@@ -1,10 +1,12 @@
+<ng-container *ngIf="sectionForm$ |  async"></ng-container>
+
 <form [formGroup]="sectionForm" class="form-container">
   <mat-card>
     <mat-card-title>Section</mat-card-title>
     <mat-card-content>
       <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Section Title</mat-label>
-        <input matInput formControlName="title">
+        <mat-label>Section Name</mat-label>
+        <input matInput formControlName="name">
       </mat-form-field>
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Section Description</mat-label>

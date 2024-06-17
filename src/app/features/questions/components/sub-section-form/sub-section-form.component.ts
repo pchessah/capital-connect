@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormStateService } from '../../services/form-state/form-state.service';
 import { CommonModule } from '@angular/common';
+import { tap } from 'rxjs';
 import { SharedModule } from '../../../../shared';
+import { SubSectionInput } from '../../interfaces';
 
 @Component({
   selector: 'app-sub-section-form',
@@ -12,17 +14,26 @@ import { SharedModule } from '../../../../shared';
   styleUrl: './sub-section-form.component.scss'
 })
 export class SubSectionFormComponent {
-  subsectionForm: FormGroup;
+  private _fb = inject(FormBuilder)
+  private _formStateService =  inject(FormStateService)
 
-  constructor(private fb: FormBuilder, private formStateService: FormStateService) {
-    this.subsectionForm = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required]
-    });
-  }
+  subsectionForm = this._fb.group({
+    name: ['', Validators.required],
+    description: ['', Validators.required]
+  });
 
-  ngOnInit() {
-    this.formStateService.setSubsectionForm(this.subsectionForm);
-  }
+  subsectionForm$ = this.subsectionForm.valueChanges.pipe(tap(vals => {
+    const sectionId = this._formStateService.currentDashBoardData.sectionId;
+    const input: SubSectionInput = {
+      sectionId: sectionId,
+      name: vals.name as string,
+      description: vals.description as string
+    }
+    this._formStateService.setSubsectionForm(input);
+    this._formStateService.setSubSectionFormIsValid(this.subsectionForm.valid);
+  }))
+
+
+
 
 }

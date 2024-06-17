@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormStateService } from '../../services/form-state/form-state.service';
 import { CommonModule } from '@angular/common';
+import { tap } from 'rxjs';
+import { FormStateService } from '../../services/form-state/form-state.service';
 import { SharedModule } from '../../../../shared';
 
 @Component({
@@ -12,17 +13,18 @@ import { SharedModule } from '../../../../shared';
   styleUrl: './section-form.component.scss'
 })
 export class SectionFormComponent {
-  sectionForm: FormGroup;
 
-  constructor(private _fb: FormBuilder, private _formStateService: FormStateService) {
-    this.sectionForm = this._fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required]
-    });
-  }
+  private _fb = inject(FormBuilder)
+  private _formStateService = inject(FormStateService);
 
-  ngOnInit() {
-    this._formStateService.setSectionForm(this.sectionForm);
-  }
+  sectionForm: FormGroup = this._fb.group({
+    name: ['', Validators.required],
+    description: ['', Validators.required]
+  });
+
+  sectionForm$ = this.sectionForm.valueChanges.pipe(tap(vals => {
+    this._formStateService.setSectionFormState(vals);
+    this._formStateService.setSectionFormIsValid(this.sectionForm.valid);
+  }))
 
 }

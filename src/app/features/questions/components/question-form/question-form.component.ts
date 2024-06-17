@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 import { SharedModule } from '../../../../shared';
 import { CommonModule } from '@angular/common';
 import { FormStateService } from '../../services/form-state/form-state.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-question-form',
@@ -12,17 +13,22 @@ import { FormStateService } from '../../services/form-state/form-state.service';
   styleUrl: './question-form.component.scss'
 })
 export class QuestionFormComponent {
-  questionForm: FormGroup;
+
+  private _fb = inject(FormBuilder)
+  private _formStateService = inject(FormStateService)
+
+  questionForm = this._fb.group({
+    questions: this._fb.array([])
+  });
   questionTypes: string[] = ['MULTIPLE_CHOICE', 'SINGLE_CHOICE', 'TRUE_FALSE', 'SHORT_ANSWER'];
 
-  constructor(private fb: FormBuilder, private formStateService: FormStateService) {
-    this.questionForm = this.fb.group({
-      questions: this.fb.array([])
-    });
-  }
+  questionForm$ = this.questionForm.valueChanges.pipe(tap(form => {
+    
+  }))
+
 
   ngOnInit() {
-    this.formStateService.setQuestionForm(this.questionForm);
+    this._formStateService.setQuestionForm(this.questionForm);
   }
 
   get questions(): FormArray {
@@ -30,17 +36,17 @@ export class QuestionFormComponent {
   }
 
   addQuestion() {
-    const questionGroup = this.fb.group({
+    const questionGroup = this._fb.group({
       text: ['', Validators.required],
       type: ['', Validators.required],
-      options: this.fb.array([])
+      options: this._fb.array([])
     });
     this.questions.push(questionGroup);
   }
 
   addOption(questionIndex: number) {
     const options = this.getOptions(questionIndex);
-    options.push(this.fb.control('', Validators.required));
+    options.push(this._fb.control('', Validators.required));
   }
 
   getOptions(questionIndex: number): FormArray {
@@ -58,12 +64,12 @@ export class QuestionFormComponent {
       options.removeAt(0);
     }
     if (type === 'MULTIPLE_CHOICE' || type === 'SINGLE_CHOICE') {
-      options.push(this.fb.control('', Validators.required));
+      options.push(this._fb.control('', Validators.required));
     } else if (type === 'TRUE_FALSE') {
-      options.push(this.fb.control('True', Validators.required));
-      options.push(this.fb.control('False', Validators.required));
+      options.push(this._fb.control('True', Validators.required));
+      options.push(this._fb.control('False', Validators.required));
     }
   }
-  
+
 
 }
