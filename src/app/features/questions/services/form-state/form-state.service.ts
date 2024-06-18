@@ -1,8 +1,8 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, tap } from 'rxjs';
 import { QuestionsService } from '../questions/questions.service';
-import { CurrentDashboardInput, Section, SectionInput, SubSectionInput } from '../../interfaces';
+import { CurrentDashboardInput, SectionInput, SubSectionInput } from '../../interfaces';
 import { SessionStorageService } from '../../../../core/services/session-storage/session-storage.service';
 import { FeedbackService } from '../../../../core';
 
@@ -29,7 +29,7 @@ export class FormStateService {
   subsectionFormState$ = this._subsectionFormStateSrc.asObservable();
   subsectionFormIsValid$ = this._subsectionFormIsValid.asObservable();
 
-  currentDashboardData$ = this._currentDashboardDataSrc.asObservable() 
+  currentDashboardData$ = this._currentDashboardDataSrc.asObservable();
   
   setSectionFormState(sectionInput: SectionInput) {
     this._sectionFormStateSrc.next(sectionInput);
@@ -80,7 +80,6 @@ export class FormStateService {
       this.setCurrentDashboardData(dashboardInput);
     }))
   }
-
 
   private _questionFormState =  new BehaviorSubject<FormGroup | null>(null);
 
