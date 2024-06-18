@@ -1,5 +1,6 @@
 @import 'colors';
 @import 'fonts';
+@import 'breakpoints';
 
 .btn {
   cursor: pointer;
@@ -114,7 +115,15 @@
       color: #FF5151;
     }
   }
-
+  .form__group{
+    gap: .5rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    >*{
+      display: block;
+    }
+  }
   .input__field{
     padding: .75rem 1rem;
     border-radius: .5rem;
@@ -174,4 +183,12 @@
 
 .input-error {
   outline: 1px solid $danger-color;
+}
+
+@include when-screen-is-atleast(large){
+  .input__wrapper{
+    .form__row{
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
 }
