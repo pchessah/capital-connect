@@ -20,7 +20,7 @@
   </form>
   
   <div class="step-actions">
-    <button (click)="nextStep('section-form')" 
+    <button (click)="nextStep()" 
             [disabled]="!isSectionFormValid"
             [ngClass]="{'disabled-btn' : !isSectionFormValid }"
       class="btn btn-primary">Next</button>

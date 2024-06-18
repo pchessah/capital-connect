@@ -2,7 +2,7 @@
 <ng-container *ngIf="  isSubsectionFormValid$ | async"></ng-container>
 <ng-container *ngIf="nextOperation$ | async"></ng-container>
 
-<div class="container" >
+<div class="container">
 
   <form [formGroup]="subsectionForm" class="form-container">
     <mat-card>
@@ -19,17 +19,12 @@
       </mat-card-content>
     </mat-card>
   </form>
-  
-  
+
+
   <div class="step-actions">
-    <button matStepperPrevious class="btn btn-tertiary" (click)="prevStep()">Back</button>
-    <button [disabled]="!isSubsectionFormValid"
-    [ngClass]="{'disabled-btn' : !isSubsectionFormValid }" (click)="nextStep('subsection-form')"
-      class="btn btn-primary">Next</button>
+    <button class="btn btn-tertiary" (click)="prevStep()">Back</button>
+    <button [disabled]="!isSubsectionFormValid" [ngClass]="{'disabled-btn' : !isSubsectionFormValid }"
+      (click)="nextStep()" class="btn btn-primary">Next</button>
   </div>
 
 </div>
-
-
-
-

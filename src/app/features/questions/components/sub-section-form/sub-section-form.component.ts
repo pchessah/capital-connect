@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, tap } from 'rxjs';
 import { SharedModule } from '../../../../shared';
 import { SubSection, SubSectionInput } from '../../interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sub-section-form',
@@ -16,6 +17,7 @@ import { SubSection, SubSectionInput } from '../../interfaces';
 export class SubSectionFormComponent {
   private _fb = inject(FormBuilder)
   private _formStateService =  inject(FormStateService)
+  private _router = inject(Router)
 
   subsectionForm = this._fb.group({
     name: ['', Validators.required],
@@ -41,14 +43,14 @@ export class SubSectionFormComponent {
   isSubsectionFormValid = false;
 
 
-  nextStep(form: 'section-form' | 'question-form' | 'subsection-form') {
+  nextStep() {
     this.nextOperation$ = this._formStateService.createSubsection().pipe(tap(res => {
-     //route to questions page
-      debugger
+       this._router.navigate(['/questions/questions'])
     }));
   }
 
   prevStep() {
+    this._router.navigate(['/questions/section'])
     //route back to sections page
   }
 

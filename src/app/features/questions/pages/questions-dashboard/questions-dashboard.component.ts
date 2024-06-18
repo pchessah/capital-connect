@@ -18,6 +18,10 @@ export class QuestionsDashboardComponent {
 
   private _router = inject(Router)
 
+  addSection() {
+    this._router.navigateByUrl('questions/section')
+  }
+
 
 
 

@@ -6,6 +6,7 @@ import { Observable, tap } from 'rxjs';
 import { FormStateService } from '../../services/form-state/form-state.service';
 import { SharedModule } from '../../../../shared';
 import { Section } from '../../interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-section-form',
@@ -18,6 +19,7 @@ export class SectionFormComponent {
 
   private _fb = inject(FormBuilder)
   private _formStateService = inject(FormStateService);
+  private _router = inject(Router);
 
   sectionForm: FormGroup = this._fb.group({
     name: ['', Validators.required],
@@ -36,9 +38,11 @@ export class SectionFormComponent {
   isSectionFormValid =  false;
   nextOperation$: Observable<Section> = new Observable()
 
-  nextStep(form: 'section-form' | 'question-form' | 'subsection-form') {
+  nextStep() {
     this.nextOperation$ = this._formStateService.createSection().pipe(tap(res => {
-      //Route to subsection form
+      if(res.id){
+        this._router.navigate(['/questions/sub-section'], { state: { sectionId: res.id }});
+      }
      }));
     }
   

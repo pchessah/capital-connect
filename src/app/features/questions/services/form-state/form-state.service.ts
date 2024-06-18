@@ -49,7 +49,7 @@ export class FormStateService {
   }
 
   setCurrentDashboardData(dashboardData:CurrentDashboardInput) {
-    this._sessionStorageService.setObject('currentDashboardInput', JSON.stringify(dashboardData))
+    this._sessionStorageService.setObject('currentDashboardInput', (dashboardData))
     this._currentDashboardDataSrc.next(dashboardData)
   }
 
@@ -74,7 +74,6 @@ export class FormStateService {
     const sectionId = this.currentDashBoardData.sectionId;
     if(!sectionId) this._feedbackService.error('Could not find section');
     const input:SubSectionInput = { ...this._subsectionFormStateSrc.value, sectionId: sectionId }
-    debugger
     return this._questionsService.createSubSection(input).pipe(tap(res => {
       this._feedbackService.success('SubSection added successfully');
       const dashboardInput:CurrentDashboardInput = {...this.currentDashBoardData, subsectionId: res.id }

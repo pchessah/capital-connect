@@ -15,6 +15,9 @@ export interface SubSectionInput {
 
 export interface SubSection extends SubSectionInput {
   id: number;
+  name: string;
+  description: string;
+  section: { id: number}
 }
 
 export interface QuestionInput { }
