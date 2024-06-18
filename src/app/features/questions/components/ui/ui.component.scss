@@ -1,33 +1,36 @@
 @import '../../../../styles/main.scss';
 
-main{
-  display: flex;
+main {
+  display: grid;
   padding: 1rem;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  .logo{
+  justify-items: center;
+  grid-template-rows: max-content auto;
+
+  .logo {
     display: flex;
     justify-content: center;
     width: 100%;
-      img{
-        width: 7.5rem;
-        height: auto;
-      }
+
+    img {
+      width: 7.5rem;
+      height: auto;
+    }
   }
-  .title__bar{
+
+  .title__bar {
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: center;
     font-family: $font-family-sans-serif;
 
-    h2{
+    h2 {
       font-size: 1.5rem;
       line-height: 1.8rem;
       font-weight: $font-weight-medium;
     }
-    p{
+
+    p {
       color: $gray-525;
       font-size: 1rem;
       line-height: 1.25rem;
@@ -35,55 +38,67 @@ main{
     }
 
   }
-  .form__section{
+  .grid__area{
     gap: 1rem;
     display: flex;
     width: 100%;
     flex-direction: column;
     padding: 1rem 0;
-    .form__card{
+  .form__section {
+    gap: 1rem;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 1rem 0;
+
+    .form__card {
       padding: 2rem .75rem;
       border-radius: 1rem;
       border: 1px solid #EFF0F6;
       box-shadow: 0 3px .5rem 0 #080F340F;
       width: 100%;
     }
-    .action__buttons{
+
+    .action__buttons {
       gap: 1rem;
       display: flex;
       align-items: center;
       flex-direction: column-reverse;
       justify-content: space-between;
-      .inline__cta{
+
+      .inline__cta {
         gap: 1rem;
         display: flex;
         width: 100%;
         flex-direction: column-reverse;
       }
-      button{
+
+      button {
         width: 100%;
         display: flex;
         font-size: 1rem;
         cursor: pointer;
         border-radius: 6px;
         align-items: center;
-        padding: .75rem 2.5rem;
+        padding: .75rem 3.5rem;
         justify-content: center;
         font-weight: $font-weight-medium;
         font-family: $font-family-sans-serif;
-        &.btn__outline{
+
+        &.btn__outline {
           color: $primary-color;
           background-color: transparent;
           border: 1px solid $primary-color;
         }
-        &.btn__primary{
+
+        &.btn__primary {
           color: $white;
           background-color: $primary-color;
         }
       }
     }
   }
-
+}
 }
 
 @include when-screen-is-atleast(large){
@@ -103,22 +118,27 @@ main{
         font-size: 1.25rem;
       }
     }
-    .form__section{
+    .grid__area {
       width: 70%;
       gap: 2rem;
-      .action__buttons{
+      .form__section{
+      .action__buttons {
         flex-direction: row;
+
         button {
           width: max-content;
         }
-        .inline__cta{
+
+        .inline__cta {
           flex-direction: row;
           justify-content: flex-end;
         }
       }
-      .form__card{
+
+      .form__card {
         padding: 2rem 3rem;
       }
+    }
     }
   }
 }

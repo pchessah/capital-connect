@@ -1,23 +1,27 @@
 <main>
   <div class="logo"><img ngSrc="assets/img/logo.png" alt="logo" height="104" width="224"/></div>
-  <section class="form__section">
+  <section class="grid__area">
     <div class="title__bar">
       <h2>Internal Question tool</h2>
-      <p>Create section</p>
+      <p>{{ currentStep ==STEPS.SECTION?'Create section': currentStep ==STEPS.SUBSECTION? 'Sub section': currentStep ==STEPS.QUESTION? 'Question': 'Answer'}}</p>
     </div>
-    <div class="form__card">
-      <app-question-ui />
-<!--      <app-question-subsection-ui />-->
-<!--      <app-question-type-ui />-->
-<!--      <app-answer-ui />-->
-    </div>
-    <div class="action__buttons">
-      <button class="btn__outline">Cancel</button>
-      <div class="inline__cta">
-        <button class="btn__outline">Go to Sections</button>
-        <button class="btn__primary">Create Section</button>
+    <div class="form__section" *ngIf="currentStep !=STEPS.PREVIEW">
+      <div class="form__card">
+        <app-question-ui *ngIf="currentStep ==STEPS.SECTION"/>
+        <app-question-subsection-ui *ngIf="currentStep ==STEPS.SUBSECTION"/>
+        <app-question-type-ui *ngIf="currentStep ==STEPS.QUESTION"/>
+        <app-answer-ui *ngIf="currentStep ==STEPS.ANSWER"/>
       </div>
-    </div>
+      <div class="action__buttons" >
+        <button class="btn__outline">Cancel</button>
+        <div class="inline__cta">
+          <button class="btn__outline" *ngIf="currentStep ==STEPS.SUBSECTION" (click)="changeStep(STEPS.SECTION)">Go to Section</button>
+          <button class="btn__outline" *ngIf="currentStep ==STEPS.QUESTION" (click)="changeStep(STEPS.SUBSECTION)">Go to Sub-Section</button>
+          <button class="btn__outline" *ngIf="currentStep ==STEPS.ANSWER" (click)="changeStep(STEPS.SUBSECTION)">Go to Question</button>
+          <button class="btn__primary" (click)="changeStep(currentStep ==STEPS.SECTION? STEPS.SUBSECTION: currentStep ==STEPS.SUBSECTION? STEPS.QUESTION: currentStep ==STEPS.QUESTION? STEPS.ANSWER: STEPS.PREVIEW)">{{currentStep ==STEPS.SECTION?'Create Section': currentStep ==STEPS.SUBSECTION? 'Create Sub-Section':currentStep ==STEPS.QUESTION? 'Create Question': 'Save Answer'}}</button>
+        </div>
+      </div>
+      </div>
   </section>
 
 </main>
