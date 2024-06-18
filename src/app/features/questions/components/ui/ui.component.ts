@@ -22,7 +22,7 @@ import {QUESTION_FORM_STEPS} from "../../../../shared/interfaces/question.form.s
 })
 export class UiComponent {
   STEPS =QUESTION_FORM_STEPS;
-  currentStep: QUESTION_FORM_STEPS = QUESTION_FORM_STEPS.PREVIEW;
+  currentStep: QUESTION_FORM_STEPS = QUESTION_FORM_STEPS.SECTION;
 
   changeStep =(step: QUESTION_FORM_STEPS) =>{
     this.currentStep =step;
