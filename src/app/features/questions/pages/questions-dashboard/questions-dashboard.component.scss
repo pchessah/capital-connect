@@ -5,26 +5,3 @@
   justify-content: center;
   padding: 20px;
 }
-mat-stepper {
-  width: 100%;
-  max-width: 60vw;
-  background-color: white;
-
-  @include when-screen-is-atmost(small) {
-    max-width: 600px;
-  }
-}
-mat-card {
-  margin-bottom: 20px;
-}
-.step-actions {
-  display: flex;
-  justify-content: space-between;
-  margin-top: 20px;
-}
-
-::ng-deep .mat-step-header {
-  pointer-events: none !important;
-}
-
-

@@ -2,9 +2,9 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FormStateService } from '../../services/form-state/form-state.service';
 import { CommonModule } from '@angular/common';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { SharedModule } from '../../../../shared';
-import { SubSectionInput } from '../../interfaces';
+import { SubSection, SubSectionInput } from '../../interfaces';
 
 @Component({
   selector: 'app-sub-section-form',
@@ -31,7 +31,28 @@ export class SubSectionFormComponent {
     }
     this._formStateService.setSubsectionForm(input);
     this._formStateService.setSubSectionFormIsValid(this.subsectionForm.valid);
+  }));
+
+  isSubsectionFormValid$ = this._formStateService.subsectionFormIsValid$.pipe(tap(isValid => {
+    this.isSubsectionFormValid = isValid;
   }))
+
+  nextOperation$: Observable<SubSection> = new Observable()
+  isSubsectionFormValid = false;
+
+
+  nextStep(form: 'section-form' | 'question-form' | 'subsection-form') {
+    this.nextOperation$ = this._formStateService.createSubsection().pipe(tap(res => {
+     //route to questions page
+      debugger
+    }));
+  }
+
+  prevStep() {
+    //route back to sections page
+  }
+
+
 
 
 

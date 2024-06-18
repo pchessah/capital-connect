@@ -1,44 +1,5 @@
-<ng-container *ngIf="nextOperation$ | async"></ng-container>
-<ng-container *ngIf="isSectionFormValid$ | async"></ng-container>
-<ng-container *ngIf="isSubsectionFormValid$ |async"></ng-container>
-<ng-container *ngIf="isQuestionFormValid$ | async"></ng-container>
-
 <app-navbar />
 
 <div class="dashboard-container">
-  <mat-stepper #stepper>
-
-    <mat-step [optional]="false">
-      <ng-template matStepLabel>Section</ng-template>
-      <app-section-form></app-section-form>
-      <div class="step-actions">
-        <button (click)="nextStep('section-form')" 
-                [disabled]="!isSectionFormValid"
-                [ngClass]="{'disabled-btn' : !isSectionFormValid }"
-          class="btn btn-primary">Next</button>
-      </div>
-    </mat-step>
-
-    <mat-step [optional]="false">
-      <ng-template matStepLabel>Subsection</ng-template>
-      <app-sub-section-form></app-sub-section-form>
-      <div class="step-actions">
-        <button matStepperPrevious class="btn btn-tertiary" (click)="prevStep()">Back</button>
-        <button [disabled]="!isSubsectionFormValid"
-        [ngClass]="{'disabled-btn' : !isSubsectionFormValid }" (click)="nextStep('subsection-form')"
-          class="btn btn-primary">Next</button>
-      </div>
-    </mat-step>
-
-    <mat-step [optional]="false">
-      <app-question-form></app-question-form>
-      <div class="step-actions">
-        <button matStepperPrevious class="btn btn-tertiary" (click)="prevStep()">Back</button>
-        <button [disabled]="isNextButtonDisabled()" matStepperNext (click)="nextStep('question-form')"
-          class="btn btn-primary">Finish</button>
-      </div>
-    </mat-step>
-
-  </mat-stepper>
 
 </div>
