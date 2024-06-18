@@ -106,12 +106,12 @@
   flex-direction: column;
 
   .input__label {
-    font-size: 1rem;
+    font-size: 15px;
     font-weight: 500;
     font-family: $font-family-sans-serif;
 
     sup{
-      color: red;
+      color: #FF5151;
     }
   }
 
@@ -125,6 +125,28 @@
       border-color: transparent;
       box-shadow: 0 0 8px rgba($color: #000000, $alpha: .1);
     }
+  }
+  .form__row{
+    gap: 2rem;
+    width: 100%;
+    display: grid;
+
+    > *{
+      flex: 1;
+    }
+
+    select{
+      background:none ;
+    }
+
+
+  }
+
+  .form__col{
+    gap: .3rem;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
   }
 }
 

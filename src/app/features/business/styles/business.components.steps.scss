@@ -10,15 +10,6 @@ form{
             font-size: 18px;
             font-weight: 400;
             line-height: 24px;
-            sup{
-                color: #FF5151;
-            }
-        }
-        .form__col{
-            gap: .3rem;
-            width: 100%;
-            display: flex;
-            flex-direction: column;
         }
         a{
 
@@ -32,21 +23,7 @@ form{
             text-decoration-style: dotted;
             font-family: $font-family-sans-serif;
         }
-        .form__row{
-            gap: 2rem;
-            width: 100%;
-            display: grid;
-            
-            > *{
-                flex: 1;
-            }
-            
-            select{
-                background:none ;
-            }
-           
 
-        }
     }
 }
 
