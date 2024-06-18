@@ -1,13 +1,14 @@
 @import '../../../../styles/main.scss';
 
 main{
-  gap: 2rem;
   display: flex;
-  padding: 2rem 4.5rem;
+  padding: 1rem;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   .logo{
+    display: flex;
+    justify-content: center;
     width: 100%;
       img{
         width: 7.5rem;
@@ -22,42 +23,51 @@ main{
     font-family: $font-family-sans-serif;
 
     h2{
-      font-size: 1.8rem;
+      font-size: 1.5rem;
       line-height: 1.8rem;
       font-weight: $font-weight-medium;
     }
     p{
       color: $gray-525;
-      font-size: 1.25rem;
+      font-size: 1rem;
       line-height: 1.25rem;
       font-weight: $font-weight-normal;
     }
 
   }
   .form__section{
-    gap: 2rem;
+    gap: 1rem;
     display: flex;
-    width: 75%;
+    width: 100%;
     flex-direction: column;
-
+    padding: 1rem 0;
     .form__card{
-      padding: 2rem;
+      padding: 2rem .75rem;
       border-radius: 1rem;
       border: 1px solid #EFF0F6;
       box-shadow: 0 3px .5rem 0 #080F340F;
+      width: 100%;
     }
     .action__buttons{
+      gap: 1rem;
       display: flex;
       align-items: center;
+      flex-direction: column-reverse;
       justify-content: space-between;
-
+      .inline__cta{
+        gap: 1rem;
+        display: flex;
+        width: 100%;
+        flex-direction: column-reverse;
+      }
       button{
+        width: 100%;
         display: flex;
         font-size: 1rem;
         cursor: pointer;
         border-radius: 6px;
         align-items: center;
-        padding: 14px 3.75rem;
+        padding: .75rem 2.5rem;
         justify-content: center;
         font-weight: $font-weight-medium;
         font-family: $font-family-sans-serif;
@@ -74,4 +84,41 @@ main{
     }
   }
 
+}
+
+@include when-screen-is-atleast(large){
+  main{
+    padding: 2rem 4.5rem;
+    .logo {
+      justify-content: flex-start;
+      img{
+        width: 7.5rem;
+      }
+    }
+    .title__bar{
+      h2{
+        font-size: 1.8rem;
+      }
+      p {
+        font-size: 1.25rem;
+      }
+    }
+    .form__section{
+      width: 70%;
+      gap: 2rem;
+      .action__buttons{
+        flex-direction: row;
+        button {
+          width: max-content;
+        }
+        .inline__cta{
+          flex-direction: row;
+          justify-content: flex-end;
+        }
+      }
+      .form__card{
+        padding: 2rem 3rem;
+      }
+    }
+  }
 }
