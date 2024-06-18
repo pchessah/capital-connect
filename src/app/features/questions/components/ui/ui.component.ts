@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {NgOptimizedImage} from "@angular/common";
 import {QuestionUiComponent} from "../question-ui/question-ui.component";
 import {QuestionSubsectionUiComponent} from "../question-subsection-ui/question-subsection-ui.component";
+import {QuestionTypeUiComponent} from "../question-type-ui/question-type-ui.component";
 
 @Component({
   selector: 'app-ui',
@@ -9,7 +10,8 @@ import {QuestionSubsectionUiComponent} from "../question-subsection-ui/question-
   imports: [
     NgOptimizedImage,
     QuestionUiComponent,
-    QuestionSubsectionUiComponent
+    QuestionSubsectionUiComponent,
+    QuestionTypeUiComponent,
   ],
   templateUrl: './ui.component.html',
   styleUrl: './ui.component.scss'
