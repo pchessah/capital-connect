@@ -109,6 +109,10 @@
     font-size: 1rem;
     font-weight: 500;
     font-family: $font-family-sans-serif;
+
+    sup{
+      color: red;
+    }
   }
 
   .input__field{

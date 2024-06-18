@@ -22,29 +22,29 @@ main{
     font-family: $font-family-sans-serif;
 
     h2{
-      font-size: 2rem;
-      line-height: 2rem;
+      font-size: 1.8rem;
+      line-height: 1.8rem;
       font-weight: $font-weight-medium;
     }
     p{
       color: $gray-525;
-      font-size: 1.5rem;
-      line-height: 1.5rem;
+      font-size: 1.25rem;
+      line-height: 1.25rem;
       font-weight: $font-weight-normal;
     }
 
   }
   .form__section{
-    gap: 1.5rem;
+    gap: 2rem;
     display: flex;
     width: 600px;
     flex-direction: column;
 
     .form__card{
       padding: 2rem;
-      border-radius: 2rem;
+      border-radius: 1rem;
       border: 1px solid #EFF0F6;
-      box-shadow: 0 5px 16px 0 #080F340F;
+      box-shadow: 0 3px .5rem 0 #080F340F;
     }
     .action__buttons{
       display: flex;
