@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {SharedModule} from "../../../../shared";
 import {NestedTreeControl} from "@angular/cdk/tree";
 import {MatTreeNestedDataSource} from "@angular/material/tree";
+import {UiComponent} from "../../components/ui/ui.component";
 
 interface RESPONSE_NODE {
   title: string,
@@ -12,7 +13,8 @@ interface RESPONSE_NODE {
   selector: 'app-saved-response',
   standalone: true,
   imports: [
-    SharedModule
+    SharedModule,
+    UiComponent
   ],
   templateUrl: './saved-response.component.html',
   styleUrl: './saved-response.component.scss'

@@ -3,19 +3,19 @@ import { RouterModule, Routes } from '@angular/router';
 
 
 const routes: Routes = [
-  { path: 'dashboard', loadComponent: () => import('./pages/questions-dashboard/questions-dashboard.component').then(c => c.QuestionsDashboardComponent)},
-  { path: 'dashboard/:id', loadComponent: () => import('./pages/questions-dashboard/questions-dashboard.component').then(c => c.QuestionsDashboardComponent)},
+  { path: '', loadComponent: () => import('./pages/saved-response/saved-response.component').then(c => c.SavedResponseComponent)},
+  { path: 'dashboard', loadComponent: () => import('./pages/saved-response/saved-response.component').then(c => c.SavedResponseComponent)},
 
-  { path: 'section', loadComponent: () => import('./components/section-form/section-form.component').then(c => c.SectionFormComponent)},
-  { path: 'section/:id', loadComponent: () => import('./components/section-form/section-form.component').then(c => c.SectionFormComponent)},
+  { path: 'section', loadComponent: () => import('./pages/question-ui/question-ui.component').then(c => c.QuestionUiComponent)},
 
-  { path: 'sub-section', loadComponent: () => import('./components/sub-section-form/sub-section-form.component').then(c => c.SubSectionFormComponent)},
-  { path: 'sub-section/:id', loadComponent: () => import('./components/sub-section-form/sub-section-form.component').then(c => c.SubSectionFormComponent)},
+  { path: 'sub-section', loadComponent: () => import('./pages/question-subsection-ui/question-subsection-ui.component').then(c => c.QuestionSubsectionUiComponent)},
+  { path: 'sub-section/:section-id', loadComponent: () => import('./pages/question-subsection-ui/question-subsection-ui.component').then(c => c.QuestionSubsectionUiComponent)},
 
-  { path: 'questions' , loadComponent: () => import('./components/question-form/question-form.component').then(c => c.QuestionFormComponent)},
-  { path: 'questions/:id' , loadComponent: () => import('./components/question-form/question-form.component').then(c => c.QuestionFormComponent)},
-  
-  { path: '', redirectTo: '/questions/dashboard' , pathMatch: 'full'},
+  { path: 'create', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent)},
+  { path: 'create/:sub-section-id', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent)},
+
+  { path: 'add-answer' , loadComponent: () => import('./pages/answer-ui/answer-ui.component').then(c => c.AnswerUiComponent)},
+  { path: 'add-answer/:question-id' , loadComponent: () => import('./pages/answer-ui/answer-ui.component').then(c => c.AnswerUiComponent)},
 ]
 @NgModule({
   imports: [RouterModule.forChild(routes)],

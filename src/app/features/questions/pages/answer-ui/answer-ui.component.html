@@ -1,0 +1,35 @@
+<app-ui [title]="'Answer'">
+<div class="form__card">
+  <form class="user__auth__form">
+    <div class="input__wrapper">
+      <div class="form__row">
+        <div class="form__col">
+          <label class="input__label">Question<sup>*</sup></label>
+          <select class="input__field">
+            <option value="" disabled selected>Select Question</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="input__wrapper">
+      <div class="form__row">
+        <div class="form__col">
+          <label class="input__label">Create answer<sup>*</sup></label>
+          <input class="input__field" placeholder="create answer"/>
+        </div>
+        <div class="form__col">
+          <label class="input__label">Answer rating<sup>*</sup></label>
+          <input class="input__field" type="number" min="0" placeholder="enter answer score"/>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="action__buttons" >
+  <button class="btn__outline">Cancel</button>
+  <div class="inline__cta">
+    <button class="btn__outline">Go to Question</button>
+    <button class="btn__primary" >Save Answer</button>
+  </div>
+</div>
+</app-ui>
