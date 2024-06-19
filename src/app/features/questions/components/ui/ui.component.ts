@@ -5,6 +5,7 @@ import {QuestionSubsectionUiComponent} from "../question-subsection-ui/question-
 import {QuestionTypeUiComponent} from "../question-type-ui/question-type-ui.component";
 import {AnswerUiComponent} from "../answer-ui/answer-ui.component";
 import {QUESTION_FORM_STEPS} from "../../../../shared/interfaces/question.form.steps.enum";
+import {SavedResponseComponent} from "../saved-response/saved-response.component";
 
 @Component({
   selector: 'app-ui',
@@ -16,13 +17,14 @@ import {QUESTION_FORM_STEPS} from "../../../../shared/interfaces/question.form.s
     QuestionTypeUiComponent,
     AnswerUiComponent,
     NgIf,
+    SavedResponseComponent,
   ],
   templateUrl: './ui.component.html',
   styleUrl: './ui.component.scss'
 })
 export class UiComponent {
   STEPS =QUESTION_FORM_STEPS;
-  currentStep: QUESTION_FORM_STEPS = QUESTION_FORM_STEPS.SECTION;
+  currentStep: QUESTION_FORM_STEPS = QUESTION_FORM_STEPS.PREVIEW;
 
   changeStep =(step: QUESTION_FORM_STEPS) =>{
     this.currentStep =step;

@@ -5,7 +5,8 @@
       <h2>Internal Question tool</h2>
       <p>{{ currentStep ==STEPS.SECTION?'Create section': currentStep ==STEPS.SUBSECTION? 'Sub section': currentStep ==STEPS.QUESTION? 'Question': 'Answer'}}</p>
     </div>
-    <div class="form__section" *ngIf="currentStep !=STEPS.PREVIEW">
+    @if(currentStep !=STEPS.PREVIEW){
+    <div class="form__section">
       <div class="form__card">
         <app-question-ui *ngIf="currentStep ==STEPS.SECTION"/>
         <app-question-subsection-ui *ngIf="currentStep ==STEPS.SUBSECTION"/>
@@ -22,6 +23,13 @@
         </div>
       </div>
       </div>
+    }
+    @else{
+    <div >
+       <app-saved-response />
+     </div>
+    }
+
   </section>
 
 </main>
