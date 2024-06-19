@@ -1,8 +1,7 @@
 import { inject, Injectable } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { BehaviorSubject, tap } from 'rxjs';
 import { QuestionsService } from '../questions/questions.service';
-import { CurrentDashboardInput, SectionInput, SubSectionInput } from '../../interfaces';
+import { CurrentDashboardInput, QuestionInput, SectionInput, SubSectionInput } from '../../interfaces';
 import { SessionStorageService } from '../../../../core/services/session-storage/session-storage.service';
 import { FeedbackService } from '../../../../core';
 
@@ -21,6 +20,9 @@ export class FormStateService {
   private _subsectionFormStateSrc = new BehaviorSubject<SubSectionInput>(null as any);
   private _subsectionFormIsValid = new BehaviorSubject<boolean>(false);
 
+  private _questionFormStateSrc = new BehaviorSubject<QuestionInput>(null as any);
+  private _questionFormIsValid = new BehaviorSubject<boolean>(false);
+
   private _currentDashboardDataSrc = new BehaviorSubject<CurrentDashboardInput>(this._sessionStorageService.getObject('currentDashboardInput') as any);
 
   sectionFormState$ = this._sectionFormStateSrc.asObservable();
@@ -29,26 +31,29 @@ export class FormStateService {
   subsectionFormState$ = this._subsectionFormStateSrc.asObservable();
   subsectionFormIsValid$ = this._subsectionFormIsValid.asObservable();
 
+  questionForm$ = this._questionFormStateSrc.asObservable();
+  questionFormIsValid$ = this._questionFormIsValid.asObservable();
+
   currentDashboardData$ = this._currentDashboardDataSrc.asObservable();
-  
+
   setSectionFormState(sectionInput: SectionInput) {
     this._sectionFormStateSrc.next(sectionInput);
   }
-  
+
   setSectionFormIsValid(sectionIsValid: boolean) {
     this._sectionFormIsValid.next(sectionIsValid);
   }
-  
-  createSection(){
-    const sectionInput:SectionInput = this._sectionFormStateSrc.value;
+
+  createSection() {
+    const sectionInput: SectionInput = this._sectionFormStateSrc.value;
     return this._questionsService.createSection(sectionInput).pipe(tap(res => {
       this._feedbackService.success('Section added successfully');
-      const dashboardInput:CurrentDashboardInput = {...this._currentDashboardDataSrc.value, sectionId: res.id }
+      const dashboardInput: CurrentDashboardInput = { ...this._currentDashboardDataSrc.value, sectionId: res.id }
       this.setCurrentDashboardData(dashboardInput);
     }));
   }
 
-  setCurrentDashboardData(dashboardData:CurrentDashboardInput) {
+  setCurrentDashboardData(dashboardData: CurrentDashboardInput) {
     this._sessionStorageService.setObject('currentDashboardInput', (dashboardData))
     this._currentDashboardDataSrc.next(dashboardData)
   }
@@ -61,7 +66,7 @@ export class FormStateService {
   get currentDashBoardData() {
     return this._currentDashboardDataSrc.value
   }
-  
+
   setSubsectionForm(val: SubSectionInput) {
     this._subsectionFormStateSrc.next(val);
   }
@@ -72,24 +77,54 @@ export class FormStateService {
 
   createSubsection() {
     const sectionId = this.currentDashBoardData.sectionId;
-    if(!sectionId) this._feedbackService.error('Could not find section');
-    const input:SubSectionInput = { ...this._subsectionFormStateSrc.value, sectionId: sectionId }
+    if (!sectionId) {
+      this._feedbackService.error('Could not find section');
+      throw new Error("Could not find section");
+
+    };
+    const input: SubSectionInput = { ...this._subsectionFormStateSrc.value, sectionId: sectionId }
     return this._questionsService.createSubSection(input).pipe(tap(res => {
       this._feedbackService.success('SubSection added successfully');
-      const dashboardInput:CurrentDashboardInput = {...this.currentDashBoardData, subsectionId: res.id }
+      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, subsectionId: res.id }
       this.setCurrentDashboardData(dashboardInput);
     }))
   }
 
-  private _questionFormState =  new BehaviorSubject<FormGroup | null>(null);
 
-  questionForm$ = this._questionFormState.asObservable();
-
-  setQuestionForm(form: FormGroup) {
-    this._questionFormState.next(form);
+  setQuestionForm(val: QuestionInput) {
+    this._questionFormStateSrc.next(val);
   }
 
-  get questionForm() {
-    return this._questionFormState.value;
+  setQuestionFormIsValid(val: boolean) {
+    this._questionFormIsValid.next(val);
   }
+
+  createQuestion() {
+    const subSectionId = this.currentDashBoardData.subsectionId;
+
+    if (!subSectionId) {
+      this._feedbackService.error('Could not find subsection');
+      throw new Error('Could not find subsection');
+    }
+
+    const input: QuestionInput = { ...this._questionFormStateSrc.value, subSectionId: subSectionId }
+    return this._questionsService.createQuestion(input).pipe(tap(res => {
+      this._feedbackService.success('Question added successfully')
+
+
+    }))
+  }
+
+  getCurrentSubSectionBeingEdited() {
+    const subSectionId = this.currentDashBoardData.subsectionId;
+
+    if (!subSectionId) {
+      this._feedbackService.error('Could not find subsection');
+      throw new Error('Could not find subsection');
+    }
+
+    return this._questionsService.getSingleSubsection(subSectionId)
+
+  }
+
 }

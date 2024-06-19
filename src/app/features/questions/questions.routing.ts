@@ -14,6 +14,7 @@ const routes: Routes = [
 
   { path: 'questions' , loadComponent: () => import('./components/question-form/question-form.component').then(c => c.QuestionFormComponent)},
   { path: 'questions/:id' , loadComponent: () => import('./components/question-form/question-form.component').then(c => c.QuestionFormComponent)},
+  
   { path: '', redirectTo: '/questions/dashboard' , pathMatch: 'full'},
 ]
 @NgModule({

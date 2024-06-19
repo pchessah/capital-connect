@@ -1,44 +1,28 @@
-<form [formGroup]="questionForm" class="form-container">
-  <div formArrayName="questions">
-    <div *ngFor="let questionGroup of questions.controls; let i = index" [formGroupName]="i">
-      <mat-card>
-        <mat-card-title>Question {{ i + 1 }}</mat-card-title>
-        <mat-card-content>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Question Text</mat-label>
-            <input matInput formControlName="text">
-          </mat-form-field>
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Question Type</mat-label>
-            <mat-select formControlName="type" (selectionChange)="questionTypeChange(i)">
-              <mat-option *ngFor="let type of questionTypes" [value]="type">
-                {{type}}
-              </mat-option>
-            </mat-select>
-          </mat-form-field>
-          <div formArrayName="options" *ngIf="questionGroup.get('type')?.value === 'MULTIPLE_CHOICE' || questionGroup.get('type')?.value === 'SINGLE_CHOICE'">
-            <div *ngFor="let option of getOptions(i).controls; let j = index" [formGroupName]="j">
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Option {{ j + 1 }}</mat-label>
-                <input matInput [formControlName]="j">
-              </mat-form-field>
-            </div>
-            <button mat-button type="button" (click)="addOption(i)">Add Option</button>
-          </div>
-          <div formArrayName="options" *ngIf="questionGroup.get('type')?.value === 'TRUE_FALSE'">
-            <div *ngFor="let option of getOptions(i).controls; let j = index" [formGroupName]="j">
-              <mat-form-field appearance="outline" class="full-width">
-                <mat-label>Option {{ j + 1 }}</mat-label>
-                <input matInput [formControlName]="j" readonly>
-              </mat-form-field>
-            </div>
-          </div>
-        </mat-card-content>
-        <mat-card-actions>
-          <button mat-button type="button" (click)="removeQuestion(i)">Remove Question</button>
-        </mat-card-actions>
-      </mat-card>
-    </div>
-  </div>
-  <button mat-button type="button" (click)="addQuestion()">Add Question</button>
-</form>
+<ng-container *ngIf="  subsections$ | async as subsection">
+  <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Subsection</mat-label>
+      <mat-select formControlName="subsection" required>
+        <mat-option [value]="subsection.id">
+          {{subsection.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Question</mat-label>
+      <input matInput formControlName="question" required>
+    </mat-form-field>
+
+    <label>Question Type</label>
+    <mat-radio-group formControlName="questionType" required>
+      <mat-radio-button *ngFor="let type of questionTypes" [value]="type.value">
+        {{type.label}}
+      </mat-radio-button>
+    </mat-radio-group>
+
+    <button  mat-raised-button type="submit" [disabled]="!questionForm.valid">Submit</button>
+  </form>
+
+
+</ng-container>

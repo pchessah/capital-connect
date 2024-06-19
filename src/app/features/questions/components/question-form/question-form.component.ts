@@ -1,9 +1,11 @@
-import { Component, inject, Input, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SharedModule } from '../../../../shared';
 import { CommonModule } from '@angular/common';
 import { FormStateService } from '../../services/form-state/form-state.service';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
+import { Question, QuestionInput, QuestionType, SubSection } from '../../interfaces';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-question-form',
@@ -16,59 +18,45 @@ export class QuestionFormComponent {
 
   private _fb = inject(FormBuilder)
   private _formStateService = inject(FormStateService)
+  private _router = inject(Router)
 
   questionForm = this._fb.group({
-    questions: this._fb.array([])
+    subsection: ['', Validators.required],
+    question: ['', Validators.required],
+    questionType: ['', Validators.required]
   });
-  questionTypes: string[] = ['MULTIPLE_CHOICE', 'SINGLE_CHOICE', 'TRUE_FALSE', 'SHORT_ANSWER'];
 
-  questionForm$ = this.questionForm.valueChanges.pipe(tap(form => {
-    
+  subsections$:Observable<SubSection> = this.getSubsections()
+
+  questionTypes: { label: string, value: QuestionType}[] = [
+    { label: 'Multiple Choice', value: QuestionType.MULTIPLE_CHOICE },
+    { label: 'Single Choice', value: QuestionType.SINGLE_CHOICE },
+    { label: 'Short Answer', value: QuestionType.SHORT_ANSWER },
+    { label: 'True/ False', value: QuestionType.TRUE_FALSE }
+  ];
+
+  questionForm$ = this.questionForm.valueChanges.pipe(tap(vals => {
+    this._formStateService.setQuestionForm(vals as QuestionInput)
+    this._formStateService.setQuestionFormIsValid(this.questionForm.valid)
   }))
 
 
-  ngOnInit() {
-    this._formStateService.setQuestionForm(this.questionForm);
+  nextOperation$: Observable<Question> = new Observable();
+
+
+  onSubmit() {
+    this.nextOperation$ = this._formStateService.createQuestion().pipe(tap(res => {
+      if(res.id){
+
+        //TOD0 @meltus create route for this in routing component
+        this._router.navigate(['/questions/single-question'], { state: { sectionId: res.id }});
+      }
+     }));
   }
 
-  get questions(): FormArray {
-    return this.questionForm.get('questions') as FormArray;
-  }
-
-  addQuestion() {
-    const questionGroup = this._fb.group({
-      text: ['', Validators.required],
-      type: ['', Validators.required],
-      options: this._fb.array([])
-    });
-    this.questions.push(questionGroup);
-  }
-
-  addOption(questionIndex: number) {
-    const options = this.getOptions(questionIndex);
-    options.push(this._fb.control('', Validators.required));
-  }
-
-  getOptions(questionIndex: number): FormArray {
-    return this.questions.at(questionIndex).get('options') as FormArray;
-  }
-
-  removeQuestion(index: number) {
-    this.questions.removeAt(index);
-  }
-
-  questionTypeChange(questionIndex: number) {
-    const type = this.questions.at(questionIndex).get('type')?.value;
-    const options = this.getOptions(questionIndex);
-    while (options.length) {
-      options.removeAt(0);
-    }
-    if (type === 'MULTIPLE_CHOICE' || type === 'SINGLE_CHOICE') {
-      options.push(this._fb.control('', Validators.required));
-    } else if (type === 'TRUE_FALSE') {
-      options.push(this._fb.control('True', Validators.required));
-      options.push(this._fb.control('False', Validators.required));
-    }
+  getSubsections(): Observable<SubSection> {
+    const currentSubSectionThatNeedsQuestion = this._formStateService.getCurrentSubSectionBeingEdited()
+    return currentSubSectionThatNeedsQuestion  as Observable<SubSection>
   }
 
 

@@ -13,14 +13,35 @@ export interface SubSectionInput {
   sectionId: number;
 }
 
+export interface QuestionInput {
+  text: string;
+  subSectionId: number;
+  type: QuestionType;
+}
+
+export interface Question {
+  text: string;
+  type: QuestionType;
+  subSection: {
+    id:number;
+  }
+  id: number;
+}
+
+export enum QuestionType {
+  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
+  SINGLE_CHOICE = 'SINGLE_CHOICE',
+  SHORT_ANSWER = 'SHORT_ANSWER',
+  TRUE_FALSE = 'TRUE_FALSE'
+}
+
 export interface SubSection extends SubSectionInput {
   id: number;
   name: string;
   description: string;
-  section: { id: number}
+  section: { id: number }
 }
 
-export interface QuestionInput { }
 
 export interface CurrentDashboardInput {
   sectionId: number;

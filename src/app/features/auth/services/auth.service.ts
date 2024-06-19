@@ -34,6 +34,7 @@ export class AuthService extends BaseHttpService {
 
   logout() {
     this._authStateService.removeToken();
+    this._feedBackService.success('Logged Out! See you soon!')
     this._router.navigateByUrl('/landing',  { state: { mode: FORM_TYPE.SIGNIN } });
   }
 
