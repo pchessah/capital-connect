@@ -1,10 +1,7 @@
-import { Component } from '@angular/core';
-import {QUESTION_FORM_STEPS} from "../../../../shared/interfaces/question.form.steps.enum";
-import {AnswerUiComponent} from "../answer-ui/answer-ui.component";
-import {NgIf} from "@angular/common";
-import {QuestionSubsectionUiComponent} from "../question-subsection-ui/question-subsection-ui.component";
-import {QuestionTypeUiComponent} from "../question-type-ui/question-type-ui.component";
+import {Component, inject} from '@angular/core';
 import {UiComponent} from "../../components/ui/ui.component";
+import {FormBuilder} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-question-ui',
@@ -16,5 +13,7 @@ import {UiComponent} from "../../components/ui/ui.component";
   styleUrl: './question-ui.component.scss'
 })
 export class QuestionUiComponent {
-    protected readonly STEPS = QUESTION_FORM_STEPS;
+  private _formBuilder = inject(FormBuilder);
+  private _router = inject(Router);
+
 }
