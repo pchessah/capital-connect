@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { UiComponent } from "../../components/ui/ui.component";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -9,14 +10,13 @@ import { Section } from '../../interfaces';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-section-form',
+  selector: 'app-section',
   standalone: true,
-  imports: [CommonModule, SharedModule, ReactiveFormsModule],
-  templateUrl: './section-form.component.html',
-  styleUrl: './section-form.component.scss'
+  imports: [CommonModule, ReactiveFormsModule, UiComponent, SharedModule],
+  templateUrl: './section.component.html',
+  styleUrl: './section.component.scss'
 })
-export class SectionFormComponent {
-
+export class SectionComponent {
   private _fb = inject(FormBuilder)
   private _formStateService = inject(FormStateService);
   private _router = inject(Router);
@@ -35,16 +35,16 @@ export class SectionFormComponent {
     this.isSectionFormValid = isValid;
   }))
 
-  isSectionFormValid =  false;
+  isSectionFormValid = false;
   nextOperation$: Observable<Section> = new Observable()
 
   nextStep() {
     this.nextOperation$ = this._formStateService.createSection().pipe(tap(res => {
-      if(res.id){
-        this._router.navigate(['/questions/sub-section'], { state: { sectionId: res.id }});
+      if (res.id) {
+        this._router.navigate(['/questions/sub-section'], { state: { sectionId: res.id } });
       }
-     }));
-    }
-  
+    }));
+  }
+
 
 }

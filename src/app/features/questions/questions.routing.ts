@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: '', loadComponent: () => import('./pages/saved-response/saved-response.component').then(c => c.SavedResponseComponent)},
   { path: 'dashboard', loadComponent: () => import('./pages/saved-response/saved-response.component').then(c => c.SavedResponseComponent)},
 
-  { path: 'section', loadComponent: () => import('./pages/question-ui/question-ui.component').then(c => c.QuestionUiComponent)},
+  { path: 'section', loadComponent: () => import('./pages/section/section.component').then(c => c.SectionComponent)},
 
   { path: 'sub-section', loadComponent: () => import('./pages/question-subsection-ui/question-subsection-ui.component').then(c => c.QuestionSubsectionUiComponent)},
   { path: 'sub-section/:section-id', loadComponent: () => import('./pages/question-subsection-ui/question-subsection-ui.component').then(c => c.QuestionSubsectionUiComponent)},

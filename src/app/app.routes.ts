@@ -12,19 +12,19 @@ export const routes: Routes = [
   {
     path: 'organization',
     loadChildren: () => import('./features/organization/modules/organization/organization.routing').then(m => m.OrganizationRoutingModule),
-    canActivate:[isLoggedInCanActivateGuard],
+    canActivate: [isLoggedInCanActivateGuard],
     canActivateChild: [isLoggedInCanActivateChildGuard]
   },
   {
     path: 'business',
     loadChildren: () => import('./features/business/modules/business.routing').then(m => m.BusinessRoutingModule),
-    canActivate:[isLoggedInCanActivateGuard],
+    canActivate: [isLoggedInCanActivateGuard],
     canActivateChild: [isLoggedInCanActivateChildGuard]
   },
   {
     path: 'questions',
     loadChildren: () => import('./features/questions/questions.routing').then(m => m.QuestionsRoutingModule),
-    canActivate:[isLoggedInCanActivateGuard],
+    canActivate: [isLoggedInCanActivateGuard],
     canActivateChild: [isLoggedInCanActivateChildGuard]
   }
 ];
