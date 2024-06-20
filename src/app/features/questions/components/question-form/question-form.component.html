@@ -1,4 +1,7 @@
-<ng-container *ngIf="  subsections$ | async as subsection">
+<ng-container *ngIf="nextOperation$ | async"></ng-container>
+<ng-container *ngIf=" questionForm$ |async"></ng-container>
+
+<ng-container *ngIf="subsections$ | async as subsection">
   <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
     <mat-form-field appearance="fill">
       <mat-label>Subsection</mat-label>

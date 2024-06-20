@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { BASE_URL, BaseHttpService } from '../../../../core';
 import { HttpClient } from '@angular/common/http';
-import { Question, QuestionInput, Section, SectionInput, SubSection, SubSectionInput } from '../../interfaces';
+import { Answer, AnswerInput, Question, QuestionInput, Section, SectionInput, SubSection, SubSectionInput } from '../../interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -23,11 +23,19 @@ export class QuestionsService extends BaseHttpService {
   }
 
   createQuestion(question: QuestionInput) {
-    return this.create(`${BASE_URL}/question`, question) as Observable<Question>
+    return this.create(`${BASE_URL}/questions`, question) as Observable<Question>
   }
 
   getSingleSubsection(id:number) {
     return this.readById(`${BASE_URL}/subsections`, id) as Observable<SubSection>
+  }
+
+  createAnswer(answer:AnswerInput){
+    return this.create(`${BASE_URL}/answers`, answer) as Observable<Answer>
+  }
+
+  getSingleQuestion(id:number){
+    return this.readById(`${BASE_URL}/questions`, id) as Observable<Question>
   }
 
 }
