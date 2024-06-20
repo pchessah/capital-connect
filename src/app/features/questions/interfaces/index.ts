@@ -23,7 +23,7 @@ export interface Question {
   text: string;
   type: QuestionType;
   subSection: {
-    id:number;
+    id: number;
   }
   id: number;
 }
@@ -42,8 +42,24 @@ export interface SubSection extends SubSectionInput {
   section: { id: number }
 }
 
+export interface AnswerInput {
+  text: string;
+  weight: number;
+  questionId: number;
+}
+
+export interface Answer {
+  text: string;
+  weight: number;
+  id: number;
+  question: {
+    id: number
+  }
+}
+
 
 export interface CurrentDashboardInput {
   sectionId: number;
   subsectionId: number;
+  questionId: number;
 }

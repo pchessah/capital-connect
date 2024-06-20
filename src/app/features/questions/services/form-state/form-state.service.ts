@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { QuestionsService } from '../questions/questions.service';
-import { CurrentDashboardInput, QuestionInput, SectionInput, SubSectionInput } from '../../interfaces';
+import { AnswerInput, CurrentDashboardInput, QuestionInput, SectionInput, SubSectionInput } from '../../interfaces';
 import { SessionStorageService } from '../../../../core/services/session-storage/session-storage.service';
 import { FeedbackService } from '../../../../core';
 
@@ -23,6 +23,9 @@ export class FormStateService {
   private _questionFormStateSrc = new BehaviorSubject<QuestionInput>(null as any);
   private _questionFormIsValid = new BehaviorSubject<boolean>(false);
 
+  private _answerFormStateSrc = new BehaviorSubject<AnswerInput>(null as any);
+  private _answerFormIsValid = new BehaviorSubject<boolean>(false);
+
   private _currentDashboardDataSrc = new BehaviorSubject<CurrentDashboardInput>(this._sessionStorageService.getObject('currentDashboardInput') as any);
 
   sectionFormState$ = this._sectionFormStateSrc.asObservable();
@@ -33,6 +36,10 @@ export class FormStateService {
 
   questionForm$ = this._questionFormStateSrc.asObservable();
   questionFormIsValid$ = this._questionFormIsValid.asObservable();
+
+  answerForm$ = this._answerFormStateSrc.asObservable();
+  answerFormIsValid$ = this._answerFormIsValid.asObservable();
+
 
   currentDashboardData$ = this._currentDashboardDataSrc.asObservable();
 
@@ -110,21 +117,51 @@ export class FormStateService {
     const input: QuestionInput = { ...this._questionFormStateSrc.value, subSectionId: subSectionId }
     return this._questionsService.createQuestion(input).pipe(tap(res => {
       this._feedbackService.success('Question added successfully')
-
-
+      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      this.setCurrentDashboardData(dashboardInput);
     }))
   }
 
   getCurrentSubSectionBeingEdited() {
     const subSectionId = this.currentDashBoardData.subsectionId;
-
     if (!subSectionId) {
       this._feedbackService.error('Could not find subsection');
       throw new Error('Could not find subsection');
     }
-
     return this._questionsService.getSingleSubsection(subSectionId)
+  }
 
+  setAnswerForm(val: AnswerInput){
+    this._answerFormStateSrc.next(val)
+  }
+
+  setAnswerFormIsValid(val:boolean){
+    this._answerFormIsValid.next(val)
+  }
+
+  createAnswer(){
+    const questionId = this.currentDashBoardData.subsectionId;
+
+    if (!questionId) {
+      this._feedbackService.error('Could not find question');
+      throw new Error('Could not find question');
+    }
+
+    const input: AnswerInput = { ...this._answerFormStateSrc.value, questionId: questionId }
+    return this._questionsService.createAnswer(input).pipe(tap(res => {
+      this._feedbackService.success('Question added successfully')
+      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      this.setCurrentDashboardData(dashboardInput);
+    }))
+  }
+
+  getCurrentQuestionBeingEdited() {
+    const questionId = this.currentDashBoardData.questionId;
+    if (!questionId) {
+      this._feedbackService.error('Could not find question');
+      throw new Error('Could not find question');
+    }
+    return this._questionsService.getSingleQuestion(questionId)
   }
 
 }
