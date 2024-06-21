@@ -1,5 +1,6 @@
-@if (loadingService.isLoading()) {
-  <app-loading />
-} @else {
-  <router-outlet />
+<ng-container *ngIf=" trackLoadingStatus$ | async"></ng-container>
+
+@if (isLoading) {
+<app-loading />
 }
+<router-outlet />
