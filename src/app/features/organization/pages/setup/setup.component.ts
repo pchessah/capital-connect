@@ -6,6 +6,7 @@ import { StepThreeComponent } from '../../components/step-three/step-three.compo
 import { StepFourComponent } from '../../components/step-four/step-four.component';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
 import { catchError, EMPTY, Observable, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-setup',
@@ -15,7 +16,10 @@ import { catchError, EMPTY, Observable, tap } from 'rxjs';
   styleUrl: './setup.component.scss'
 })
 export class SetupComponent {
-   _organizationOnboardService = inject(OrganizationOnboardService);
+
+   private _organizationOnboardService = inject(OrganizationOnboardService);
+   private _router = inject(Router);
+
    submitCompanyInfo$ = new Observable();
 
   current_step = 1;
@@ -40,5 +44,9 @@ export class SetupComponent {
     if(this.current_step === 2) return !this._organizationOnboardService.step2isValid();
     if(this.current_step === 3) return false //TODO: @pchessahadd condition to check if upload of logo is successful
     return true;
+  }
+
+  goToBusinessFinancials(){
+    this._router.navigateByUrl('/business/financials')
   }
 }
