@@ -8,8 +8,8 @@ const routes: Routes = [
 
   { path: 'section', loadComponent: () => import('./pages/section/section.component').then(c => c.SectionComponent)},
 
-  { path: 'sub-section', loadComponent: () => import('./pages/question-subsection-ui/question-subsection-ui.component').then(c => c.QuestionSubsectionUiComponent)},
-  { path: 'sub-section/:section-id', loadComponent: () => import('./pages/question-subsection-ui/question-subsection-ui.component').then(c => c.QuestionSubsectionUiComponent)},
+  { path: 'sub-section', loadComponent: () => import('./pages/subsection/subsection.component').then(c => c.SubSectionComponent)},
+  { path: 'sub-section/:section-id', loadComponent: () => import('./pages/subsection/subsection.component').then(c => c.SubSectionComponent)},
 
   { path: 'create', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent)},
   { path: 'create/:sub-section-id', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent)},

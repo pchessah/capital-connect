@@ -18,8 +18,7 @@ export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
 
       loadingService.isLoading.set(true);
       if (error.status === 403) {
-        feedbackService.info('Your session has expired. Kindly login');
-        authService.logout();
+        feedbackService.warning('You are unauthorized to perform the following action. Kindly Contact administrator.');
         loadingService.isLoading.set(false)
         return EMPTY;
       }

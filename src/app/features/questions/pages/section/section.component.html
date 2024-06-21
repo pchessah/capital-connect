@@ -22,7 +22,7 @@
     </form>
   </div>
   <div class="action__buttons">
-    <button class="btn__outline">Cancel</button>
+    <button (click)="cancel()" class="btn__outline">Cancel</button>
     <button class="btn__primary" (click)="nextStep()" [disabled]="!isSectionFormValid"
       [ngClass]="{'disabled-btn' : !isSectionFormValid }">Create Section</button>
   </div>

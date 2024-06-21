@@ -1,13 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { UiComponent } from "../../components/ui/ui.component";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
+import { UiComponent } from "../../components/ui/ui.component";
 import { FormStateService } from '../../services/form-state/form-state.service';
 import { SharedModule } from '../../../../shared';
 import { Section } from '../../interfaces';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-section',
@@ -44,6 +43,10 @@ export class SectionComponent {
         this._router.navigate(['/questions/sub-section'], { state: { sectionId: res.id } });
       }
     }));
+  }
+
+  cancel() {
+    this._router.navigateByUrl('/questions')
   }
 
 
