@@ -1,3 +1,4 @@
+<ng-container *ngIf="submitCompanyInfo$ | async"></ng-container>
 <main class="main">
   <div class="logo"><img alt="logo" src="assets/img/logo.png" /></div>
   <section class="main__content__section">
@@ -9,22 +10,22 @@
     <div class="content">
       <ul class="steps">
         @for (step of steps; track $index) {
-        <li class="step" [class.active]="current_step ==$index" [class.done]="current_step >$index">{{step}}</li>
+        <li class="step" [class.active]="current_step == $index+1" [class.done]="current_step >$index+1">{{step}}</li>
         }
       </ul>
       <div class="hr"></div>
-      <app-step-one *ngIf="current_step ==0" />
-      <app-step-two *ngIf="current_step ==1" />
-      <app-step-three *ngIf="current_step ==2" />
-      <app-step-four *ngIf="current_step ==3" />
+      <app-step-one *ngIf="current_step == 1" />
+      <app-step-two *ngIf="current_step == 2" />
+      <app-step-three *ngIf="current_step == 3" />
+      <app-step-four *ngIf="current_step == 4" />
     </div>
     <div class="buttons__group">
-      <button class="outline" *ngIf="current_step ===  0">Cancel</button>
-      <button class="outline" *ngIf="current_step > 0 && current_step <3" (click)="setStep(-1)">Previous Step</button>
+      <button class="outline" *ngIf="current_step ===  1">Cancel</button>
+      <button class="outline" *ngIf="current_step > 1 && current_step < 4" (click)="setStep(-1)">Previous Step</button>
       <div class="form__controls">
-        <button class="outline" (click)="setStep(1)" *ngIf="current_step ==2">Skip Step</button>
-        <button [disabled]="isDisabled" class="fill" [ngClass]="{'disabled-btn' : isDisabled}" (click)="setStep(1)" *ngIf="current_step < 3">Continue</button>
-        <button class="fill" (click)="setStep(1)" *ngIf="current_step >=3">Let's Start</button>
+        <button class="outline" (click)="setStep(1)" *ngIf="current_step == 3 ">Skip Step</button>
+        <button [disabled]="isDisabled" class="fill" [ngClass]="{'disabled-btn' : isDisabled}" (click)="setStep(1)" *ngIf="current_step < 4">Continue</button>
+        <button class="fill" (click)="setStep(1)" *ngIf="current_step === 4">Let's Start</button>
       </div>
     </div>
   </section>
