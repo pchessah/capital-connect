@@ -23,7 +23,7 @@
       <button class="outline" *ngIf="current_step > 0 && current_step <3" (click)="setStep(-1)">Previous Step</button>
       <div class="form__controls">
         <button class="outline" (click)="setStep(1)" *ngIf="current_step ==2">Skip Step</button>
-        <button [disabled]="isDisabled" class="fill" (click)="setStep(1)" *ngIf="current_step < 3">Continue</button>
+        <button [disabled]="isDisabled" class="fill" [ngClass]="{'disabled-btn' : isDisabled}" (click)="setStep(1)" *ngIf="current_step < 3">Continue</button>
         <button class="fill" (click)="setStep(1)" *ngIf="current_step >=3">Let's Start</button>
       </div>
     </div>
