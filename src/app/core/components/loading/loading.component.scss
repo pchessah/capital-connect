@@ -1,4 +1,4 @@
-@import '../../../styles/main';
+@import "../../../styles/main";
 
 .loader {
   width: 50px;
@@ -11,7 +11,7 @@
   z-index: 30001;
 }
 .loader::before,
-.loader::after {    
+.loader::after {
   content: "";
   grid-area: 1/1;
   margin: 2px;
@@ -20,15 +20,17 @@
 }
 .loader::before {
   border-color: $secondary-color $white;
-  animation: inherit; 
-  animation-duration: .5s;
+  animation: inherit;
+  animation-duration: 0.5s;
   animation-direction: reverse;
 }
 .loader::after {
   margin: 8px;
 }
-@keyframes l16 { 
-  100%{transform: rotate(1turn)}
+@keyframes l16 {
+  100% {
+    transform: rotate(1turn);
+  }
 }
 
 .loader-container {
@@ -38,8 +40,8 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  background-color: $gray-400; 
+  background: rgba(0, 0, 0, 0.5);
 }
