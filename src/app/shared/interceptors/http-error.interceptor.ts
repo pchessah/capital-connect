@@ -1,25 +1,17 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { catchError, finalize, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 import { EMPTY, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { FeedbackService, LoadingService } from '../../core';
-import { AuthService } from '../../features/auth/services/auth.service';
+import { FeedbackService } from '../../core';
 
 export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const feedbackService = inject(FeedbackService);
-  const loadingService = inject(LoadingService);
-  const authService = inject(AuthService);
-
-  loadingService.isLoading.set(true);
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
-
-      loadingService.isLoading.set(true);
       if (error.status === 403) {
         feedbackService.warning('You are unauthorized to perform the following action. Kindly Contact administrator.');
-        loadingService.isLoading.set(false)
         return EMPTY;
       }
 
@@ -31,10 +23,8 @@ export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
       }
       feedbackService.error(errorMessage);
-      loadingService.isLoading.set(false)
       return throwError(() => errorMessage);
-    }),
-    tap(() => loadingService.isLoading.set(false))
+    })
   );
 };
 
