@@ -1,41 +1,48 @@
-
 <ng-container *ngIf="stepTwoForm$ | async"></ng-container>
 
-<form [formGroup]="stepTwoForm"  class="form__grid">
+<form [formGroup]="stepTwoForm" class="form__grid">
   <div class="input__wrapper">
     <label class="input__label">What is the registration structure of your business?<sup>*</sup></label>
     <select formControlName="registrationStructure" class="input__field">
-      <option *for="let structure of registrationStructures" [value]="structure">{{ structure }}</option>
+      @for (structure of registrationStructures; track $index) {
+      <option [value]="structure">{{ structure }}</option>
+      }
     </select>
   </div>
   <div class="input__wrapper">
     <label class="input__label">How many years has the business been in active operation?<sup>*</sup></label>
     <select formControlName="yearsOfOperation" class="input__field">
-      <option *for="let year of yearsOfOperation" [value]="year">{{ year }}</option>
+      @for (year of yearsOfOperation; track $index) {
+      <option [value]="year">{{ year }}</option>
+      }
     </select>
   </div>
   <div class="input__wrapper">
     <label class="input__label">What is the stage of growth of your business?<sup>*</sup></label>
     <select formControlName="growthStage" class="input__field">
-      <option *for="let stage of growthStages" [value]="stage">{{ stage }}</option>
+      @for (stage of growthStages; track $index) {
+      <option [value]="stage">{{ stage }}</option>
+      }
+
     </select>
   </div>
   <div class="input__wrapper">
     <label class="input__label">How many employees do you currently have?<sup>*</sup></label>
     <select formControlName="numberOfEmployees" class="input__field">
-      <option *for="let employee of numberOfEmployees" [value]="employee">{{ employee }}</option>
+      @for (employee of numberOfEmployees; track $index) {
+      <option [value]="employee">{{ employee }}</option>
+      }
     </select>
   </div>
   <p class="input__label">Are you running the business full-time? <sup>*</sup></p>
   <div class="inline__wrapper">
     <div class="inline__field">
-      <input type="radio" formControlName="fullTimeBusiness" [value]="true" id="full-time-yes"/>
+      <input type="radio" formControlName="fullTimeBusiness" [value]="true" id="full-time-yes" />
       <label for="full-time-yes">Yes, I run it full-time.</label>
     </div>
     <div class="inline__field">
-      <input type="radio" formControlName="fullTimeBusiness" [value]="false" id="full-time-no"/>
+      <input type="radio" formControlName="fullTimeBusiness" [value]="false" id="full-time-no" />
       <label for="full-time-no">No, I run it part-time.</label>
     </div>
   </div>
 </form>
-
