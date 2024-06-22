@@ -5,7 +5,7 @@
     <button class="menu__button" (click)="toggleDrawer()" *ngIf="!drawer_showing"><mat-icon>menu</mat-icon></button>
     <div class="nav__content" [class.drawer] ="drawer_showing">
         <div class="drawer__header">
-            <strong>Business Name</strong>
+            <strong>{{businessName}}</strong>
             <button class="menu__button" (click)="toggleDrawer()" *ngIf="drawer_showing"><mat-icon>close</mat-icon></button>
         </div>
 

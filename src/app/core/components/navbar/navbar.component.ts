@@ -3,6 +3,7 @@ import { booleanAttribute, Component, inject, Input } from '@angular/core';
 import { SharedModule } from "../../../shared";
 import { Observable } from 'rxjs';
 import { AuthStateService } from '../../../features/auth/services/auth-state.service';
+import { CompanyStateService } from '../../../features/organization/services/company-state.service';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +14,9 @@ import { AuthStateService } from '../../../features/auth/services/auth-state.ser
 })
 export class NavbarComponent {
   private _authService = inject(AuthStateService);
+  private _companyStateService = inject(CompanyStateService);
+
+  businessName = this._companyStateService.currentCompany.name
 
   logOut$ = new Observable<boolean>();
 
