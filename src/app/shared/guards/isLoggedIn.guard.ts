@@ -7,19 +7,30 @@ export const isLoggedInCanActivateGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {
-  return checkLogin()
+  return checkLogin(route)
 }
 
 export const isLoggedInCanActivateChildGuard: CanActivateChildFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {
-  return checkLogin()
+  return checkLogin(route)
 }
 
-function checkLogin() {
+
+
+function checkLogin(route: ActivatedRouteSnapshot) {
   const authStateService = inject(AuthStateService)
   const router = inject(Router)
+
+  const url = route.url[0]?.path;
+
+  if( url && url.includes('landing')){
+    if (authStateService.isLoggedIn) {
+      router.navigateByUrl('/organization/setup')
+    }
+    return true
+  }
 
   if (authStateService.isLoggedIn) {
     return true
