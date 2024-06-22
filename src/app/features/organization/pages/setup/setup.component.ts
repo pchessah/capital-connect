@@ -21,6 +21,9 @@ export class SetupComponent {
    private _router = inject(Router);
 
    submitCompanyInfo$ = new Observable();
+   companyOfUser$ = this._organizationOnboardService.getCompanyOfUser().pipe(tap(company => {
+    this.goToBusinessFinancials()
+   }))
 
   current_step = 1;
   steps = [1, 2, 3, 4];
