@@ -100,6 +100,18 @@
   }
 }
 
+.btn-success-alt {
+  background-color: $white;
+  border-color: $success-color;
+  color: $success-color;
+
+  &:hover {
+    background-color: darken($success-color, 10%);
+    border-color: darken($success-color, 10%);
+    color: $white;
+  }
+}
+
 .input__wrapper{
 
   gap: .5rem;
@@ -110,7 +122,6 @@
     font-size: 15px;
     font-weight: 500;
     font-family: $font-family-sans-serif;
-
     sup{
       color: #FF5151;
     }

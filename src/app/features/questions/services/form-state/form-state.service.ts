@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { QuestionsService } from '../questions/questions.service';
-import { AnswerInput, CurrentDashboardInput, QuestionInput, SectionInput, SubSectionInput } from '../../interfaces';
+import { AnswerInput, CurrentDashboardInput, QuestionInput, Section, SectionInput, SubSection, SubSectionInput } from '../../interfaces';
 import { FeedbackService } from '../../../../core';
 
 @Injectable({
@@ -58,6 +58,11 @@ export class FormStateService {
     }));
   }
 
+  updateSection(sectionId: number) {
+    const sectionInput: Section = {...this._sectionFormStateSrc.value, id:sectionId};
+    return this._questionsService.updateSection(sectionInput)
+  }
+
   setCurrentDashboardData(dashboardData: CurrentDashboardInput) {
     sessionStorage.setItem('currentDashboardInput', JSON.stringify(dashboardData))
     this._currentDashboardDataSrc.next(dashboardData)
@@ -80,8 +85,7 @@ export class FormStateService {
     this._subsectionFormIsValid.next(val);
   }
 
-  createSubsection() {
-    const sectionId = this.currentDashBoardData.sectionId;
+  createSubsection(sectionId: number) {
     if (!sectionId) {
       this._feedbackService.error('Could not find section');
       throw new Error("Could not find section");
@@ -94,6 +98,21 @@ export class FormStateService {
       this.setCurrentDashboardData(dashboardInput);
     }))
   }
+
+  updateSubsection(sectionId: number, subsectionid:number) {
+    if (!sectionId) {
+      this._feedbackService.error('Could not find section');
+      throw new Error("Could not find section");
+
+    };
+    const input = { ...this._subsectionFormStateSrc.value, sectionId: sectionId, id: subsectionid }
+    return this._questionsService.updateSubSection(input).pipe(tap(res => {
+      this._feedbackService.success('SubSection added successfully');
+      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, subsectionId: res.id }
+      this.setCurrentDashboardData(dashboardInput);
+    }))
+  }
+
 
 
   setQuestionForm(val: QuestionInput) {
@@ -120,12 +139,8 @@ export class FormStateService {
     }))
   }
 
-  getCurrentSubSectionBeingEdited() {
-    const subSectionId = this.currentDashBoardData.subsectionId;
-    if (!subSectionId) {
-      this._feedbackService.error('Could not find subsection');
-      throw new Error('Could not find subsection');
-    }
+  getCurrentSubSectionBeingEdited(id?:number) {
+    const subSectionId = id ?? this.currentDashBoardData.subsectionId;
     return this._questionsService.getSingleSubsection(subSectionId)
   }
 

@@ -65,22 +65,44 @@ section{
   gap: .5rem;
   display: flex;
   flex-direction: column;
-  h4{
+
+  h4 {
     color: #1F2937;
     font-size: 20px;
     font-weight: 700;
     line-height: 1.5rem;
     font-family: $font-family-sans-serif;
   }
-  p{
 
+  p {
     color: #4B5563;
     font-size: 1rem;
     line-height: 29px;
     font-weight: 400;
     font-family: $font-family-sans-serif;
   }
+}
 
+mat-expansion-panel {
+  padding: 2em;
+}
+.btn-success-alt{
+  margin-right: 10px;
+  padding: 5px 10px;
+}
+
+.dialog-icon {
+  color: orange;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 1rem;
+  margin-left: 1rem;
+}
+
+
+mat-accordion {
+  box-shadow: none;
 }
 
 @include when-screen-is-atleast(large){
