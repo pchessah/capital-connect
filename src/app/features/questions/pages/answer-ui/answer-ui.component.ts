@@ -37,7 +37,7 @@ export class AnswerUiComponent implements OnDestroy {
     questionId: ['', Validators.required]
   });
 
-  private _navState: { questionId: number, subsectionId: number } = this._router.getCurrentNavigation()?.extras.state as any;
+  private _navState: { questionId: number, answerId: number } = this._router.getCurrentNavigation()?.extras.state as any;
 
   questionId: number = this._navState.questionId;
 

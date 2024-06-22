@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { QuestionsService } from '../questions/questions.service';
-import { AnswerInput, CurrentDashboardInput, Question, QuestionInput, Section, SectionInput, SubSection, SubSectionInput } from '../../interfaces';
+import { Answer, AnswerInput, CurrentDashboardInput, Question, QuestionInput, Section, SectionInput, SubSection, SubSectionInput } from '../../interfaces';
 import { FeedbackService } from '../../../../core';
 
 @Injectable({
@@ -170,6 +170,21 @@ export class FormStateService {
 
     const input: AnswerInput = { ...this._answerFormStateSrc.value, questionId: questionId }
     return this._questionsService.createAnswer(input).pipe(tap(res => {
+      this._feedbackService.success('Question added successfully')
+      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      this.setCurrentDashboardData(dashboardInput);
+    }))
+  }
+
+  editAnswer(answer:Answer,questionId: number){
+
+    if (!questionId) {
+      this._feedbackService.error('Could not find question');
+      throw new Error('Could not find question');
+    }
+
+    const input: Answer = { ...answer, ...this._answerFormStateSrc.value }
+    return this._questionsService.updateAnswer(input, questionId).pipe(tap(res => {
       this._feedbackService.success('Question added successfully')
       const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
       this.setCurrentDashboardData(dashboardInput);

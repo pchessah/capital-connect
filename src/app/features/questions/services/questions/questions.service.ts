@@ -68,6 +68,9 @@ export class QuestionsService extends BaseHttpService {
   createAnswer(answer:AnswerInput){
     return this.create(`${BASE_URL}/answers`, answer) as Observable<Answer>
   }
+  updateAnswer(answer:Answer, questionId:number){
+    return this.update(`${BASE_URL}/answers`, answer.id, answer) as Observable<Answer>
+  }
 
   getAnswersOfAQuestion(questionId:number) {
     const answers$ = this.read(`${BASE_URL}/answers`)  as Observable<Answer[]>
