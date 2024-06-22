@@ -9,3 +9,4 @@ export * from './http/base/constants';
 export * from './services/feedback/feedback.service'
 export * from './services/navbar-toggle/navbar.toggle.service';
 export * from './services/loading/loading.service';
+export * from './services/jwt/jwt.service';
