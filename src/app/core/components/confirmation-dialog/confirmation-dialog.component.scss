@@ -1,0 +1,36 @@
+/* Center the dialog title */
+.mat-dialog-title {
+  text-align: center;
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+/* Style the dialog content */
+.mat-dialog-content {
+  text-align: center;
+  font-size: 1.2em;
+  margin-bottom: 20px;
+}
+
+/* Style the dialog actions */
+.mat-dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+/* Style the buttons */
+button.mat-button {
+  min-width: 80px;
+  font-size: 1em;
+}
+
+button.mat-button:hover {
+  background-color: #e0e0e0;
+}
+
+/* Optional: Add some padding around the dialog */
+:host {
+  display: block;
+  padding: 20px;
+}
