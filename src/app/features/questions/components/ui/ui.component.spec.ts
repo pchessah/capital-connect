@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StepSelectionComponent } from './step-selection.component';
+import { UiComponent } from './ui.component';
 
-describe('StepSelectionComponent', () => {
-  let component: StepSelectionComponent;
-  let fixture: ComponentFixture<StepSelectionComponent>;
+describe('UiComponent', () => {
+  let component: UiComponent;
+  let fixture: ComponentFixture<UiComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StepSelectionComponent]
+      imports: [UiComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(StepSelectionComponent);
+    fixture = TestBed.createComponent(UiComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

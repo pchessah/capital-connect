@@ -1,0 +1,30 @@
+<ng-container *ngIf=" subsectionForm$|  async"></ng-container>
+<ng-container *ngIf="  isSubsectionFormValid$ | async"></ng-container>
+<ng-container *ngIf="nextOperation$ | async"></ng-container>
+
+<div class="container">
+
+  <form [formGroup]="subsectionForm" class="form-container">
+    <mat-card>
+      <mat-card-title>Subsection</mat-card-title>
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Subsection Name</mat-label>
+          <input matInput formControlName="name">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Subsection Description</mat-label>
+          <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+      </mat-card-content>
+    </mat-card>
+  </form>
+
+
+  <div class="step-actions">
+    <button class="btn btn-tertiary" (click)="prevStep()">Back</button>
+    <button [disabled]="!isSubsectionFormValid" [ngClass]="{'disabled-btn' : !isSubsectionFormValid }"
+      (click)="nextStep()" class="btn btn-primary">Next</button>
+  </div>
+
+</div>

@@ -1,15 +1,17 @@
-@import '../../../../styles/main.scss';
+@import "../../../../styles/main.scss";
 
-mat-form-field {
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.full-width {
   width: 100%;
 }
-
-hr {
-  margin: 1rem 0;
+mat-card {
+  margin-bottom: 20px;
 }
 
-.btn-container{
-  button {
-    width: 100%;
-  }
+mat-card-title {
+  padding: 1em;
 }

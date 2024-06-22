@@ -1,0 +1,25 @@
+<ng-container *ngIf="question$ | async as question">
+<form [formGroup]="answerForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="text">Answer Text</label>
+    <input id="text" formControlName="text" required>
+  </div>
+  
+  <div>
+    <label for="weight">Answer Weight</label>
+    <input id="weight" type="number" formControlName="weight" required>
+  </div>
+  
+  <div>
+    <label for="questionId">Question</label>
+    <mat-select formControlName="question" required>
+      <mat-option [value]="question.id">
+        {{question.text}}
+      </mat-option>
+    </mat-select>
+  </div>
+  
+  <button type="submit">Submit</button>
+</form>
+</ng-container>
+

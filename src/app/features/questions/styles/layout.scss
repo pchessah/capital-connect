@@ -1,0 +1,66 @@
+@import "../../../styles/main";
+
+.form__card {
+  padding: 2rem .75rem;
+  border-radius: 1rem;
+  border: 1px solid #EFF0F6;
+  box-shadow: 0 3px .5rem 0 #080F340F;
+  width: 100%;
+}
+
+.action__buttons {
+  gap: 1rem;
+  display: flex;
+  align-items: center;
+  flex-direction: column-reverse;
+  justify-content: space-between;
+
+
+  button {
+    width: 100%;
+    display: flex;
+    font-size: 1rem;
+    cursor: pointer;
+    border-radius: 6px;
+    align-items: center;
+    padding: .75rem 3.5rem;
+    justify-content: center;
+    font-weight: $font-weight-medium;
+    font-family: $font-family-sans-serif;
+
+    &.btn__outline {
+      color: $primary-color;
+      background-color: transparent;
+      border: 1px solid $primary-color;
+    }
+
+    &.btn__primary {
+      color: $white;
+      background-color: $primary-color;
+    }
+  }
+}
+
+
+.inline__cta {
+  gap: 1rem;
+  display: flex;
+  width: 100%;
+  flex-direction: column-reverse;
+}
+
+@include when-screen-is-atleast(large){
+  .form__card {
+    padding: 2rem;
+  }
+  .inline__cta {
+    flex-direction: row;
+    justify-content: flex-end;
+  }
+  .action__buttons {
+    flex-direction: row;
+    button {
+      width: max-content;
+    }
+  }
+}

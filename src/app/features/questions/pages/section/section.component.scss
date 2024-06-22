@@ -1,0 +1,11 @@
+@import '../../../../styles/main.scss';
+@import '../../styles/layout';
+
+.disabled-btn, .disabled-btn:hover {
+  color: $white;
+  border: none;
+  outline: none;
+  cursor: not-allowed !important;
+  background-color: $gray-550  !important;
+}
+

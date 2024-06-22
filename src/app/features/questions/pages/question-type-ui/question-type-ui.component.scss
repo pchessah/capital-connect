@@ -1,0 +1,20 @@
+@import '../../../../styles/forms.scss';
+@import '../../styles/layout';
+
+.input__group{
+  gap: .8rem;
+  display: flex;
+  flex-direction: column;
+  >div{
+    gap: .4rem;
+    display: flex;
+    align-items: center;
+    >*{
+      display: block;
+      font-size: 1rem;
+      line-height: 1.5rem;
+      font-weight: $font-weight-normal;
+      font-family: $font-family-sans-serif;
+    }
+  }
+}

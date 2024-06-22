@@ -4,3 +4,5 @@ export type DETAIL_TYPE ={
   period?: string,
   featured: boolean,
 }
+
+// MULTIPLE_CHOICE, SINGLE_CHOICE, TRUE_FALSE, SHORT_ANSWER

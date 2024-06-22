@@ -1,11 +1,14 @@
-export interface Section {
-  name: string;
-  steps: number[];
-}
-
-export interface Question {
-  section: string;
-  step: number;
-  questionText: string;
-  options: string[];
-}
+// Section
+// - Title 
+// - Description
+// Sub Section
+// - Section
+// - Title 
+// - Description
+// Question
+// - Subsection
+// - Question text
+// - Question type
+// Answers
+// - Question
+// - Answer test

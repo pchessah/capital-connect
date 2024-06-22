@@ -11,7 +11,7 @@ export class StateService<T> implements OnDestroy {
   private items = signal<T[]>([]);
   private destroy$ = new Subject<void>();
 
-  constructor(private _httpService: BaseHttpService<T>) {}
+  constructor(private _httpService: BaseHttpService) {}
 
   // Create a new item
   create(url: string, item: T): void {

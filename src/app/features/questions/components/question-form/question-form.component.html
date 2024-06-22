@@ -1,32 +1,31 @@
-<form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
-  <mat-form-field appearance="outline">
-    <mat-label>Question Text</mat-label>
-    <input matInput formControlName="questionText" required>
-    <mat-error *ngIf="questionText.invalid">Question text is required</mat-error>
-  </mat-form-field>
+<ng-container *ngIf="nextOperation$ | async"></ng-container>
+<ng-container *ngIf=" questionForm$ |async"></ng-container>
 
-  <div formArrayName="options">
-    <div *ngFor="let option of options.controls; let i = index" [formGroupName]="i">
-      <mat-form-field appearance="outline">
-        <mat-label>Option {{i + 1}}</mat-label>
-        <input matInput formControlName="text" required>
-        <mat-error *ngIf="option.get('text')?.invalid">Option text is required</mat-error>
-        <button mat-icon-button type="button" (click)="removeOption(i)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </mat-form-field>
-    </div>
-  </div>
+<ng-container *ngIf="subsections$ | async as subsection">
+  <form [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+    <mat-form-field appearance="fill">
+      <mat-label>Subsection</mat-label>
+      <mat-select formControlName="subsection" required>
+        <mat-option [value]="subsection.id">
+          {{subsection.name}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
 
-  <button mat-stroked-button color="primary" type="button" (click)="addOption()">
-    Add Option
-  </button>
+    <mat-form-field appearance="fill">
+      <mat-label>Question</mat-label>
+      <input matInput formControlName="question" required>
+    </mat-form-field>
 
-  <hr>
+    <label>Question Type</label>
+    <mat-radio-group formControlName="questionType" required>
+      <mat-radio-button *ngFor="let type of questionTypes" [value]="type.value">
+        {{type.label}}
+      </mat-radio-button>
+    </mat-radio-group>
 
-  <div class="btn-container">
-    <button mat-raised-button color="primary" type="submit" [disabled]="questionForm.invalid">
-      Create Question
-    </button>
-  </div>
-</form>
+    <button  mat-raised-button type="submit" [disabled]="!questionForm.valid">Submit</button>
+  </form>
+
+
+</ng-container>

@@ -12,16 +12,16 @@
 }
 
 .feedback-dialog.info {
-  background-color: $info-color-alt;
+  background-color: $info-color;
 }
 .feedback-dialog.success {
-  background-color: $success-color-alt;
+  background-color: $success-color;
 }
 .feedback-dialog.warning {
-  background-color:$warning-color-alt;
+  background-color:$warning-color;
 }
 .feedback-dialog.error {
-  background-color:$danger-color-alt;
+  background-color:$danger-color;
 }
 
 .title, .message {
