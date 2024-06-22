@@ -123,15 +123,16 @@ export class FormStateService {
     this._questionFormIsValid.next(val);
   }
 
-  createQuestion() {
-    const subSectionId = this.currentDashBoardData.subsectionId;
+  createQuestion(subsectionId:number) {
 
-    if (!subSectionId) {
+
+    if (!subsectionId) {
       this._feedbackService.error('Could not find subsection');
       throw new Error('Could not find subsection');
     }
 
-    const input: QuestionInput = { ...this._questionFormStateSrc.value, subSectionId: subSectionId }
+    const input: QuestionInput = { ...this._questionFormStateSrc.value, subSectionId: subsectionId }
+
     return this._questionsService.createQuestion(input).pipe(tap(res => {
       this._feedbackService.success('Question added successfully')
       const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
@@ -139,7 +140,7 @@ export class FormStateService {
     }))
   }
 
-  getCurrentSubSectionBeingEdited(id?:number) {
+  getCurrentSubSectionBeingEdited(id:number) {
     const subSectionId = id ?? this.currentDashBoardData.subsectionId;
     return this._questionsService.getSingleSubsection(subSectionId)
   }
@@ -168,8 +169,7 @@ export class FormStateService {
     }))
   }
 
-  getCurrentQuestionBeingEdited() {
-    const questionId = this.currentDashBoardData.questionId;
+  getCurrentQuestionBeingEdited(questionId: number) {
     if (!questionId) {
       this._feedbackService.error('Could not find question');
       throw new Error('Could not find question');

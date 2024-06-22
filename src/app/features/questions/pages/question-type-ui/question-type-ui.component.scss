@@ -1,15 +1,16 @@
-@import '../../../../styles/forms.scss';
-@import '../../styles/layout';
+@import "../../../../styles/forms.scss";
+@import "../../styles/layout";
 
-.input__group{
-  gap: .8rem;
+
+.input__group {
+  gap: 0.8rem;
   display: flex;
   flex-direction: column;
-  >div{
-    gap: .4rem;
+  > div {
+    gap: 0.4rem;
     display: flex;
     align-items: center;
-    >*{
+    > * {
       display: block;
       font-size: 1rem;
       line-height: 1.5rem;
@@ -17,4 +18,13 @@
       font-family: $font-family-sans-serif;
     }
   }
+}
+
+.disabled-btn,
+.disabled-btn:hover {
+  color: $white !important;
+  border: none;
+  outline: none;
+  cursor: not-allowed !important;
+  background-color: $gray-550 !important ;
 }

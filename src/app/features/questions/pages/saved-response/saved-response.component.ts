@@ -59,6 +59,10 @@ export class SavedResponseComponent {
     this._router.navigate(['/questions/single-question'], { state: { subsectionId: subsectionId } })
   }
 
+  editQuestion(questionId:number, subsectionId:number){
+    this._router.navigate(['/questions/single-question'], { state: {questionId: questionId, subsectionId: subsectionId } })
+  }
+
   createAnswer(questionId: number){
     this._router.navigate(['/questions/answers'], { state: { questionId: questionId } })
 
