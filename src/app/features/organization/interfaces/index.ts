@@ -23,16 +23,10 @@ export interface CompanyInput {
   fullTimeBusiness: boolean;
 }
 
- export interface CompanyResponse {
-  name: string;
-  country: string;
-  businessSector: string;
-  productsAndServices: string;
-  registrationStructure: string;
-  yearsOfOperation: string;
-  growthStage: string;
-  numberOfEmployees: number;
-  fullTimeBusiness: boolean;
+ export interface CompanyResponse extends Company {
   user: User;
+}
+
+export interface Company extends CompanyInput {
   id: number;
 }
