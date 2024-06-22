@@ -14,6 +14,7 @@ export class FeedbackService implements OnDestroy {
 
   openDialog(title: string, message: string, type: 'info' | 'success' | 'warning' | 'error') {
     const ref = this.dialog.open(FeedbackComponent, {
+      width: '35vw',
       data: { title, message, type },
     });
 

@@ -1,10 +1,16 @@
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { JwtService } from '../../../core';
+import { ConfirmationService, FeedbackService, JwtService } from '../../../core';
+import { Router } from '@angular/router';
+import { FORM_TYPE } from '../interfaces/auth.interface';
+import { tap } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class AuthStateService {
 
-  private _jwtService = inject(JwtService)
+  private _jwtService = inject(JwtService);
+  private _confirmationService = inject(ConfirmationService);
+  private _feedBackService = inject(FeedbackService);
+  private _router = inject(Router);
 
   currentToken:WritableSignal<string> = signal(sessionStorage.getItem('token') as string) ?? null
   currentUserId:WritableSignal<number> = signal(Number(sessionStorage.getItem('userId') as string)) ?? null
@@ -37,6 +43,17 @@ export class AuthStateService {
         this.currentUserId.set(Number(decodedToken.sub))
       } 
     }
+
+  }
+
+  logout() {
+    return this._confirmationService.confirm('Are you sure you want to log out?').pipe(tap(confirmation => {
+      if (confirmation) {
+        this.removeToken();
+        this._feedBackService.success('Logged Out! See you soon!')
+        this._router.navigateByUrl('/landing', { state: { mode: FORM_TYPE.SIGNIN } });
+      }
+    }))
 
   }
   

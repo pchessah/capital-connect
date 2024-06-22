@@ -12,21 +12,36 @@
 }
 
 .feedback-dialog.info {
-  background-color: $info-color;
+  background-color: $info-color-alt;
 }
 .feedback-dialog.success {
-  background-color: $success-color;
+  background-color: $secondary-color;
+  .title, .message {
+    color: $white !important;
+  }
 }
 .feedback-dialog.warning {
-  background-color:$warning-color;
+  background-color:$warning-color-alt;
 }
 .feedback-dialog.error {
-  background-color:$danger-color;
+  background-color:$danger-color-alt;
 }
 
 .title, .message {
-  color: $white !important;
+  color: $black !important;
   margin: 1rem 0;
+  padding: 0!important;
+}
+
+:host ::ng-deep .mat-icon{
+  height: 36px;
+  width: 36px;
+}
+
+.title{
+  margin: unset;
+  font-size: $font-size-xlg;
+  font-weight: bold;
 }
 
 .button {
@@ -38,7 +53,6 @@
 }
 
 .dialog-icon {
-  font-size: $font-size-xlg;
-  margin-right: 10px;
+  font-size: 36px;
   color: $white;
 }

@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { QuestionsService } from '../questions/questions.service';
 import { AnswerInput, CurrentDashboardInput, QuestionInput, SectionInput, SubSectionInput } from '../../interfaces';
-import { SessionStorageService } from '../../../../core/services/session-storage/session-storage.service';
 import { FeedbackService } from '../../../../core';
 
 @Injectable({
@@ -10,8 +9,7 @@ import { FeedbackService } from '../../../../core';
 })
 export class FormStateService {
 
-  private _questionsService = inject(QuestionsService)
-  private _sessionStorageService = inject(SessionStorageService)
+  private _questionsService = inject(QuestionsService);
   private _feedbackService = inject(FeedbackService)
 
   private _sectionFormStateSrc = new BehaviorSubject<SectionInput>(null as any);
@@ -26,7 +24,7 @@ export class FormStateService {
   private _answerFormStateSrc = new BehaviorSubject<AnswerInput>(null as any);
   private _answerFormIsValid = new BehaviorSubject<boolean>(false);
 
-  private _currentDashboardDataSrc = new BehaviorSubject<CurrentDashboardInput>(this._sessionStorageService.getObject('currentDashboardInput') as any);
+  private _currentDashboardDataSrc = new BehaviorSubject<CurrentDashboardInput>(sessionStorage.getItem('currentDashboardInput') as any);
 
   sectionFormState$ = this._sectionFormStateSrc.asObservable();
   sectionFormIsValid$ = this._sectionFormIsValid.asObservable();
@@ -61,12 +59,12 @@ export class FormStateService {
   }
 
   setCurrentDashboardData(dashboardData: CurrentDashboardInput) {
-    this._sessionStorageService.setObject('currentDashboardInput', (dashboardData))
+    sessionStorage.setItem('currentDashboardInput', JSON.stringify(dashboardData))
     this._currentDashboardDataSrc.next(dashboardData)
   }
 
   clearDashboardData() {
-    this._sessionStorageService.removeObject('currentDashboardInput')
+    sessionStorage.removeItem('currentDashboardInput')
     this._currentDashboardDataSrc.next(null as any)
   }
 
