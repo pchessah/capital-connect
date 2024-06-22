@@ -15,6 +15,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimationsAsync(),
     importProvidersFrom(MatDialogModule, MatIconModule),
-    provideHttpClient(withInterceptors([HttpErrorInterceptor, AuthInterceptor, LoadingInterceptor]))
+    provideHttpClient(withInterceptors([HttpErrorInterceptor, AuthInterceptor, LoadingInterceptor])), provideAnimationsAsync(), provideAnimationsAsync()
   ]
 };

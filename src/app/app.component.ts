@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { SharedModule } from './shared';
 import { LoadingComponent } from './core/components/loading/loading.component';
@@ -13,11 +13,27 @@ import { CommonModule } from '@angular/common';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+
   private _loadingService = inject(LoadingService);
+  private _cd = inject(ChangeDetectorRef);
+  
   isLoading = true;
 
-  trackLoadingStatus$ = this._loadingService.loading$.pipe(tap(res => this.isLoading = res))
+  ngOnInit(): void {
+    this._trackLoadingStatusSubscription();
+  }
+
+  private _trackLoadingStatusSubscription = () => this._loadingService.loading$.subscribe(res => {
+    this.isLoading = res;
+    this._cd.detectChanges();
+  })
+
+  ngOnDestroy(): void {
+    this._trackLoadingStatusSubscription().unsubscribe()
+  }
+
+
 
 
 }
