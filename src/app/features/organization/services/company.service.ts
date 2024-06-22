@@ -13,5 +13,9 @@ export class CompanyHttpService extends BaseHttpService {
   createCompany(companyInput:CompanyInput) {
     return this.create(`${BASE_URL}/company`, companyInput) as Observable<CompanyResponse>
   }
+
+  getCompanyOfUser(id:number){
+    return this.readById(`${BASE_URL}/company/owner`, id) as Observable<CompanyResponse>
+  }
   
 }

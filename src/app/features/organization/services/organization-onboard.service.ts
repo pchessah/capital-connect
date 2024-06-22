@@ -3,12 +3,14 @@ import { CompanyInput, GrowthStage, RegistrationStructure } from '../interfaces'
 import { CompanyHttpService } from './company.service';
 import { tap } from 'rxjs';
 import { FeedbackService } from '../../../core';
+import { AuthStateService } from '../../auth/services/auth-state.service';
 
 @Injectable({providedIn: 'root'})
 export class OrganizationOnboardService {
 
   private _companyService = inject(CompanyHttpService)
   private _feedbackService = inject(FeedbackService);
+  private _authStateService = inject(AuthStateService);
   
   step1isValid = signal<boolean>(false);
   step2isValid = signal<boolean>(false);
@@ -56,6 +58,15 @@ export class OrganizationOnboardService {
     return this._companyService.createCompany(this.companyInput).pipe(tap(res => {
       this._feedbackService.success('Company created successfully.')
     }))
+  }
+
+
+  getCompanyOfUser(){
+    const currentUserId = this._authStateService.currentUserId();
+    return this._companyService.getCompanyOfUser(currentUserId).pipe(tap(company =>{
+      this._companyInput.set(company)
+    }))
+
   }
   
 }
