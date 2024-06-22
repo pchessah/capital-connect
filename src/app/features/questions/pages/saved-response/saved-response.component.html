@@ -1,55 +1,68 @@
+<ng-container *ngIf="subsections$ | async"></ng-container>
+<ng-container *ngIf="questions$ | async"></ng-container>
+<ng-container *ngIf="answers$ | async"></ng-container>
+
 <app-ui [title]="'Answer'">
   <button class="btn btn-primary" (click)="createSection()">Create Section</button>
-  <section>
-    <div class="nested__tree">
-      <input type="checkbox" />
-      <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree">
-        <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-          <div class="mat-tree-node">
-            <button (click)="toggleNode(node)" mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + node.name">
-              <mat-icon class="mat-icon-rtl-mirror">
-                {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
-              </mat-icon>
-            </button>
-            {{node.name}}
-          </div>
-          <div [class.tree-invisible]="!treeControl.isExpanded(node)" role="group">
-            <ng-container *ngIf="expandedNodeMap.get(node) | async as children">
-              <mat-tree [dataSource]="children" [treeControl]="treeControl">
-                <mat-tree-node *matTreeNodeDef="let child">
-                  <div class="mat-tree-node leaf">
-                    {{child.name}}
-                  </div>
-                </mat-tree-node>
-                <mat-nested-tree-node *matTreeNodeDef="let child; when: hasChild">
-                  <div class="mat-tree-node">
-                    <button (click)="toggleNode(child)" mat-icon-button matTreeNodeToggle [attr.aria-label]="'Toggle ' + child.name">
-                      <mat-icon class="mat-icon-rtl-mirror">
-                        {{treeControl.isExpanded(child) ? 'expand_more' : 'chevron_right'}}
-                      </mat-icon>
-                    </button>
-                    {{child.name}}
-                  </div>
-                  <div [class.tree-invisible]="!treeControl.isExpanded(child)" role="group">
-                    <ng-container matTreeNodeOutlet></ng-container>
-                  </div>
-                </mat-nested-tree-node>
-              </mat-tree>
-            </ng-container>
-          </div>
-        </mat-nested-tree-node>
-        <mat-tree-node *matTreeNodeDef="let node">
-          <div class="mat-tree-node leaf">
-            {{node.name}}
-          </div>
-        </mat-tree-node>
-      </mat-tree>
-    </div>
-    <div class="tree__score">
-      <div>
-        <h4>Total Section Points</h4>
-        <p>30</p>
-      </div>
-    </div>
-  </section>
+
+  <ng-container *ngIf="sections$ | async as sections">
+    <mat-accordion>
+      @for (section of sections; track $index) {
+      <mat-expansion-panel (opened)="panelOpenState.set(true); fetchSubSections(section.id)"
+        (closed)="panelOpenState.set(false)">
+
+        <mat-expansion-panel-header>
+          <mat-panel-title> {{section.name}}</mat-panel-title>
+          <button (click)="createSubSection(section.id)" class="btn btn-success-alt">Add Subsection</button>
+          <span class="dialog-icon" (click)="editSection(section.id)"><mat-icon>edit</mat-icon></span>
+        </mat-expansion-panel-header>
+
+        <mat-accordion>
+          @for (subsection of subsections; track $index) {
+          <mat-expansion-panel (opened)="panelOpenState.set(true); fetchQuestions(subsection.id)"
+            (closed)="panelOpenState.set(false)">
+            <mat-expansion-panel-header>
+              <mat-panel-title> {{subsection.name}}</mat-panel-title>
+              <button (click)="createQuestion(subsection.id)" class="btn btn-success-alt">Add Question</button>
+              <span class="dialog-icon"
+                (click)="editSubSection(subsection.id, section.id)"><mat-icon>edit</mat-icon></span>
+            </mat-expansion-panel-header>
+            <mat-accordion>
+
+              @for (question of questions; track $index) {
+              <mat-expansion-panel (opened)="panelOpenState.set(true); fetchAnswers(question.id)" (closed)="panelOpenState.set(false)">
+                <mat-expansion-panel-header>
+                  <mat-panel-title> {{question.text}}</mat-panel-title>
+                  <button (click)="createAnswer(question.id)" class="btn btn-success-alt">Add Answers</button>
+                  <span class="dialog-icon"
+                    (click)="editQuestion(question.id, subsection.id)"><mat-icon>edit</mat-icon></span>
+                </mat-expansion-panel-header>
+                <mat-accordion>
+                  @for (answer of answers; track $index) {
+
+                  <mat-expansion-panel (opened)="panelOpenState.set(true);" (closed)="panelOpenState.set(false)">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title> {{answer.text}}</mat-panel-title>
+                      <span class="dialog-icon"
+                        (click)="editAnswer(question.id, answer.id)"><mat-icon>edit</mat-icon></span>
+                    </mat-expansion-panel-header>
+
+                  </mat-expansion-panel>
+
+                  }
+                </mat-accordion>
+              </mat-expansion-panel>
+              }
+
+            </mat-accordion>
+
+          </mat-expansion-panel>
+          }
+
+        </mat-accordion>
+
+      </mat-expansion-panel>
+      }
+    </mat-accordion>
+  </ng-container>
 </app-ui>

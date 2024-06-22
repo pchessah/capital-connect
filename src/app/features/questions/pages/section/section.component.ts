@@ -1,12 +1,13 @@
 import { Component, inject } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Observable, tap } from 'rxjs';
+import { EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { UiComponent } from "../../components/ui/ui.component";
 import { FormStateService } from '../../services/form-state/form-state.service';
 import { SharedModule } from '../../../../shared';
 import { Section } from '../../interfaces';
+import { QuestionsService } from '../../services/questions/questions.service';
 
 @Component({
   selector: 'app-section',
@@ -17,8 +18,10 @@ import { Section } from '../../interfaces';
 })
 export class SectionComponent {
   private _fb = inject(FormBuilder)
-  private _formStateService = inject(FormStateService);
   private _router = inject(Router);
+  private _formStateService = inject(FormStateService);
+  private _questionsService = inject(QuestionsService);
+  private _activatedRoute = inject(ActivatedRoute)
 
   sectionForm: FormGroup = this._fb.group({
     name: ['', Validators.required],
@@ -34,13 +37,33 @@ export class SectionComponent {
     this.isSectionFormValid = isValid;
   }))
 
+  fetchedSection$ = this._activatedRoute.paramMap .pipe(switchMap(params => {
+    const id = params.get('id');
+    this.sectionId = Number(id);
+    if(id) return  this._questionsService.getSingleSection(this.sectionId);
+    return EMPTY
+  }), tap(res => {
+    this.sectionForm.patchValue({
+      name: res.name,
+      description: res.description,
+    });
+    this.editMode = true
+  }))
+
+  sectionId!: number;
+
   isSectionFormValid = false;
+  editMode = false;
   nextOperation$: Observable<Section> = new Observable()
 
   nextStep() {
-    this.nextOperation$ = this._formStateService.createSection().pipe(tap(res => {
+    const createSection$ = this._formStateService.createSection();
+    const updateSection$ = this._formStateService.updateSection(this.sectionId);
+
+    const call$ = this.editMode ? updateSection$ : createSection$
+    this.nextOperation$ = call$.pipe(tap(res => {
       if (res.id) {
-        this._router.navigate(['/questions/sub-section'], { state: { sectionId: res.id } });
+        this._router.navigate(['/questions']);
       }
     }));
   }

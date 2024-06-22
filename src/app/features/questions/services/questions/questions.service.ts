@@ -18,8 +18,16 @@ export class QuestionsService extends BaseHttpService {
     return this.create(`${BASE_URL}/sections`, section) as Observable<Section>
   }
 
+  updateSection (section:Section){
+    return this.update(`${BASE_URL}/sections`, section.id, section) as Observable<Section>
+  }
+
   getAllSections() {
     return this.read(`${BASE_URL}/sections`) as Observable<Section[]>
+  }
+
+  getSingleSection(id:number) {
+    return this.readById(`${BASE_URL}/sections`, id) as Observable<Section>
   }
 
   //subsections
@@ -27,15 +35,17 @@ export class QuestionsService extends BaseHttpService {
     return this.create(`${BASE_URL}/subsections`, subsection) as Observable<SubSection>
   }
 
+  updateSubSection (subsection:SubSection){
+    return this.update(`${BASE_URL}/subsections`, subsection.id, subsection) as Observable<SubSection>
+  }
+
   getSingleSubsection(id:number) {
     return this.readById(`${BASE_URL}/subsections`, id) as Observable<SubSection>
   }
 
   getSubSectionsOfaSection(sectionId:number) {
-    const subsections$ =  this.read(`${BASE_URL}/subsections`) as Observable<SubSection[]>
-    return subsections$.pipe(map(subsections => subsections.filter(s => s.section.id === sectionId)))
+    return this.read(`${BASE_URL}/sections/${sectionId}/subsections`) as Observable<SubSection[]>
   }
-
 
   //questions
   createQuestion(question: QuestionInput) {
@@ -46,14 +56,20 @@ export class QuestionsService extends BaseHttpService {
     return this.readById(`${BASE_URL}/questions`, id) as Observable<Question>
   }
 
+  updateQuestion(question:Question) {
+    return this.update(`${BASE_URL}/questions`, question.id, question) as Observable<Question>
+  }
+
   getQuestionsOfSubSection(subsectionId:number) {
-    const questions$  = this.read(`${BASE_URL}/questions`)  as Observable<Question[]>
-    return questions$.pipe(map(questions => questions.filter(q => q.subSection.id = subsectionId)))
+    return this.read(`${BASE_URL}/subsections/${subsectionId}/questions`)  as Observable<Question[]>
   }
 
   //Answers
   createAnswer(answer:AnswerInput){
     return this.create(`${BASE_URL}/answers`, answer) as Observable<Answer>
+  }
+  updateAnswer(answer:Answer, questionId:number){
+    return this.update(`${BASE_URL}/answers`, answer.id, answer) as Observable<Answer>
   }
 
   getAnswersOfAQuestion(questionId:number) {

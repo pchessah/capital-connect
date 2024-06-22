@@ -42,8 +42,8 @@ export interface SubSection {
   id: number;
   name: string;
   description: string;
-  sectionId:number;
-  section: { id: number }
+  sectionId?:number;
+  section?: { id: number }
 }
 
 export interface Answer {
