@@ -56,6 +56,10 @@ export class QuestionsService extends BaseHttpService {
     return this.readById(`${BASE_URL}/questions`, id) as Observable<Question>
   }
 
+  updateQuestion(question:Question) {
+    return this.update(`${BASE_URL}/questions`, question.id, question) as Observable<Question>
+  }
+
   getQuestionsOfSubSection(subsectionId:number) {
     return this.read(`${BASE_URL}/subsections/${subsectionId}/questions`)  as Observable<Question[]>
   }

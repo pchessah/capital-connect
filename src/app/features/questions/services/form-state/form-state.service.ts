@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BehaviorSubject, tap } from 'rxjs';
 import { QuestionsService } from '../questions/questions.service';
-import { AnswerInput, CurrentDashboardInput, QuestionInput, Section, SectionInput, SubSection, SubSectionInput } from '../../interfaces';
+import { AnswerInput, CurrentDashboardInput, Question, QuestionInput, Section, SectionInput, SubSection, SubSectionInput } from '../../interfaces';
 import { FeedbackService } from '../../../../core';
 
 @Injectable({
@@ -125,7 +125,6 @@ export class FormStateService {
 
   createQuestion(subsectionId:number) {
 
-
     if (!subsectionId) {
       this._feedbackService.error('Could not find subsection');
       throw new Error('Could not find subsection');
@@ -135,6 +134,15 @@ export class FormStateService {
 
     return this._questionsService.createQuestion(input).pipe(tap(res => {
       this._feedbackService.success('Question added successfully')
+      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      this.setCurrentDashboardData(dashboardInput);
+    }))
+  }
+
+  updateQuestion(question:Question, subSectionId:number){
+    const input = { ...question, ...this._questionFormStateSrc.value, subSectionId }
+    return this._questionsService.updateQuestion(input).pipe(tap(res => {
+      this._feedbackService.success('Question updated successfully')
       const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
       this.setCurrentDashboardData(dashboardInput);
     }))
@@ -153,8 +161,7 @@ export class FormStateService {
     this._answerFormIsValid.next(val)
   }
 
-  createAnswer(){
-    const questionId = this.currentDashBoardData.subsectionId;
+  createAnswer(questionId: number){
 
     if (!questionId) {
       this._feedbackService.error('Could not find question');

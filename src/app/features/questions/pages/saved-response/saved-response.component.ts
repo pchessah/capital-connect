@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { SharedModule } from "../../../../shared";
 import { UiComponent } from "../../components/ui/ui.component";
-import { Question, SubSection } from '../../interfaces';
+import { Answer, Question, SubSection } from '../../interfaces';
 import { Router } from '@angular/router';
 import { QuestionsService } from '../../services/questions/questions.service';
 import { Observable, tap } from 'rxjs';
@@ -31,6 +31,8 @@ export class SavedResponseComponent {
   questions$ =  new Observable<Question[]>();
   subsections: SubSection[] = [];
   questions: Question[] = [];
+  answers$ = new Observable<Answer[]>();
+  answers: Answer[] = [];
 
   fetchSubSections(sectionId:number){
     this.subsections$ = this._questionService.getSubSectionsOfaSection(sectionId).pipe(tap(subsections => this.subsections = subsections))
@@ -38,6 +40,10 @@ export class SavedResponseComponent {
 
   fetchQuestions(subsectionId:number){
     this.questions$ = this._questionService.getQuestionsOfSubSection(subsectionId).pipe(tap(questions => this.questions = questions))
+  }
+
+  fetchAnswers(questionId:number) {
+    this.answers$ = this._questionService.getAnswersOfAQuestion(questionId).pipe(tap(answers => this.answers = answers))
   }
 
   createSection () {
@@ -65,6 +71,9 @@ export class SavedResponseComponent {
 
   createAnswer(questionId: number){
     this._router.navigate(['/questions/answers'], { state: { questionId: questionId } })
+  }
 
+  editAnswer(questionId:number, answerId:number){
+    this._router.navigate(['/questions/answers'], { state: { questionId: questionId , answerId: answerId } })
   }
 }
