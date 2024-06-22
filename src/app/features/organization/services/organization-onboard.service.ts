@@ -4,6 +4,7 @@ import { CompanyHttpService } from './company.service';
 import { tap } from 'rxjs';
 import { FeedbackService } from '../../../core';
 import { AuthStateService } from '../../auth/services/auth-state.service';
+import { CompanyStateService } from './company-state.service';
 
 @Injectable({providedIn: 'root'})
 export class OrganizationOnboardService {
@@ -11,6 +12,7 @@ export class OrganizationOnboardService {
   private _companyService = inject(CompanyHttpService)
   private _feedbackService = inject(FeedbackService);
   private _authStateService = inject(AuthStateService);
+  private _companyStateService = inject(CompanyStateService);
   
   step1isValid = signal<boolean>(false);
   step2isValid = signal<boolean>(false);
@@ -64,7 +66,8 @@ export class OrganizationOnboardService {
   getCompanyOfUser(){
     const currentUserId = this._authStateService.currentUserId();
     return this._companyService.getCompanyOfUser(currentUserId).pipe(tap(company =>{
-      this._companyInput.set(company)
+      this._companyInput.set(company);
+      this._companyStateService.setCompany(company);
     }))
 
   }
