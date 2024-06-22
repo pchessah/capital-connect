@@ -11,8 +11,6 @@ import { SharedModule } from '../../../shared';
   styleUrl: './confirmation-dialog.component.scss'
 })
 export class ConfirmationDialogComponent {
-
-
   message = 'Are you sure?';
   constructor(public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
