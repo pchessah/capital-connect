@@ -63,6 +63,49 @@ section{
       }
     }
   }
+  .temp__schedule{
+    display: grid;
+    grid-auto-columns: 50% auto;
+    background-color: $green-50;
+    border-radius: 8px;
+    padding: 1.5rem;
+    gap: 1.5rem;
+    h3{
+      margin: 0;
+      font-size: 18px;
+      font-weight: 800;
+      line-height: 28px;
+    }
+    p{
+      font-size: 1rem;
+      margin: 0;
+      line-height: 1.5rem;
+      padding-right: 1rem;
+      font-family: $font-family-sans-serif;
+      font-weight: $font-weight-normal;
+    }
+    a{
+      width: max-content;
+      text-decoration: none;
+      display: block;
+      background-color: $primary-color;
+      padding: 14px 30px;
+      border-radius: 6px;
+      font-family: $font-family-sans-serif;
+      font-weight: $font-weight-medium;
+      font-size: 1rem;
+      color: white;
+      transition: .2s linear;
+      &:hover{
+        //background-color: red;
+      }
+    }
+    >div{
+      gap: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 @include when-screen-is-atleast(large){
   section{
