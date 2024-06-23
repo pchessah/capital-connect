@@ -36,6 +36,7 @@ export interface Question {
     id: number;
   }
   id: number;
+  answers:Answer[]
 }
 
 export interface SubSection {
