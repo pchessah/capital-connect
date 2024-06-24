@@ -1,9 +1,9 @@
 @import '../../../styles/main.scss';
 
 form{
-    gap: 2rem;
-    display: flex;
-    flex-direction: column;
+  gap: 2rem;
+    display: grid;
+    grid-template-rows: auto max-content;
     .input__wrapper{
         .input__label{
             font-size: 18px;

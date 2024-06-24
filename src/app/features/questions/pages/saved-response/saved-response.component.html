@@ -15,6 +15,7 @@
           <mat-panel-title> {{section.name}}</mat-panel-title>
           <button (click)="createSubSection(section.id)" class="btn btn-success-alt">Add Subsection</button>
           <span class="dialog-icon" (click)="editSection(section.id)"><mat-icon>edit</mat-icon></span>
+          <button class="btn-x"><mat-icon>delete</mat-icon></button>
         </mat-expansion-panel-header>
 
         <mat-accordion>
