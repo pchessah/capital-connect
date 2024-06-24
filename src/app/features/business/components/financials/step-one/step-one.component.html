@@ -17,7 +17,7 @@
         <label class="input__label">{{question.text}} <sup>*</sup></label>
         <a href="">Why do we ask this?</a>
         <div class="form__row">
-          <input class="input__field" type="text" placeholder=""/>
+          <input class="input__field" [formControlName]="'question_' + question.id" type="text" placeholder=""/>
         </div>
       </div>
     }
@@ -25,8 +25,8 @@
 
   <div class="cta__group">
     <a href="">Skip and go to dashboard</a>
-    <button class="btn btn-primary outline">Back</button>
-    <button class="btn btn-primary">Next</button>
+    <button class="btn btn-primary outline" type="button" (click)="goBack()">Back</button>
+    <button class="btn btn-primary" [disabled]="!formGroup.valid" [ngClass]="{'disabled-btn': !formGroup.valid }">Next</button>
   </div>
 </form>
 </ng-container>
