@@ -1,3 +1,5 @@
+<ng-container *ngIf="init$ | async"/>
+<ng-container *ngIf="submission$ | async"/>
 <ng-container *ngIf="questions$ | async">
   <form [formGroup]="formGroup" (ngSubmit)="handleSubmit()">
     <div class="form_content__container">
@@ -14,11 +16,21 @@
       </div>
       @for (question of questions; track $index) {
         <div class="input__wrapper">
-          <label class="input__label">{{question.text}} <sup>*</sup></label>
+          <label class="input__label">{{question.text}}<sup>*</sup></label>
           <a href="">Why do we ask this?</a>
-          <div class="form__row">
-            <input class="input__field" [formControlName]="'question_' + question.id" type="text" placeholder=""/>
-          </div>
+          @if(question.type == field_type.MULTIPLE_CHOICE){
+            <div class="radio__form">
+              <div *ngFor="let answer of question.answers">
+                <input type="radio" [formControlName]="'question_' + question.id" [value]="answer.id">
+                <label>{{ answer.text }}</label>
+              </div>
+            </div>
+          }@else{
+            <div class="form__row">
+              <input class="input__field" [formControlName]="'question_' + question.id" type="text" placeholder=""/>
+            </div>
+          }
+
         </div>
       }
     </div>
