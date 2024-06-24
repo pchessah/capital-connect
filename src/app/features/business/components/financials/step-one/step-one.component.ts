@@ -51,9 +51,8 @@ export class StepOneComponent {
       questionId: question.id,
       answerId: formValues['question_' + question.id]
     }));
-    debugger
+    this.setNextStep();
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
-
       this.setNextStep();
     }))
   }

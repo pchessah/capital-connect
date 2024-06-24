@@ -1,12 +1,32 @@
-<ng-container *ngIf="questions$ | async"></ng-container>
-<form>
-  @for (question of questions; track $index) {
-    <div class="input__wrapper">
-      <label class="input__label">{{question.text}} <sup>*</sup></label>
-      <a href="">Why do we ask this?</a>
-      <div class="form__row">
-        <input class="input__field" type="text" placeholder=""/>
+<ng-container *ngIf="questions$ | async">
+  <form [formGroup]="formGroup" (ngSubmit)="handleSubmit()">
+    <div class="form_content__container">
+      <div class="header">
+        <div class="steps__bar">
+          <p>Step 2 of 3</p>
+          <ul class="indicators">
+            @for (step of [].constructor(3); track $index){
+              <li [class.active] ="($index +1) <= 2"></li>
+            }
+          </ul>
+        </div>
+        <strong>Business Financials</strong>
       </div>
+      @for (question of questions; track $index) {
+        <div class="input__wrapper">
+          <label class="input__label">{{question.text}} <sup>*</sup></label>
+          <a href="">Why do we ask this?</a>
+          <div class="form__row">
+            <input class="input__field" [formControlName]="'question_' + question.id" type="text" placeholder=""/>
+          </div>
+        </div>
+      }
     </div>
-  }
-</form>
+
+    <div class="cta__group">
+      <a href="">Skip and go to dashboard</a>
+      <button class="btn btn-primary outline" type="button" (click)="goBack()">Back</button>
+      <button class="btn btn-primary" [disabled]="!formGroup.valid" [ngClass]="{'disabled-btn': !formGroup.valid }">Next</button>
+    </div>
+  </form>
+</ng-container>
