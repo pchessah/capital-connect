@@ -18,7 +18,7 @@
           <label class="input__label">{{question.text}}<sup>*</sup></label>
           <a href="">Why do we ask this?</a>
           {{question.type}}: {{field_type.MULTIPLE_CHOICE}}
-          @if(question.type ==field_type.MULTIPLE_CHOICE){
+          @if(question.type == field_type.MULTIPLE_CHOICE){
               <div class="radio__form">
                 <div *ngFor="let answer of question.answers" class="input__field">
                   <input type="radio" [formControlName]="'question_' + question.id" [value]="answer.id">

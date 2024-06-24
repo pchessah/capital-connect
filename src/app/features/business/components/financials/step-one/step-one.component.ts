@@ -28,11 +28,8 @@ export class StepOneComponent {
 
   submission$ =new Observable<unknown>();
   questions$ =  this._questionService.getQuestionsOfSubSection(12).pipe(tap(questions => {
-
     this.questions = questions
     this._createFormControls();
-    console.log(this.questions)
-    debugger
   }))
 
 
@@ -51,15 +48,14 @@ export class StepOneComponent {
   handleSubmit(){
     const formValues =this.formGroup.value;
     console.log(formValues)
-    debugger
+    
     const submissionData = this.questions.map(question => ({
       questionId: question.id,
-      answerId: formValues['question_' + question.id]
+      answerId: question.answers.find(a => a.text === 'OPEN')?.text === 'OPEN' ? question.answers.find(a => a.text === 'OPEN')?.id :  formValues['question_' + question.id],
+      text: formValues['question_' + question.id]
     }));
-    // this.setNextStep();
-    debugger
-    this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
 
+    this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();
     }))
   }

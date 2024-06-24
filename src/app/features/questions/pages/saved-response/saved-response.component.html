@@ -31,7 +31,8 @@
             <mat-accordion>
 
               @for (question of questions; track $index) {
-              <mat-expansion-panel (opened)="panelOpenState.set(true); fetchAnswers(question.id)" (closed)="panelOpenState.set(false)">
+              <mat-expansion-panel (opened)="panelOpenState.set(true); fetchAnswers(question.id)"
+                (closed)="panelOpenState.set(false)">
                 <mat-expansion-panel-header>
                   <mat-panel-title> {{question.text}}</mat-panel-title>
                   <button (click)="createAnswer(question.id)" class="btn btn-success-alt">Add Answers</button>
@@ -39,9 +40,8 @@
                     (click)="editQuestion(question.id, subsection.id)"><mat-icon>edit</mat-icon></span>
                 </mat-expansion-panel-header>
                 <mat-accordion>
-                  @for (answer of answers; track $index) {
-
-                  <mat-expansion-panel (opened)="panelOpenState.set(true);" (closed)="panelOpenState.set(false)">
+                  <mat-expansion-panel *ngFor="let answer of answers" (opened)="panelOpenState.set(true);"
+                    (closed)="panelOpenState.set(false)">
                     <mat-expansion-panel-header>
                       <mat-panel-title> {{answer.text}}</mat-panel-title>
                       <span class="dialog-icon"
@@ -49,8 +49,6 @@
                     </mat-expansion-panel-header>
 
                   </mat-expansion-panel>
-
-                  }
                 </mat-accordion>
               </mat-expansion-panel>
               }

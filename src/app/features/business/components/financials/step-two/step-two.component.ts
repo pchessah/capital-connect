@@ -17,7 +17,7 @@ import {SubmissionService} from "../../../../../shared";
 export class StepTwoComponent {
 
   questions: Question[] = [];
-  field_type =QuestionType;
+  field_type = QuestionType;
   private _formBuilder =inject(FormBuilder)
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);

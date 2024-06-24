@@ -4,6 +4,7 @@ export interface Submission {
   userId?: number;
   questionId: number;
   answerId: number;
+  text?:string;
 }
 
 export interface SubmissionResponse {
