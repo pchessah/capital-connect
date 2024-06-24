@@ -20,7 +20,6 @@ export class StepOneComponent {
 
   questions$ =  this._questionService.getQuestionsOfSubSection(12).pipe(tap(questions => {
     this.questions = questions
-    debugger
   }))
   questions: Question[] = [];
 
