@@ -11,7 +11,6 @@ export class IndexLayoutComponent {
   @Output() nextStep = new EventEmitter<number>();
 
   setNextStep() {
-    console.log('fired');
     this.nextStep.emit(1);
   }
 }

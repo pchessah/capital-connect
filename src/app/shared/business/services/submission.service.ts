@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { BASE_URL, BaseHttpService, FeedbackService } from '../../../core';
 import { HttpClient } from '@angular/common/http';
-import { Submission, SubmissionResponse } from '../../interfaces/submission.interface';
+import { Submission, SubmissionResponse, UserSubmissionResponse } from '../../interfaces/submission.interface';
 import { map, Observable } from 'rxjs';
 import { AuthStateService } from '../../../features/auth/services/auth-state.service';
 
@@ -38,15 +38,15 @@ export class SubmissionService extends BaseHttpService {
 
   }
 
-  fetchSubmissionsByUser(userId: number): Observable<SubmissionResponse[]> {
-    return this.readById(`${BASE_URL}`, userId).pipe((map(res => {
+  fetchSubmissionsByUser(userId: number): Observable<UserSubmissionResponse[]> {
+    return this.readById(`${BASE_URL}/submissions/user`, userId).pipe((map(res => {
       return res
 
-    }))) as Observable<SubmissionResponse[]>;
+    }))) as Observable<UserSubmissionResponse[]>;
   }
 
   calculateScoreOfUser(userId:number) {
-    return this.readById(`${BASE_URL}/submissions/user`, userId)
+    return this.readById(`${BASE_URL}/submissions/user/score`, userId)
   }
 
 
