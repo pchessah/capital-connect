@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BusinessPageService } from '../../services/business-page/business.page.service';
 import { IndexComponent } from '../../components/financials/index/index.component';
@@ -7,7 +7,7 @@ import { LayoutComponent } from '../../../../shared/business/layout/layout.compo
 import { IndexLayoutComponent } from '../../../../shared/business/components/index-layout/index-layout.component';
 import { FormsLayoutComponent } from '../../../../shared/business/components/forms-layout/forms-layout.component';
 import { SuccessScreenComponent } from '../../components/financials/success-screen/success-screen.component';
-import { tap } from 'rxjs';
+import { SubMissionStateService } from '../../../../shared';
 
 @Component({
   standalone: true,
@@ -19,7 +19,11 @@ import { tap } from 'rxjs';
 
 export class FinancialsComponent {
 
-  constructor(private screenService: BusinessPageService) {}
+  private _submissionStateService = inject(SubMissionStateService)
+  private screenService= inject(BusinessPageService)
 
-  currentPage$ = this.screenService.current_page$
+  currentPage$ = this.screenService.current_page$;
+
+  usersSubmission$ = this._submissionStateService.getUserSubmissions();
+  
 }

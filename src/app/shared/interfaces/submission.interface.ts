@@ -1,3 +1,5 @@
+import { Answer, Question } from "../../features/questions/interfaces";
+
 export interface Submission {
   userId?: number;
   questionId: number;
@@ -15,4 +17,11 @@ export interface SubmissionResponse {
   user: {
     id: number;
   };
+}
+
+export interface UserSubmissionResponse {
+  id: number;
+  answer: Answer;
+  question: Question;
+
 }
