@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {QuestionsService} from "../../../../questions/services/questions/questions.service";
 import {Observable, tap} from "rxjs";
-import {Question} from "../../../../questions/interfaces";
+import {Question, QuestionType} from "../../../../questions/interfaces";
 import {CommonModule} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
@@ -17,6 +17,7 @@ import {SubmissionService} from "../../../../../shared";
 export class StepTwoComponent {
 
   questions: Question[] = [];
+  field_type =QuestionType;
   private _formBuilder =inject(FormBuilder)
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);
