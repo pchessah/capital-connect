@@ -43,8 +43,8 @@ export class AuthStateService {
         this.currentUserId.set(Number(decodedToken.sub))
       } 
     }
-
   }
+
 
   logout() {
     return this._confirmationService.confirm('Are you sure you want to log out?').pipe(tap(confirmation => {
