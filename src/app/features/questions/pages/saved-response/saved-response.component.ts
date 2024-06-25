@@ -4,7 +4,7 @@ import { UiComponent } from "../../components/ui/ui.component";
 import { Answer, Question, SubSection } from '../../interfaces';
 import { Router } from '@angular/router';
 import { QuestionsService } from '../../services/questions/questions.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 
 
@@ -39,11 +39,15 @@ export class SavedResponseComponent {
   }
 
   fetchQuestions(subsectionId:number){
-    this.questions$ = this._questionService.getQuestionsOfSubSection(subsectionId).pipe(tap(questions => this.questions = questions))
+    this.questions$ = this._questionService.getQuestionsOfSubSection(subsectionId).pipe(tap(questions => {
+      this.questions = questions
+    }))
   }
 
   fetchAnswers(questionId:number) {
-    this.answers$ = this._questionService.getAnswersOfAQuestion(questionId).pipe(tap(answers => this.answers = answers))
+    const a = this.questions.find(q => q.id === questionId)?.answers
+    console.log('Answers are ==========>', a);
+    this.answers$ = of(this.questions.find(q => q.id === questionId)?.answers) as Observable<Answer[]>
   }
 
   createSection () {

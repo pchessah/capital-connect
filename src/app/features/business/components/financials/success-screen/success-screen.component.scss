@@ -1,1 +1,6 @@
 @import '../../../styles/success-screen.scss';
+
+.score-checker:hover{
+  text-decoration: underline;
+  cursor: pointer;
+}

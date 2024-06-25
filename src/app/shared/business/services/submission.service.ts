@@ -12,7 +12,7 @@ export class SubmissionService extends BaseHttpService {
   private _feedBackService = inject(FeedbackService);
   private _currentUserId = this._authStateService.currentUserId();
 
-  constructor(private _httpClient: HttpClient) { 
+  constructor(private _httpClient: HttpClient) {
     super(_httpClient)
   }
 
@@ -46,9 +46,9 @@ export class SubmissionService extends BaseHttpService {
   }
 
   calculateScoreOfUser(userId:number) {
-    return this.readById(`${BASE_URL}/submissions/user/score`, userId)
+    return this._httpClient.get(`${BASE_URL}/submissions/user/${userId}/score`) as Observable<{ score: number }>
   }
 
 
-  
+
 }

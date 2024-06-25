@@ -34,7 +34,7 @@ export class IndexComponent {
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
 
   init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-    if(this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether 
+    if(this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
       this.setNextScreen();
     }
   }))
@@ -46,7 +46,7 @@ export class IndexComponent {
   private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
     // Create a set of question ids from the responses array
     const responseQuestionIds = new Set(responses.map(response => response.question.id));
-    
+
     // Check if any question in the questions array has an id in the responseQuestionIds set
     return questions.some(question => responseQuestionIds.has(question.id));
   }
