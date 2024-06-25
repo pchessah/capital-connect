@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BASE_URL, BaseHttpService } from '../../../../core';
 import { HttpClient } from '@angular/common/http';
 import { Answer, AnswerInput, Question, QuestionInput, Section, SectionInput, SubSection, SubSectionInput } from '../../interfaces';
-import { map, Observable } from 'rxjs';
+import {forkJoin, map, mergeMap, Observable, switchMap, tap} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -77,6 +77,26 @@ export class QuestionsService extends BaseHttpService {
     return answers$.pipe(map(res => res.filter(a => a.id === questionId)))
   }
 
-
-
+  getSectionQuestions(sectionId: number): Observable<SubSection[]> {
+    return this.getSingleSection(sectionId).pipe(
+      switchMap(section => {
+        return this.getSubSectionsOfaSection(section.id).pipe(
+          mergeMap(subSections => {
+            const subSectionsAndQuestions$ = subSections.map(subSection =>
+              this.getQuestionsOfSubSection(subSection.id).pipe(
+                map(questions => ({
+                  ...subSection,
+                  questions: questions
+                }))
+              )
+            );
+            return forkJoin(subSectionsAndQuestions$);
+          })
+        );
+      })
+    );
+  }
+  removeSection(sectionId:number){
+    return this.delete(`${BASE_URL}/sections`, sectionId);
+  }
 }
