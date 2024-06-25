@@ -64,7 +64,6 @@ export class IndexComponent {
       questionId: question.id,
       answerId: formValues['question_' + question.id]
     }));
-    this.setNextScreen()
 
     this.submit$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextScreen()
