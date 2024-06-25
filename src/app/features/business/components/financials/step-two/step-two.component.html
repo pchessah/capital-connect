@@ -18,14 +18,23 @@
         <div class="input__wrapper">
           <label class="input__label">{{question.text}}<sup>*</sup></label>
           <a href="">Why do we ask this?</a>
-          @if(question.type == field_type.MULTIPLE_CHOICE){
+          @if(question.type ==field_type.SINGLE_CHOICE){
+            <select class="input__field" [formControlName]="'question_' + question.id">
+              <option value="">Select option</option>
+              <option *ngFor="let answer of question.answers"  [value]="answer.id">
+                {{ answer.text }}
+              </option>
+            </select>
+
+          } @else if(question.type == field_type.TRUE_FALSE){
               <div class="radio__form">
                 <div *ngFor="let answer of question.answers">
                   <input type="radio" [formControlName]="'question_' + question.id" [value]="answer.id">
                   <label>{{ answer.text }}</label>
                 </div>
               </div>
-          }@else{
+          }
+          @else{
             <div class="form__row">
               <input class="input__field" [formControlName]="'question_' + question.id" type="text" placeholder=""/>
             </div>

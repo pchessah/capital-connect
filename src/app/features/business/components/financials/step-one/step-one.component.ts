@@ -60,13 +60,14 @@ export class StepOneComponent {
   }
 
   handleSubmit(){
-    const formValues =this.formGroup.value;
 
-    const submissionData = this.questions.map(question => ({
-      questionId: question.id,
-      answerId: question.answers.find(a => a.text === 'OPEN')?.text === 'OPEN' ? question.answers.find(a => a.text === 'OPEN')?.id :  formValues['question_' + question.id],
-      text: formValues['question_' + question.id]
-    }));
+    const formValues =this.formGroup.value;
+    const submissionData = this.questions.map(question => {
+      const questionId =question.id;
+      const openQuestion = question.answers.find(a => a.text === 'OPEN');
+      const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
+      return {questionId, answerId, text: formValues['question_' + question.id]}
+    });
 
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();
