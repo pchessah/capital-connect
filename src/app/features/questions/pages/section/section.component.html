@@ -4,28 +4,32 @@
 <ng-container *ngIf="fetchedSection$ |async"></ng-container>
 
 <app-ui [title]="'Create section'">
-  <div class="form__card">
-    <form [formGroup]="sectionForm" class="user__auth__form">
-      <div class="input__wrapper">
-        <div class="form__row">
-          <div class="form__group">
-            <label class="input__label">Title<sup>*</sup></label>
-            <input formControlName="name" class="input__field" placeholder="enter title" />
-          </div>
-
-        </div>
-      </div>
-
-      <div class="input__wrapper">
-        <label class="input__label">Description<sup>*</sup></label>
-        <textarea formControlName="description" class="input__field" placeholder="Write something..."
-          rows="5"></textarea>
-      </div>
-    </form>
+  <div class="cards__grid" *ngIf="subSections$ | async">
+    <app-subsection-card *ngFor="let subsection of subsections"  [name] ="subsection.name" [id]="subsection.id"/>
   </div>
-  <div class="action__buttons">
-    <button (click)="cancel()" class="btn__outline">Cancel</button>
-    <button class="btn__primary" (click)="nextStep()" [disabled]="!isSectionFormValid"
-      [ngClass]="{'disabled-btn' : !isSectionFormValid }"> {{editMode ? 'Update Section': 'Create Section'}}</button>
-  </div>
+
+<!--  <div class="form__card">-->
+<!--    <form [formGroup]="sectionForm" class="user__auth__form">-->
+<!--      <div class="input__wrapper">-->
+<!--        <div class="form__row">-->
+<!--          <div class="form__group">-->
+<!--            <label class="input__label">Title<sup>*</sup></label>-->
+<!--            <input formControlName="name" class="input__field" placeholder="enter title" />-->
+<!--          </div>-->
+
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="input__wrapper">-->
+<!--        <label class="input__label">Description<sup>*</sup></label>-->
+<!--        <textarea formControlName="description" class="input__field" placeholder="Write something..."-->
+<!--          rows="5"></textarea>-->
+<!--      </div>-->
+<!--    </form>-->
+<!--  </div>-->
+<!--  <div class="action__buttons">-->
+<!--    <button (click)="cancel()" class="btn__outline">Cancel</button>-->
+<!--    <button class="btn__primary" (click)="nextStep()" [disabled]="!isSectionFormValid"-->
+<!--      [ngClass]="{'disabled-btn' : !isSectionFormValid }"> {{editMode ? 'Update Section': 'Create Section'}}</button>-->
+<!--  </div>-->
 </app-ui>

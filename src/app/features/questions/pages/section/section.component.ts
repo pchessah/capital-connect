@@ -6,13 +6,14 @@ import { EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { UiComponent } from "../../components/ui/ui.component";
 import { FormStateService } from '../../services/form-state/form-state.service';
 import { SharedModule } from '../../../../shared';
-import { Section } from '../../interfaces';
+import {Section, SubSection} from '../../interfaces';
 import { QuestionsService } from '../../services/questions/questions.service';
+import {SubsectionCardComponent} from "../../components/subsection-card/subsection-card.component";
 
 @Component({
   selector: 'app-section',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, UiComponent, SharedModule],
+  imports: [CommonModule, ReactiveFormsModule, UiComponent, SharedModule, SubsectionCardComponent],
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss'
 })
@@ -21,8 +22,8 @@ export class SectionComponent {
   private _router = inject(Router);
   private _formStateService = inject(FormStateService);
   private _questionsService = inject(QuestionsService);
-  private _activatedRoute = inject(ActivatedRoute)
-
+  private _activatedRoute = inject(ActivatedRoute);
+  subsections: SubSection[] =[];
   sectionForm: FormGroup = this._fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required]
@@ -43,6 +44,7 @@ export class SectionComponent {
     if(id) return  this._questionsService.getSingleSection(this.sectionId);
     return EMPTY
   }), tap(res => {
+
     this.sectionForm.patchValue({
       name: res.name,
       description: res.description,
@@ -50,11 +52,19 @@ export class SectionComponent {
     this.editMode = true
   }))
 
+  subSections$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
+    // @ts-ignore
+    const id =Number(res.params.id);
+    this._questionsService.getSubSectionsOfaSection(id).pipe(tap(vals => {
+      this.subsections =vals;
+    })).subscribe();
+  }))
+
   sectionId!: number;
 
   isSectionFormValid = false;
   editMode = false;
-  nextOperation$: Observable<Section> = new Observable()
+  nextOperation$: Observable<Section> = new Observable();
 
   nextStep() {
     const createSection$ = this._formStateService.createSection();
