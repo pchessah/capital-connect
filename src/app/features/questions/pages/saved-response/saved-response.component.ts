@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { QuestionsService } from '../../services/questions/questions.service';
 import { Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import {ReactiveFormsModule} from "@angular/forms";
+import {SectionCardComponent} from "../../components/section-card/section-card.component";
 
 
 @Component({
@@ -14,7 +16,9 @@ import { CommonModule } from '@angular/common';
   imports: [
     CommonModule,
     SharedModule,
-    UiComponent
+    UiComponent,
+    ReactiveFormsModule,
+    SectionCardComponent
   ],
   templateUrl: './saved-response.component.html',
   styleUrl: './saved-response.component.scss'
