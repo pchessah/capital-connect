@@ -19,11 +19,7 @@ import {CommonModule} from "@angular/common";
   styleUrl: './edit-subsection.component.scss'
 })
 export class EditSubsectionComponent {
-  fetchedSection$: Observable<Section> = new Observable()
-  ngOnInit(): void {
-    this._checkEditMode()
-
-  }
+  fetchedSection$: Observable<Section> = new Observable();
 
   protected readonly STEPS = QUESTION_FORM_STEPS;
   private _activatedRoute = inject(ActivatedRoute);
@@ -72,14 +68,7 @@ export class EditSubsectionComponent {
   nextOperation$: Observable<SubSection> = new Observable()
 
   isSubsectionFormValid = false;
-  editMode = false;
 
-  private _checkEditMode() {
-    if (this.subSectionId) {
-      this.editMode = true;
-
-    }
-  }
 
   submit() {
     this._formStateService.updateSubsection(this.sectionId, this.subSectionId).subscribe();

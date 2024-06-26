@@ -1,11 +1,11 @@
-<ng-container *ngIf="sectionForm$ |  async"></ng-container>
+<!-- <ng-container *ngIf="sectionForm$ |  async"></ng-container>
 <ng-container *ngIf="isSectionFormValid$ | async"></ng-container>
-<ng-container *ngIf="nextOperation$ | async"></ng-container>
+<ng-container *ngIf="nextOperation$ | async"></ng-container> -->
 <ng-container *ngIf="fetchedSection$ |async"></ng-container>
 
 <app-ui [title]="'Create section'">
   <div class="cards__grid" *ngIf="subSections$ | async">
-    <app-subsection-card *ngFor="let subsection of subsections"  [name] ="subsection.name" [id]="subsection.id"/>
+    <app-subsection-card *ngFor="let subsection of subsections"  [name] ="subsection.name" [id]="subsection.id" [sectionId]="sectionId"/>
   </div>
 
 <!--  <div class="form__card">-->

@@ -55,6 +55,7 @@ export class SectionComponent {
   subSections$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
     // @ts-ignore
     const id =Number(res.params.id);
+    this.sectionId =id;
     this._questionsService.getSubSectionsOfaSection(id).pipe(tap(vals => {
       this.subsections =vals;
     })).subscribe();

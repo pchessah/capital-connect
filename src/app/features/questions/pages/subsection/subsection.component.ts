@@ -27,6 +27,7 @@ import {QuestionCardComponent} from "../../components/question-card/question-car
 export class SubSectionComponent{
   section!:Section;
   questions:Question[] =[];
+  subSectionId!:number;
   // ngOnInit(): void {
   //   this._checkEditMode()
   // }
@@ -51,6 +52,7 @@ export class SubSectionComponent{
   questions$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
     // @ts-ignore
     const id =Number(res.params.id);
+    this.subSectionId =id;
     this._questionsService.getQuestionsOfSubSection(id).pipe(tap(vals => {
       this.questions =vals;
     })).subscribe()
