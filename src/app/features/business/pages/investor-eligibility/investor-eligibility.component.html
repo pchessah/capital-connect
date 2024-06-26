@@ -1,3 +1,4 @@
+<ng-container *ngIf="usersSubmission$ | async"></ng-container>
 <app-layout *ngIf="currentPage$ | async as current_screen">
    <app-index-layout *ngIf="current_screen ==1"><app-index /></app-index-layout>
    <app-forms-layout [progress]="1" *ngIf="current_screen ==2" [steps]="3" [title]="'Investor Eligibility'"><app-steps /></app-forms-layout>

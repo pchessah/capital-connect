@@ -37,6 +37,7 @@ export class IndexComponent {
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
 
   init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
+
     if (this._hasMatchingQuestionId(res[0], res[1])) {
       this.setNextScreen();
     }
@@ -79,6 +80,7 @@ export class IndexComponent {
   }
 
   setNextScreen() {
+
     this._pageService.setCurrentPage(2);
   }
 }
