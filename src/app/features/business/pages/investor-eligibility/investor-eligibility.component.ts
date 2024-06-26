@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BusinessPageService } from '../../services/business-page/business.page.service';
 import { LayoutComponent } from '../../../../shared/business/layout/layout.component';
@@ -8,6 +8,7 @@ import { IndexLayoutComponent } from '../../../../shared/business/components/ind
 import { FormsLayoutComponent } from '../../../../shared/business/components/forms-layout/forms-layout.component';
 import { SuccessScreenComponent } from '../../components/investor-eligibility/success-screen/success-screen.component';
 import { tap } from 'rxjs';
+import {SubMissionStateService} from "../../../../shared";
 
 @Component({
   selector: 'app-investor-eligibility',
@@ -20,4 +21,9 @@ export class InvestorEligibilityComponent {
   constructor(private screenService: BusinessPageService) {}
 
   currentPage$ = this.screenService.current_page$
+  private _submissionStateService = inject(SubMissionStateService)
+  // @ts-ignore
+  private screenService= inject(BusinessPageService)
+
+  usersSubmission$ = this._submissionStateService.getUserSubmissions();
 }
