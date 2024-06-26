@@ -5,7 +5,7 @@ import { CommonModule } from '@angular/common';
 import { Observable, tap } from 'rxjs';
 import { SharedModule } from '../../../../shared';
 import {Question, Section, SubSection, SubSectionInput} from '../../interfaces';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form.steps.enum";
 import { UiComponent } from "../../components/ui/ui.component";
 import { QuestionsService } from '../../services/questions/questions.service';
@@ -19,7 +19,8 @@ import {QuestionCardComponent} from "../../components/question-card/question-car
     CommonModule,
     SharedModule,
     UiComponent,
-    QuestionCardComponent
+    QuestionCardComponent,
+    RouterLink
   ],
   templateUrl: './subsection.component.html',
   styleUrl: './subsection.component.scss'
@@ -28,9 +29,7 @@ export class SubSectionComponent{
   section!:Section;
   questions:Question[] =[];
   subSectionId!:number;
-  // ngOnInit(): void {
-  //   this._checkEditMode()
-  // }
+  subsectionName!:string;
 
   protected readonly STEPS = QUESTION_FORM_STEPS;
   private _activatedRoute = inject(ActivatedRoute);
@@ -42,18 +41,22 @@ export class SubSectionComponent{
   private _navState: { sectionId: number, subsectionId: number } = this._router.getCurrentNavigation()?.extras.state as any;
 
   private _subsectionId: number = this._navState?.subsectionId;
-  sectionId: number = this._navState?.sectionId
+  sectionId!: number;
 
-  subsectionForm = this._fb.group({
-    name: ['', Validators.required],
-    description: ['', Validators.required]
-  });
+  // subsectionForm = this._fb.group({
+  //   name: ['', Validators.required],
+  //   description: ['', Validators.required]
+  // });
 
   questions$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
     // @ts-ignore
-    const id =Number(res.params.id);
-    this.subSectionId =id;
-    this._questionsService.getQuestionsOfSubSection(id).pipe(tap(vals => {
+    const ids =res.params.id.trim().split('-');
+    this.sectionId =Number(ids.at(0))
+    this.subSectionId =Number(ids.at(1));
+    this._questionsService.getSingleSubsection(this.subSectionId).pipe(tap(subsection =>{
+      this.subsectionName =subsection.name;
+    })).subscribe();
+    this._questionsService.getQuestionsOfSubSection(this.subSectionId).pipe(tap(vals => {
       this.questions =vals;
     })).subscribe()
   }))

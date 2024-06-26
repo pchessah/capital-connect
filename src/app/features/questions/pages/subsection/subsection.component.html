@@ -4,7 +4,10 @@
 <!--<ng-container *ngIf="isSubsectionFormValid$ | async"></ng-container>-->
 
 <!--<ng-container *ngIf="fetchedSection$ | async as section">-->
-  <app-ui [title]="'Sub section'">
+  <app-ui [title]="subsectionName">
+    <div class="btn-grp">
+      <a [routerLink] ="'/questions/section/'+sectionId" class="btn btn-success"><mat-icon>arrow_left</mat-icon> Back</a>
+    </div>
       <ng-container *ngIf="questions$ | async">
         <app-question-card *ngFor="let question of questions" [text] ="question.text" [type] ="question.type" [id] ="question.id" [answers]="question.answers" [subSectionId]="subSectionId"/>
       </ng-container>

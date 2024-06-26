@@ -1,5 +1,22 @@
 @import '../../styles/layout';
-@import '../../../../styles//main.scss';
+@import '../../../../styles/main.scss';
+
+a{
+  width: max-content !important;
+  gap: 1rem;
+  display: flex!important;
+  padding: .75rem 2rem;
+  text-decoration: none;
+  align-items: center;
+  justify-content: space-between;
+  *{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
 
 .disabled-btn, .disabled-btn:hover {
   color: $white !important;

@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { EMPTY, Observable, switchMap, tap } from 'rxjs';
@@ -13,7 +13,7 @@ import {SubsectionCardComponent} from "../../components/subsection-card/subsecti
 @Component({
   selector: 'app-section',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, UiComponent, SharedModule, SubsectionCardComponent],
+  imports: [CommonModule, ReactiveFormsModule, UiComponent, SharedModule, SubsectionCardComponent, RouterLink],
   templateUrl: './section.component.html',
   styleUrl: './section.component.scss'
 })
@@ -24,38 +24,43 @@ export class SectionComponent {
   private _questionsService = inject(QuestionsService);
   private _activatedRoute = inject(ActivatedRoute);
   subsections: SubSection[] =[];
-  sectionForm: FormGroup = this._fb.group({
-    name: ['', Validators.required],
-    description: ['', Validators.required]
-  });
+  sectionName!:string;
+  // sectionForm: FormGroup = this._fb.group({
+  //   name: ['', Validators.required],
+  //   description: ['', Validators.required]
+  // });
 
-  sectionForm$ = this.sectionForm.valueChanges.pipe(tap(vals => {
-    this._formStateService.setSectionFormState(vals);
-    this._formStateService.setSectionFormIsValid(this.sectionForm.valid);
-  }))
+  // sectionForm$ = this.sectionForm.valueChanges.pipe(tap(vals => {
+  //   this._formStateService.setSectionFormState(vals);
+  //   this._formStateService.setSectionFormIsValid(this.sectionForm.valid);
+  // }))
 
-  isSectionFormValid$ = this._formStateService.sectionFormIsValid$.pipe(tap(isValid => {
-    this.isSectionFormValid = isValid;
-  }))
+  // isSectionFormValid$ = this._formStateService.sectionFormIsValid$.pipe(tap(isValid => {
+  //   this.isSectionFormValid = isValid;
+  // }))
 
-  fetchedSection$ = this._activatedRoute.paramMap .pipe(switchMap(params => {
-    const id = params.get('id');
-    this.sectionId = Number(id);
-    if(id) return  this._questionsService.getSingleSection(this.sectionId);
-    return EMPTY
-  }), tap(res => {
+  // fetchedSection$ = this._activatedRoute.paramMap .pipe(switchMap(params => {
+  //   const id = params.get('id');
+  //   this.sectionId = Number(id);
+  //   if(id) return  this._questionsService.getSingleSection(this.sectionId);
+  //   return EMPTY
+  // }), tap(res => {
 
-    this.sectionForm.patchValue({
-      name: res.name,
-      description: res.description,
-    });
-    this.editMode = true
-  }))
+    // this.sectionForm.patchValue({
+    //   name: res.name,
+    //   description: res.description,
+    // });
+    // this.editMode = true
+  // }))
+
 
   subSections$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
     // @ts-ignore
     const id =Number(res.params.id);
     this.sectionId =id;
+    this._questionsService.getSingleSection(id).pipe(tap(vals => {
+      this.sectionName =vals.name;
+    })).subscribe()
     this._questionsService.getSubSectionsOfaSection(id).pipe(tap(vals => {
       this.subsections =vals;
     })).subscribe();
@@ -63,25 +68,25 @@ export class SectionComponent {
 
   sectionId!: number;
 
-  isSectionFormValid = false;
-  editMode = false;
-  nextOperation$: Observable<Section> = new Observable();
+  // isSectionFormValid = false;
+  // editMode = false;
+  // nextOperation$: Observable<Section> = new Observable();
 
-  nextStep() {
-    const createSection$ = this._formStateService.createSection();
-    const updateSection$ = this._formStateService.updateSection(this.sectionId);
+  // nextStep() {
+  //   const createSection$ = t;
+  //   const updateSection$ = this._formStateService.updateSection(this.sectionId);
+  //
+  //   const call$ = this.editMode ? updateSection$ : createSection$
+  //   this.nextOperation$ = call$.pipe(tap(res => {
+  //     if (res.id) {
+  //       this._router.navigate(['/questions']);
+  //     }
+  //   }));
+  // }
 
-    const call$ = this.editMode ? updateSection$ : createSection$
-    this.nextOperation$ = call$.pipe(tap(res => {
-      if (res.id) {
-        this._router.navigate(['/questions']);
-      }
-    }));
-  }
-
-  cancel() {
-    this._router.navigateByUrl('/questions')
-  }
+  // cancel() {
+  //   this._router.navigateByUrl('/questions')
+  // }
 
 
 }

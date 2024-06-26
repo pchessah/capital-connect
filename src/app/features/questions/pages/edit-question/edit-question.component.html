@@ -3,7 +3,7 @@
 <ng-container *ngIf="fetchQuestionBeingEdited$ | async"></ng-container>
 <ng-container *ngIf="params$ | async"></ng-container>
 
-<app-ui [title]="'Question'">
+<app-ui [title]="'Edit question'">
   <div class="form__card" *ngIf="fetchedSubSection$ | async as subsection">
     <form [formGroup]="questionForm" (ngSubmit)="submit()" class="user__auth__form">
       <div class="input__wrapper">

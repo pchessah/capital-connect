@@ -1,9 +1,9 @@
 import {Component, inject, Input} from '@angular/core';
 import {Observable, tap} from "rxjs";
 import {QuestionsService} from "../../services/questions/questions.service";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import { RouterLink} from "@angular/router";
 import {MatIcon} from "@angular/material/icon";
-import {AsyncPipe, NgIf} from "@angular/common";
+import { CommonModule} from "@angular/common";
 
 @Component({
   selector: 'app-subsection-card',
@@ -11,8 +11,7 @@ import {AsyncPipe, NgIf} from "@angular/common";
   imports: [
     MatIcon,
     RouterLink,
-    NgIf,
-    AsyncPipe
+    CommonModule
   ],
   templateUrl: './subsection-card.component.html',
   styleUrl: './subsection-card.component.scss'

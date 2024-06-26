@@ -78,6 +78,6 @@ export class EditQuestionComponent {
   }
 
   cancel() {
-    this._router.navigateByUrl(`questions/sub-section/${this.subsectionId}`);
+    this._router.navigateByUrl(`questions/sub-section/${this}-${this.subsectionId}`);
   }
 }
