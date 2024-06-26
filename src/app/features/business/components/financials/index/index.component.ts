@@ -7,6 +7,7 @@ import { BusinessPageService } from '../../../services/business-page/business.pa
 import { QuestionsService } from '../../../../questions/services/questions/questions.service';
 import { Question } from '../../../../questions/interfaces';
 import { SubmissionService, SubMissionStateService, UserSubmissionResponse } from '../../../../../shared';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-index',
@@ -21,6 +22,7 @@ export class IndexComponent {
   private _submissionService = inject(SubmissionService);
   private _submissionStateService = inject(SubMissionStateService)
   private _formBuilder = inject(FormBuilder);
+  private _router =inject(Router);
 
   formGroup: FormGroup = this._formBuilder.group({});
   // sectionQuestions$ =this._questionService.getSectionQuestions(5)
@@ -71,7 +73,7 @@ export class IndexComponent {
   }
 
   skip() {
-    this._pageService.setCurrentPage(1);
+    this._router.navigateByUrl('/business')
   }
 
   setNextScreen() {
