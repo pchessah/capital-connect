@@ -20,9 +20,8 @@ import {AsyncPipe, NgIf} from "@angular/common";
 export class SubsectionCardComponent {
   @Input() id!:number;
   @Input() name!:string;
+  @Input() sectionId!:number;
   questions_count =0;
-  private _questionsService = inject(QuestionsService);
-  private _activatedRoute = inject(ActivatedRoute)
   subsections$ =new Observable();
   private _questionService = inject(QuestionsService);
   ngOnInit(){
@@ -31,13 +30,6 @@ export class SubsectionCardComponent {
         this.questions_count = questions.length;
       }));
   }
-  // subSections$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
-  //   // @ts-ignore
-  //   const id =Number(res.params.id);
-  //   this._questionsService.getSubSectionsOfaSection(id).pipe(tap(vals => {
-  //     // this
-  //   }));
-  // }))
 
   deleteSection(sectionId:number){
     if(confirm("Are you sure?")){

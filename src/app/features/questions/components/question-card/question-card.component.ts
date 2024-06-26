@@ -14,6 +14,7 @@ import {RouterLink} from "@angular/router";
 export class QuestionCardComponent {
   @Input() text!: string;
   @Input() id!: number;
+  @Input() subSectionId!: number;
   @Input() type!: string;
   @Input() answers: Answer[] =[]
 }
