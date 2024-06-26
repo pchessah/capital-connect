@@ -7,12 +7,12 @@ import {CommonModule } from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
-import {Router} from "@angular/router";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-step-three',
   standalone: true,
-  imports: [ CommonModule, ReactiveFormsModule ], 
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './step-three.component.html',
   styleUrl: './step-three.component.scss'
 })
