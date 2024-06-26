@@ -1,5 +1,7 @@
+
 <ng-container *ngIf="init$ | async"></ng-container> 
 <ng-container *ngIf="submission$ | async"> </ng-container>
+
 <ng-container *ngIf="questions$ | async">
   <form [formGroup]="formGroup" (ngSubmit)="handleSubmit()">
     <div class="form_content__container">
@@ -17,8 +19,9 @@
       @for (question of questions; track $index) {
         <div class="input__wrapper">
           <label class="input__label">{{question.text}}<sup>*</sup></label>
-          <a href="">Why do we ask this?</a>
+          <a>Why do we ask this?</a>
           @if(question.type == field_type.SINGLE_CHOICE){
+
             <div class="form__row">
             <select class="input__field" [formControlName]="'question_' + question.id">
               <option value="">Select option</option>
@@ -36,6 +39,7 @@
               </div>
             </div>
           }@else{
+
             <div class="form__row">
               <input class="input__field" [formControlName]="'question_' + question.id" type="text" placeholder=""/>
             </div>

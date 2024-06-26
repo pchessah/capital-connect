@@ -64,7 +64,8 @@ export class StepOneComponent {
 
     const submissionData = this.questions.map(question => ({
       questionId: question.id,
-      answerId: question.answers.find(a => a.text === 'OPEN')?.text === 'OPEN' ? question.answers.find(a => a.text === 'OPEN')?.id :  formValues['question_' + question.id],
+      answerId: question.answers.find(a => a.text === 'OPEN')?.text === 'OPEN' ? Number(question.answers.find(a => a.text === 'OPEN')?.id) 
+                                                                               :  Number(formValues['question_' + question.id]),
       text: formValues['question_' + question.id]
     }));
 

@@ -13,7 +13,7 @@ export class OrganizationOnboardService {
   private _feedbackService = inject(FeedbackService);
   private _authStateService = inject(AuthStateService);
   private _companyStateService = inject(CompanyStateService);
-  
+
   step1isValid = signal<boolean>(false);
   step2isValid = signal<boolean>(false);
   step3isValid = signal<boolean>(false);
@@ -69,5 +69,5 @@ export class OrganizationOnboardService {
       this._companyStateService.setCompany(company);
     }))
   }
-  
+
 }

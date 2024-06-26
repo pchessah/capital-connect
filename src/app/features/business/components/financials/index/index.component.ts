@@ -22,9 +22,8 @@ export class IndexComponent {
   private _submissionStateService = inject(SubMissionStateService)
   private _formBuilder = inject(FormBuilder);
 
-  currentEntries: UserSubmissionResponse[] = []
-
   formGroup: FormGroup = this._formBuilder.group({});
+  // sectionQuestions$ =this._questionService.getSectionQuestions(5)
   questions$ = this._questionService.getQuestionsOfSubSection(11).pipe(
     tap(questions => {
       this.questions = questions;
