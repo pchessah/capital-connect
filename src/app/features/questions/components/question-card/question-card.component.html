@@ -1,0 +1,25 @@
+<div class="question-card">
+  <div class="icon-header">
+    <div class="icons left-content">
+      <a class="btn-primary"><mat-icon>add</mat-icon></a>
+      <a [routerLink] ="'/questions/single-question/' +id+'/edit'" class="btn-warning"><mat-icon>edit</mat-icon></a>
+      <button class="btn-danger"><mat-icon>close</mat-icon></button>
+    </div>
+  </div>
+  <div class="question-ui-header">
+    <h2>{{text}}</h2>
+    <p>{{(type || '').split('_').join(' ').toLowerCase()}}</p>
+  </div>
+  <ul class="answer-tile">
+    <li *ngFor="let answer of answers">
+      <div>{{answer.text}}</div>
+      <div class="right-content">
+        <div>{{answer.weight}}</div>
+        <div class="icons icons-group">
+          <a [routerLink] ="'/questions/answers/' +answer.id+'/edit'" class="btn-warning"><mat-icon>edit</mat-icon></a>
+          <button class="btn-danger"><mat-icon>close</mat-icon></button>
+        </div>
+      </div>
+    </li>
+  </ul>
+</div>
