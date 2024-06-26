@@ -9,8 +9,8 @@ import { CompanyStateService } from './company-state.service';
 @Injectable({providedIn: 'root'})
 export class OrganizationOnboardService {
 
-  private _companyService = inject(CompanyHttpService)
   private _feedbackService = inject(FeedbackService);
+  private _companyService = inject(CompanyHttpService)
   private _authStateService = inject(AuthStateService);
   private _companyStateService = inject(CompanyStateService);
 

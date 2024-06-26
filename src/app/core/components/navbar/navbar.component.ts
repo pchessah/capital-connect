@@ -16,7 +16,7 @@ export class NavbarComponent {
   private _authService = inject(AuthStateService);
   private _companyStateService = inject(CompanyStateService);
 
-  businessName = this._companyStateService.currentCompany.name
+  businessName = this._companyStateService.currentCompany?.name
 
   logOut$ = new Observable<boolean>();
 
