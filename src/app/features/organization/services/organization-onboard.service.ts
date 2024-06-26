@@ -1,4 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
+import { toObservable } from '@angular/core/rxjs-interop';
 import { CompanyInput, GrowthStage, RegistrationStructure } from '../interfaces';
 import { CompanyHttpService } from './company.service';
 import { tap } from 'rxjs';
@@ -30,6 +31,8 @@ export class OrganizationOnboardService {
     numberOfEmployees: 0,
     fullTimeBusiness: false
   });
+
+  companyInput$ = toObservable(this._companyInput)
 
   get companyInput() {
     return this._companyInput();

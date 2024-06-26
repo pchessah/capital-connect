@@ -55,8 +55,7 @@ export class AuthStateService {
   }
 
   private _setUserName() {
-    const decodedToken = this._getParsedToken()
-    debugger
+    const decodedToken = this._getParsedToken();
     if (decodedToken) {
       sessionStorage.setItem('userName', String((decodedToken as any).username))
       this.currentUserName.set(((decodedToken as any).username))
