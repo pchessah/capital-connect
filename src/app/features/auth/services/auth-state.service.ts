@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { FORM_TYPE } from '../interfaces/auth.interface';
 import { tap } from 'rxjs';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class AuthStateService {
 
   private _jwtService = inject(JwtService);
@@ -12,12 +12,15 @@ export class AuthStateService {
   private _feedBackService = inject(FeedbackService);
   private _router = inject(Router);
 
-  currentToken:WritableSignal<string> = signal(sessionStorage.getItem('token') as string) ?? null
-  currentUserId:WritableSignal<number> = signal(Number(sessionStorage.getItem('userId') as string)) ?? null
+  currentToken: WritableSignal<string> = signal(sessionStorage.getItem('token') as string) ?? null
+  currentUserId: WritableSignal<number> = signal(Number(sessionStorage.getItem('userId') as string)) ?? null
+  currentUserName: WritableSignal<string> = signal(sessionStorage.getItem('userName') as string)
+
   setToken(token: string) {
     sessionStorage.setItem('token', token);
     this.currentToken.set(token);
-    this._setCurrentUserId()
+    this._setCurrentUserId();
+    this._setUserName();
   }
 
   get authToken() {
@@ -34,17 +37,31 @@ export class AuthStateService {
     return !!token
   }
 
-  private _setCurrentUserId(){
-    const token = this.currentToken();
-    if(!!token){
-      const decodedToken = this._jwtService.decodeToken(token);
-      if(decodedToken){
-        sessionStorage.setItem('userId', String(decodedToken.sub))
-        this.currentUserId.set(Number(decodedToken.sub))
-      } 
+  private _setCurrentUserId() {
+    const decodedToken = this._getParsedToken()
+    if (decodedToken) {
+      sessionStorage.setItem('userId', String(decodedToken.sub))
+      this.currentUserId.set(Number(decodedToken.sub))
     }
   }
 
+  private _getParsedToken() {
+    const token = this.currentToken();
+    if (!!token) {
+      const decodedToken = this._jwtService.decodeToken(token)
+      return decodedToken
+    }
+    return null;
+  }
+
+  private _setUserName() {
+    const decodedToken = this._getParsedToken()
+    debugger
+    if (decodedToken) {
+      sessionStorage.setItem('userName', String((decodedToken as any).username))
+      this.currentUserName.set(((decodedToken as any).username))
+    }
+  }
 
   logout() {
     return this._confirmationService.confirm('Are you sure you want to log out?').pipe(tap(confirmation => {
@@ -56,5 +73,5 @@ export class AuthStateService {
     }))
 
   }
-  
+
 }

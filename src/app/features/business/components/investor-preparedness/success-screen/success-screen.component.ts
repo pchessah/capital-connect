@@ -25,6 +25,8 @@ export class SuccessScreenComponent {
   private _currentUserId: number =this._authStateService.currentUserId();
   private _submissionService =inject(SubmissionService);
   private _feedBackService =inject(FeedbackService);
+  
+  currentUserName = this._authStateService.currentUserName()
 
   calculateScore() {
     this.score$ =this._submissionService.calculateScoreOfUser(this._currentUserId).pipe(tap(res =>{
