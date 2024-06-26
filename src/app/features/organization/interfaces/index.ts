@@ -6,9 +6,10 @@ export enum RegistrationStructure {
 }
 
 export enum GrowthStage {
-  Seed = "seed",
-  SeriesA = "seriesA",
-  SeriesB = "seriesB"
+  Startup = "Start Up",
+  GrowthStage = "Growth Stage",
+  EstablishedExpansion = "Establishment Expansion",
+  LiquidationTurnuAround = "Liquidation Turnaround"
 }
 
 export interface CompanyInput {

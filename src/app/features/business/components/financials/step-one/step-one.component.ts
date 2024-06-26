@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-step-one',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './step-one.component.html',
   styleUrl: './step-one.component.scss'
 })
@@ -60,14 +61,14 @@ export class StepOneComponent {
   }
 
   handleSubmit(){
-
     const formValues =this.formGroup.value;
-    const submissionData = this.questions.map(question => {
-      const questionId =question.id;
-      const openQuestion = question.answers.find(a => a.text === 'OPEN');
-      const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
-      return {questionId, answerId, text: formValues['question_' + question.id]}
-    });
+
+    const submissionData = this.questions.map(question => ({
+      questionId: question.id,
+      answerId: question.answers.find(a => a.text === 'OPEN')?.text === 'OPEN' ? Number(question.answers.find(a => a.text === 'OPEN')?.id)
+                                                                               :  Number(formValues['question_' + question.id]),
+      text: formValues['question_' + question.id]
+    }));
 
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();

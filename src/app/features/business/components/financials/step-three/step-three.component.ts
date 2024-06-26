@@ -2,25 +2,25 @@ import {Component, inject} from '@angular/core';
 import {QuestionsService} from "../../../../questions/services/questions/questions.service";
 import {combineLatest, Observable, tap} from "rxjs";
 import {Question, QuestionType} from "../../../../questions/interfaces";
-import {AsyncPipe, CommonModule, NgIf} from "@angular/common";
+
+import {CommonModule } from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
+import {Router, RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-step-three',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    CommonModule,
-    ReactiveFormsModule
-  ],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './step-three.component.html',
   styleUrl: './step-three.component.scss'
 })
 export class StepThreeComponent {
   questions: Question[] = [];
   field_type = QuestionType;
+
+  private _router = inject(Router)
   private _formBuilder =inject(FormBuilder)
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);
@@ -67,10 +67,11 @@ export class StepThreeComponent {
   handleSubmit(){
     const formValues =this.formGroup.value;
     const submissionData = this.questions.map(question => {
-      const questionId =question.id;
+      const questionId = question.id;
       const openQuestion = question.answers.find(a => a.text === 'OPEN');
-      const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
-      return {questionId, answerId, text: formValues['question_' + question.id].toString()}
+      const answerId = openQuestion ? Number(openQuestion.id) : Number(formValues['question_' + question.id])
+      return { questionId, answerId, text: formValues['question_' + question.id].toString()}
+
     });
 
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {

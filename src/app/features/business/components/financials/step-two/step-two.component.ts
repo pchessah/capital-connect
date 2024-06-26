@@ -6,11 +6,12 @@ import {CommonModule} from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-step-two',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './step-two.component.html',
   styleUrl: './step-two.component.scss'
 })
@@ -67,6 +68,7 @@ export class StepTwoComponent {
       const questionId =question.id;
       const openQuestion = question.answers.find(a => a.text === 'OPEN');
       const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
+
       return {questionId, answerId:parseInt(answerId), text: formValues['question_' + question.id]}
     });
 

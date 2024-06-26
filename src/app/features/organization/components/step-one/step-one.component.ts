@@ -4,7 +4,8 @@ import { SharedModule } from '../../../../shared';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
-import { CompanyInput } from '../../interfaces';
+import {Company, CompanyInput} from '../../interfaces';
+import {UserCompanyService} from "../../../../core/services/company/user.company.service";
 
 @Component({
   selector: 'app-step-one',
@@ -14,15 +15,14 @@ import { CompanyInput } from '../../interfaces';
   styleUrl: './step-one.component.scss'
 })
 export class StepOneComponent {
-
+  private _userCompany =inject(UserCompanyService)
   private _fb = inject(FormBuilder)
   private _orgStateService = inject(OrganizationOnboardService);
-
   private _currentCompanyData: CompanyInput = this._orgStateService.companyInput;
-
+  userCompany!:Company;
   stepOneForm: FormGroup = this._fb.group({
     name: [ this._currentCompanyData.name ?? '', Validators.required],
-    country: [this._currentCompanyData.country ?? 'Kenya', Validators.required], 
+    country: [this._currentCompanyData.country ?? 'Kenya', Validators.required],
     businessSector: [this._currentCompanyData.businessSector ?? '', Validators.required],
     productsAndServices: [this._currentCompanyData.productsAndServices ?? '', Validators.required]
   });
@@ -38,4 +38,7 @@ export class StepOneComponent {
   sectors: string[] = ['Venture Capital', 'Ecommerce', 'Technology', 'Healthcare', 'Finance', 'Education', 'Manufacturing', 'Retail', 'Transportation', 'Agriculture'];
   productsAndServices: string[] = ['FMCG', 'Fintech', 'Software', 'Consulting', 'Logistics', 'Telecommunications', 'Biotechnology', 'Construction', 'Energy', 'Tourism'];
 
+  company$ =this._userCompany.companySrc$.pipe(tap(company =>{
+    this.userCompany =company;
+  }))
 }

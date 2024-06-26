@@ -18,7 +18,7 @@
         <div class="input__wrapper">
           <label class="input__label">{{question.text}}<sup>*</sup></label>
           <a href="">Why do we ask this?</a>
-          @if(question.type ==field_type.SINGLE_CHOICE){
+          @if(question.type ==field_type.SINGLE_CHOICE || question.type == field_type.MULTIPLE_CHOICE){
             <select class="input__field" [formControlName]="'question_' + question.id">
               <option value="">Select option</option>
               <option *ngFor="let answer of question.answers"  [value]="answer.id">
@@ -45,7 +45,7 @@
     </div>
 
     <div class="cta__group">
-      <a href="">Skip and go to dashboard</a>
+      <a routerLink="/business">Skip and go to dashboard</a>
       <button class="btn btn-primary outline" type="button" (click)="goBack()">Back</button>
       <button class="btn btn-primary" [disabled]="!formGroup.valid" [ngClass]="{'disabled-btn': !formGroup.valid }">Next</button>
     </div>

@@ -1,26 +1,52 @@
-<form action="">
-    <div class="input__wrapper">
-        <label class="input__label">Do you have a teaser document for this transaction? <sup>*</sup></label>
-        <a href="">Why do we ask this?</a>
-        <div class="form__row">
-            <input class="input__field" type="number" placeholder="Type number of years"/>
-            <select class="input__field">
-                <option value="">Select currency</option>
+<ng-container *ngIf="init$ | async"/>
+<ng-container *ngIf="submission$ | async"/>
+<ng-container *ngIf="questions$ | async">
+  <form [formGroup]="formGroup" (ngSubmit)="handleSubmit()">
+    <div class="form_content__container">
+      <div class="header">
+        <div class="steps__bar">
+          <p>Step 1 of 2</p>
+          <ul class="indicators">
+            @for (step of [].constructor(2); track $index){
+              <li [class.active] ="($index +1) <= 1"></li>
+            }
+          </ul>
+        </div>
+        <strong>Investor Preparedness</strong>
+      </div>
+      @for (question of questions; track $index) {
+        <div class="input__wrapper">
+          <label class="input__label">{{question.text}}<sup>*</sup></label>
+          <a href="">Why do we ask this?</a>
+          @if(question.type ==field_type.SINGLE_CHOICE || question.type == field_type.MULTIPLE_CHOICE){
+            <select class="input__field" [formControlName]="'question_' + question.id">
+              <option value="">Select option</option>
+              <option *ngFor="let answer of question.answers"  [value]="answer.id">
+                {{ answer.text }}
+              </option>
             </select>
+          } @else if(question.type == field_type.TRUE_FALSE ){
+            <div class="radio__form">
+              <div *ngFor="let answer of question.answers">
+                <input type="radio" [formControlName]="'question_' + question.id" [value]="answer.id">
+                <label>{{ answer.text }}</label>
+              </div>
+            </div>
+          }
+          @else{
+            <div class="form__row">
+              <input class="input__field" [formControlName]="'question_' + question.id" type="text" placeholder=""/>
+            </div>
+          }
+
         </div>
+      }
     </div>
-    <div class="input__wrapper">
-        <label class="input__label">Do you have a detailed Pitch Deck for your transaction? <sup>*</sup></label>
-        <a href="">Why do we ask this?</a>
-        <div class="form__row">
-            <input class="input__field" type="number" placeholder="Type number of years"/>
-        </div>
+
+    <div class="cta__group">
+      <a routerLink="/business">Skip and go to dashboard</a>
+      <button class="btn btn-primary outline" type="button" (click)="goBack()">Back</button>
+      <button class="btn btn-primary" [disabled]="!formGroup.valid" [ngClass]="{'disabled-btn': !formGroup.valid }">Next</button>
     </div>
-    <div class="input__wrapper">
-        <label class="input__label">Have you prepared any financial forecasts in relation to the potential fund raise? <sup>*</sup></label>
-        <a href="">Why do we ask this?</a>
-        <div class="form__row">
-            <input class="input__field" type="number" placeholder="Type number of years"/>
-        </div>
-    </div>
-</form>
+  </form>
+</ng-container>

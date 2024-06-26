@@ -12,11 +12,12 @@ import { ProgressBarComponent } from '../../../../features/business/components/p
 export class FormsLayoutComponent {
   current_step =1;
   current_page =2;
+
   constructor(private businessPageService: BusinessPageService) {}
 
   @Input() steps: number =3;
   @Input() title: string ='';
-
+  @Input() progress =0;
   setNextScreen(step: number) {
     this.setNextStep(step);
     if (this.current_step >this.steps || (this.current_step <1 && step <0)){

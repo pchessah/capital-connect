@@ -1,4 +1,4 @@
-import { Component, inject, Input, SimpleChanges, OnChanges } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { combineLatest, Observable } from 'rxjs';
@@ -7,6 +7,7 @@ import { BusinessPageService } from '../../../services/business-page/business.pa
 import { QuestionsService } from '../../../../questions/services/questions/questions.service';
 import { Question } from '../../../../questions/interfaces';
 import { SubmissionService, SubMissionStateService, UserSubmissionResponse } from '../../../../../shared';
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-index',
@@ -21,10 +22,10 @@ export class IndexComponent {
   private _submissionService = inject(SubmissionService);
   private _submissionStateService = inject(SubMissionStateService)
   private _formBuilder = inject(FormBuilder);
-
-  currentEntries: UserSubmissionResponse[] = []
+  private _router =inject(Router);
 
   formGroup: FormGroup = this._formBuilder.group({});
+  // sectionQuestions$ =this._questionService.getSectionQuestions(5)
   questions$ = this._questionService.getQuestionsOfSubSection(11).pipe(
     tap(questions => {
       this.questions = questions;
@@ -34,7 +35,7 @@ export class IndexComponent {
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
 
   init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-    if(this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
+    if(this._hasMatchingQuestionId(res[0], res[1])) {
       this.setNextScreen();
     }
   }))
@@ -72,7 +73,7 @@ export class IndexComponent {
   }
 
   skip() {
-    this._pageService.setCurrentPage(1);
+    this._router.navigateByUrl('/business')
   }
 
   setNextScreen() {

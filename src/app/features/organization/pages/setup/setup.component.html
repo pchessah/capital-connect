@@ -25,7 +25,7 @@
       <button class="outline" *ngIf="current_step > 1 && current_step < 4" (click)="setStep(-1)">Previous Step</button>
       <div class="form__controls">
         <button class="outline" (click)="setStep(1)" *ngIf="current_step == 3 ">Skip Step</button>
-        <button [disabled]="isDisabled" class="fill" [ngClass]="{'disabled-btn' : isDisabled}" (click)="setStep(1)" *ngIf="current_step < 4">Continue</button>
+        <button [disabled]="isDisabled" class="fill" [ngClass]="{'disabled-btn' : isDisabled }" (click)="setStep(1)" *ngIf="current_step < 4">Continue</button>
         <button class="fill" (click)="goToBusinessFinancials()" *ngIf="current_step === 4">Let's Start</button>
       </div>
     </div>
