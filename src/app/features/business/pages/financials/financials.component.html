@@ -2,6 +2,6 @@
 <app-layout *ngIf="currentPage$ | async as current_screen">
   <app-index-layout *ngIf="current_screen ==1"><app-index /></app-index-layout>
   <app-forms-layout *ngIf="current_screen ==2" [steps]="3"
-    [title]="'Business Financials'"><app-steps /></app-forms-layout>
+    [title]="'Business Financials'" [progress]="0"><app-steps /></app-forms-layout>
   <app-index-layout *ngIf="current_screen ==3"><app-success-screen /></app-index-layout>
 </app-layout>
