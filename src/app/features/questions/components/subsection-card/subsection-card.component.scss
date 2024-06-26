@@ -17,7 +17,8 @@
     flex-direction: column;
     padding-bottom: .75rem;
   }
-  a{
+
+  .link{
     display: block;
     text-decoration: none;
     color: white;
@@ -31,27 +32,31 @@
     }
   }
   .card__item__header{
+    gap: 1rem;
     display: flex;
     opacity: 0;
     justify-content: flex-end;
     transition: .3s linear;
-    button{
-      font-size: 1rem;
+    a, button{
+      color: white;
       display: flex;
-      overflow: hidden;
-      border-radius: 50%;
-      justify-content: center;
       align-items: center;
-      background-color: transparent;
+      border-radius: .5rem;
+      overflow: hidden;
+      height: 30px;
+      width: 30px;
+  
       cursor: pointer;
-      transition: .2s linear;
-      &:hover{
-        background-color: rgba(0,0,0,.1);
-      }
+      justify-content: center;
+      text-decoration: none;
       *{
+        display: flex;
         padding: 0;
         margin: 0;
-        background: none;
+        align-items: center;
+        justify-content: center;
+        width: .5rem;
+        height: .5rem;
       }
     }
   }
