@@ -26,7 +26,8 @@ export class SetupComponent {
    companyOfUser$ = this._organizationOnboardService.getCompanyOfUser().pipe(tap(company => {
     // this._userCompany.setCompany(company);
     // this.companyAlreadyRegistered =Object.keys(company).length >0;
-     this.goToDashBoard();
+    //  this.goToDashBoard();
+     this.goToBusinessFinancials();
    }))
 
   current_step = 1;
