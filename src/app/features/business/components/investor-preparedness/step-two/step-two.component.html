@@ -1,28 +1,53 @@
-<form action="">
-    <div class="input__wrapper">
-        <label class="input__label">Do you have a valuation range in mind if you are considering an equity structured transaction? <sup>*</sup></label>
-        <a href="">Why do we ask this?</a>
-        <div class="form__row">
-            <input class="input__field" type="number" placeholder="Value of assets"/>
-            <select class="input__field">
-                <option value="">Select currency</option>
+<ng-container *ngIf="init$ | async"></ng-container>
+<ng-container *ngIf="submission$ | async"></ng-container>
+<ng-container *ngIf="questions$ | async">
+  <form [formGroup]="formGroup" (ngSubmit)="handleSubmit()">
+    <div class="form_content__container">
+      <div class="header">
+        <div class="steps__bar">
+          <p>Step 2 of 3</p>
+          <ul class="indicators">
+            @for (step of [].constructor(3); track $index){
+              <li [class.active] ="($index +1) <= 2"></li>
+            }
+          </ul>
+        </div>
+        <strong>Investor Preparedness</strong>
+      </div>
+      @for (question of questions; track $index) {
+        <div class="input__wrapper">
+          <label class="input__label">{{question.text}}<sup>*</sup></label>
+          <a href="">Why do we ask this?</a>
+          @if(question.type ==field_type.SINGLE_CHOICE){
+            <select class="input__field" [formControlName]="'question_' + question.id">
+              <option value="">Select option</option>
+              <option *ngFor="let answer of question.answers"  [value]="answer.id">
+                {{ answer.text }}
+              </option>
             </select>
+
+          } @else if(question.type == field_type.TRUE_FALSE){
+            <div class="radio__form">
+              <div *ngFor="let answer of question.answers">
+                <input type="radio" [formControlName]="'question_' + question.id" [value]="answer.id">
+                <label>{{ answer.text }}</label>
+              </div>
+            </div>
+          }
+          @else{
+            <div class="form__row">
+              <input class="input__field" [formControlName]="'question_' + question.id" type="text" placeholder=""/>
+            </div>
+          }
+
         </div>
+      }
     </div>
-    <div class="input__wrapper">
-        <label class="input__label">Have you reviewed the required Due Diligence questions, information requirements and conditions that the investor may have to ensure you have a successful fund raise? <sup>*</sup></label>
-        <a href="">Why do we ask this?</a>
-        <div class="form__row">
-            <input class="input__field" type="number" placeholder="Debt, Loans & Liabilities held"/>
-        </div>
+
+    <div class="cta__group">
+      <a href="">Skip and go to dashboard</a>
+      <button class="btn btn-primary outline" type="button" (click)="goBack()">Back</button>
+      <button class="btn btn-primary" [disabled]="!formGroup.valid" [ngClass]="{'disabled-btn': !formGroup.valid }">Next</button>
     </div>
-    <div class="input__wrapper">
-        <label class="input__label">Does the business have a current tax-compliant certificate? <sup>*</sup></label>
-        <a href="">Why do we ask this?</a>
-        <div class="form__row">
-            <select class="input__field">
-                <option value="">Tax compliant certificate</option>
-            </select>
-        </div>
-    </div>
-</form>
+  </form>
+</ng-container>

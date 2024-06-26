@@ -5,6 +5,7 @@ import {Observable, tap} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {Router, RouterLink} from "@angular/router";
 import {FeedbackService} from "../../../../../core";
+import {BusinessPageService} from "../../../services/business-page/business.page.service";
 
 @Component({
   selector: 'app-success-screen',
@@ -15,6 +16,7 @@ import {FeedbackService} from "../../../../../core";
 })
 export class SuccessScreenComponent {
   private  _router =inject(Router);
+  private _pageService = inject(BusinessPageService);
   private _feedBackService =inject(FeedbackService);
   private _authStateService =inject(AuthStateService);
   private _currentUserId: number =this._authStateService.currentUserId()
@@ -27,7 +29,10 @@ export class SuccessScreenComponent {
 
   }
 
-  goToInvestorEligibility(){
-    this._router.navigateByUrl('/business/investor-eligibility')
+
+  goToInvestorEligibility() {
+    this._pageService.setCurrentPage(1);
+    this._pageService.setCurrentStep(1);
+    this._router.navigateByUrl('/business/investor-eligibility');
   }
 }

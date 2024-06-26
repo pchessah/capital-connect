@@ -2,25 +2,23 @@ import {Component, inject} from '@angular/core';
 import {QuestionsService} from "../../../../questions/services/questions/questions.service";
 import {combineLatest, Observable, tap} from "rxjs";
 import {Question, QuestionType} from "../../../../questions/interfaces";
-import {AsyncPipe, CommonModule, NgIf} from "@angular/common";
+import {CommonModule } from "@angular/common";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-step-three',
   standalone: true,
-  imports: [
-    AsyncPipe,
-    CommonModule,
-    ReactiveFormsModule
-  ],
+  imports: [ CommonModule, ReactiveFormsModule ],
   templateUrl: './step-three.component.html',
   styleUrl: './step-three.component.scss'
 })
 export class StepThreeComponent {
   questions: Question[] = [];
   field_type = QuestionType;
+  private _router =new Router();
   private _formBuilder =inject(FormBuilder)
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);
@@ -70,7 +68,7 @@ export class StepThreeComponent {
       const questionId =question.id;
       const openQuestion = question.answers.find(a => a.text === 'OPEN');
       const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
-      return {questionId, answerId, text: formValues['question_' + question.id].toString()}
+      return {questionId, answerId: parseInt(answerId), text: formValues['question_' + question.id]}
     });
 
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
