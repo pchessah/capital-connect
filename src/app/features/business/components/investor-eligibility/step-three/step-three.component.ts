@@ -7,11 +7,12 @@ import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from 
 import {combineLatest, Observable, tap} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {AuthModule} from "../../../../auth/modules/auth.module";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-step-three',
   standalone: true,
-  imports: [CommonModule, AuthModule, ReactiveFormsModule],
+  imports: [CommonModule, AuthModule, ReactiveFormsModule, RouterLink],
   templateUrl: './step-three.component.html',
   styleUrl: './step-three.component.scss'
 })
