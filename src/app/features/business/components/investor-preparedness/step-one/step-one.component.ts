@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-step-one',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './step-one.component.html',
   styleUrl: './step-one.component.scss'
 })

@@ -6,11 +6,12 @@ import { CommonModule } from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-step-one',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './step-one.component.html',
   styleUrl: './step-one.component.scss'
 })
@@ -64,7 +65,7 @@ export class StepOneComponent {
 
     const submissionData = this.questions.map(question => ({
       questionId: question.id,
-      answerId: question.answers.find(a => a.text === 'OPEN')?.text === 'OPEN' ? Number(question.answers.find(a => a.text === 'OPEN')?.id) 
+      answerId: question.answers.find(a => a.text === 'OPEN')?.text === 'OPEN' ? Number(question.answers.find(a => a.text === 'OPEN')?.id)
                                                                                :  Number(formValues['question_' + question.id]),
       text: formValues['question_' + question.id]
     }));

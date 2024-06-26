@@ -29,10 +29,9 @@ export class StepOneComponent {
 
   stepOneForm$ = this.stepOneForm.valueChanges.pipe(tap(vals => {
     this._orgStateService.step1isValid.set(this.stepOneForm.valid)
-    console.log(vals)
-    // if (this.stepOneForm.valid) {
-    //   this._orgStateService.updateCompanyInput(vals)
-    // }
+    if (this.stepOneForm.valid) {
+      this._orgStateService.updateCompanyInput(vals)
+    }
   }))
 
   countries: string[] = ['Kenya', 'United States', 'Canada', 'United Kingdom', 'Australia', 'Germany', 'France', 'Japan', 'China', 'India'];
@@ -41,6 +40,5 @@ export class StepOneComponent {
 
   company$ =this._userCompany.companySrc$.pipe(tap(company =>{
     this.userCompany =company;
-    console.log(company)
   }))
 }

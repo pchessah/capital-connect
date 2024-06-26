@@ -8,6 +8,7 @@ import { QuestionsService } from "../../../../questions/services/questions/quest
 import { BusinessPageService } from "../../../services/business-page/business.page.service";
 import { SubmissionService, SubMissionStateService, UserSubmissionResponse } from "../../../../../shared";
 import { combineLatest, Observable, tap } from "rxjs";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-step-one',
@@ -15,7 +16,8 @@ import { combineLatest, Observable, tap } from "rxjs";
   imports: [
     AuthModule,
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './step-one.component.html',
   styleUrl: './step-one.component.scss'

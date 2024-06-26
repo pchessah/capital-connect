@@ -26,14 +26,14 @@ export class SetupComponent {
    companyOfUser$ = this._organizationOnboardService.getCompanyOfUser().pipe(tap(company => {
     // this._userCompany.setCompany(company);
     // this.companyAlreadyRegistered =Object.keys(company).length >0;
-     this.goToDashBoard();
+    //  this.goToDashBoard();
+     this.goToBusinessFinancials();
    }))
 
   current_step = 1;
   steps = [1, 2, 3, 4];
 
   setStep(direction: number) {
-    console.log(direction)
     if (direction > 0 && (this.current_step >= this.steps.length)) return;
     if (direction < 0 && (this.current_step <= 1)) return;
 

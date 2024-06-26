@@ -7,11 +7,13 @@ import { tap } from "rxjs/operators";
 import { combineLatest, Observable } from "rxjs";
 import { Question } from "../../../../questions/interfaces";
 import { CommonModule } from "@angular/common";
+import {Router} from "@angular/router";
+import {ProgressBarComponent} from "../../progress-bar/progress-bar.component";
 
 @Component({
   selector: 'app-index',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, ProgressBarComponent],
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
 })
@@ -23,7 +25,7 @@ export class IndexComponent {
   private _submissionStateService = inject(SubMissionStateService)
   private _formBuilder = inject(FormBuilder);
 
-  currentEntries: UserSubmissionResponse[] = []
+  private _router =inject(Router);
 
   formGroup: FormGroup = this._formBuilder.group({});
   questions$ = this._questionService.getQuestionsOfSubSection(15).pipe(
@@ -72,7 +74,8 @@ export class IndexComponent {
   }
 
   skip() {
-    this._pageService.setCurrentPage(1);
+    // this._pageService.setCurrentPage(1);
+    this._router.navigateByUrl('/business')
   }
 
   setNextScreen() {

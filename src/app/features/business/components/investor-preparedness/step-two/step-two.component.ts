@@ -7,13 +7,15 @@ import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from 
 import {combineLatest, Observable, tap} from "rxjs";
 import { CommonModule } from "@angular/common";
 import {CommandModule} from "@angular/cli/src/command-builder/command-module";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-step-two',
   standalone: true,
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    RouterLink
   ],
   templateUrl: './step-two.component.html',
   styleUrl: './step-two.component.scss'
