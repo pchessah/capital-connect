@@ -33,7 +33,6 @@ export class SetupComponent {
   steps = [1, 2, 3, 4];
 
   setStep(direction: number) {
-    console.log(direction)
     if (direction > 0 && (this.current_step >= this.steps.length)) return;
     if (direction < 0 && (this.current_step <= 1)) return;
 
