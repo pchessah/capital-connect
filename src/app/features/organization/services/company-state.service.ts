@@ -1,4 +1,4 @@
-import { inject, Injectable, signal, WritableSignal } from '@angular/core';
+import { Injectable, signal, WritableSignal } from '@angular/core';
 import { Company } from '../interfaces';
 
 @Injectable({ providedIn: 'root' })

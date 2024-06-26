@@ -26,7 +26,7 @@ export class OrganizationOnboardService {
     productsAndServices: '',
     registrationStructure: RegistrationStructure.B2B,
     yearsOfOperation: 0,
-    growthStage: GrowthStage.Seed,
+    growthStage: GrowthStage.Startup,
     numberOfEmployees: 0,
     fullTimeBusiness: false
   });
@@ -50,7 +50,7 @@ export class OrganizationOnboardService {
       productsAndServices: '',
       registrationStructure: RegistrationStructure.B2B,
       yearsOfOperation: 0,
-      growthStage: GrowthStage.Seed,
+      growthStage: GrowthStage.Startup,
       numberOfEmployees: 0,
       fullTimeBusiness: false
     });
@@ -62,14 +62,12 @@ export class OrganizationOnboardService {
     }))
   }
 
-
   getCompanyOfUser(){
     const currentUserId = this._authStateService.currentUserId();
     return this._companyService.getCompanyOfUser(currentUserId).pipe(tap(company =>{
       this._companyInput.set(company);
       this._companyStateService.setCompany(company);
     }))
-
   }
   
 }

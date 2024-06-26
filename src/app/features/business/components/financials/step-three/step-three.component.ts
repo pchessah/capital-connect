@@ -34,6 +34,7 @@ export class StepThreeComponent {
   submission$ =new Observable<unknown>()
   questions$ =  this._questionService.getQuestionsOfSubSection(14).pipe(tap(questions => {
     this.questions = questions
+    debugger
     this._createFormControls();
   }))
 
@@ -67,10 +68,10 @@ export class StepThreeComponent {
   handleSubmit(){
     const formValues =this.formGroup.value;
     const submissionData = this.questions.map(question => {
-      const questionId =question.id;
+      const questionId = question.id;
       const openQuestion = question.answers.find(a => a.text === 'OPEN');
-      const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
-      return {questionId, answerId, text: formValues['question_' + question.id].toString()}
+      const answerId = openQuestion ? Number(openQuestion.id) : Number(formValues['question_' + question.id])
+      return { questionId, answerId, text: formValues['question_' + question.id].toString()}
     });
 
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
