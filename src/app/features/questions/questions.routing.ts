@@ -6,7 +6,7 @@ const routes: Routes = [
   { path: '', loadComponent: () => import('./pages/saved-response/saved-response.component').then(c => c.SavedResponseComponent) },
   { path: 'dashboard', loadComponent: () => import('./pages/saved-response/saved-response.component').then(c => c.SavedResponseComponent) },
 
-  { path: 'section', loadComponent: () => import('./pages/section/section.component').then(c => c.SectionComponent) },
+  { path: 'section', loadComponent: () => import('./pages/create-section/create-section.component').then(c => c.CreateSectionComponent) },
   { path: 'section/:id', loadComponent: () => import('./pages/section/section.component').then(c => c.SectionComponent) },
   { path: 'section/:id/edit', loadComponent: () => import('./pages/edit-section/edit-section.component').then(c => c.EditSectionComponent) },
 

@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { SharedModule } from "../../../../shared";
 import { UiComponent } from "../../components/ui/ui.component";
 import { Answer, Question, SubSection } from '../../interfaces';
-import { Router } from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import { QuestionsService } from '../../services/questions/questions.service';
 import { Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
@@ -18,7 +18,8 @@ import {SectionCardComponent} from "../../components/section-card/section-card.c
     SharedModule,
     UiComponent,
     ReactiveFormsModule,
-    SectionCardComponent
+    SectionCardComponent,
+    RouterLink
   ],
   templateUrl: './saved-response.component.html',
   styleUrl: './saved-response.component.scss'
