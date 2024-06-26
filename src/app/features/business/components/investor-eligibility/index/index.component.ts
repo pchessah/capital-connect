@@ -1,14 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { combineLatest, Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { BusinessPageService } from '../../../services/business-page/business.page.service';
-import { QuestionsService } from '../../../../questions/services/questions/questions.service';
-import { Question } from '../../../../questions/interfaces';
-import { SubmissionService, SubMissionStateService, UserSubmissionResponse } from '../../../../../shared';
-import { CompanyStateService } from '../../../../organization/services/company-state.service';
-import { Company } from '../../../../organization/interfaces';
+import { QuestionsService } from "../../../../questions/services/questions/questions.service";
+import { SubmissionService, SubMissionStateService, UserSubmissionResponse } from "../../../../../shared";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { tap } from "rxjs/operators";
+import { combineLatest, Observable } from "rxjs";
+import { Question } from "../../../../questions/interfaces";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-index',
@@ -17,20 +15,18 @@ import { Company } from '../../../../organization/interfaces';
   templateUrl: './index.component.html',
   styleUrl: './index.component.scss'
 })
+
 export class IndexComponent {
   private _pageService = inject(BusinessPageService);
   private _questionService = inject(QuestionsService);
   private _submissionService = inject(SubmissionService);
   private _submissionStateService = inject(SubMissionStateService)
   private _formBuilder = inject(FormBuilder);
-  private _companyStateService = inject(CompanyStateService);
-
-  private _currentCompany: Company = this._companyStateService.currentCompany
 
   currentEntries: UserSubmissionResponse[] = []
 
   formGroup: FormGroup = this._formBuilder.group({});
-  questions$ = this._questionService.getQuestionsOfSubSection(11).pipe(
+  questions$ = this._questionService.getQuestionsOfSubSection(15).pipe(
     tap(questions => {
       this.questions = questions;
       this._createFormControls();
@@ -39,7 +35,7 @@ export class IndexComponent {
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
 
   init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-    if (this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
+    if (this._hasMatchingQuestionId(res[0], res[1])) {
       this.setNextScreen();
     }
   }))
@@ -64,7 +60,6 @@ export class IndexComponent {
 
   onSubmit() {
     const formValues = this.formGroup.value;
-
     const submissionData = this.questions.map(question => ({
       questionId: question.id,
       answerId: formValues['question_' + question.id]

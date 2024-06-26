@@ -1,61 +1,47 @@
-import {Component, inject} from '@angular/core';
-import { QuestionsService } from '../../../../questions/services/questions/questions.service';
-import {combineLatest, Observable, tap} from 'rxjs';
-import { Question } from '../../../../questions/interfaces';
-import { CommonModule } from '@angular/common';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {BusinessPageService} from "../../../services/business-page/business.page.service";
-import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
-import { CompanyStateService } from '../../../../organization/services/company-state.service';
-import { Company, GrowthStage } from '../../../../organization/interfaces';
+import { Component, inject } from '@angular/core';
 
+import { CommonModule } from "@angular/common";
+import { AuthModule } from "../../../../auth/modules/auth.module";
+import { Question, QuestionType } from "../../../../questions/interfaces";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { QuestionsService } from "../../../../questions/services/questions/questions.service";
+import { BusinessPageService } from "../../../services/business-page/business.page.service";
+import { SubmissionService, SubMissionStateService, UserSubmissionResponse } from "../../../../../shared";
+import { combineLatest, Observable, tap } from "rxjs";
 
 @Component({
   selector: 'app-step-one',
   standalone: true,
-  imports: [ CommonModule, ReactiveFormsModule ],
+  imports: [
+    AuthModule,
+    CommonModule,
+    ReactiveFormsModule
+  ],
   templateUrl: './step-one.component.html',
   styleUrl: './step-one.component.scss'
 })
 export class StepOneComponent {
   questions: Question[] = [];
-  private _formBuilder =inject(FormBuilder)
+  private _formBuilder = inject(FormBuilder)
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);
   private _submissionService = inject(SubmissionService);
-  private _companyStateService = inject(CompanyStateService);
-
-  private _currentCompany: Company = this._companyStateService.currentCompany;
-
-  subSectionId!: number;
-
-  private _getSubSectionId(){
-    switch (this._currentCompany.growthStage) {
-      case GrowthStage.Startup:
-        return 
-        
-        break;
-    
-      default:
-        break;
-    }
-  }
-
+  formGroup: FormGroup = this._formBuilder.group({})
+  field_type = QuestionType;
   private _submissionStateService = inject(SubMissionStateService)
-  formGroup: FormGroup =this._formBuilder.group({})
   // subsections$ = this._questionService.getSubSectionsOfaSection(5).pipe(tap(res => {
   //   debugger
   // }))
 
-  submission$ =new Observable<unknown>();
-  questions$ =  this._questionService.getQuestionsOfSubSection(12).pipe(tap(questions => {
+  submission$ = new Observable<unknown>();
+  questions$ = this._questionService.getQuestionsOfSubSection(3).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))
 
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
   init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-    if(this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
+    if (this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
       this.setNextStep();
     }
   }))
@@ -73,21 +59,21 @@ export class StepOneComponent {
       this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
     });
   }
-  setNextStep(){
+  setNextStep() {
     this._pageService.setCurrentStep(2)
   }
-  goBack(){
+  goBack() {
     this._pageService.setCurrentPage(1);
   }
 
-  handleSubmit(){
+  handleSubmit() {
 
-    const formValues =this.formGroup.value;
+    const formValues = this.formGroup.value;
     const submissionData = this.questions.map(question => {
-      const questionId =question.id;
+      const questionId = question.id;
       const openQuestion = question.answers.find(a => a.text === 'OPEN');
-      const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
-      return {questionId, answerId, text: formValues['question_' + question.id]}
+      const answerId = openQuestion ? openQuestion.id : formValues['question_' + question.id]
+      return { questionId, answerId: parseInt(answerId), text: formValues['question_' + question.id] }
     });
 
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
