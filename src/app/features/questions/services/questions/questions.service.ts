@@ -76,6 +76,9 @@ export class QuestionsService extends BaseHttpService {
     const answers$ = this.read(`${BASE_URL}/answers`)  as Observable<Answer[]>
     return answers$.pipe(map(res => res.filter(a => a.id === questionId)))
   }
+  getSingleAnswer(answerId:number) {
+   return this.readById(`${BASE_URL}/answers`, answerId)  as Observable<Answer>
+  }
 
   getSectionQuestions(sectionId: number): Observable<SubSection[]> {
     return this.getSingleSection(sectionId).pipe(

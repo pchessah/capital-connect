@@ -3,6 +3,7 @@
 <ng-container *ngIf="answerForm$ | async"></ng-container>
 <ng-container *ngIf="questions$ | async" ></ng-container>
 <ng-container *ngIf="question$ | async" ></ng-container>
+<ng-container *ngIf="answer$ | async" ></ng-container>
 
 <app-ui [title]="'Answer'">
   <div class="form__card">
@@ -12,7 +13,9 @@
           <div class="form__col">
             <label class="input__label">Question<sup>*</sup></label>
             <select class="input__field">
-              <option [value]="question" disabled selected>{{question.text}}</option>
+              @if(question){
+                <option [value]="question" disabled selected>{{question.text}}</option>
+              }
             </select>
           </div>
         </div>
@@ -34,7 +37,7 @@
   <div class="action__buttons">
     <button class="btn__outline" (click)="cancel()" >Back</button>
     <div class="inline__cta">
-      <button [disabled]="!answerFormIsValid" [ngClass]="{'disabled-btn' : !answerFormIsValid}" (click)="submit()" class="btn__primary">Save Answer</button>
+      <button [disabled]="!answerFormIsValid" [ngClass]="{'disabled-btn' : !answerFormIsValid}" (click)="submit()" class="btn__primary">Edit Answer</button>
     </div>
   </div>
 </app-ui>

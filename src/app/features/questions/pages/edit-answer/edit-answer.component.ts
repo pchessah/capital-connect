@@ -30,18 +30,26 @@ export class EditAnswerComponent {
   private _questionsService = inject(QuestionsService);
   private _routeId!:string;
   question$ =new Observable<Question>()
+  answer$ = new Observable<Answer>()
   questionId!: number;
+  answerId!:number;
+  answer!:Answer;
   answerForm = this._fb.group({
     text: ['', Validators.required],
-    weight: ['', [Validators.required, Validators.min(0)]],
+    weight: [null as any, [Validators.required, Validators.min(0)]],
     questionId: [null as any, Validators.required]
   });
 
   questions$ = this._activatedRoute.params.pipe(tap((params) => {
     const ids = params['id'].split('-')
-    this.questionId = Number(ids.at(-1));
+    this.answerId = Number(ids.at(-1));
+    this.questionId = Number(ids.at(-2));
     this._routeId =ids.slice(0, 2).join('-')
     this.answerForm.patchValue({ questionId: this.questionId});
+    this.answer$ = this._questionsService.getSingleAnswer(this.answerId).pipe(tap(answer => {
+      this.answerForm.patchValue({ text: answer.text, weight: answer.weight});
+      this.answer =answer;
+    }))
     this.question$ = this._questionsService.getSingleQuestion(this.questionId).pipe(tap(quiz => {
       this.question =quiz;
     }))
@@ -62,8 +70,9 @@ export class EditAnswerComponent {
   submit$: Observable<Answer> = new Observable();
 
   submit() {
-    this.submit$ = this._formStateService.createAnswer(this.questionId).pipe(tap(res => {
-      this.answerForm.reset();
+    delete this.answerForm.value.questionId
+    this.answer ={...this.answer,...this.answerForm.value} as Answer;
+    this.submit$ = this._formStateService.editAnswer(this.answer, this.questionId).pipe(tap(res => {
     }));
   }
 
