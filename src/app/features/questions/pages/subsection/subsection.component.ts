@@ -30,6 +30,7 @@ export class SubSectionComponent{
   questions:Question[] =[];
   subSectionId!:number;
   subsectionName!:string;
+  routeId!:string;
 
   protected readonly STEPS = QUESTION_FORM_STEPS;
   private _activatedRoute = inject(ActivatedRoute);
@@ -46,7 +47,8 @@ export class SubSectionComponent{
 
   questions$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
     // @ts-ignore
-    const ids =res.params.id.trim().split('-');
+    this.routeId =res.params.id.trim();
+    const ids =this.routeId.split('-');
     this.sectionId =Number(ids.at(0))
     this.subSectionId =Number(ids.at(1));
     this._questionsService.getSingleSubsection(this.subSectionId).pipe(tap(subsection =>{

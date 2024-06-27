@@ -14,6 +14,7 @@ const routes: Routes = [
   { path: 'sub-section', loadComponent: () => import('./pages/subsection/subsection.component').then(c => c.SubSectionComponent) },
   { path: 'sub-section/:id', loadComponent: () => import('./pages/subsection/subsection.component').then(c => c.SubSectionComponent) },
   { path: 'sub-section/:id/edit', loadComponent: () => import('./pages/edit-subsection/edit-subsection.component').then(c => c.EditSubsectionComponent) },
+  { path: 'sub-section/:id/add-question', loadComponent: () => import('./pages/create-question/create-question.component').then(c => c.CreateQuestionComponent) },
 
   { path: 'single-question', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent) },
   { path: 'single-question/:id', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent) },
