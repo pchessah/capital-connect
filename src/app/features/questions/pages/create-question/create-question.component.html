@@ -1,18 +1,19 @@
 <ng-container *ngIf="questionForm$ |async"></ng-container>
 <ng-container *ngIf="isQuestionFormValid$ | async"></ng-container>
-<ng-container *ngIf="fetchQuestionBeingEdited$ | async"></ng-container>
-<ng-container *ngIf="params$ | async"></ng-container>
-<ng-container *ngIf="updateQuestion$ | async"></ng-container>
+<ng-container *ngIf="questions$ | async"></ng-container>
+<ng-container *ngIf="subSection$ | async"></ng-container>
 
-<app-ui [title]="'Edit question'">
-  <div class="form__card" *ngIf="fetchedSubSection$ | async as subsection">
+<app-ui [title]="'Add Question'">
+  <div class="form__card">
     <form [formGroup]="questionForm" (ngSubmit)="submit()" class="user__auth__form">
       <div class="input__wrapper">
         <div class="form__row">
           <div class="form__col">
-            <label class="input__label">Sub-section<sup>*</sup></label>
+            <label class="input__label">Subsection<sup>*</sup></label>
             <select class="input__field">
-              <option [value]="subsection" disabled selected>{{subsection.name}}</option>
+              @if(subsection){
+                <option [value]="subsection" disabled selected >{{subsection.name}}</option>
+              }
             </select>
           </div>
 
@@ -44,10 +45,10 @@
   <div class="action__buttons">
     <button (click)="cancel()" class="btn__outline">Back</button>
     <div class="inline__cta">
-      <!-- <button class="btn__outline">Go to Sub-Section</button> -->
       <button [ngClass]="{'disabled-btn' : !isQuestionFormValid }" [disabled]="!isQuestionFormValid" (click)="submit()"
-              class="btn__primary">Edit Question</button>
+              class="btn__primary">Create Question</button>
     </div>
 
   </div>
 </app-ui>
+
