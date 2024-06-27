@@ -8,6 +8,9 @@ import {combineLatest, Observable, tap} from "rxjs";
 import { CommonModule } from "@angular/common";
 import {CommandModule} from "@angular/cli/src/command-builder/command-module";
 import {RouterLink} from "@angular/router";
+import {
+  INVESTOR_PREPAREDNESS_SUBSECTION_IDS
+} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-step-two',
@@ -34,7 +37,7 @@ export class StepTwoComponent {
   // }))
 
   submission$ =new Observable<unknown>()
-  questions$ =  this._questionService.getQuestionsOfSubSection(13).pipe(tap(questions => {
+  questions$ =  this._questionService.getQuestionsOfSubSection(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_TWO).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))

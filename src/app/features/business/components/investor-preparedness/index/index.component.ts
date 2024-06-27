@@ -8,6 +8,9 @@ import {Question} from "../../../../questions/interfaces";
 import { CommonModule } from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {combineLatest, Observable} from "rxjs";
+import {
+  INVESTOR_PREPAREDNESS_SUBSECTION_IDS
+} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-index',
@@ -29,7 +32,7 @@ export class IndexComponent {
   questions: Question[] = [];
   formGroup: FormGroup = this._formBuilder.group({});
 
-  questions$ = this._questionService.getQuestionsOfSubSection(6).pipe(
+  questions$ = this._questionService.getQuestionsOfSubSection(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.LANDING).pipe(
     tap(questions => {
       this.questions = questions;
       this._createFormControls();

@@ -8,6 +8,7 @@ import { QuestionsService } from '../../../../questions/services/questions/quest
 import { Question } from '../../../../questions/interfaces';
 import { SubmissionService, SubMissionStateService, UserSubmissionResponse } from '../../../../../shared';
 import {Router} from "@angular/router";
+import {BUSINESS_FINANCIALS_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-index',
@@ -26,7 +27,7 @@ export class IndexComponent {
 
   formGroup: FormGroup = this._formBuilder.group({});
   // sectionQuestions$ =this._questionService.getSectionQuestions(5)
-  questions$ = this._questionService.getQuestionsOfSubSection(11).pipe(
+  questions$ = this._questionService.getQuestionsOfSubSection(BUSINESS_FINANCIALS_SUBSECTION_IDS.LANDING).pipe(
     tap(questions => {
       this.questions = questions;
       this._createFormControls();
