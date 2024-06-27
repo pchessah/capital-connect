@@ -1,16 +1,25 @@
 import { User } from "../../auth/interfaces/auth.interface";
 
 export enum RegistrationStructure {
-  B2B = "B2B",
-  B2C = "B2C"
+  CoOperative = "Co-operative",
+  JointVenture = "Joint Venture",
+  LimitedLiabilityPartnership = "Limited Liability Partnerships (LLP)",
+  LimitedLiabilityPrivateCompany = "Limited Liability Private Company",
+  LimitedLiabilityPublicCompany = "Limited Liability Public Company",
+  NonForProfitOrganization = "Non-for-profit Organization",
+  SoleProprietorship = "Sole Proprietorship"
 }
 
+
 export enum GrowthStage {
-  Startup = "Start Up",
-  GrowthStage = "Growth Stage",
-  EstablishedExpansion = "Establishment Expansion",
-  LiquidationTurnuAround = "Liquidation Turnaround"
+  SeedStartUpIdea = "Seed/Start Up/Idea",
+  StartUpPostRevenues = "Start Up - Post Revenues",
+  Growth = "Growth",
+  Established = "Established",
+  Expansion = "Expansion",
+  LiquidationTurnAround = "Liquidation/Turn Around"
 }
+
 
 export interface CompanyInput {
   name: string;
@@ -18,9 +27,9 @@ export interface CompanyInput {
   businessSector: string;
   productsAndServices: string;
   registrationStructure: RegistrationStructure;
-  yearsOfOperation: number;
+  yearsOfOperation: string;
   growthStage: GrowthStage;
-  numberOfEmployees: number;
+  numberOfEmployees: string;
   fullTimeBusiness: boolean;
 }
 

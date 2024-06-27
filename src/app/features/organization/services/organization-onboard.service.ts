@@ -25,10 +25,10 @@ export class OrganizationOnboardService {
     country: '',
     businessSector: '',
     productsAndServices: '',
-    registrationStructure: RegistrationStructure.B2B,
-    yearsOfOperation: 0,
-    growthStage: GrowthStage.Startup,
-    numberOfEmployees: 0,
+    registrationStructure: RegistrationStructure.CoOperative,
+    yearsOfOperation:   "0 - 10" ,
+    growthStage: GrowthStage.SeedStartUpIdea,
+    numberOfEmployees: '1-10 employees',
     fullTimeBusiness: false
   });
 
@@ -51,13 +51,14 @@ export class OrganizationOnboardService {
       country: '',
       businessSector: '',
       productsAndServices: '',
-      registrationStructure: RegistrationStructure.B2B,
-      yearsOfOperation: 0,
-      growthStage: GrowthStage.Startup,
-      numberOfEmployees: 0,
+      registrationStructure: RegistrationStructure.CoOperative,
+      yearsOfOperation: '0 - 10',
+      growthStage: GrowthStage.SeedStartUpIdea,
+      numberOfEmployees: '1-10 employees',
       fullTimeBusiness: false
     });
   }
+  
 
   submitCompanyInfo() {
     return this._companyService.createCompany(this.companyInput).pipe(tap(res => {

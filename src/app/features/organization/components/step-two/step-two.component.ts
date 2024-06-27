@@ -22,12 +22,27 @@ export class StepTwoComponent {
 
   registrationStructures = Object.values(RegistrationStructure);
   growthStages = Object.values(GrowthStage);
-  yearsOfOperation: number[] = Array.from({ length: 51 }, (_, i) => i); // 0 to 50 years
-  numberOfEmployees: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50];
-
+  yearsOfOperation: string[] = [
+    "0 Years",
+    "0 - 1 years",
+    "2 - 3 years",
+    "3 - 5 years",
+    "5 - 8 years",
+    "More than 8 years"
+  ];
+  numberOfEmployees: string[] =  [
+    "1-10 employees",
+    "11-50 employees",
+    "51-200 employees",
+    "201-500 employees",
+    "501-1000 employees",
+    "1001-5000 employees",
+    "5001-10,000 employees",
+    "10,001+ employees"
+  ];
   stepTwoForm: FormGroup = this._fb.group({
     registrationStructure: [ this._currentCompanyData.registrationStructure ?? '', Validators.required],
-    yearsOfOperation: [ this._currentCompanyData.yearsOfOperation ?? '', [Validators.min(1), Validators.required]],
+    yearsOfOperation: [ this._currentCompanyData.yearsOfOperation ?? '', [Validators.required]],
     growthStage: [ this._currentCompanyData.growthStage ?? '', Validators.required],
     numberOfEmployees: [this._currentCompanyData.numberOfEmployees ?? '', Validators.required],
     fullTimeBusiness: [this._currentCompanyData.fullTimeBusiness , Validators.required]
