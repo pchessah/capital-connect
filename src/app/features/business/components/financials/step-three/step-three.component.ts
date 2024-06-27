@@ -8,6 +8,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
 import {Router, RouterLink} from "@angular/router";
+import {BUSINESS_FINANCIALS_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-step-three',
@@ -32,7 +33,7 @@ export class StepThreeComponent {
   // }))
 
   submission$ =new Observable<unknown>()
-  questions$ =  this._questionService.getQuestionsOfSubSection(14).pipe(tap(questions => {
+  questions$ =  this._questionService.getQuestionsOfSubSection(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_THREE).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))

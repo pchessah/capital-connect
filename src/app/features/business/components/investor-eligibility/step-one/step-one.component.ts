@@ -9,6 +9,7 @@ import { BusinessPageService } from "../../../services/business-page/business.pa
 import { SubmissionService, SubMissionStateService, UserSubmissionResponse } from "../../../../../shared";
 import { combineLatest, Observable, tap } from "rxjs";
 import {RouterLink} from "@angular/router";
+import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-step-one',
@@ -36,7 +37,7 @@ export class StepOneComponent {
   // }))
 
   submission$ = new Observable<unknown>();
-  questions$ = this._questionService.getQuestionsOfSubSection(3).pipe(tap(questions => {
+  questions$ = this._questionService.getQuestionsOfSubSection(loadInvestorEligibilityQuestions().STEP_ONE).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))

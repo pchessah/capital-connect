@@ -8,6 +8,7 @@ import {combineLatest, Observable, tap} from "rxjs";
 import {CommonModule} from "@angular/common";
 import {AuthModule} from "../../../../auth/modules/auth.module";
 import {RouterLink} from "@angular/router";
+import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-step-three',
@@ -30,7 +31,7 @@ export class StepThreeComponent {
   // }))
 
   submission$ =new Observable<unknown>();
-  questions$ =  this._questionService.getQuestionsOfSubSection(9).pipe(tap(questions => {
+  questions$ =  this._questionService.getQuestionsOfSubSection(loadInvestorEligibilityQuestions().STEP_THREE).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))

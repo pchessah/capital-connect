@@ -7,6 +7,9 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {RouterLink} from "@angular/router";
+import {
+  INVESTOR_PREPAREDNESS_SUBSECTION_IDS
+} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-step-one',
@@ -30,7 +33,7 @@ export class StepOneComponent {
   // }))
 
   submission$ =new Observable<unknown>();
-  questions$ =  this._questionService.getQuestionsOfSubSection(1).pipe(tap(questions => {
+  questions$ =  this._questionService.getQuestionsOfSubSection(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_ONE).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))
