@@ -14,8 +14,18 @@ export class StepThreeComponent {
 
   private _feedbackService = inject(FeedbackService);
 
-  displayMsg(){
-    this._feedbackService.info("Feature not available yet. Please Contact Admin")
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      const file = input.files[0];
+      console.log(file);
+      // You can now handle the file upload process here
+    }
+  }
+
+  editLogo(): void {
+    // Your edit logo logic here
   }
 
 

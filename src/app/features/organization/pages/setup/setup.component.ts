@@ -28,7 +28,7 @@ export class SetupComponent {
     }
   }))
 
-  current_step = 1;
+  current_step = 3;
   steps = [1, 2, 3, 4];
 
   setStep(direction: number) {
