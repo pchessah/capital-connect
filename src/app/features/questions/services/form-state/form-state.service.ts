@@ -53,8 +53,6 @@ export class FormStateService {
     const sectionInput: SectionInput = this._sectionFormStateSrc.value;
     return this._questionsService.createSection(sectionInput).pipe(tap(res => {
       this._feedbackService.success('Section added successfully');
-      const dashboardInput: CurrentDashboardInput = { ...this._currentDashboardDataSrc.value, sectionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
     }));
   }
 

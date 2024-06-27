@@ -28,9 +28,8 @@ export class SavedResponseComponent {
 
 
   sections$ = this._questionService.getAllSections()
- 
 
-
-
-
+  reFetchSections(){
+    this.sections$ = this._questionService.getAllSections();
+  }
 }

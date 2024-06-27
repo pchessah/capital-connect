@@ -100,6 +100,6 @@ export class QuestionsService extends BaseHttpService {
     );
   }
   removeSection(sectionId:number){
-    return this.delete(`${BASE_URL}/sections`, sectionId);
+    return this.delete(`${BASE_URL}/sections`, sectionId).pipe(map(res => true));
   }
 }
