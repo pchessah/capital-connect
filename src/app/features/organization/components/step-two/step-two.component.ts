@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SharedModule } from '../../../../shared';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
 import { tap } from 'rxjs';
-import { CompanyInput, GrowthStage, RegistrationStructure } from '../../interfaces';
+import {CompanyInput, GrowthStage, NumberOfEmployees, RegistrationStructure, YearsOfOperation} from '../../interfaces';
 
 @Component({
   selector: 'app-step-two',
@@ -22,30 +22,33 @@ export class StepTwoComponent {
 
   registrationStructures = Object.values(RegistrationStructure);
   growthStages = Object.values(GrowthStage);
-  yearsOfOperation: string[] = [
-    "0 Years",
-    "0 - 1 years",
-    "2 - 3 years",
-    "3 - 5 years",
-    "5 - 8 years",
-    "More than 8 years"
+
+  yearsOfOperation: YearsOfOperation[] = [
+    YearsOfOperation.ZeroYears,
+    YearsOfOperation.ZeroToOneYears,
+    YearsOfOperation.TwoToThreeYears,
+    YearsOfOperation.ThreeToFiveYears,
+    YearsOfOperation.FiveToEightYears,
+    YearsOfOperation.MoreThanEightYears
   ];
-  numberOfEmployees: string[] = [
-    "1-10 employees",
-    "11-50 employees",
-    "51-200 employees",
-    "201-500 employees",
-    "501-1000 employees",
-    "1001-5000 employees",
-    "5001-10,000 employees",
-    "10,001+ employees"
+  numberOfEmployees: NumberOfEmployees[] = [
+    NumberOfEmployees.OneToTen,
+    NumberOfEmployees.ElevenToFifty,
+    NumberOfEmployees.FiftyOneToTwoHundred,
+    NumberOfEmployees.TwoHundredOneToFiveHundred,
+    NumberOfEmployees.FiveHundredOneToThousand,
+    NumberOfEmployees.ThousandOneToFiveThousand,
+    NumberOfEmployees.FiveThousandOneToTenThousand,
+    NumberOfEmployees.TenThousandPlus
   ];
+
+
   stepTwoForm: FormGroup = this._fb.group({
-    registrationStructure: [this._currentCompanyData.registrationStructure ?? '', Validators.required],
-    yearsOfOperation: [this._currentCompanyData.yearsOfOperation ?? '', [Validators.required]],
-    growthStage: [this._currentCompanyData.growthStage ?? '', Validators.required],
+    registrationStructure: [ this._currentCompanyData.registrationStructure ?? '', Validators.required],
+    yearsOfOperation: [ this._currentCompanyData.yearsOfOperation ?? '', [Validators.required]],
+    growthStage: [ this._currentCompanyData.growthStage ?? '', Validators.required],
     numberOfEmployees: [this._currentCompanyData.numberOfEmployees ?? '', Validators.required],
-    fullTimeBusiness: [this._currentCompanyData.fullTimeBusiness, Validators.required]
+    fullTimeBusiness: [this._currentCompanyData.fullTimeBusiness , Validators.required]
   });
 
   stepTwoForm$ = this.stepTwoForm.valueChanges.pipe(tap(vals => {
@@ -53,11 +56,6 @@ export class StepTwoComponent {
     if (this.stepTwoForm.valid) {
       this._orgStateService.updateCompanyInput(vals);
     }
-  }));
-
-  fullTimeBusinessOptions = [
-    { label: 'Yes, I run it full-time.', value: true },
-    { label: 'No, I run it part-time.', value: false }
-  ]
+  }))
 
 }

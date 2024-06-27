@@ -3,52 +3,34 @@ import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { FormStateService } from "../../services/form-state/form-state.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { combineLatest, Observable, of, Subject, takeUntil, tap } from "rxjs";
+import { Observable, tap } from "rxjs";
 import { Question, QuestionInput, QuestionType, SubSection } from "../../interfaces";
 import { CommonModule } from "@angular/common";
 import { UiComponent } from "../../components/ui/ui.component";
 import { QuestionsService } from "../../services/questions/questions.service";
 
 @Component({
-  selector: 'app-edit-question',
+  selector: 'app-create-question',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, UiComponent],
-  templateUrl: './edit-question.component.html',
-  styleUrl: './edit-question.component.scss'
+  templateUrl: './create-question.component.html',
+  styleUrl: './create-question.component.scss'
 })
-export class EditQuestionComponent {
+export class CreateQuestionComponent {
   protected readonly STEPS = QUESTION_FORM_STEPS;
   private _fb = inject(FormBuilder)
-  private _activatedRoute = inject(ActivatedRoute);
   private _formStateService = inject(FormStateService)
+  private _router = inject(Router)
+  private _activatedRoute = inject(ActivatedRoute);
   private _questionsService = inject(QuestionsService);
-  private _router = inject(Router);
+  routeId!: string;
+  subsection!: SubSection;
 
-  questionId!: number;
   questionForm = this._fb.group({
-    subsectionId: ['', Validators.required],
+    subsectionId: [  null as any , Validators.required],
     text: ['', Validators.required],
     type: ['', Validators.required]
   });
-
-  params$ = this._activatedRoute.params.pipe(tap(param => {
-    const ids = param['id'].split('-')
-    this.subsectionId = Number(ids.at(0));
-    this.questionId = Number(ids.at(1));
-
-    this.fetchedSubSection$ = this._questionsService.getSingleSubsection(this.subsectionId);
-
-    this.fetchQuestionBeingEdited$ = this._formStateService.getCurrentQuestionBeingEdited(this.questionId).pipe(tap(question => {
-      this.question = question;
-      this.questionForm.patchValue({
-        subsectionId: question.id.toString(),
-        type: question.type,
-        text: question.text
-      });
-    }))
-    
-
-  }));
 
   questionTypes: { label: string, value: QuestionType }[] = [
     { label: 'Multiple Choice', value: QuestionType.MULTIPLE_CHOICE },
@@ -66,24 +48,34 @@ export class EditQuestionComponent {
     this.isQuestionFormValid = isValid;
   }))
 
-  fetchedSubSection$: Observable<SubSection> = new Observable();
-  fetchQuestionBeingEdited$: Observable<Question> = new Observable();
-  subsections$: Observable<SubSection> = new Observable()
-  updateQuestion$: Observable<Question> = new Observable();
+  questions$ = this._activatedRoute.paramMap.pipe(tap((res) => {
+
+    this.routeId = (res as any).params['id'].trim();
+    const ids = this.routeId.split('-')
+    this.subsectionId = Number(ids.at(-1));
+
+    this.questionForm.patchValue({ subsectionId: this.subsectionId})
+
+   this.subSection$ = this._questionsService.getSingleSubsection(this.subsectionId).pipe(tap(vals => {
+      this.subsection = vals;
+    }))
+  }))
+
+  
+
 
   isQuestionFormValid = false;
   subsectionId!: number;
   question!: Question;
+  subSection$: Observable<SubSection> = new Observable();
 
 
   submit() {
-    const { type, text } = this.questionForm.value as Question;
-    this.question = { ...this.question, type, text };
-    this.updateQuestion$ = 
-    this._formStateService.updateQuestion(this.question, this.subsectionId)
+    this._formStateService.createQuestion(this.subsectionId).pipe(tap(isQuestionFormValid => { })).subscribe()
   }
 
   cancel() {
-    this._router.navigateByUrl(`questions/sub-section/${this}-${this.subsectionId}`);
+    this._router.navigateByUrl(`/questions/sub-section/${this.routeId}`);
   }
+
 }
