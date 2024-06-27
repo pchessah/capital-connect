@@ -9,6 +9,7 @@ import { Question } from "../../../../questions/interfaces";
 import { CommonModule } from "@angular/common";
 import {Router} from "@angular/router";
 import {ProgressBarComponent} from "../../progress-bar/progress-bar.component";
+import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-index',
@@ -26,7 +27,9 @@ export class IndexComponent {
   private _formBuilder = inject(FormBuilder);
 
   private _router =inject(Router);
-
+  ngOnInit(){
+    loadInvestorEligibilityQuestions()
+  }
   formGroup: FormGroup = this._formBuilder.group({});
   questions$ = this._questionService.getQuestionsOfSubSection(15).pipe(
     tap(questions => {
@@ -37,7 +40,6 @@ export class IndexComponent {
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
 
   init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-
     if (this._hasMatchingQuestionId(res[0], res[1])) {
       this.setNextScreen();
     }

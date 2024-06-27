@@ -1,3 +1,7 @@
+import {CompanyStateService} from "../../../features/organization/services/company-state.service";
+
+const company =new CompanyStateService()
+
 export enum COMPANY_STAGES{
   STARTUP, ESTABLISHED_EXPANSION,
   LIQUIDATION_TURNAROUND, GROWTH_STAGE
@@ -61,4 +65,8 @@ export const getInvestorEligibilitySubsectionIds =(companyStage:COMPANY_STAGES) 
     default:
       return null as unknown as COMPANY_STAGES
   }
+}
+
+export const loadInvestorEligibilityQuestions =() =>{
+  console.log(company.currentCompany)
 }
