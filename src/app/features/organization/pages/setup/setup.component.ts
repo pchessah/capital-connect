@@ -51,9 +51,10 @@ export class SetupComponent {
   get isDisabled() {
     if (this.current_step === 1) return !this._organizationOnboardService.step1isValid();
     if (this.current_step === 2) return !this._organizationOnboardService.step2isValid();
-    if (this.current_step === 3) return false //TODO: @pchessahadd condition to check if upload of logo is successful
+    if (this.current_step === 3) return false //TODO: @pchessah add condition to check if upload of logo is successful
     return true;
   }
+
 
   goToBusinessFinancials() {
     this._router.navigateByUrl('/business/financials')
