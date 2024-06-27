@@ -72,8 +72,7 @@ export class OrganizationOnboardService {
         }
         return of(true) //Always return an observable to satisfy conditions of switchmap
       }),
-      tap((res) => {
-        debugger
+      tap(() => {
       this._feedbackService.success('Company created successfully.')
     }))
   }
@@ -81,8 +80,6 @@ export class OrganizationOnboardService {
   getCompanyOfUser(){
     const currentUserId = this._authStateService.currentUserId();
     return this._companyService.getCompanyOfUser(currentUserId).pipe(tap(company =>{
-      //Add fn to fecth logo
-      debugger
       this._companyInput.set(company);
       this._companyStateService.setCompany(company);
     }))

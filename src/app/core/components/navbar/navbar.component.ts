@@ -17,6 +17,7 @@ export class NavbarComponent {
   private _companyStateService = inject(CompanyStateService);
 
   businessName = this._companyStateService.currentCompany?.name
+  businessLogoUrl = this._companyStateService.currentCompany?.companyLogo?.path ?? 'assets/img/avatar.jpeg';
 
   logOut$ = new Observable<boolean>();
 
