@@ -53,8 +53,6 @@ export class FormStateService {
     const sectionInput: SectionInput = this._sectionFormStateSrc.value;
     return this._questionsService.createSection(sectionInput).pipe(tap(res => {
       this._feedbackService.success('Section added successfully');
-      const dashboardInput: CurrentDashboardInput = { ...this._currentDashboardDataSrc.value, sectionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
     }));
   }
 
@@ -184,10 +182,11 @@ export class FormStateService {
     }
 
     const input: Answer = { ...answer, ...this._answerFormStateSrc.value }
+    // debugger
     return this._questionsService.updateAnswer(input, questionId).pipe(tap(res => {
-      this._feedbackService.success('Question added successfully')
-      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
+      this._feedbackService.success('Answer updated successfully')
+      // const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      // this.setCurrentDashboardData(dashboardInput);
     }))
   }
 

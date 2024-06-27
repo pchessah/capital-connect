@@ -39,8 +39,8 @@ export class BaseHttpService {
   }
 
   // Delete an item
-  delete(url: string, id: number,  headers = this._headers): Observable<void> {
-    return this._http.delete<void>(`${url}/${id}`, { headers }).pipe(
+  delete(url: string, id: number,  headers = this._headers): Observable<unknown> {
+    return this._http.delete<unknown>(`${url}/${id}`, { headers }).pipe(
       catchError(this.handleError)
     );
   }
