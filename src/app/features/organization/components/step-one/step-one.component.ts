@@ -91,7 +91,8 @@ export class StepOneComponent {
     "Other"
   ];
 
-  sectors: string[] = ["Technology",
+  sectors: string[] =[
+    "Technology",
     "Healthcare",
     "Consumer Goods and Services",
     "Energy and Natural Resources",
@@ -102,7 +103,10 @@ export class StepOneComponent {
     "Media and Entertainment",
     "Education",
     "Food & Agri Business",
-    "Utilities"];
+    "Utilities"
+  ];
+
+
   productsAndServices: string[] = ['FMCG', 'Fintech', 'Software', 'Consulting', 'Logistics', 'Telecommunications', 'Biotechnology', 'Construction', 'Energy', 'Tourism'];
 
   company$ = this._userCompany.companySrc$.pipe(tap(company => {
