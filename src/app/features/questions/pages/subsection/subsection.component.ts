@@ -1,11 +1,10 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { FormStateService } from '../../services/form-state/form-state.service';
+import { Component, inject } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { combineLatest, Observable, switchMap, tap } from 'rxjs';
 import { SharedModule } from '../../../../shared';
 import { Question, Section } from '../../interfaces';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form.steps.enum";
 import { UiComponent } from "../../components/ui/ui.component";
 import { QuestionsService } from '../../services/questions/questions.service';
