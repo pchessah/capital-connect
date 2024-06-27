@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { SharedModule } from '../../../../shared';
-import { FeedbackService } from '../../../../core';
-
+import { Observable } from 'rxjs';
+import { OrganizationOnboardService } from '../../services/organization-onboard.service';
 @Component({
   selector: 'app-step-three',
   standalone: true,
@@ -12,20 +12,31 @@ import { FeedbackService } from '../../../../core';
 })
 export class StepThreeComponent {
 
-  private _feedbackService = inject(FeedbackService);
+  private _organizationOnboardService = inject(OrganizationOnboardService);
 
-
+  upload$ = new Observable();
+  previewUrl!: string | ArrayBuffer | null;
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      console.log(file);
-      // You can now handle the file upload process here
+      this._organizationOnboardService.companyLogoToUpload.set(file);
+      this._previewFile(file);
     }
   }
 
-  editLogo(): void {
-    // Your edit logo logic here
+  private _previewFile(file: File): void {
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.previewUrl = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+
+  removeLogo(): void {
+    this._organizationOnboardService.companyLogoToUpload.set(null as any)
+    this.previewUrl = null as any
   }
 
 
