@@ -102,4 +102,13 @@ export class QuestionsService extends BaseHttpService {
   removeSection(sectionId:number){
     return this.delete(`${BASE_URL}/sections`, sectionId).pipe(map(res => true));
   }
+  removeSubSection(subSectionId:number){
+    return this.delete(`${BASE_URL}/subsections`, subSectionId).pipe(map(res => true));
+  }
+  removeQuestion(questionId:number){
+    return this.delete(`${BASE_URL}/questions`, questionId).pipe(map(res => true));
+  }
+  removeAnswer(answerId:number){
+    return this.delete(`${BASE_URL}/answers`, answerId).pipe(map(res => true));
+  }
 }
