@@ -11,7 +11,7 @@ import {CommonModule} from "@angular/common";
 })
 export class PhotoCollageComponent {
   collage =[
-    'assets/img/avatar.jpeg', 'assets/img/avatar.jpeg',
-    'assets/img/avatar.jpeg', 'assets/img/avatar.jpeg'
+    // 'assets/img/avatar.jpeg', 'assets/img/avatar.jpeg',
+    // 'assets/img/avatar.jpeg', 'assets/img/avatar.jpeg'
   ]
 }
