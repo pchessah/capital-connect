@@ -184,10 +184,11 @@ export class FormStateService {
     }
 
     const input: Answer = { ...answer, ...this._answerFormStateSrc.value }
+    // debugger
     return this._questionsService.updateAnswer(input, questionId).pipe(tap(res => {
-      this._feedbackService.success('Question added successfully')
-      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
+      this._feedbackService.success('Answer updated successfully')
+      // const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      // this.setCurrentDashboardData(dashboardInput);
     }))
   }
 
