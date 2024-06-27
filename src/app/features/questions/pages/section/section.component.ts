@@ -21,22 +21,27 @@ export class SectionComponent {
   private _activatedRoute = inject(ActivatedRoute);
   subsections: SubSection[] = [];
   sectionName!: string;
-
-  init$ = this._activatedRoute.paramMap.pipe(
-    switchMap(res => {
-      const id = Number((res as any).params.id);
-      this.sectionId = id;
-      return this._questionsService.getSingleSection(id)
-    }),
-    switchMap((res) => {
-      this.sectionName = res.name;
-      return this._questionsService.getSubSectionsOfaSection(res.id)
-    }), (tap(vals => {
-      this.subsections = vals;
-    })))
-
   sectionId!: number;
 
+  init$ = this.getSubsections();
+    getSubsections() {
+      return this._activatedRoute.paramMap.pipe(
+        switchMap(res => {
+          const id = Number((res as any).params.id);
+          this.sectionId = id;
+          return this._questionsService.getSingleSection(id)
+        }),
+        switchMap((res) => {
+          this.sectionName = res.name;
+          return this._questionsService.getSubSectionsOfaSection(res.id)
+        }), (tap(vals => {
+          this.subsections = vals;
+        })))
+    }
 
+
+  reFetchSubsections(){
+    this.init$ = this.getSubsections();
+  }
 
 }

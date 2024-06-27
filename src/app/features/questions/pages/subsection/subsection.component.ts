@@ -38,25 +38,27 @@ export class SubSectionComponent {
 
   sectionId!: number;
 
+  init$ =this.fetchQuestions();
+    fetchQuestions(){
+      return this._activatedRoute.params.pipe(switchMap((res) => {
+        // @ts-ignore
+        this.routeId = res['id'].trim();
+        const ids = this.routeId.split('-');
+        this.sectionId = Number(ids.at(0))
+        this.subSectionId = Number(ids.at(1));
 
-  sectionInfo$ = new Observable<Section>();
-  questionsFetch$ = new Observable<Question[]>();
-  init$ = this._activatedRoute.params.pipe(switchMap((res) => {
-    // @ts-ignore
-    this.routeId = res['id'].trim();
-    const ids = this.routeId.split('-');
-    this.sectionId = Number(ids.at(0))
-    this.subSectionId = Number(ids.at(1));
+        const sectionInfo$ = this._questionsService.getSingleSubsection(this.subSectionId);
+        const questionsFetch$ = this._questionsService.getQuestionsOfSubSection(this.subSectionId)
 
-    const sectionInfo$ = this._questionsService.getSingleSubsection(this.subSectionId);
-    const questionsFetch$ = this._questionsService.getQuestionsOfSubSection(this.subSectionId)
+        return combineLatest([sectionInfo$, questionsFetch$])
 
-    return combineLatest([sectionInfo$, questionsFetch$])
+      }), tap(([subsectionInfo, questions]) => {
+        this.subsectionName = subsectionInfo.name;
+        this.questions = questions
+      }))
+    }
 
-  }), tap(([subsectionInfo, questions]) => {
-    this.subsectionName = subsectionInfo.name;
-    this.questions = questions
-  }))
-
-
+  reloadUI(){
+      this.init$ =this.fetchQuestions();
+  }
 }

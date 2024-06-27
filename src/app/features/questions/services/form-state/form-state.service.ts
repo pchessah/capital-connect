@@ -92,8 +92,8 @@ export class FormStateService {
     const input: SubSectionInput = { ...this._subsectionFormStateSrc.value, sectionId: sectionId }
     return this._questionsService.createSubSection(input).pipe(tap(res => {
       this._feedbackService.success('SubSection added successfully');
-      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, subsectionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
+      // const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, subsectionId: res.id }
+      // this.setCurrentDashboardData(dashboardInput);
     }))
   }
 
@@ -106,8 +106,8 @@ export class FormStateService {
     const input = { ...this._subsectionFormStateSrc.value, sectionId: sectionId, id: subsectionid }
     return this._questionsService.updateSubSection(input).pipe(tap(res => {
       this._feedbackService.success('SubSection added successfully');
-      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, subsectionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
+      // const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, subsectionId: res.id }
+      // this.setCurrentDashboardData(dashboardInput);
     }))
   }
 
@@ -132,8 +132,8 @@ export class FormStateService {
 
     return this._questionsService.createQuestion(input).pipe(tap(res => {
       this._feedbackService.success('Question added successfully')
-      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
+      // const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      // this.setCurrentDashboardData(dashboardInput);
     }))
   }
 
@@ -141,8 +141,8 @@ export class FormStateService {
     const input = { ...question, ...this._questionFormStateSrc.value, subSectionId }
     return this._questionsService.updateQuestion(input).pipe(tap(res => {
       this._feedbackService.success('Question updated successfully')
-      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
+      // const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      // this.setCurrentDashboardData(dashboardInput);
     }))
   }
 
@@ -169,8 +169,8 @@ export class FormStateService {
     const input: AnswerInput = { ...this._answerFormStateSrc.value, questionId: questionId }
     return this._questionsService.createAnswer(input).pipe(tap(res => {
       this._feedbackService.success('Question added successfully')
-      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
+      // const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      // this.setCurrentDashboardData(dashboardInput);
     }))
   }
 
