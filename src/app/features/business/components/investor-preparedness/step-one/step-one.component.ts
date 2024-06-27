@@ -72,7 +72,7 @@ export class StepOneComponent {
       const questionId =question.id;
       const openQuestion = question.answers.find(a => a.text === 'OPEN');
       const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
-      return {questionId, answerId, text: formValues['question_' + question.id]}
+      return {questionId, answerId: parseInt(answerId), text: formValues['question_' + question.id]}
     });
 
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
