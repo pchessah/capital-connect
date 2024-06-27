@@ -1,4 +1,5 @@
 import {CompanyStateService} from "../../../features/organization/services/company-state.service";
+import {GrowthStage} from "../../../features/organization/interfaces";
 
 const company =new CompanyStateService()
 
@@ -52,21 +53,27 @@ export const BUSINESS_FINANCIALS_SUBSECTION_IDS ={
   STEP_THREE: 13,
 }
 
-export const getInvestorEligibilitySubsectionIds =(companyStage:COMPANY_STAGES) =>{
+export const getInvestorEligibilitySubsectionIds =(companyStage:GrowthStage) =>{
   switch (companyStage){
-    case COMPANY_STAGES.ESTABLISHED_EXPANSION:
+    case GrowthStage.Established:
+    case GrowthStage.Expansion:
       return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ESTABLISHED_EXPANSION
-    case COMPANY_STAGES.STARTUP:
-      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP
-    case COMPANY_STAGES.GROWTH_STAGE:
+    case GrowthStage.Growth:
       return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.GROWTH_STAGE
-    case COMPANY_STAGES.LIQUIDATION_TURNAROUND:
+    case GrowthStage.LiquidationTurnAround:
       return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.LIQUIDATION_TURNAROUND
+    case GrowthStage.SeedStartUpIdea:
+      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP
+    case GrowthStage.StartUpPostRevenues:
+      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP
     default:
-      return null as unknown as COMPANY_STAGES
+      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP
   }
 }
 
+
+
 export const loadInvestorEligibilityQuestions =() =>{
-  console.log(company.currentCompany)
+  const stage =company.currentCompany.growthStage;
+  return getInvestorEligibilitySubsectionIds(stage);
 }

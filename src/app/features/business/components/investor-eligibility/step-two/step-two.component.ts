@@ -8,6 +8,7 @@ import {BusinessPageService} from "../../../services/business-page/business.page
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {combineLatest, Observable, tap} from "rxjs";
 import {RouterLink} from "@angular/router";
+import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-step-two',
@@ -35,7 +36,7 @@ export class StepTwoComponent {
   // }))
 
   submission$ =new Observable<unknown>();
-  questions$ =  this._questionService.getQuestionsOfSubSection(1).pipe(tap(questions => {
+  questions$ =  this._questionService.getQuestionsOfSubSection(loadInvestorEligibilityQuestions().STEP_TWO).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))

@@ -27,11 +27,9 @@ export class IndexComponent {
   private _formBuilder = inject(FormBuilder);
 
   private _router =inject(Router);
-  ngOnInit(){
-    loadInvestorEligibilityQuestions()
-  }
+
   formGroup: FormGroup = this._formBuilder.group({});
-  questions$ = this._questionService.getQuestionsOfSubSection(15).pipe(
+  questions$ = this._questionService.getQuestionsOfSubSection(loadInvestorEligibilityQuestions().LANDING).pipe(
     tap(questions => {
       this.questions = questions;
       this._createFormControls();
