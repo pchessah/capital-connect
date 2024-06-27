@@ -4,8 +4,8 @@ import { SharedModule } from '../../../../shared';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { tap } from 'rxjs';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
-import {Company, CompanyInput} from '../../interfaces';
-import {UserCompanyService} from "../../../../core/services/company/user.company.service";
+import { Company, CompanyInput } from '../../interfaces';
+import { UserCompanyService } from "../../../../core/services/company/user.company.service";
 
 @Component({
   selector: 'app-step-one',
@@ -15,13 +15,13 @@ import {UserCompanyService} from "../../../../core/services/company/user.company
   styleUrl: './step-one.component.scss'
 })
 export class StepOneComponent {
-  private _userCompany =inject(UserCompanyService)
+  private _userCompany = inject(UserCompanyService)
   private _fb = inject(FormBuilder)
   private _orgStateService = inject(OrganizationOnboardService);
   private _currentCompanyData: CompanyInput = this._orgStateService.companyInput;
-  userCompany!:Company;
+  userCompany!: Company;
   stepOneForm: FormGroup = this._fb.group({
-    name: [ this._currentCompanyData.name ?? '', Validators.required],
+    name: [this._currentCompanyData.name ?? '', Validators.required],
     country: [this._currentCompanyData.country ?? 'Kenya', Validators.required],
     businessSector: [this._currentCompanyData.businessSector ?? '', Validators.required],
     productsAndServices: [this._currentCompanyData.productsAndServices ?? '', Validators.required]
@@ -34,7 +34,7 @@ export class StepOneComponent {
     }
   }))
 
-   countries = [
+  countries = [
     "Algeria",
     "Angola",
     "Benin",
@@ -90,11 +90,22 @@ export class StepOneComponent {
     "Zimbabwe",
     "Other"
   ];
-  
-  sectors: string[] = ['Venture Capital', 'Ecommerce', 'Technology', 'Healthcare', 'Finance', 'Education', 'Manufacturing', 'Retail', 'Transportation', 'Agriculture'];
+
+  sectors: string[] = ["Technology",
+    "Healthcare",
+    "Consumer Goods and Services",
+    "Energy and Natural Resources",
+    "Financial Services",
+    "Industrials",
+    "Real Estate",
+    "Telecommunications",
+    "Media and Entertainment",
+    "Education",
+    "Food & Agri Business",
+    "Utilities"];
   productsAndServices: string[] = ['FMCG', 'Fintech', 'Software', 'Consulting', 'Logistics', 'Telecommunications', 'Biotechnology', 'Construction', 'Energy', 'Tourism'];
 
-  company$ =this._userCompany.companySrc$.pipe(tap(company =>{
-    this.userCompany =company;
+  company$ = this._userCompany.companySrc$.pipe(tap(company => {
+    this.userCompany = company;
   }))
 }
