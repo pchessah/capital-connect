@@ -20,15 +20,9 @@ export class SubsectionCardComponent {
   @Input() id!:number;
   @Input() name!:string;
   @Input() sectionId!:number;
-  questions_count =0;
-  subsections$ =new Observable();
+
   private _questionService = inject(QuestionsService);
-  ngOnInit(){
-    this.subsections$ = this._questionService.getQuestionsOfSubSection(this.id).pipe(
-      tap(questions => {
-        this.questions_count = questions.length;
-      }));
-  }
+
 
   deleteSection(sectionId:number){
     if(confirm("Are you sure?")){

@@ -1,10 +1,8 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SharedModule } from "../../../../shared";
 import { UiComponent } from "../../components/ui/ui.component";
-import { Answer, Question, SubSection } from '../../interfaces';
-import {Router, RouterLink} from '@angular/router';
+import {RouterLink} from '@angular/router';
 import { QuestionsService } from '../../services/questions/questions.service';
-import { Observable, of, tap } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {ReactiveFormsModule} from "@angular/forms";
 import {SectionCardComponent} from "../../components/section-card/section-card.component";
@@ -27,62 +25,12 @@ import {SectionCardComponent} from "../../components/section-card/section-card.c
 export class SavedResponseComponent {
 
   private _questionService = inject(QuestionsService);
-  private _router = inject(Router);
 
-  readonly panelOpenState = signal(false);
 
   sections$ = this._questionService.getAllSections()
-  subsections$ = new Observable<SubSection[]>();
-  questions$ =  new Observable<Question[]>();
-  subsections: SubSection[] = [];
-  questions: Question[] = [];
-  answers$ = new Observable<Answer[]>();
-  answers: Answer[] = [];
+ 
 
-  fetchSubSections(sectionId:number){
-    this.subsections$ = this._questionService.getSubSectionsOfaSection(sectionId).pipe(tap(subsections => this.subsections = subsections))
-  }
 
-  fetchQuestions(subsectionId:number){
-    this.questions$ = this._questionService.getQuestionsOfSubSection(subsectionId).pipe(tap(questions => {
-      this.questions = questions
-    }))
-  }
 
-  fetchAnswers(questionId:number) {
-    const a = this.questions.find(q => q.id === questionId)?.answers
-    console.log('Answers are ==========>', a);
-    this.answers$ = of(this.questions.find(q => q.id === questionId)?.answers) as Observable<Answer[]>
-  }
 
-  createSection () {
-    this._router.navigateByUrl('/questions/section')
-  }
-  editSection(sectionId:number){
-    this._router.navigateByUrl(`/questions/section/${sectionId}`)
-  }
-
-  createSubSection(sectionId:number){
-    this._router.navigate(['/questions/sub-section'], { state: { sectionId: sectionId } })
-  }
-
-  editSubSection(subsectionId:number, sectionId:number){
-    this._router.navigate(['/questions/sub-section'], { state: { sectionId: sectionId, subsectionId: subsectionId } })
-  }
-
-  createQuestion(subsectionId:number){
-    this._router.navigate(['/questions/single-question'], { state: { subsectionId: subsectionId } })
-  }
-
-  editQuestion(questionId:number, subsectionId:number){
-    this._router.navigate(['/questions/single-question'], { state: {questionId: questionId, subsectionId: subsectionId } })
-  }
-
-  createAnswer(questionId: number){
-    this._router.navigate(['/questions/answers'], { state: { questionId: questionId } })
-  }
-
-  editAnswer(questionId:number, answerId:number){
-    this._router.navigate(['/questions/answers'], { state: { questionId: questionId , answerId: answerId } })
-  }
 }

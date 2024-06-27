@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { EMPTY, Observable, switchMap, tap } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
+import { switchMap, tap } from 'rxjs';
 import { UiComponent } from "../../components/ui/ui.component";
-import { FormStateService } from '../../services/form-state/form-state.service';
 import { SharedModule } from '../../../../shared';
-import {Section, SubSection} from '../../interfaces';
+import { SubSection } from '../../interfaces';
 import { QuestionsService } from '../../services/questions/questions.service';
-import {SubsectionCardComponent} from "../../components/subsection-card/subsection-card.component";
+import { SubsectionCardComponent } from "../../components/subsection-card/subsection-card.component";
 
 @Component({
   selector: 'app-section',
@@ -18,75 +17,26 @@ import {SubsectionCardComponent} from "../../components/subsection-card/subsecti
   styleUrl: './section.component.scss'
 })
 export class SectionComponent {
-  private _fb = inject(FormBuilder)
-  private _router = inject(Router);
-  private _formStateService = inject(FormStateService);
   private _questionsService = inject(QuestionsService);
   private _activatedRoute = inject(ActivatedRoute);
-  subsections: SubSection[] =[];
-  sectionName!:string;
-  // sectionForm: FormGroup = this._fb.group({
-  //   name: ['', Validators.required],
-  //   description: ['', Validators.required]
-  // });
+  subsections: SubSection[] = [];
+  sectionName!: string;
 
-  // sectionForm$ = this.sectionForm.valueChanges.pipe(tap(vals => {
-  //   this._formStateService.setSectionFormState(vals);
-  //   this._formStateService.setSectionFormIsValid(this.sectionForm.valid);
-  // }))
-
-  // isSectionFormValid$ = this._formStateService.sectionFormIsValid$.pipe(tap(isValid => {
-  //   this.isSectionFormValid = isValid;
-  // }))
-
-  // fetchedSection$ = this._activatedRoute.paramMap .pipe(switchMap(params => {
-  //   const id = params.get('id');
-  //   this.sectionId = Number(id);
-  //   if(id) return  this._questionsService.getSingleSection(this.sectionId);
-  //   return EMPTY
-  // }), tap(res => {
-
-    // this.sectionForm.patchValue({
-    //   name: res.name,
-    //   description: res.description,
-    // });
-    // this.editMode = true
-  // }))
-
-
-  subSections$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
-    // @ts-ignore
-    const id =Number(res.params.id);
-    this.sectionId =id;
-    this._questionsService.getSingleSection(id).pipe(tap(vals => {
-      this.sectionName =vals.name;
-    })).subscribe()
-    this._questionsService.getSubSectionsOfaSection(id).pipe(tap(vals => {
-      this.subsections =vals;
-    })).subscribe();
-  }))
+  init$ = this._activatedRoute.paramMap.pipe(
+    switchMap(res => {
+      const id = Number((res as any).params.id);
+      this.sectionId = id;
+      return this._questionsService.getSingleSection(id)
+    }),
+    switchMap((res) => {
+      this.sectionName = res.name;
+      return this._questionsService.getSubSectionsOfaSection(res.id)
+    }), (tap(vals => {
+      this.subsections = vals;
+    })))
 
   sectionId!: number;
 
-  // isSectionFormValid = false;
-  // editMode = false;
-  // nextOperation$: Observable<Section> = new Observable();
-
-  // nextStep() {
-  //   const createSection$ = t;
-  //   const updateSection$ = this._formStateService.updateSection(this.sectionId);
-  //
-  //   const call$ = this.editMode ? updateSection$ : createSection$
-  //   this.nextOperation$ = call$.pipe(tap(res => {
-  //     if (res.id) {
-  //       this._router.navigate(['/questions']);
-  //     }
-  //   }));
-  // }
-
-  // cancel() {
-  //   this._router.navigateByUrl('/questions')
-  // }
 
 
 }

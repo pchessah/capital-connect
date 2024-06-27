@@ -1,12 +1,10 @@
-<ng-container *ngIf="subsections$ | async"/>
 <div class="card__item">
   <div class="card__item__header">
-    <a [routerLink]="'/questions/sub-section/'+sectionId+'-'+id+'/edit'" class="btn-warning"><mat-icon>edit</mat-icon></a>
+    <a [routerLink]="'/questions/sub-section/'+sectionId+'-'+id+'/edit'"
+      class="btn-warning"><mat-icon>edit</mat-icon></a>
     <button class="btn-danger"><mat-icon (click)="deleteSection(id)">close</mat-icon></button>
   </div>
   <h2>{{name}}</h2>
-  <div class="card__item__body">
-    <div>Questions: {{questions_count}}</div>
-  </div>
+
   <a [routerLink]="'/questions/sub-section/'+sectionId+'-'+id" class="link">Open</a>
 </div>
