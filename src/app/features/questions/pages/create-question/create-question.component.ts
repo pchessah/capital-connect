@@ -64,7 +64,7 @@ export class CreateQuestionComponent {
     }))
   }))
 
-  
+
 
 
   isQuestionFormValid = false;
@@ -76,7 +76,9 @@ export class CreateQuestionComponent {
 
 
   submit() {
-    this.createQuestion$ =  this._formStateService.createQuestion(this.subsectionId).pipe(tap(isQuestionFormValid => { }))
+    this.createQuestion$ =  this._formStateService.createQuestion(this.subsectionId).pipe(tap(res => {
+      this.questionForm.reset();
+    }))
   }
 
   cancel() {

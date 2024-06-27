@@ -2,7 +2,7 @@
 <ng-container *ngIf="isQuestionFormValid$ | async"></ng-container>
 <ng-container *ngIf="questions$ | async"></ng-container>
 <ng-container *ngIf="subSection$ | async"></ng-container>
-
+<ng-container *ngIf="createQuestion$ | async"></ng-container>
 <app-ui [title]="'Add Question'">
   <div class="form__card">
     <form [formGroup]="questionForm" (ngSubmit)="submit()" class="user__auth__form">

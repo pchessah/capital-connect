@@ -3,7 +3,7 @@ import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { FormStateService } from "../../services/form-state/form-state.service";
 import { ActivatedRoute, Router } from "@angular/router";
-import { combineLatest, Observable, of, Subject, takeUntil, tap } from "rxjs";
+import { Observable,  tap } from "rxjs";
 import { Question, QuestionInput, QuestionType, SubSection } from "../../interfaces";
 import { CommonModule } from "@angular/common";
 import { UiComponent } from "../../components/ui/ui.component";
@@ -23,7 +23,7 @@ export class EditQuestionComponent {
   private _formStateService = inject(FormStateService)
   private _questionsService = inject(QuestionsService);
   private _router = inject(Router);
-
+  private  _routerId!:string;
   questionId!: number;
   questionForm = this._fb.group({
     subsectionId: ['', Validators.required],
@@ -32,10 +32,11 @@ export class EditQuestionComponent {
   });
 
   params$ = this._activatedRoute.params.pipe(tap(param => {
-    const ids = param['id'].split('-')
-    this.subsectionId = Number(ids.at(0));
-    this.questionId = Number(ids.at(1));
 
+    const ids = param['id'].trim().split('-')
+    this.subsectionId = Number(ids.at(1));
+    this.questionId = Number(ids.at(2));
+    this._routerId =ids.slice(0,2).join('-')
     this.fetchedSubSection$ = this._questionsService.getSingleSubsection(this.subsectionId);
 
     this.fetchQuestionBeingEdited$ = this._formStateService.getCurrentQuestionBeingEdited(this.questionId).pipe(tap(question => {
@@ -46,7 +47,7 @@ export class EditQuestionComponent {
         text: question.text
       });
     }))
-    
+
 
   }));
 
@@ -79,11 +80,11 @@ export class EditQuestionComponent {
   submit() {
     const { type, text } = this.questionForm.value as Question;
     this.question = { ...this.question, type, text };
-    this.updateQuestion$ = 
+    this.updateQuestion$ =
     this._formStateService.updateQuestion(this.question, this.subsectionId)
   }
 
   cancel() {
-    this._router.navigateByUrl(`questions/sub-section/${this}-${this.subsectionId}`);
+    this._router.navigateByUrl(`questions/sub-section/${this._routerId}`);
   }
 }
