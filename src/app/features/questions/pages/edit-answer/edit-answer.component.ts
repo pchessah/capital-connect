@@ -70,9 +70,8 @@ export class EditAnswerComponent {
   submit$: Observable<Answer> = new Observable();
 
   submit() {
-    delete this.answerForm.value.questionId
-    this.answer ={...this.answer,...this.answerForm.value} as Answer;
-    this.submit$ = this._formStateService.editAnswer(this.answer, this.questionId).pipe(tap(res => {
+    delete this.answerForm.value.questionId;
+    this.submit$ = this._formStateService.editAnswer({...this.answer,...this.answerForm.value} as Answer, this.questionId).pipe(tap(res => {
     }));
   }
 
