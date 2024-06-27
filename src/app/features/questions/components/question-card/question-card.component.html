@@ -16,7 +16,7 @@
       <div class="right-content">
         <div>{{answer.weight}}</div>
         <div class="icons icons-group">
-          <a [routerLink] ="'/questions/answers/' +answer.id+'/edit'" class="btn-warning"><mat-icon>edit</mat-icon></a>
+          <a [routerLink] ="'/questions/answers/'+sectionId+'-' +subSectionId+'-'+answer.id+'/edit'" class="btn-warning"><mat-icon>edit</mat-icon></a>
           <button class="btn-danger"><mat-icon>close</mat-icon></button>
         </div>
       </div>
