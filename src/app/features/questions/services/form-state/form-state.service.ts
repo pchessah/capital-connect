@@ -92,8 +92,8 @@ export class FormStateService {
     const input: SubSectionInput = { ...this._subsectionFormStateSrc.value, sectionId: sectionId }
     return this._questionsService.createSubSection(input).pipe(tap(res => {
       this._feedbackService.success('SubSection added successfully');
-      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, subsectionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
+      // const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, subsectionId: res.id }
+      // this.setCurrentDashboardData(dashboardInput);
     }))
   }
 
@@ -132,8 +132,8 @@ export class FormStateService {
 
     return this._questionsService.createQuestion(input).pipe(tap(res => {
       this._feedbackService.success('Question added successfully')
-      const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
-      this.setCurrentDashboardData(dashboardInput);
+      // const dashboardInput: CurrentDashboardInput = { ...this.currentDashBoardData, questionId: res.id }
+      // this.setCurrentDashboardData(dashboardInput);
     }))
   }
 

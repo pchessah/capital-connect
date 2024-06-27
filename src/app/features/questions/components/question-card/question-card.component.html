@@ -1,9 +1,10 @@
+<ng-container *ngIf="delete$ | async"></ng-container>
 <div class="question-card">
   <div class="icon-header">
     <div class="icons left-content">
       <a class="btn-primary" [routerLink] ="'/questions/single-question/'+sectionId+'-' +subSectionId+'-'+id+'/add-answer'"><mat-icon>add</mat-icon></a>
       <a [routerLink] ="'/questions/single-question/'+sectionId+'-' +subSectionId+'-'+id+'/edit'" class="btn-warning"><mat-icon>edit</mat-icon></a>
-      <button class="btn-danger"><mat-icon>close</mat-icon></button>
+      <button class="btn-danger" (click)="deleteQuestion(id)"><mat-icon>close</mat-icon></button>
     </div>
   </div>
   <div class="question-ui-header">
@@ -17,7 +18,7 @@
         <div>{{answer.weight}}</div>
         <div class="icons icons-group">
           <a [routerLink] ="'/questions/answers/'+sectionId+'-' +subSectionId+'-'+id+'-'+answer.id+'/edit'" class="btn-warning"><mat-icon>edit</mat-icon></a>
-          <button class="btn-danger"><mat-icon>close</mat-icon></button>
+          <button class="btn-danger" (click)="deleteAnswer(answer.id)"><mat-icon>close</mat-icon></button>
         </div>
       </div>
     </li>
