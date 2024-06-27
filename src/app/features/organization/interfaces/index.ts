@@ -39,6 +39,7 @@ export interface CompanyInput {
 
 export interface Company extends CompanyInput {
   id: number;
+  companyLogo: { id:string, path: string }
 }
 
 

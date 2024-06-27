@@ -11,3 +11,4 @@ export * from './services/navbar-toggle/navbar.toggle.service';
 export * from './services/loading/loading.service';
 export * from './services/jwt/jwt.service';
 export * from './services/confirmation/confirmation.service';
+export * from './services/upload/upload.service';
