@@ -1,13 +1,13 @@
-import {Component, inject} from '@angular/core';
-import {QUESTION_FORM_STEPS} from "../../../../shared/interfaces/question.form.steps.enum";
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {FormStateService} from "../../services/form-state/form-state.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {tap} from "rxjs";
-import {Question, QuestionInput, QuestionType, SubSection} from "../../interfaces";
-import {CommonModule} from "@angular/common";
-import {UiComponent} from "../../components/ui/ui.component";
-import {QuestionsService} from "../../services/questions/questions.service";
+import { Component, inject } from '@angular/core';
+import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form.steps.enum";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormStateService } from "../../services/form-state/form-state.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Observable, tap } from "rxjs";
+import { Question, QuestionInput, QuestionType, SubSection } from "../../interfaces";
+import { CommonModule } from "@angular/common";
+import { UiComponent } from "../../components/ui/ui.component";
+import { QuestionsService } from "../../services/questions/questions.service";
 
 @Component({
   selector: 'app-create-question',
@@ -23,11 +23,13 @@ export class CreateQuestionComponent {
   private _router = inject(Router)
   private _activatedRoute = inject(ActivatedRoute);
   private _questionsService = inject(QuestionsService);
-  routeId!:string;
+
+
+  routeId!: string;
   subsection!: SubSection;
 
   questionForm = this._fb.group({
-    subsectionId: ['', Validators.required],
+    subsectionId: [  null as any , Validators.required],
     text: ['', Validators.required],
     type: ['', Validators.required]
   });
@@ -48,24 +50,33 @@ export class CreateQuestionComponent {
     this.isQuestionFormValid = isValid;
   }))
 
-  questions$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
-    // @ts-ignore
-    this.routeId =res.params['id'].trim();
-    const ids =this.routeId.split('-')
-    this.subsectionId =Number(ids.at(-1));
-    this._questionsService.getSingleSubsection(this.subsectionId).pipe(tap(vals => {
-      this.subsection =vals;
+
+  questions$ = this._activatedRoute.paramMap.pipe(tap((res) => {
+
+    this.routeId = (res as any).params['id'].trim();
+    const ids = this.routeId.split('-')
+    this.subsectionId = Number(ids.at(-1));
+
+    this.questionForm.patchValue({ subsectionId: this.subsectionId})
+
+   this.subSection$ = this._questionsService.getSingleSubsection(this.subsectionId).pipe(tap(vals => {
+      this.subsection = vals;
     }))
   }))
+
+  
 
 
   isQuestionFormValid = false;
   subsectionId!: number;
   question!: Question;
 
+  subSection$: Observable<SubSection> = new Observable();
+  createQuestion$: Observable<Question> = new Observable();
+
 
   submit() {
-    this._formStateService.createQuestion(this.subsectionId).pipe(tap(isQuestionFormValid => {})).subscribe()
+    this.createQuestion$ =  this._formStateService.createQuestion(this.subsectionId).pipe(tap(isQuestionFormValid => { }))
   }
 
   cancel() {

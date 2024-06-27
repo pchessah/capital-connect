@@ -1,6 +1,7 @@
 <ng-container *ngIf="questionForm$ |async"></ng-container>
 <ng-container *ngIf="isQuestionFormValid$ | async"></ng-container>
 <ng-container *ngIf="questions$ | async"></ng-container>
+<ng-container *ngIf="subSection$ | async"></ng-container>
 
 <app-ui [title]="'Add Question'">
   <div class="form__card">
@@ -50,3 +51,4 @@
 
   </div>
 </app-ui>
+

@@ -35,7 +35,9 @@ export class EditQuestionComponent {
     const ids = param['id'].split('-')
     this.subsectionId = Number(ids.at(0));
     this.questionId = Number(ids.at(1));
-    this.fetchedSubSection$ = this._questionsService.getSingleSubsection(this.subsectionId)
+
+    this.fetchedSubSection$ = this._questionsService.getSingleSubsection(this.subsectionId);
+
     this.fetchQuestionBeingEdited$ = this._formStateService.getCurrentQuestionBeingEdited(this.questionId).pipe(tap(question => {
       this.question = question;
       this.questionForm.patchValue({
@@ -44,6 +46,8 @@ export class EditQuestionComponent {
         text: question.text
       });
     }))
+    
+
   }));
 
   questionTypes: { label: string, value: QuestionType }[] = [
@@ -65,6 +69,7 @@ export class EditQuestionComponent {
   fetchedSubSection$: Observable<SubSection> = new Observable();
   fetchQuestionBeingEdited$: Observable<Question> = new Observable();
   subsections$: Observable<SubSection> = new Observable()
+  updateQuestion$: Observable<Question> = new Observable();
 
   isQuestionFormValid = false;
   subsectionId!: number;
@@ -74,7 +79,8 @@ export class EditQuestionComponent {
   submit() {
     const { type, text } = this.questionForm.value as Question;
     this.question = { ...this.question, type, text };
-    this._formStateService.updateQuestion(this.question, this.subsectionId).subscribe()
+    this.updateQuestion$ = 
+    this._formStateService.updateQuestion(this.question, this.subsectionId)
   }
 
   cancel() {

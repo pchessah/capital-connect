@@ -2,6 +2,7 @@
 <ng-container *ngIf="isQuestionFormValid$ | async"></ng-container>
 <ng-container *ngIf="fetchQuestionBeingEdited$ | async"></ng-container>
 <ng-container *ngIf="params$ | async"></ng-container>
+<ng-container *ngIf="updateQuestion$ | async"></ng-container>
 
 <app-ui [title]="'Edit question'">
   <div class="form__card" *ngIf="fetchedSubSection$ | async as subsection">
