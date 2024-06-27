@@ -23,7 +23,9 @@ export class SetupComponent {
   submitCompanyInfo$ = new Observable();
 
   companyOfUser$ = this._organizationOnboardService.getCompanyOfUser().pipe(tap(company => {
-    this.goToBusinessFinancials();
+    if(company && company.id){
+      this.goToBusinessFinancials();
+    }
   }))
 
   current_step = 1;
