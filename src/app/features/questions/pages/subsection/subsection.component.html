@@ -11,44 +11,6 @@
       <ng-container *ngIf="questions$ | async">
         <app-question-card *ngFor="let question of questions" [text] ="question.text" [type] ="question.type" [id] ="question.id" [answers]="question.answers" [subSectionId]="subSectionId"/>
       </ng-container>
-<!--    <div class="form__card">-->
-<!--      <form [formGroup]="subsectionForm" class="user__auth__form">-->
-<!--        <div class="input__wrapper">-->
-<!--          <div class="form__row">-->
-<!--            <div class="form__col">-->
-<!--              <label class="input__label">Section<sup>*</sup></label>-->
-<!--              <select class="input__field">-->
-<!--                <option [value]="sectionId" disabled selected> {{section.name}} </option>-->
-<!--              </select>-->
-<!--            </div>-->
 
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="input__wrapper">-->
-<!--          <div class="form__row">-->
-<!--            <div class="form__col">-->
-<!--              <label class="input__label">Title<sup>*</sup></label>-->
-<!--              <input formControlName="name" class="input__field" placeholder="enter title" />-->
-<!--            </div>-->
-
-<!--          </div>-->
-<!--        </div>-->
-<!--        <div class="input__wrapper">-->
-<!--          <label class="input__label">Description<sup>*</sup></label>-->
-<!--          <textarea formControlName="description" class="input__field" placeholder="Write something..."-->
-<!--            rows="5"></textarea>-->
-<!--        </div>-->
-<!--      </form>-->
-<!--    </div>-->
-<!--    <div class="action__buttons">-->
-<!--      <button (click)="cancel()" class="btn__outline">Back</button>-->
-<!--      <div class="inline__cta">-->
-<!--        &lt;!&ndash; <button class="btn__outline">Go to Section</button> &ndash;&gt;-->
-<!--        <button [ngClass]="{'disabled-btn': !isSubsectionFormValid}" [disabled]="!isSubsectionFormValid"-->
-<!--          (click)="submit()" class="btn__primary">-->
-<!--          {{editMode ? 'Edit Subsection' : 'Create Subsection'}}-->
-<!--        </button>-->
-<!--      </div>-->
-<!--    </div>-->
   </app-ui>
 <!--</ng-container>-->

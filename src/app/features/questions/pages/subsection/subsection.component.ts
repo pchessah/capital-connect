@@ -43,10 +43,6 @@ export class SubSectionComponent{
   private _subsectionId: number = this._navState?.subsectionId;
   sectionId!: number;
 
-  // subsectionForm = this._fb.group({
-  //   name: ['', Validators.required],
-  //   description: ['', Validators.required]
-  // });
 
   questions$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
     // @ts-ignore
@@ -61,49 +57,5 @@ export class SubSectionComponent{
     })).subscribe()
   }))
 
-  // subsectionForm$ = this.subsectionForm.valueChanges.pipe(tap(vals => {
-  //   const input: SubSectionInput = {
-  //     sectionId: this.sectionId,
-  //     name: vals.name as string,
-  //     description: vals.description as string
-  //   }
-  //   this._formStateService.setSubsectionForm(input);
-  //   this._formStateService.setSubSectionFormIsValid(this.subsectionForm.valid);
-  // }));
-  //
-  // isSubsectionFormValid$ = this._formStateService.subsectionFormIsValid$.pipe(tap(isValid => {
-  //   this.isSubsectionFormValid = isValid;
-  // }));
-  //
-  // fetchedSubSection$ = new Observable();
-  // fetchedSection$ = this._questionsService.getSingleSection(this.sectionId)
-  //
-  // nextOperation$: Observable<SubSection> = new Observable()
-  //
-  // isSubsectionFormValid = false;
-  // editMode = false;
-  //
-  // private _checkEditMode() {
-  //   if (this._subsectionId) {
-  //     this.editMode = true;
-  //     this.fetchedSubSection$ = this._formStateService.getCurrentSubSectionBeingEdited(this._subsectionId).pipe(tap(subsection => {
-  //       this.subsectionForm.patchValue({
-  //         name: subsection.name,
-  //         description: subsection.description
-  //       });
-  //     }))
-  //   }
-  // }
-  //
-  // submit() {
-  //   const call$ = this.editMode ? this._formStateService.updateSubsection(this.sectionId, this._subsectionId)
-  //                               : this._formStateService.createSubsection(this.sectionId)
-  //   this.nextOperation$ = call$.pipe(tap(res => {
-  //     this._router.navigate(['/questions'])
-  //   }));
-  // }
-  //
-  // cancel() {
-  //   this._router.navigate(['/questions'])
-  // }
+
 }
