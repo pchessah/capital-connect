@@ -9,10 +9,12 @@ const routes: Routes = [
   { path: 'section', loadComponent: () => import('./pages/create-section/create-section.component').then(c => c.CreateSectionComponent) },
   { path: 'section/:id', loadComponent: () => import('./pages/section/section.component').then(c => c.SectionComponent) },
   { path: 'section/:id/edit', loadComponent: () => import('./pages/edit-section/edit-section.component').then(c => c.EditSectionComponent) },
+  { path: 'section/:id/add-subsection', loadComponent: () => import('./pages/create-subsection/create-subsection.component').then(c => c.CreateSubsectionComponent) },
 
   { path: 'sub-section', loadComponent: () => import('./pages/subsection/subsection.component').then(c => c.SubSectionComponent) },
   { path: 'sub-section/:id', loadComponent: () => import('./pages/subsection/subsection.component').then(c => c.SubSectionComponent) },
   { path: 'sub-section/:id/edit', loadComponent: () => import('./pages/edit-subsection/edit-subsection.component').then(c => c.EditSubsectionComponent) },
+  { path: 'sub-section/:id/add-question', loadComponent: () => import('./pages/create-question/create-question.component').then(c => c.CreateQuestionComponent) },
 
   { path: 'single-question', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent) },
   { path: 'single-question/:id', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent) },
