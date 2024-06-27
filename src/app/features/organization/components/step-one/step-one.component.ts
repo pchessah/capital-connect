@@ -34,7 +34,7 @@ export class StepOneComponent {
     }
   }))
 
-  const countries = [
+   countries = [
     "Algeria",
     "Angola",
     "Benin",
