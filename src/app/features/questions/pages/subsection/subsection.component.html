@@ -1,10 +1,7 @@
-<!--<ng-container *ngIf="fetchedSubSection$ | async"></ng-container>-->
-<!--<ng-container *ngIf="nextOperation$ |async"></ng-container>-->
-<!--<ng-container *ngIf="subsectionForm$ | async"></ng-container>-->
-<!--<ng-container *ngIf="isSubsectionFormValid$ | async"></ng-container>-->
-
 <ng-container *ngIf="questionsFetch$ | async"></ng-container>
-  <ng-container *ngIf="sectionInfo$ | async"></ng-container>
+<ng-container *ngIf="sectionInfo$ | async"></ng-container>
+<ng-container *ngIf="init$ | async"></ng-container>
+
   <app-ui [title]="subsectionName">
     <div class="btn-grp">
       <a [routerLink] ="'/questions/section/'+sectionId" class="btn btn-success"><mat-icon>arrow_left</mat-icon> Back</a>
@@ -15,4 +12,4 @@
       </ng-container>
 
   </app-ui>
-<!--</ng-container>-->
+
