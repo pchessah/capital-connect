@@ -30,7 +30,7 @@ export class StepTwoComponent {
     "5 - 8 years",
     "More than 8 years"
   ];
-  numberOfEmployees: string[] =  [
+  numberOfEmployees: string[] = [
     "1-10 employees",
     "11-50 employees",
     "51-200 employees",
@@ -41,11 +41,11 @@ export class StepTwoComponent {
     "10,001+ employees"
   ];
   stepTwoForm: FormGroup = this._fb.group({
-    registrationStructure: [ this._currentCompanyData.registrationStructure ?? '', Validators.required],
-    yearsOfOperation: [ this._currentCompanyData.yearsOfOperation ?? '', [Validators.required]],
-    growthStage: [ this._currentCompanyData.growthStage ?? '', Validators.required],
+    registrationStructure: [this._currentCompanyData.registrationStructure ?? '', Validators.required],
+    yearsOfOperation: [this._currentCompanyData.yearsOfOperation ?? '', [Validators.required]],
+    growthStage: [this._currentCompanyData.growthStage ?? '', Validators.required],
     numberOfEmployees: [this._currentCompanyData.numberOfEmployees ?? '', Validators.required],
-    fullTimeBusiness: [this._currentCompanyData.fullTimeBusiness , Validators.required]
+    fullTimeBusiness: [this._currentCompanyData.fullTimeBusiness, Validators.required]
   });
 
   stepTwoForm$ = this.stepTwoForm.valueChanges.pipe(tap(vals => {
@@ -53,6 +53,11 @@ export class StepTwoComponent {
     if (this.stepTwoForm.valid) {
       this._orgStateService.updateCompanyInput(vals);
     }
-  }))
+  }));
+
+  fullTimeBusinessOptions = [
+    { label: 'Yes, I run it full-time.', value: true },
+    { label: 'No, I run it part-time.', value: false }
+  ]
 
 }

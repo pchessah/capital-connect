@@ -34,15 +34,20 @@
       }
     </select>
   </div>
-  <p class="input__label">Are you running the business full-time? <sup>*</sup></p>
-  <div class="inline__wrapper">
-    <div class="inline__field">
-      <input type="radio" formControlName="fullTimeBusiness" [value]="true" id="full-time-yes" />
-      <label for="full-time-yes">Yes, I run it full-time.</label>
-    </div>
-    <div class="inline__field">
-      <input type="radio" formControlName="fullTimeBusiness" [value]="false" id="full-time-no" />
-      <label for="full-time-no">No, I run it part-time.</label>
-    </div>
+
+  <div class="input__wrapper">
+    <p class="input__label">Are you running the business full-time? <sup>*</sup></p>
+  
+    <div class="inline__wrapper">
+      <div class="inline__field">
+        @for(fullTimeBusinessOption of fullTimeBusinessOptions; track $index) {
+  
+          <input type="radio" formControlName="fullTimeBusiness" [value]="fullTimeBusinessOption.value" id="full-time-yes" />
+          <label for="full-time-yes">{{fullTimeBusinessOption.label}}</label>
+        }
+  
+      </div>
+  </div>
+
   </div>
 </form>
