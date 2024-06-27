@@ -1,13 +1,13 @@
-import {Component, inject} from '@angular/core';
-import {QUESTION_FORM_STEPS} from "../../../../shared/interfaces/question.form.steps.enum";
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {FormStateService} from "../../services/form-state/form-state.service";
-import {ActivatedRoute, Router} from "@angular/router";
-import {combineLatest, Observable, of, Subject, takeUntil, tap} from "rxjs";
-import {Question, QuestionInput, QuestionType, SubSection} from "../../interfaces";
-import {CommonModule} from "@angular/common";
-import {UiComponent} from "../../components/ui/ui.component";
-import {QuestionsService} from "../../services/questions/questions.service";
+import { Component, inject } from '@angular/core';
+import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form.steps.enum";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormStateService } from "../../services/form-state/form-state.service";
+import { ActivatedRoute, Router } from "@angular/router";
+import { combineLatest, Observable, of, Subject, takeUntil, tap } from "rxjs";
+import { Question, QuestionInput, QuestionType, SubSection } from "../../interfaces";
+import { CommonModule } from "@angular/common";
+import { UiComponent } from "../../components/ui/ui.component";
+import { QuestionsService } from "../../services/questions/questions.service";
 
 @Component({
   selector: 'app-edit-question',
@@ -24,20 +24,20 @@ export class EditQuestionComponent {
   private _questionsService = inject(QuestionsService);
   private _router = inject(Router);
 
-  questionId!:number;
+  questionId!: number;
   questionForm = this._fb.group({
     subsectionId: ['', Validators.required],
     text: ['', Validators.required],
     type: ['', Validators.required]
   });
 
-  params$ =this._activatedRoute.params.pipe(tap(param =>{
-    const ids =param['id'].split('-')
-    this.subsectionId =Number(ids.at(0));
-    this.questionId =Number(ids.at(1));
-    this.fetchedSubSection$ =this._questionsService.getSingleSubsection(this.subsectionId)
+  params$ = this._activatedRoute.params.pipe(tap(param => {
+    const ids = param['id'].split('-')
+    this.subsectionId = Number(ids.at(0));
+    this.questionId = Number(ids.at(1));
+    this.fetchedSubSection$ = this._questionsService.getSingleSubsection(this.subsectionId)
     this.fetchQuestionBeingEdited$ = this._formStateService.getCurrentQuestionBeingEdited(this.questionId).pipe(tap(question => {
-      this.question =question;
+      this.question = question;
       this.questionForm.patchValue({
         subsectionId: question.id.toString(),
         type: question.type,
@@ -72,8 +72,8 @@ export class EditQuestionComponent {
 
 
   submit() {
-    const {type, text} =this.questionForm.value as Question;
-    this.question ={...this.question, type, text};
+    const { type, text } = this.questionForm.value as Question;
+    this.question = { ...this.question, type, text };
     this._formStateService.updateQuestion(this.question, this.subsectionId).subscribe()
   }
 
