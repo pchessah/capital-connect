@@ -1,7 +1,7 @@
 <div class="question-card">
   <div class="icon-header">
     <div class="icons left-content">
-      <a class="btn-primary" [routerLink] ="'/questions/single-question/'+id"><mat-icon>add</mat-icon></a>
+      <a class="btn-primary" [routerLink] ="'/questions/single-question/'+sectionId+'-' +subSectionId+'-'+id+'/add-answer'"><mat-icon>add</mat-icon></a>
       <a [routerLink] ="'/questions/single-question/'+sectionId+'-' +subSectionId+'-'+id+'/edit'" class="btn-warning"><mat-icon>edit</mat-icon></a>
       <button class="btn-danger"><mat-icon>close</mat-icon></button>
     </div>

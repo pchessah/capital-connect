@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'sub-section/:id/add-question', loadComponent: () => import('./pages/create-question/create-question.component').then(c => c.CreateQuestionComponent) },
 
   { path: 'single-question', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent) },
-  { path: 'single-question/:id', loadComponent: () => import('./pages/question-type-ui/question-type-ui.component').then(c => c.QuestionTypeUiComponent) },
+  { path: 'single-question/:id/add-answer', loadComponent: () => import('./pages/create-answer/create-answer.component').then(c => c.CreateAnswerComponent) },
   { path: 'single-question/:id/edit', loadComponent: () => import('./pages/edit-question/edit-question.component').then(c => c.EditQuestionComponent) },
 
   { path: 'answers', loadComponent: () => import('./pages/answer-ui/answer-ui.component').then(c => c.AnswerUiComponent) },
