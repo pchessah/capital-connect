@@ -16,5 +16,6 @@ export class QuestionCardComponent {
   @Input() id!: number;
   @Input() subSectionId!: number;
   @Input() type!: string;
+  @Input() sectionId!: number;
   @Input() answers: Answer[] =[]
 }
