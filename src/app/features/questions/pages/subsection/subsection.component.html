@@ -1,6 +1,3 @@
-<ng-container *ngIf="questionsFetch$ | async"></ng-container>
-<ng-container *ngIf="sectionInfo$ | async"></ng-container>
-
 <app-ui [title]="subsectionName">
   <div class="btn-grp">
     <a [routerLink]="'/questions/section/'+sectionId" class="btn btn-success"><mat-icon>arrow_left</mat-icon> Back</a>

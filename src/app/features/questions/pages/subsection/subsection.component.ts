@@ -48,10 +48,10 @@ export class SubSectionComponent {
     this.sectionId = Number(ids.at(0))
     this.subSectionId = Number(ids.at(1));
 
-    this.sectionInfo$ = this._questionsService.getSingleSubsection(this.subSectionId);
-    this.questionsFetch$ = this._questionsService.getQuestionsOfSubSection(this.subSectionId)
+    const sectionInfo$ = this._questionsService.getSingleSubsection(this.subSectionId);
+    const questionsFetch$ = this._questionsService.getQuestionsOfSubSection(this.subSectionId)
 
-    return combineLatest([this.sectionInfo$, this.questionsFetch$])
+    return combineLatest([sectionInfo$, questionsFetch$])
 
   }), tap(([subsectionInfo, questions]) => {
     this.subsectionName = subsectionInfo.name;
