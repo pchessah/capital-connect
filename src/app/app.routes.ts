@@ -17,6 +17,12 @@ export const routes: Routes = [
     canActivateChild: [isLoggedInCanActivateChildGuard]
   },
   {
+    path: 'investor',
+    loadChildren: () => import('./features/investor/modules/investor.routing').then(m => m.InvestorRoutingModule),
+    // canActivate: [isLoggedInCanActivateGuard],
+    // canActivateChild: [isLoggedInCanActivateChildGuard]
+  },
+  {
     path: 'business',
     loadChildren: () => import('./features/business/modules/business.routing').then(m => m.BusinessRoutingModule),
     canActivate: [isLoggedInCanActivateGuard],
