@@ -1,4 +1,4 @@
-@import "../../../../../styles/main.scss";
+@import "../../../styles/main";
 
 .main__section{
   height: 350px;
@@ -6,7 +6,7 @@
   border-radius: 1rem;
   background-size: cover;
   background-repeat: no-repeat;
-  background-image: url("../../../../../../assets/img/adverts-bg.jpeg");
+  background-image: url("../../../../assets/img/adverts-bg.jpeg");
   box-shadow: 0 11px 20px 0 #0510371A;
   .overlay{
     gap: .5rem;

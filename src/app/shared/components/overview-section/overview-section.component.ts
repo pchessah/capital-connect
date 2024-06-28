@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
-import {SharedModule} from "../../../../../shared";
-import {CardComponent} from "../../../../../shared/components/card/card.component";
-import {PhotoCollageComponent} from "../photo-collage/photo-collage.component";
+import {SharedModule} from "../../index";
+import {CardComponent} from "../card/card.component";
+import {PhotoCollageComponent} from "../../../features/business/components/dashboard/photo-collage/photo-collage.component";
 
 @Component({
   selector: 'app-overview-section',

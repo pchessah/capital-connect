@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {SharedModule} from "../../../../../shared";
+import {Component, Input} from '@angular/core';
+import {SharedModule} from "../../index";
 
 @Component({
   selector: 'app-advertisement-space',
@@ -9,5 +9,6 @@ import {SharedModule} from "../../../../../shared";
   styleUrl: './advertisement-space.component.scss'
 })
 export class AdvertisementSpaceComponent {
-
+  @Input() title!:string;
+  @Input() body!:string;
 }

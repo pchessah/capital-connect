@@ -1,6 +1,6 @@
 <section>
   <div class="schedule__header">
-    <h3>Upcoming Schedule</h3>
+    <h3>{{title}}</h3>
 <!--    TODO: UNCOMMENT ME IN THE NEXT UPDATE-->
 <!--    <select>-->
 <!--      <option value="">Today 18 Apr 2023</option>-->
@@ -42,5 +42,13 @@
 <!--    </ul>-->
 <!--  </div>-->
 <!--  TODO: REMOVE ME IN THE NEXT UPDATE -->
-  <app-info-block [title]="'Talk to a representative at Capital connect'" [label]="'Book appointment'" [body]="'Book an appointment today to talk to one of our Business advisors'"/>
+  <div class="temp__schedule">
+    <div>
+      <h3>{{subTitle}}</h3>
+      <p>{{body}}</p>
+      <a href="https://calendly.com/investor-eligibility/investor-preparedness" target="_blank">{{linkLabel}}</a>
+    </div>
+    <div></div>
+  </div>
+
 </section>

@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
 import { CommonModule } from "@angular/common";
-import { SharedModule } from "../../../../../shared";
-import { SCHEDULE_TYPE } from "../../../interfaces/schedules.type";
-import {InfoBlockComponent} from "../../../../../shared/components/info-block/info-block.component";
+import { SharedModule } from "../../index";
+import { SCHEDULE_TYPE } from "../../../features/business/interfaces/schedules.type";
+import {InfoBlockComponent} from "../info-block/info-block.component";
 
 @Component({
   selector: 'app-schedules-section',
@@ -20,4 +20,9 @@ export class SchedulesSectionComponent {
   other_schedules: SCHEDULE_TYPE[] = [
     { activity: 'Meeting with capital connect', datetime: 'Today, 09:15 AM' }
   ]
+
+  @Input() title!:string;
+  @Input() subTitle!:string;
+  @Input() body!:string;
+  @Input() linkLabel!:string;
 }
