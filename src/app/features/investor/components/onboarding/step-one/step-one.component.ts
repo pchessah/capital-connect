@@ -1,5 +1,5 @@
 import {Component, inject} from '@angular/core';
-import {Question} from "../../../../questions/interfaces";
+import {Question, QuestionType} from "../../../../questions/interfaces";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {QuestionsService} from "../../../../questions/services/questions/questions.service";
 import {BusinessPageService} from "../../../../business/services/business-page/business.page.service";
@@ -74,4 +74,6 @@ export class StepOneComponent {
       this.setNextStep();
     }))
   }
+
+  protected readonly field_type = QuestionType;
 }

@@ -1,1 +1,12 @@
 @import '../../../../business/styles/business.components.steps.scss';
+.check__form{
+  padding: 1rem 0;
+  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  > div{
+    gap: .2rem;
+    display: flex;
+    align-items: center;
+  }
+}

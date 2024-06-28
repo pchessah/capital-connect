@@ -30,7 +30,6 @@ export class StepThreeComponent {
 
   submission$ =new Observable<unknown>()
   questions$ =  this._questionService.getQuestionsOfSubSection(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_THREE).pipe(tap(questions => {
-    debugger
     this.questions = questions
     this._createFormControls();
   }))

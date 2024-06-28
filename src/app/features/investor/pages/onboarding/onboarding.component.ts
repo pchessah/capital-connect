@@ -6,6 +6,7 @@ import {InvestorScreensService} from "../../services/investor.screens.service";
 import {CommonModule} from "@angular/common";
 import {StepsComponent} from "../../components/onboarding/steps/steps.component";
 import {FormsLayoutComponent} from "../../../../shared/business/components/forms-layout/forms-layout.component";
+import {SuccessScreenComponent} from "../../components/onboarding/success-screen/success-screen.component";
 
 @Component({
   selector: 'app-onboarding',
@@ -16,7 +17,8 @@ import {FormsLayoutComponent} from "../../../../shared/business/components/forms
     LandingComponent,
     CommonModule,
     StepsComponent,
-    FormsLayoutComponent
+    FormsLayoutComponent,
+    SuccessScreenComponent
   ],
   templateUrl: './onboarding.component.html',
   styleUrl: './onboarding.component.scss'
