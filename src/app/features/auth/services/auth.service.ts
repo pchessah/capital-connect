@@ -24,11 +24,14 @@ export class AuthService extends BaseHttpService {
   }
 
   login(loginInfo: { username: string, password: string }) {
+   //Change map to switchmap
     return this.create(`${BASE_URL}/auth/login`, JSON.stringify(loginInfo)).pipe(map((res) => {
       this._feedBackService.success('Logged In Successfully, Welcome.')
-      this._authStateService.setToken((res as { access_token: string }).access_token)
+      this._authStateService.initUser((res as { access_token: string }).access_token)
+      //Call method in user service to fetch user Profile here
+      //return end point that fetches user profile
       return res
-    })) as Observable<{ access_token: string }>
+    })) as Observable<{ access_token: string }> //will be of type id, username, firstname, roles
   }
 
 
