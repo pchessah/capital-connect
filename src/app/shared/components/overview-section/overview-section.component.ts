@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "../../../../../shared";
-import {CardComponent} from "../card/card.component";
+import {CardComponent} from "../../../../../shared/components/card/card.component";
 import {PhotoCollageComponent} from "../photo-collage/photo-collage.component";
 
 @Component({
