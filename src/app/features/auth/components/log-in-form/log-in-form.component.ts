@@ -38,7 +38,10 @@ export class LogInFormComponent {
 
   submitCredentials() {
     const credentials = { username: this.signInForm.value.email as string, password: this.signInForm.value.password as string };
-    this.logIn$ = this._authService.login(credentials).pipe(tap(() => {
+    this.logIn$ = this._authService.login(credentials).pipe(tap((res) => { ///fitrsntme, roleses, id
+      //check roles, roles ===investor ===> url for investor
+      //==user ===> organization/setup
+      //admin ===> /questions
       this._router.navigateByUrl('/organization/setup')
     }), catchError((err) => {
       console.error(err)

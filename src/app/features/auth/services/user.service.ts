@@ -17,5 +17,8 @@ export class UserService extends BaseHttpService {
     return this.readById(`${BASE_URL}/users`, id) as Observable<User>
   }
 
+  //Add method to get user profile
+  
+
 }
 
