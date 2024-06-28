@@ -3,13 +3,15 @@ import {tap} from "rxjs";
 import {InvestorScreensService} from "../../../services/investor.screens.service";
 import { CommonModule } from "@angular/common";
 import {StepOneComponent} from "../step-one/step-one.component";
+import {StepTwoComponent} from "../step-two/step-two.component";
 
 @Component({
   selector: 'app-steps',
   standalone: true,
   imports: [
     CommonModule,
-    StepOneComponent
+    StepOneComponent,
+    StepTwoComponent
   ],
   templateUrl: './steps.component.html',
   styleUrl: './steps.component.scss'
