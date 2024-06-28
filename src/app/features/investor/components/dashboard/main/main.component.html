@@ -1,0 +1,23 @@
+<div class="main">
+  <div class="navbar">
+<!--    <button (click)="toggleVisibility()"><mat-icon>menu</mat-icon></button>-->
+    <app-navbar on_dashboard="true" />
+  </div>
+
+  <main>
+    <p class="brand__name">Business Name</p>
+    <div class="left__col">
+      <!--      <app-profile-status />-->
+      <app-overview />
+      <app-schedules-section [title]="'Upcoming Schedule'" [subTitle]="'Talk to a representative at Capital connect'" [body]="'Book an appointment today to talk to one of our investment advisors'" [linkLabel]="'Book appointment'"/>
+      <app-schedules-section [subTitle]="'Do you have a special criteria you want to invest in?'" [body]="'We can tailor a special for for you, submit your request today!!'" [linkLabel]="'Submit special criteria form request'" />
+      <!--      <app-score-section />-->
+    </div>
+    <div class="right__col">
+      <!--      <app-notifications />-->
+      <app-assessment-summary [title]="'Assessment Summary'" [body]="'You need to have a proper exit plan, reach our to one of our advisors to help you create a strong exit plan'" [linkLabel]="'Unlock the whole summary'"/>
+      <app-advertisement-space [title]="'Advertisement Space'" [body] ="'This space will be used for advertisements'"/>
+    </div>
+  </main>
+</div>
+
