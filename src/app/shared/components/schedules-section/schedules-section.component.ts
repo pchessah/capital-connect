@@ -2,12 +2,11 @@ import {Component, Input} from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../index";
 import { SCHEDULE_TYPE } from "../../../features/business/interfaces/schedules.type";
-import {InfoBlockComponent} from "../info-block/info-block.component";
 
 @Component({
   selector: 'app-schedules-section',
   standalone: true,
-  imports: [CommonModule, SharedModule, InfoBlockComponent],
+  imports: [CommonModule, SharedModule],
   templateUrl: './schedules-section.component.html',
   styleUrl: './schedules-section.component.scss'
 })
