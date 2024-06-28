@@ -4,6 +4,7 @@ import {InvestorScreensService} from "../../../services/investor.screens.service
 import { CommonModule } from "@angular/common";
 import {StepOneComponent} from "../step-one/step-one.component";
 import {StepTwoComponent} from "../step-two/step-two.component";
+import {StepThreeComponent} from "../step-three/step-three.component";
 
 @Component({
   selector: 'app-steps',
@@ -11,7 +12,8 @@ import {StepTwoComponent} from "../step-two/step-two.component";
   imports: [
     CommonModule,
     StepOneComponent,
-    StepTwoComponent
+    StepTwoComponent,
+    StepThreeComponent
   ],
   templateUrl: './steps.component.html',
   styleUrl: './steps.component.scss'
