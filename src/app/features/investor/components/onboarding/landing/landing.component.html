@@ -1,0 +1,26 @@
+<ng-container *ngIf="submit$ | async"></ng-container>
+<ng-container *ngIf="init$ | async"></ng-container>
+
+<div class="container">
+  <div class="content">
+    <h2>Investor Questions</h2>
+    <p>Let's find out how your Business financials are! This will help us know if you need help defining your financials and how investor ready you are.</p>
+    <p class="call__to__action"><span>Not sure about Business Financials term?</span> <a href="">Hover on any highlighted text to get help.</a></p>
+    <ng-container *ngIf="questions$ | async as questions">
+      <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
+        <div class="radio__buttons" *ngFor="let question of questions; let i = index">
+          <label>{{ question.text }}</label>
+          <div class="radio__form">
+            <div *ngFor="let answer of question.answers" class="input__field">
+              <input type="radio" [formControlName]="'question_' + question.id" [value]="answer.id">
+              <label>{{ answer.text }}</label>
+            </div>
+          </div>
+        </div>
+        <div class="cta__group">
+          <button type="submit" [disabled]="!formGroup.valid" class="btn" [ngClass]="{'disabled-btn': !formGroup.valid }">Let's Begin</button>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+</div>
