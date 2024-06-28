@@ -8,7 +8,7 @@ import { combineLatest, Observable } from "rxjs";
 import { Question } from "../../../../questions/interfaces";
 import { CommonModule } from "@angular/common";
 import {Router} from "@angular/router";
-import {ProgressBarComponent} from "../../progress-bar/progress-bar.component";
+import {ProgressBarComponent} from "../../../../../core/components/progress-bar/progress-bar.component";
 import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
