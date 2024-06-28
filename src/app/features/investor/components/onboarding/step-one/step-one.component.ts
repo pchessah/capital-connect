@@ -10,11 +10,12 @@ import {
 } from "../../../../../shared/business/services/onboarding.questions.service";
 import {CommonModule} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-step-one',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, MultiSelectModule],
   templateUrl: './step-one.component.html',
   styleUrl: './step-one.component.scss'
 })
@@ -69,7 +70,7 @@ export class StepOneComponent {
         :  Number(formValues['question_' + question.id]),
       text: formValues['question_' + question.id]
     }));
-
+    debugger
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();
     }))
