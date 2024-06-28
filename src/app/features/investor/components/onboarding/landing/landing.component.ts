@@ -1,18 +1,16 @@
 import {Component, inject} from '@angular/core';
-import {BusinessPageService} from "../../../../business/services/business-page/business.page.service";
 import {QuestionsService} from "../../../../questions/services/questions/questions.service";
 import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {Router} from "@angular/router";
-import {
-  BUSINESS_FINANCIALS_SUBSECTION_IDS,
-  INVESTOR_ONBOARDING_SUBSECTION_IDS
-} from "../../../../../shared/business/services/onboarding.questions.service";
+import {INVESTOR_ONBOARDING_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
 import {tap} from "rxjs/operators";
 import {combineLatest, Observable} from "rxjs";
 import {Question} from "../../../../questions/interfaces";
-import { CommonModule } from "@angular/common";
+import {CommonModule} from "@angular/common";
 import {AuthModule} from "../../../../auth/modules/auth.module";
+import {InvestorScreensService} from "../../../services/investor.screens.service";
+import {InvestorScreen} from "../../../interfaces/investor.sections.enum";
 
 @Component({
   selector: 'app-landing',
@@ -26,7 +24,7 @@ import {AuthModule} from "../../../../auth/modules/auth.module";
   styleUrl: './landing.component.scss'
 })
 export class LandingComponent {
-  private _pageService = inject(BusinessPageService);
+  private _pageService = inject(InvestorScreensService);
   private _questionService = inject(QuestionsService);
   private _submissionService = inject(SubmissionService);
   private _submissionStateService = inject(SubMissionStateService)
@@ -34,7 +32,6 @@ export class LandingComponent {
   private _router =inject(Router);
 
   formGroup: FormGroup = this._formBuilder.group({});
-  // sectionQuestions$ =this._questionService.getSectionQuestions(5)
   questions$ = this._questionService.getQuestionsOfSubSection(INVESTOR_ONBOARDING_SUBSECTION_IDS.LANDING).pipe(
     tap(questions => {
       this.questions = questions;
@@ -54,10 +51,7 @@ export class LandingComponent {
   questions: Question[] = [];
 
   private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
-    // Create a set of question ids from the responses array
     const responseQuestionIds = new Set(responses.map(response => response.question.id));
-
-    // Check if any question in the questions array has an id in the responseQuestionIds set
     return questions.some(question => responseQuestionIds.has(question.id));
   }
 
@@ -68,24 +62,23 @@ export class LandingComponent {
   }
 
   onSubmit() {
-    const formValues = this.formGroup.value;
+    if(this.questions.length){
+      const formValues = this.formGroup.value;
+      const submissionData = this.questions.map(question => ({
+        questionId: question.id,
+        answerId: formValues['question_' + question.id]
+      }));
 
-    const submissionData = this.questions.map(question => ({
-      questionId: question.id,
-      answerId: formValues['question_' + question.id]
-    }));
+      this.submit$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
+        this.setNextScreen()
+      }))
+      return
+    }
+    this.setNextScreen()
 
-    this.submit$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
-      this.setNextScreen()
-    }))
-
-  }
-
-  skip() {
-    this._router.navigateByUrl('/business')
   }
 
   setNextScreen() {
-    this._pageService.setCurrentPage(2);
+    this._pageService.setCurrentScreen(2);
   }
 }
