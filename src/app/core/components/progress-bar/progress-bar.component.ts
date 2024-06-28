@@ -16,10 +16,6 @@ import {MatIcon} from "@angular/material/icon";
 
 export class ProgressBarComponent {
   @Input() current_step =0; // used number instead of enums for dynamic classes assignment using indexes range[0-2]
-  steps =[
-    {name: 'Business Financials',},
-    {name: 'Investor Eligibility'},
-    {name: 'Investor Preparedness'},
-  ];
+  @Input() steps!: {name: string}[];
 
 }

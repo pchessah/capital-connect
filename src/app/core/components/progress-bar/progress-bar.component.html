@@ -1,4 +1,5 @@
-<section class="progress-bar">
+<section class="progress-bar" *ngIf="steps.length">
+
     <ol class="steps">
         @for (step of steps; track $index) {
             <li class="step" [ngClass]="{fill: $index <current_step}">
