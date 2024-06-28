@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { BusinessPageService } from '../../../../features/business/services/business-page/business.page.service';
-import { ProgressBarComponent } from '../../../../features/business/components/progress-bar/progress-bar.component';
+import { ProgressBarComponent } from '../../../../core/components/progress-bar/progress-bar.component';
 
 @Component({
   selector: 'app-forms-layout',
@@ -12,6 +12,12 @@ import { ProgressBarComponent } from '../../../../features/business/components/p
 export class FormsLayoutComponent {
   current_step =1;
   current_page =2;
+
+  @Input() progress_steps =[
+    {name: 'Business Financials',},
+    {name: 'Investor Eligibility'},
+    {name: 'Investor Preparedness'},
+];
 
   constructor(private businessPageService: BusinessPageService) {}
 
