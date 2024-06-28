@@ -10,7 +10,6 @@ import {Question} from "../../../../questions/interfaces";
 import {CommonModule} from "@angular/common";
 import {AuthModule} from "../../../../auth/modules/auth.module";
 import {InvestorScreensService} from "../../../services/investor.screens.service";
-import {InvestorScreen} from "../../../interfaces/investor.sections.enum";
 
 @Component({
   selector: 'app-landing',

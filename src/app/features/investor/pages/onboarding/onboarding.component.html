@@ -1,11 +1,4 @@
 <app-layout *ngIf="currentScreen$ | async as current_screen">
-  <app-index-layout *ngIf="current_screen ===1">
-    <app-landing></app-landing>
-  </app-index-layout>
-  <app-index-layout *ngIf="current_screen ===2">
-
-  </app-index-layout>
-  <app-index-layout *ngIf="current_screen ===3">
-
-  </app-index-layout>
+  <app-index-layout *ngIf="current_screen ===1"><app-landing/></app-index-layout>
+  <app-forms-layout *ngIf="current_screen ===2"><app-steps/></app-forms-layout>
 </app-layout>

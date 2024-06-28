@@ -1,6 +1,5 @@
 import {Injectable} from "@angular/core";
 import {BehaviorSubject} from "rxjs";
-import {FormSteps, InvestorScreen} from "../interfaces/investor.sections.enum";
 
 @Injectable(
   {

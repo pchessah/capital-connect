@@ -4,7 +4,8 @@ import {IndexLayoutComponent} from "../../../../shared/business/components/index
 import {LandingComponent} from "../../components/onboarding/landing/landing.component";
 import {InvestorScreensService} from "../../services/investor.screens.service";
 import {CommonModule} from "@angular/common";
-import {InvestorScreen} from "../../interfaces/investor.sections.enum";
+import {StepsComponent} from "../../components/onboarding/steps/steps.component";
+import {FormsLayoutComponent} from "../../../../shared/business/components/forms-layout/forms-layout.component";
 
 @Component({
   selector: 'app-onboarding',
@@ -13,7 +14,9 @@ import {InvestorScreen} from "../../interfaces/investor.sections.enum";
     LayoutComponent,
     IndexLayoutComponent,
     LandingComponent,
-    CommonModule
+    CommonModule,
+    StepsComponent,
+    FormsLayoutComponent
   ],
   templateUrl: './onboarding.component.html',
   styleUrl: './onboarding.component.scss'
