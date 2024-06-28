@@ -1,5 +1,5 @@
 <app-layout *ngIf="currentScreen$ | async as current_screen">
   <app-index-layout *ngIf="current_screen ===1"><app-landing/></app-index-layout>
-  <app-forms-layout *ngIf="current_screen ===2"><app-steps/></app-forms-layout>
+  <app-forms-layout *ngIf="current_screen ===2" [progress_steps]="[{name: 'Investor Registration'}]"><app-steps/></app-forms-layout>
   <app-index-layout *ngIf="current_screen ===3"><app-success-screen/></app-index-layout>
 </app-layout>
