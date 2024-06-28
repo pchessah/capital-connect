@@ -12,9 +12,9 @@ export enum PASSWORD_STRENGTH {
   MEDIUM = 'Medium'
 }
 
-export enum FORM_TYPE { 
-  SIGNUP, 
-  SIGNIN 
+export enum FORM_TYPE {
+  SIGNUP,
+  SIGNIN
 }
 
 export interface User {
@@ -29,4 +29,12 @@ export interface User {
   isEmailVerified: boolean;
   emailVerificationToken: string;
   emailVerificationExpires: string;
+}
+
+export interface Profile{
+  id: number;
+  username: string;
+  firstName: string;
+  lastName: string;
+  roles: string;
 }

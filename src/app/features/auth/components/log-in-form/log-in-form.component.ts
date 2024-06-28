@@ -1,10 +1,11 @@
-import { Component, inject } from '@angular/core';
-import { AuthModule } from '../../modules/auth.module';
-import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
-import { CommonModule } from "@angular/common";
-import { Router } from "@angular/router";
-import { AuthService } from '../../services/auth.service';
-import { catchError, EMPTY, Observable, tap } from 'rxjs';
+import {Component, inject} from '@angular/core';
+import {AuthModule} from '../../modules/auth.module';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {CommonModule} from "@angular/common";
+import {Router} from "@angular/router";
+import {AuthService} from '../../services/auth.service';
+import {catchError, EMPTY, Observable, tap} from 'rxjs';
+import {USER_ROLES} from "../../../../shared";
 
 @Component({
   selector: 'app-log-in-form',
@@ -38,11 +39,22 @@ export class LogInFormComponent {
 
   submitCredentials() {
     const credentials = { username: this.signInForm.value.email as string, password: this.signInForm.value.password as string };
-    this.logIn$ = this._authService.login(credentials).pipe(tap((res) => { ///fitrsntme, roleses, id
-      //check roles, roles ===investor ===> url for investor
-      //==user ===> organization/setup
-      //admin ===> /questions
-      this._router.navigateByUrl('/organization/setup')
+                                                                                      //{role, access_token}
+    this.logIn$ = this._authService.login(credentials).pipe(tap((profile) => { ///fitrsntme, roleses, id
+      switch (profile.roles as USER_ROLES) {
+        case USER_ROLES.USER:
+          this._router.navigateByUrl('/organization/setup');
+          break
+        case USER_ROLES.INVESTOR:
+          this._router.navigateByUrl('/investor/onboarding');
+          break
+        case USER_ROLES.ADMIN:
+          this._router.navigateByUrl('/question');
+          break
+        default:
+          break
+          // @Paul what's the fallback???
+      }
     }), catchError((err) => {
       console.error(err)
       return EMPTY
