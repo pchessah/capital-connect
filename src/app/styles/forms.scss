@@ -275,6 +275,11 @@ select{
     font-family: $font-family-sans-serif;
   }
 }
+.check__form{
+  gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
 @include when-screen-is-atleast(large){
   .form_content__container{
     padding: 2rem 3rem;

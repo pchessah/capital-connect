@@ -16,11 +16,12 @@ export class AuthStateService {
   currentUserId: WritableSignal<number> = signal(Number(sessionStorage.getItem('userId') as string)) ?? null
   currentUserName: WritableSignal<string> = signal(sessionStorage.getItem('userName') as string)
 
-  setToken(token: string) {
+  initUser(token: string) {
     sessionStorage.setItem('token', token);
     this.currentToken.set(token);
     this._setCurrentUserId();
     this._setUserName();
+    //add fn to set user
   }
 
   get authToken() {

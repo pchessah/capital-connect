@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CreateUserInput } from '../interfaces/auth.interface';
+import {CreateUserInput, Profile} from '../interfaces/auth.interface';
 import { BASE_URL, BaseHttpService, FeedbackService } from '../../../core';
-import { Observable } from 'rxjs';
+import {Observable, switchMap} from 'rxjs';
 import { map, tap } from 'rxjs/operators'
 import { AuthStateService } from './auth-state.service';
 
@@ -23,12 +23,17 @@ export class AuthService extends BaseHttpService {
     }))
   }
 
+  getUserProfile(){
+    return this.read(`${BASE_URL}/users/profile`) as unknown as Observable<Profile>;
+  }
+
   login(loginInfo: { username: string, password: string }) {
-    return this.create(`${BASE_URL}/auth/login`, JSON.stringify(loginInfo)).pipe(map((res) => {
+    // @ts-ignore
+    return this.create(`${BASE_URL}/auth/login`, JSON.stringify(loginInfo)).pipe(switchMap((res) => {
       this._feedBackService.success('Logged In Successfully, Welcome.')
-      this._authStateService.setToken((res as { access_token: string }).access_token)
-      return res
-    })) as Observable<{ access_token: string }>
+      this._authStateService.initUser((res as { access_token: string }).access_token)
+      return this.getUserProfile();
+    })) as Observable<Profile>
   }
 
 

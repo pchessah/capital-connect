@@ -1,0 +1,19 @@
+<section class="progress-bar" *ngIf="steps.length">
+
+    <ol class="steps">
+        @for (step of steps; track $index) {
+            <li class="step" [ngClass]="{fill: $index <current_step}">
+              <div class="step__content" [class.active]="$index ==current_step">
+                <h4>
+                  @if($index <current_step){ <mat-icon>check</mat-icon>}
+                  @else{ {{$index +1 <10? '0'+($index +1): $index}}}
+                </h4>
+                <div class="description">
+                  <h3>{{step.name}}</h3>
+                  <p>{{$index+1 <=current_step? 'complete': 'incomplete'}}</p>
+                </div>
+              </div>
+            </li>
+        }
+    </ol>
+</section>

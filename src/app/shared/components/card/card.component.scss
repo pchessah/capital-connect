@@ -1,0 +1,72 @@
+@import "../../../styles/main";
+
+.card{
+  gap: 1.5rem;
+  display: flex;
+  padding: 1.5rem;
+  overflow: hidden;
+  border-radius: 1rem;
+  flex-direction: column;
+  background-color: #EEF4EE;
+  font-family: $font-family-sans-serif;
+
+  .card__title{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    h3 {
+      font-weight: 400;
+      line-height: 1.5rem;
+      font-size: 1.125rem;
+    }
+    span{
+      >*{
+        color: #AFCDB3;
+      }
+    }
+  }
+  .card__body{
+    gap: 1rem;
+    display: flex;
+    align-items: center;
+    h2{
+      font-weight: 700;
+      line-height: 2.5rem;
+      font-size: 2.125rem;
+      color: $primary-color;
+    }
+    p{
+      font-size: 12px;
+      padding: 0 10px;
+      border-radius: 4px;
+      line-height: 1.5rem;
+      background-color: #AFCDB3;
+      text-transform: capitalize;
+      font-family: $font-family-roboto;
+    }
+  }
+  &.featured{
+    color: $white;
+    background-color: $primary-color;
+    .card__title{
+      span{
+        >*{
+          color: #588378;
+        }
+      }
+      .hr{
+        background-color: #588378;
+      }
+    }
+    .card__body{
+      h2{
+        color: $white;
+      }
+    }
+  }
+  .hr{
+    width: 100%;
+    height: 1px;
+    background-color: #AFCDB3;
+  }
+}

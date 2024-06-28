@@ -3,11 +3,12 @@ import {GrowthStage} from "../../../features/organization/interfaces";
 
 const company =new CompanyStateService()
 
-export enum COMPANY_STAGES{
-  STARTUP, ESTABLISHED_EXPANSION,
-  LIQUIDATION_TURNAROUND, GROWTH_STAGE
+export const INVESTOR_ONBOARDING_SUBSECTION_IDS = {
+  LANDING: 21,
+  STEP_ONE: 22,
+  STEP_TWO: 24,
+  STEP_THREE: 25,
 }
-
 export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS ={
 
   ESTABLISHED_EXPANSION: {
