@@ -24,4 +24,5 @@ export class SchedulesSectionComponent {
   @Input() subTitle!:string;
   @Input() body!:string;
   @Input() linkLabel!:string;
+  @Input() link!:string;
 }
