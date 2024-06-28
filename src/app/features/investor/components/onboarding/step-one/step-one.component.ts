@@ -11,6 +11,7 @@ import {
 import {CommonModule} from "@angular/common";
 import {RouterLink} from "@angular/router";
 import {MultiSelectModule} from "primeng/multiselect";
+import {InvestorScreensService} from "../../../services/investor.screens.service";
 
 @Component({
   selector: 'app-step-one',
@@ -23,7 +24,7 @@ export class StepOneComponent {
   questions: Question[] = [];
   private _formBuilder =inject(FormBuilder)
   private _questionService = inject(QuestionsService);
-  private _pageService = inject(BusinessPageService);
+  private _pageService = inject(InvestorScreensService);
   private _submissionService = inject(SubmissionService);
   formGroup: FormGroup =this._formBuilder.group({})
   private _submissionStateService = inject(SubMissionStateService)
@@ -55,26 +56,24 @@ export class StepOneComponent {
     });
   }
   setNextStep(){
-    this._pageService.setCurrentStep(2)
+    this._pageService.setCurrentStep(2);
   }
   goBack(){
-    this._pageService.setCurrentPage(1);
+    this._pageService.setCurrentScreen(1);
   }
 
   handleSubmit(){
     const formValues =this.formGroup.value;
-
-    const submissionData = this.questions.map(question => ({
+    const submissionData = this.questions.filter(question =>question.type !==this.field_type.MULTIPLE_CHOICE).map(question => ({
       questionId: question.id,
       answerId: question.answers.find(a => a.text === 'OPEN')?.text === 'OPEN' ? Number(question.answers.find(a => a.text === 'OPEN')?.id)
         :  Number(formValues['question_' + question.id]),
       text: formValues['question_' + question.id]
     }));
-    debugger
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();
     }))
   }
 
-  protected readonly field_type = QuestionType;
+  field_type = QuestionType;
 }

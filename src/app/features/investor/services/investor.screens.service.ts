@@ -8,7 +8,7 @@ import {BehaviorSubject} from "rxjs";
 )
 
 export class InvestorScreensService {
-  private _currentScreenSRC =new BehaviorSubject<number>(2)
+  private _currentScreenSRC =new BehaviorSubject<number>(1)
   private _currentStepSRC =new BehaviorSubject<number>(1);
 
   currentScreen$ =this._currentScreenSRC.asObservable();

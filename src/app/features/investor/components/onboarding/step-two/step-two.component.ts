@@ -8,6 +8,7 @@ import {combineLatest, Observable, tap} from "rxjs";
 import {INVESTOR_ONBOARDING_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
 import {CommonModule} from "@angular/common";
 import {RouterLink} from "@angular/router";
+import {InvestorScreensService} from "../../../services/investor.screens.service";
 
 @Component({
   selector: 'app-step-two',
@@ -25,13 +26,10 @@ export class StepTwoComponent {
   field_type = QuestionType;
   private _formBuilder =inject(FormBuilder)
   private _questionService = inject(QuestionsService);
-  private _pageService = inject(BusinessPageService);
+  private _pageService = inject(InvestorScreensService);
   private _submissionService = inject(SubmissionService);
   formGroup: FormGroup =this._formBuilder.group({})
   private _submissionStateService = inject(SubMissionStateService)
-  // subsections$ = this._questionService.getSubSectionsOfaSection(5).pipe(tap(res => {
-  //   debugger
-  // }))
 
   submission$ =new Observable<unknown>()
   questions$ =  this._questionService.getQuestionsOfSubSection(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_TWO).pipe(tap(questions => {
@@ -68,7 +66,7 @@ export class StepTwoComponent {
 
   handleSubmit(){
     const formValues =this.formGroup.value;
-    const submissionData = this.questions.map(question => {
+    const submissionData = this.questions.filter(question =>question.type !==this.field_type.MULTIPLE_CHOICE).map(question => {
       const questionId =question.id;
       const openQuestion = question.answers.find(a => a.text === 'OPEN');
       const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]

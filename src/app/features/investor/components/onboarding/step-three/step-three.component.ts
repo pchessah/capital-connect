@@ -60,7 +60,7 @@ export class StepThreeComponent {
 
   handleSubmit(){
     const formValues =this.formGroup.value;
-    const submissionData = this.questions.map(question => {
+    const submissionData = this.questions.filter(question =>question.type !==this.field_type.MULTIPLE_CHOICE).map(question => {
       const questionId = question.id;
       const openQuestion = question.answers.find(a => a.text === 'OPEN');
       const answerId = openQuestion ? Number(openQuestion.id) : Number(formValues['question_' + question.id])
