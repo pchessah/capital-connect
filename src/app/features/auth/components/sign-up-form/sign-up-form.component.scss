@@ -21,3 +21,14 @@ form {
   padding-left: 2px;
 }
 
+.radio__buttons{
+  gap: 1rem;
+  display: flex;
+  align-items: center;
+  padding-top: .5rem;
+  .radio__button{
+    gap: .3rem;
+    display: flex;
+    align-items: center;
+  }
+}

@@ -21,7 +21,7 @@ export class SignUpFormComponent {
   @Output() changeFormTypeEvent = new EventEmitter<FORM_TYPE>();
 
   signUpForm = this._formBuilder.group({
-    accountType: [USER_ROLES.USER, Validators.required],
+    accountType: ['', Validators.required],
     firstName: ['', Validators.required],
     lastName: ['', Validators.required],
     email: ['', [Validators.required, Validators.email]],
