@@ -52,8 +52,8 @@ export class LogInFormComponent {
           this._router.navigateByUrl('/question');
           break
         default:
-          break
-          // @Paul what's the fallback???
+          this._router.navigateByUrl('/organization/setup');
+          break;
       }
     }), catchError((err) => {
       console.error(err)
