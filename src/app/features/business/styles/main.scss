@@ -1,0 +1,77 @@
+@import "../../../styles/main.scss";
+
+.main{
+  height: 100%;
+  display: grid;
+  background-color: #F9FAFB;
+  .navbar{
+    display: flex;
+    padding-left: 1rem;
+    align-items: center;
+    background-color: white;
+    justify-content: space-between;
+    button{
+      display: flex;
+      background: none;
+    }
+  }
+  main{
+    gap: 2rem;
+    display: grid;
+    padding: 1rem;
+    .brand__name{
+      color: #031D16;
+      font-weight: 700;
+      line-height: 2rem;
+      font-size: 1.35rem;
+      font-family: $font-family-sans-serif;
+    }
+    .left__col,
+    .right__col{
+      width: 100%;
+      gap: 1rem;
+      display: flex;
+      flex-direction: column;
+    }
+    .right__col{
+      gap: 2rem;
+    }
+  }
+}
+
+@include when-screen-is-atleast(medium){
+  .main{
+
+    .navbar{
+      padding: 0;
+      display: block;
+      button{
+        display: none;
+      }
+    }
+    main{
+      .brand__name{
+        display: none;
+      }
+      .right__col{
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  }
+}
+
+
+@include when-screen-is-atleast(large){
+  .main{
+    grid-template-rows: max-content auto;
+
+    main{
+      grid-template-columns: auto 360px;
+      padding: 1rem 2rem;
+      .right__col{
+        display: flex;
+      }
+    }
+  }
+}
