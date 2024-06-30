@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../index";
 import {DETAIL_TYPE} from "../../../features/business/interfaces/detail.type";
@@ -13,5 +13,12 @@ import {DETAIL_TYPE} from "../../../features/business/interfaces/detail.type";
   styleUrl: './card.component.scss'
 })
 export class CardComponent {
+  @Input() onClick!: Function;
   @Input() detail: DETAIL_TYPE | undefined;
+  @Output() event = new EventEmitter();
+
+  callback(){
+    this.onClick && this.onClick();
+    this.event.emit();
+  }
 }
