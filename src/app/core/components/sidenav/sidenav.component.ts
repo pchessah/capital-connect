@@ -4,11 +4,12 @@ import { SharedModule } from "../../../shared";
 import { CommonModule } from "@angular/common";
 import { NavbarToggleService } from "../../services/navbar-toggle/navbar.toggle.service";
 import { tap } from "rxjs";
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [ProBadgeComponent, SharedModule, CommonModule],
+  imports: [ProBadgeComponent, SharedModule, CommonModule, RouterLink],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
