@@ -11,6 +11,10 @@ import { ScoreSectionComponent } from "../score-section/score-section.component"
 import { NavbarComponent, NavbarToggleService } from '../../../../../core';
 import { SharedModule } from '../../../../../shared';
 import {OverviewComponent} from "../overview/overview.component";
+import {Button} from "primeng/button";
+import {DialogModule} from "primeng/dialog";
+import {InputTextModule} from "primeng/inputtext";
+import {ModalComponent} from "../../../../../shared/components/modal/modal.component";
 
 
 @Component({
@@ -19,7 +23,7 @@ import {OverviewComponent} from "../overview/overview.component";
   imports: [
     NavbarComponent, ProfileStatusComponent, NotificationsComponent,
     AssessmentSummaryComponent, AdvertisementSpaceComponent, OverviewSectionComponent,
-    SchedulesSectionComponent, ScoreSectionComponent, SharedModule, OverviewComponent,
+    SchedulesSectionComponent, ScoreSectionComponent, SharedModule, OverviewComponent, Button, DialogModule, InputTextModule, ModalComponent,
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
