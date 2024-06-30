@@ -29,6 +29,7 @@ import {ModalComponent} from "../../../../../shared/components/modal/modal.compo
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
+  visible =true
   private _toggleService = inject(NavbarToggleService)
   toggleVisibility() {
     this._toggleService.toggleVisibility();
