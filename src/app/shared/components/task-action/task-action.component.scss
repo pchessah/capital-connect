@@ -1,0 +1,34 @@
+@import '../../../styles/fonts';
+
+.action-btn{
+  border: 1px solid #064635;
+  font-size: .9rem;
+  font-weight: 500;
+  color: #064635;
+  padding: .5rem 2rem;
+  font-family: $font-family-sans-serif;
+}
+
+.title{
+  padding: 0;
+  margin: 0;
+  color: #1C1C1E;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.5rem;
+  font-family: $font-family-sans-serif;
+}
+
+.description{
+  padding: 0;
+  margin: 0;
+  color: #1C1C1E;
+  font-size: .8rem;
+  line-height: 1.5rem;
+  font-family: $font-family-sans-serif;
+}
+
+.active{
+  color: #fff;
+  background-color: #064635;
+}
