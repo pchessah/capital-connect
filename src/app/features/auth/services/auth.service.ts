@@ -36,6 +36,9 @@ export class AuthService extends BaseHttpService {
     })) as Observable<Profile>
   }
 
-
+  forgotPassword(email: string) {
+    // TODO: integrate endpoint to send email to the backend for verification
+    return Observable<unknown>;
+  }
 
 }
