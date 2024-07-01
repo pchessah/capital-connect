@@ -49,7 +49,7 @@ export class LogInFormComponent {
           this._router.navigateByUrl('/investor/onboarding');
           break
         case USER_ROLES.ADMIN:
-          this._router.navigateByUrl('/question');
+          this._router.navigateByUrl('/questions');
           break
         default:
           this._router.navigateByUrl('/organization/setup');

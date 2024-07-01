@@ -1,0 +1,39 @@
+@import "../../../../../styles/main";
+
+.no-data{
+  height: 100%;
+  font-size: 1.125rem;
+  font-weight: 700;
+  font-family: $font-family-sans-serif;
+  line-height: 1.5rem;
+  color: #1C1C1E;
+}
+
+
+.business-details{
+  padding-bottom: 1rem;
+  //border-bottom: 1px solid #C9DDCC;
+  span{
+    flex: 1;
+    color: #1C1C1E;
+    font-weight: 700;
+    display: block;
+    text-align: left;
+    padding: .75rem 1rem;
+    font-family: $font-family-sans-serif;
+    width: max-content;
+  }
+  .cta-group{
+    flex: 5;
+    gap: 1rem;
+    a{
+      font-weight: 500;
+      color: #064635;
+      font-size: 1rem;
+      border-radius: 6px;
+      border: 1px solid #064635;
+      padding: .5rem 2rem;
+      font-family: $font-family-sans-serif;
+    }
+  }
+}

@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../index";
 import {DETAIL_TYPE} from "../../../features/business/interfaces/detail.type";

@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { QuestionsService } from '../../../questions/services/questions/questions.service';
-import { BehaviorSubject, switchMap } from 'rxjs';
+import {BehaviorSubject, Observable, switchMap, tap} from 'rxjs';
 import { BusinessFinancials } from '../../interfaces/business-financials.interface';
 
 @Injectable({ providedIn: 'root' })
@@ -24,6 +24,10 @@ export class BusinessHttpService {
       return subsections$
     }), )
 
+  }
+
+  getMatchedInvestors(){
+    return new Observable<{count: number}>()
   }
 
 }
