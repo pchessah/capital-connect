@@ -1,15 +1,15 @@
-import { Component, HostListener, inject } from '@angular/core';
+import {Component, HostListener, inject, Input} from '@angular/core';
 import { ProBadgeComponent } from "../pro-badge/pro-badge.component";
 import { SharedModule } from "../../../shared";
 import { CommonModule } from "@angular/common";
 import { NavbarToggleService } from "../../services/navbar-toggle/navbar.toggle.service";
 import { tap } from "rxjs";
-import {RouterLink} from "@angular/router";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [ProBadgeComponent, SharedModule, CommonModule, RouterLink],
+  imports: [ProBadgeComponent, SharedModule, CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
