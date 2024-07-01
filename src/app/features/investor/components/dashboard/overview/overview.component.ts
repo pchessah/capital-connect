@@ -17,14 +17,14 @@ import {CommonModule} from "@angular/common";
   styleUrl: './overview.component.scss'
 })
 export class OverviewComponent {
-  visible =true;
-  matchedBusinesses =[
-    {id: '', name: 'U45638', sector: 'FMCG'},
-    {id: '', name: 'U45638', sector: 'Tech'},
-    {id: '', name: 'U45638', sector: 'FinTech'},
-    {id: '', name: 'U45638', sector: 'AgriFin'},
-    {id: '', name: 'U45638', sector: 'FMCG'},
-    {id: '', name: 'U45638', sector: 'FMCG'},
+  visible =false;
+  matchedBusinesses: {id?:number, name?:string, sector?:string}[] =[
+    // {id: '', name: 'U45638', sector: 'FMCG'},
+    // {id: '', name: 'U45638', sector: 'Tech'},
+    // {id: '', name: 'U45638', sector: 'FinTech'},
+    // {id: '', name: 'U45638', sector: 'AgriFin'},
+    // {id: '', name: 'U45638', sector: 'FMCG'},
+    // {id: '', name: 'U45638', sector: 'FMCG'},
   ]
 
   showDialog(){

@@ -1,21 +1,23 @@
 <app-overview-section>
-  <app-card [detail]="{title: 'Matched Businesses', value: '20', featured: true}" (click)="showDialog()">
-    <p class="helper__text text__yellow">10 perfect match</p>
+  <app-card [detail]="{title: 'Matched Businesses', value: matchedBusinesses.length.toString(), featured: true}" (click)="showDialog()">
+    <p class="helper__text text__yellow">{{ matchedBusinesses.length.toString() }} perfect match</p>
   </app-card>
-  <app-card [detail]="{title: 'Matched Advisors', value: '4', featured: false}" >
-    <p class="helper__text text__red">views</p>
+  <app-card [detail]="{title: 'Matched Advisors', value: '0', featured: false}" >
+    <p class="helper__text text__red">No views yet</p>
   </app-card>
 </app-overview-section>
 
 <app-modal [visible] ="visible" title="Matched Businesses" [value]="matchedBusinesses.length" helperText ="You had a good match with this businesses">
   <div class="flex mx-auto items-center justify-center text-center no-data" *ngIf="!matchedBusinesses.length">
-    You have not matched with any business yet <br /> check in 48 hrs
+    You have not matched with any business yet <br /> check again later
   </div>
   <div class="flex flex-col gap-4">
     @for(business of matchedBusinesses; track $index;){
       <div class="flex justify-between items-center business-details">
-        <span>{{$index +1}}</span>
-        <span>{{business.name}}</span>
+        <div class="flex items-center gap-1 flex-layout">
+          <span>{{$index +1}}</span>
+          <span>{{business.name}}</span>
+        </div>
         <span>{{business.sector}}</span>
         <div class="flex cta-group">
           <a class="">More details</a>
