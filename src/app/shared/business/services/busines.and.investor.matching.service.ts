@@ -23,9 +23,9 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
     return new Observable<{count?: 0}>();
   }
 
-  getUserScores(userId: number):Observable<{ score: ISCORE[] }>{
-    return this.read(`${BASE_URL}/submissions/user/${userId}/score`).pipe((map(res => {
+  getUserScores(userId: number, sectionId: number):Observable<ISCORE>{
+    return this.read(`${BASE_URL}/submissions/user/${userId}/score/${sectionId}`).pipe((map(res => {
       return res;
-    }))) as unknown as Observable<{ score: ISCORE[] }>
+    }))) as unknown as Observable<ISCORE>
   }
 }

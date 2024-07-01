@@ -49,15 +49,8 @@ export class OverviewComponent {
     this.matchedInvestors =res.count;
   }))
 
-  scoring$ =this._scoringService.getUserScores(this.userId).pipe(tap(scores =>{
-    const subsectionScore =scores.score.
-                                      filter(score =>this._investorPreparednessSubSectionIds.includes(score.subSectionId)).
-                                      map(score =>({target: score.targetScore, score: score.score}));
-
-    const maxScore =subsectionScore.reduce((accum, score) => score.target +accum, 0)
-    const userScore =subsectionScore.reduce((accum, score) => score.score +accum, 0)
-
-    this.investorPreparednessScore =Number((userScore/maxScore) *100).toFixed(1);
+  scoring$ =this._scoringService.getUserScores(this.userId, INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID).pipe(tap(scores =>{
+    this.investorPreparednessScore =Number(scores.percentageScore).toFixed(1);
   }))
 
   showDialog(){
