@@ -1,0 +1,38 @@
+@import '../../../../styles/main.scss';
+
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  flex-direction: column;
+  box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  width: 50%;
+
+  h2 {
+    padding: 1em;
+  }
+
+  .row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+}
+
+.page{
+  padding: 5%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.timer {
+  color: $info-color;
+  font-weight: $font-weight-medium;
+  font-size: $font-size-lg;
+}
+
+.input__wrapper{
+  margin: 10px 0;
+}

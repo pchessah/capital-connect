@@ -11,6 +11,12 @@ export const routes: Routes = [
     canActivate: [isLoggedInCanActivateGuard],
   },
   {
+    path:'verify-email',
+    loadComponent: () => import('./features/auth/pages/verify-email/verify-email.component').then(c => c.VerifyEmailComponent)
+
+
+  },
+  {
     path: 'organization',
     loadChildren: () => import('./features/organization/modules/organization/organization.routing').then(m => m.OrganizationRoutingModule),
     canActivate: [isLoggedInCanActivateGuard],
@@ -19,8 +25,8 @@ export const routes: Routes = [
   {
     path: 'investor',
     loadChildren: () => import('./features/investor/modules/investor.routing').then(m => m.InvestorRoutingModule),
-    // canActivate: [isLoggedInCanActivateGuard],
-    // canActivateChild: [isLoggedInCanActivateChildGuard]
+    canActivate: [isLoggedInCanActivateGuard],
+    canActivateChild: [isLoggedInCanActivateChildGuard]
   },
   {
     path: 'business',
