@@ -15,7 +15,8 @@ export enum PASSWORD_STRENGTH {
 
 export enum FORM_TYPE {
   SIGNUP,
-  SIGNIN
+  SIGNIN,
+  FORGOT_PASSWORD
 }
 
 export interface User {
