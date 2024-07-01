@@ -78,3 +78,8 @@ export const loadInvestorEligibilityQuestions =() =>{
   const stage =company.currentCompany.growthStage;
   return getInvestorEligibilitySubsectionIds(stage);
 }
+
+
+export interface ISCORE {
+  percentageScore: number, score: number, subSectionId: number, subSectionName: string, targetScore: number
+}
