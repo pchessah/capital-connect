@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, EventEmitter, inject, Output} from '@angular/core';
 import {AuthModule} from '../../modules/auth.module';
 import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {CommonModule} from "@angular/common";
@@ -15,6 +15,7 @@ import {USER_ROLES} from "../../../../shared";
   styleUrl: './log-in-form.component.scss'
 })
 export class LogInFormComponent {
+  @Output() goToForgetPasswordScreenEvent = new EventEmitter();
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
   private _authService = inject(AuthService);
@@ -60,6 +61,10 @@ export class LogInFormComponent {
       return EMPTY
     }))
 
+  }
+
+  goToForgetPassword(){
+    this.goToForgetPasswordScreenEvent.emit()
   }
 
 }

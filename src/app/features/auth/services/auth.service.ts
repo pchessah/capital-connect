@@ -34,6 +34,11 @@ export class AuthService extends BaseHttpService {
     })) as Observable<Profile>
   }
 
+  forgotPassword(email: string) {
+    // TODO: integrate endpoint to send email to the backend for verification
+    return Observable<unknown>;
+  }
+
   verifyEmail(token: string) {
     const params = new HttpParams().set('token', token);
     return this._httpClient.get(`${BASE_URL}/users/verify-email`, { params: params })
@@ -42,7 +47,5 @@ export class AuthService extends BaseHttpService {
   resendVerification(email: string){
     return this.create(`${BASE_URL}/auth/resend-verification-email`, { email: email }) as Observable<{message: string}>;
   }
-
-
 
 }

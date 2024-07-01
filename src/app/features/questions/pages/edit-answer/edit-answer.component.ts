@@ -37,7 +37,8 @@ export class EditAnswerComponent {
   answerForm = this._fb.group({
     text: ['', Validators.required],
     weight: [null as any, [Validators.required, Validators.min(0)]],
-    questionId: [null as any, Validators.required]
+    questionId: [null as any, Validators.required],
+    recommendation: ['']
   });
 
   questions$ = this._activatedRoute.params.pipe(tap((params) => {
@@ -47,7 +48,7 @@ export class EditAnswerComponent {
     this._routeId =ids.slice(0, 2).join('-')
     this.answerForm.patchValue({ questionId: this.questionId});
     this.answer$ = this._questionsService.getSingleAnswer(this.answerId).pipe(tap(answer => {
-      this.answerForm.patchValue({ text: answer.text, weight: answer.weight});
+      this.answerForm.patchValue({ text: answer.text, weight: answer.weight, recommendation: answer.recommendation});
       this.answer =answer;
     }))
     this.question$ = this._questionsService.getSingleQuestion(this.questionId).pipe(tap(quiz => {
@@ -59,7 +60,8 @@ export class EditAnswerComponent {
     const answerInput = {
       text: vals.text,
       weight: Number(vals.weight),
-      questionId: Number(this.questionId)
+      questionId: Number(this.questionId),
+      recommendation: vals.recommendation,
     }
     this._formStateService.setAnswerForm(answerInput as AnswerInput)
     this._formStateService.setAnswerFormIsValid(this.answerForm.valid)

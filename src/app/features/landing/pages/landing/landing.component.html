@@ -11,24 +11,29 @@
   <section class="form__section">
     <div class="forms__group">
       <img src="assets/img/logo.png" alt="Logo" />
-
-      @if(activeForm === forms.SIGNUP) {
-      <h3 class="form__role__label">Sign Up</h3>
-      <div class="tabs">
-        <button [class.active]="true" (click)="setActiveForm(forms.SIGNUP)">Sign Up</button>
-        <button (click)="setActiveForm(forms.SIGNIN)">Sign In</button>
-      </div>
-      <app-sign-up-form (changeFormTypeEvent)="setActiveForm(forms.SIGNIN)" />
+      @if(activeForm === forms.FORGOT_PASSWORD){
+        <h3 class="form__role__label">Forgot password</h3>
+        <app-forgot-password-form (goToLoginEvent)="setActiveForm(forms.SIGNIN)"/>
+      }
+      @else{
+        @if(activeForm === forms.SIGNUP) {
+          <h3 class="form__role__label">Sign Up</h3>
+          <div class="tabs">
+            <button [class.active]="true" (click)="setActiveForm(forms.SIGNUP)">Sign Up</button>
+            <button (click)="setActiveForm(forms.SIGNIN)">Sign In</button>
+          </div>
+          <app-sign-up-form (changeFormTypeEvent)="setActiveForm(forms.SIGNIN)" />
+        }
+        @else if(activeForm == forms.SIGNIN) {
+          <h3 class="form__role__label">Sign In</h3>
+          <div class="tabs">
+            <button (click)="setActiveForm(forms.SIGNUP)">Sign Up</button>
+            <button [class.active]="true" (click)="setActiveForm(forms.SIGNIN)">Sign In</button>
+          </div>
+          <app-log-in-form (goToForgetPasswordScreenEvent)="setActiveForm(forms.FORGOT_PASSWORD)"/>
+        }
       }
 
-      @if (activeForm == forms.SIGNIN) {
-      <h3 class="form__role__label">Sign In</h3>
-      <div class="tabs">
-        <button (click)="setActiveForm(forms.SIGNUP)">Sign Up</button>
-        <button [class.active]="true" (click)="setActiveForm(forms.SIGNIN)">Sign In</button>
-      </div>
-      <app-log-in-form />
-      }
     </div>
   </section>
 </div>

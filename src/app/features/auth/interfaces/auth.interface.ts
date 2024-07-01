@@ -4,6 +4,7 @@ export interface CreateUserInput {
   firstName: string;
   lastName: string;
   roles: string;
+  agreedToTAC: string;
 }
 
 export enum PASSWORD_STRENGTH {
@@ -14,7 +15,8 @@ export enum PASSWORD_STRENGTH {
 
 export enum FORM_TYPE {
   SIGNUP,
-  SIGNIN
+  SIGNIN,
+  FORGOT_PASSWORD
 }
 
 export interface User {
