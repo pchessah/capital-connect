@@ -1,0 +1,30 @@
+<ng-container *ngIf="initRoute$ | async"></ng-container>
+<ng-container *ngIf="resend$ | async"></ng-container>
+
+<div class="page">
+  <div class="container">
+  
+    <h4>Verify Email</h4>
+
+    @if(isWaitingForVerification){
+      <span class="text">
+        Check your email or resend verification in <span class="timer">{{timerValue}}</span> seconds.
+      </span>
+    
+    } @else {
+
+      <div class="input__wrapper">
+        <input [(ngModel)]="email" [ngClass]="{'input-error' : !isValidEmail(email) && email.length }" type="text"
+          name="email" class="input__field" placeholder="Enter email" />
+      </div>
+    
+      <div class="row">
+        <button (click)="goToLogin()" class="btn btn-primary">Login</button>
+        <button [ngClass]="{'disabled-btn': !isValidEmail(email) }" (click)="resendEmail()" class="btn">Resend</button>
+      </div>
+     
+    }
+  
+  </div>
+
+</div>

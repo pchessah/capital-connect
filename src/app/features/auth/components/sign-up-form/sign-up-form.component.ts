@@ -6,6 +6,7 @@ import { catchError, EMPTY, Observable, tap } from 'rxjs'
 import { AuthService } from '../../services/auth.service';
 import { CreateUserInput, FORM_TYPE, PASSWORD_STRENGTH } from '../../interfaces/auth.interface';
 import { USER_ROLES } from '../../../../shared/interfaces/user.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sign-up-form',
@@ -17,6 +18,7 @@ import { USER_ROLES } from '../../../../shared/interfaces/user.interface';
 export class SignUpFormComponent {
   private _formBuilder = inject(FormBuilder);
   private _authService = inject(AuthService);
+  private _router = inject(Router);
 
   @Output() changeFormTypeEvent = new EventEmitter<FORM_TYPE>();
 
@@ -121,6 +123,7 @@ export class SignUpFormComponent {
 
     this.signUp$ = this._authService.signUpUser(input).pipe(tap((res) => {
       this.changeFormTypeEvent.emit(FORM_TYPE.SIGNIN);
+      this._router.navigateByUrl('/verify-email', { state: { mode: 'unverified' } });
     }), catchError(err => {
       console.error(err);
       return EMPTY
