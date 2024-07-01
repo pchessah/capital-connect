@@ -51,6 +51,7 @@ export interface Answer {
   text: string;
   weight: number;
   id: number;
+  recommendation?: string,
   question: {
     id: number
   }

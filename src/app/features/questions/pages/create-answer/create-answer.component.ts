@@ -34,7 +34,8 @@ export class CreateAnswerComponent {
   answerForm = this._fb.group({
     text: ['', Validators.required],
     weight: ['', [Validators.required, Validators.min(0)]],
-    questionId: [null as any, Validators.required]
+    questionId: [null as any, Validators.required],
+    recommendation: ['']
   });
 
   questions$ = this._activatedRoute.params.pipe(tap((params) => {
@@ -51,7 +52,8 @@ export class CreateAnswerComponent {
     const answerInput = {
       text: vals.text,
       weight: Number(vals.weight),
-      questionId: Number(this.questionId)
+      questionId: Number(this.questionId),
+      recommendation: vals.recommendation,
     }
     this._formStateService.setAnswerForm(answerInput as AnswerInput)
     this._formStateService.setAnswerFormIsValid(this.answerForm.valid)
