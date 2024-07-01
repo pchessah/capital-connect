@@ -13,30 +13,10 @@
         <path d="M16.4448 45.9658H13.5614C13.2392 45.9658 12.978 46.227 12.978 46.5492V49.4326C12.978 49.7547 13.2392 50.0159 13.5614 50.0159H16.4448C16.7669 50.0159 17.0281 49.7547 17.0281 49.4326V46.5492C17.0281 46.227 16.7669 45.9658 16.4448 45.9658Z" fill="#F0BB62"/>
       </svg>
       <div>
-        <h2 class="diag-title">Your Investor Ready Report</h2>
-        <p class="diag-help-text font-[400]">Below is your investor readiness Summary</p>
+        <h2 class="diag-title">{{ title }}</h2>
+        <p class="diag-help-text font-[400]">{{ helperText }}</p>
       </div>
     </div>
-    <div class="flex flex-col diag-body gap-[.5rem]">
-      <h3 class="sub-title">Company / Business Name</h3>
-      <p>Country - Kenya </p>
-      <p>Sector - FMCG</p>
-      <h3 class="sub-title">Your Investment  Preparedness score</h3>
-      <h2 class="score-value">49</h2>
-    </div>
-    <div class="details flex flex-col gap-4 pb-12">
-      <p class="diag-title">Need a detailed report?.</p>
-      <p class="sub-title">On Capital Connect Africa you can:</p>
-      <ul class="flex-col flex gap-2 actions-list">
-        <li>Get a detailed report on your company's investment readiness</li>
-        <li>Plan your next milestones to unlock more capital</li>
-        <li>Learn to speak investor and break down barriers</li>
-        <li>Match with investors and support organizations that are a good fit for you</li>
-      </ul>
-      <div class="call-to-action flex gap-8 items-center">
-        <a href="mailto: ">Request a detailed report</a>
-        <a href="mailto: ">Contact your account manager</a>
-      </div>
-    </div>
+    <ng-content></ng-content>
   </div>
 </p-dialog>

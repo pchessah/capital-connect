@@ -15,7 +15,9 @@ import {InputTextModule} from "primeng/inputtext";
   styleUrl: './modal.component.scss'
 })
 export class ModalComponent {
-    visible =false;
+    @Input() visible =true;
+    @Input() title!:string;
+    @Input() helperText!:string;
 
     setVisible() {
       this.visible = true;
