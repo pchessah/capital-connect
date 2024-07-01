@@ -13,11 +13,11 @@
   </div>
   <div class="flex flex-col gap-4">
     @for(business of matchedBusinesses; track $index;){
-      <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center business-details">
         <span>{{$index +1}}</span>
         <span>{{business.name}}</span>
         <span>{{business.sector}}</span>
-        <div class="flex">
+        <div class="flex cta-group">
           <a class="">More details</a>
           <a class="">Connect</a>
         </div>

@@ -30,7 +30,6 @@ export class OverviewComponent {
   }))
 
   showDialog(){
-    debugger
     this.visible =true;
   }
 }

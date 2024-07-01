@@ -17,7 +17,7 @@ import {CommonModule} from "@angular/common";
   styleUrl: './overview.component.scss'
 })
 export class OverviewComponent {
-  visible =false;
+  visible =true;
   matchedBusinesses =[
     {id: '', name: 'U45638', sector: 'FMCG'},
     {id: '', name: 'U45638', sector: 'Tech'},
