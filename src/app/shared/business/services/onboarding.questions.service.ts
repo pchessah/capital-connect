@@ -3,7 +3,9 @@ import {GrowthStage} from "../../../features/organization/interfaces";
 
 const company =new CompanyStateService()
 
+
 export const INVESTOR_ONBOARDING_SUBSECTION_IDS = {
+  ID: 7,
   LANDING: 21,
   STEP_ONE: 22,
   STEP_TWO: 24,
@@ -12,6 +14,7 @@ export const INVESTOR_ONBOARDING_SUBSECTION_IDS = {
 export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS ={
 
   ESTABLISHED_EXPANSION: {
+    ID: 10,
     LANDING: null as unknown as number,
     STEP_ONE: 67,
     STEP_TWO: 68,
@@ -19,6 +22,7 @@ export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS ={
   },
 
   LIQUIDATION_TURNAROUND:{
+    ID: 11,
     LANDING: null as unknown as number,
     STEP_ONE: 133,
     STEP_TWO: 136,
@@ -26,6 +30,7 @@ export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS ={
   },
 
   STARTUP: {
+    ID: 1,
     LANDING: 15,
     STEP_ONE: 3,
     STEP_TWO: 1,
@@ -33,6 +38,7 @@ export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS ={
   },
 
   GROWTH_STAGE: {
+    ID: 9,
     LANDING: 34,
     STEP_ONE: 35,
     STEP_TWO: 37,
@@ -41,6 +47,7 @@ export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS ={
 }
 
 export const INVESTOR_PREPAREDNESS_SUBSECTION_IDS ={
+  ID: 4,
   LANDING: 6,
   STEP_ONE: 16,
   STEP_TWO: 17,
@@ -48,6 +55,7 @@ export const INVESTOR_PREPAREDNESS_SUBSECTION_IDS ={
 }
 
 export const BUSINESS_FINANCIALS_SUBSECTION_IDS ={
+  ID: 5,
   LANDING: 11,
   STEP_ONE: 12,
   STEP_TWO: 14,
@@ -77,4 +85,9 @@ export const getInvestorEligibilitySubsectionIds =(companyStage:GrowthStage) =>{
 export const loadInvestorEligibilityQuestions =() =>{
   const stage =company.currentCompany.growthStage;
   return getInvestorEligibilitySubsectionIds(stage);
+}
+
+
+export interface ISCORE {
+  percentageScore: number, score: number, targetScore: number
 }

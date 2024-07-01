@@ -17,12 +17,17 @@
         <p class="description">{{description}}</p>
       </div>
     </div>
-    <button class="cursor-pointer"><mat-icon>delete</mat-icon></button>
+    <div class="flex gap-4 items-center actions-btns">
+      <button class="cursor-pointer upload-btn ">Upload <mat-icon>upload</mat-icon></button>
+      <button title="Download" class="cursor-pointer"><mat-icon>download</mat-icon></button>
+      <button title="Delete" class="cursor-pointer"><mat-icon>delete</mat-icon></button>
+    </div>
+
 
   </div>
   <div class="flex gap-4">
     @for(action of actions; track  $index){
-      <button class="action-btn block w-max rounded-[6px] px-[30px] py-[8px]" [ngClass]="{active: $index ==0}">{{ action.name }}</button>
+      <a [href] ="action.action"  class="action-btn block w-max rounded-[6px] px-[30px] py-[8px]" [ngClass]="{active: $index ==0}">{{ action.name }}</a>
     }
 
   </div>

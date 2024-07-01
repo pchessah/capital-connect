@@ -13,5 +13,7 @@ import {MainComponent} from "../../components/dashboard/main/main.component";
   styleUrl: './dashboard.component.scss'
 })
 export class DashboardComponent {
-
+    links =[
+      {label: 'Dashboard', href: '/investor', exact: true, icon: 'grid_view'}
+    ]
 }

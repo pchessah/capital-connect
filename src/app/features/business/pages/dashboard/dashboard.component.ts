@@ -12,7 +12,10 @@ import { SidenavComponent } from '../../../../core';
 })
 export class DashboardComponent {
   hidden =true;
-
+  links =[
+    {label: 'Dashboard', href: '/business', exact: true, icon: 'grid_view'},
+    {label: 'My business', href: '/business/my-business', exact: false, icon: 'business_center'}
+  ]
   toggle_hidden(){
     this.hidden = !this.hidden;
   }

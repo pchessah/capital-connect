@@ -15,6 +15,7 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
 })
 
 export class SidenavComponent {
+  @Input() links!:{label: string, href:string, exact: boolean, icon?: string}[];
   private toggleService = inject(NavbarToggleService);
 
   ngOnInit(){

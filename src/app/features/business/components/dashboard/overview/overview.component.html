@@ -1,10 +1,11 @@
 <ng-container *ngIf="stats$ | async"></ng-container>
+<ng-container *ngIf="scoring$ | async"></ng-container>
 <app-overview-section>
-    <app-card [detail]="{title: 'Investor Preparedness', value: '67 %', featured: true}" (click)="showDialog()">
+    <app-card [detail]="{title: 'Investor Preparedness', value: investorPreparednessScore+' %', featured: true}" (click)="showDialog()">
       <p class="helper__text text__yellow">See suggested actions</p>
     </app-card>
-    <app-card [detail]="{title: 'Profile Views', value: '0', featured: false}" >
-      <p class="helper__text text__red">0 interesting views</p>
+    <app-card [detail]="{title: 'Impact element assessment', value: '0', featured: false}" >
+      <p class="helper__text text__red">Check your eligibility</p>
     </app-card>
     <app-card [detail]="{title: 'Matched Advisors', value: '0', featured: false, period: '0 Past Months'}" ><app-photo-collage/></app-card>
     <app-card [detail]="{title: 'Matched Investors', value: matchedInvestors.toString(), featured: false, period: '0 Past Months'}" ><app-photo-collage/></app-card>
@@ -12,11 +13,13 @@
 
 <app-modal [visible] ="visible" [title]="'Your Investor Ready Report'" [helperText] ="'Below is your investor readiness Summary'">
   <div class="flex flex-col diag-body gap-[.5rem]">
-    <h3 class="sub-title">Company / Business Name</h3>
-    <p>Country - Kenya </p>
-    <p>Sector - FMCG</p>
-    <h3 class="sub-title">Your Investment  Preparedness score</h3>
-    <h2 class="score-value">49</h2>
+    <h3 class="sub-title">{{ currentCompany.name }}</h3>
+    <p>Country - {{ currentCompany.country }} </p>
+    <p>Sector - {{ currentCompany.businessSector }}</p>
+    <h3 class="sub-title">Investor  Preparedness score</h3>
+    <h2 class="score-value">0</h2>
+    <h3 class="sub-title">Investor  Eligibility score</h3>
+    <h2 class="score-value">0</h2>
   </div>
   <div class="details flex flex-col gap-4 pb-12">
     <p class="diag-title">Need a detailed report?.</p>
@@ -28,8 +31,8 @@
       <li>Match with investors and support organizations that are a good fit for you</li>
     </ul>
     <div class="call-to-action flex gap-8 items-center">
-      <a href="mailto: ">Request a detailed report</a>
-      <a href="mailto: ">Contact your account manager</a>
+      <a href="mailto: services@capitalconnect.africa">Request document</a>
+      <a href="mailto: services@capitalconnect.africa">Contact your account manager</a>
     </div>
   </div>
 </app-modal>
