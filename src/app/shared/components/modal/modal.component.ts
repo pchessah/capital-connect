@@ -15,11 +15,13 @@ import {InputTextModule} from "primeng/inputtext";
   styleUrl: './modal.component.scss'
 })
 export class ModalComponent {
-    @Input() visible =true;
+    @Input() visible =false;
     @Input() title!:string;
     @Input() helperText!:string;
+    @Input() value!:number;
 
-    setVisible() {
-      this.visible = true;
+    hideModal() {
+      this.visible = false;
+      debugger
     }
 }

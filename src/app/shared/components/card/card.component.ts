@@ -13,12 +13,5 @@ import {DETAIL_TYPE} from "../../../features/business/interfaces/detail.type";
   styleUrl: './card.component.scss'
 })
 export class CardComponent {
-  @Input() onClick!: Function;
   @Input() detail: DETAIL_TYPE | undefined;
-  @Output() event = new EventEmitter();
-
-  callback(){
-    this.onClick && this.onClick();
-    this.event.emit();
-  }
 }

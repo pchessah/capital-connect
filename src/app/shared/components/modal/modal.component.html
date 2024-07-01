@@ -1,5 +1,5 @@
-<p-dialog [(visible)]="visible" [modal]="true"  styleClass="rounded-md p-8 bg-white shadow w-[50%] h-full">
-  <div class="flex flex-col gap-[1.5rem]">
+<p-dialog [(visible)]="visible" [modal]="true" (onHide)="hideModal()" styleClass="rounded-md p-8 bg-white shadow w-[50%] h-full">
+  <div class="flex flex-col gap-[1.5rem] h-full">
     <div class="flex gap-6 items-start diag-header">
       <svg width="42" height="42" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
         <path d="M49.2124 0H14.4235C13.8584 0 13.3164 0.224507 12.9167 0.624131C12.5171 1.02376 12.2926 1.56576 12.2926 2.13092V7.99983H41.5135C42.0787 7.99983 42.6207 8.22434 43.0203 8.62396C43.4199 9.02359 43.6444 9.5656 43.6444 10.1307V48.0002H49.2124C49.7775 48.0002 50.3195 47.7757 50.7191 47.376C51.1188 46.9764 51.3433 46.4344 51.3433 45.8693V2.13092C51.3433 1.56576 51.1188 1.02376 50.7191 0.624131C50.3195 0.224507 49.7775 0 49.2124 0Z" fill="#EEF4EE"/>
@@ -13,7 +13,11 @@
         <path d="M16.4448 45.9658H13.5614C13.2392 45.9658 12.978 46.227 12.978 46.5492V49.4326C12.978 49.7547 13.2392 50.0159 13.5614 50.0159H16.4448C16.7669 50.0159 17.0281 49.7547 17.0281 49.4326V46.5492C17.0281 46.227 16.7669 45.9658 16.4448 45.9658Z" fill="#F0BB62"/>
       </svg>
       <div>
-        <h2 class="diag-title">{{ title }}</h2>
+        <div class="flex gap-8 items-center">
+          <h2 class="diag-title">{{ title }}</h2>
+          <span>{{value}}</span>
+        </div>
+
         <p class="diag-help-text font-[400]">{{ helperText }}</p>
       </div>
     </div>
