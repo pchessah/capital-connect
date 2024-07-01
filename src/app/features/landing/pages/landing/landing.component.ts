@@ -21,7 +21,7 @@ export class LandingComponent {
   private _router = inject(Router);
   activeRouteData: { mode: FORM_TYPE } = this._router.getCurrentNavigation()?.extras.state as any
   forms = FORM_TYPE;
-  activeForm = this.activeRouteData?.mode === FORM_TYPE.SIGNIN ? FORM_TYPE.SIGNIN : FORM_TYPE.SIGNUP? FORM_TYPE.SIGNUP: FORM_TYPE.FORGOT_PASSWORD;
+  activeForm = this.activeRouteData?.mode === FORM_TYPE.SIGNIN ? FORM_TYPE.SIGNIN : FORM_TYPE.SIGNUP 
 
   setActiveForm(formType: FORM_TYPE){
     this.activeForm = formType;
