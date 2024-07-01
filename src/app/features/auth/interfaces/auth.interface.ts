@@ -4,6 +4,7 @@ export interface CreateUserInput {
   firstName: string;
   lastName: string;
   roles: string;
+  agreedToTAC: string;
 }
 
 export enum PASSWORD_STRENGTH {
