@@ -3,7 +3,8 @@
 .muted__action__link{
     display: flex;
     justify-content: flex-end;
-    a{
+    a, button{
+      cursor: pointer;
       display: block;
       color: $gray-550;
       font-weight: 400;

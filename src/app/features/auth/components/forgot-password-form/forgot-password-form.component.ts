@@ -37,7 +37,7 @@ export class ForgotPasswordFormComponent {
 
   submitRequest() {
     this.requestPassword$ = this._authService.forgotPassword(this.newPasswordRequestForm.value.email as string).pipe(tap(res =>{
-      debugger
+      this.gotToLogin()
     }))
   }
 
