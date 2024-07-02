@@ -38,13 +38,17 @@ export class AuthService extends BaseHttpService {
     return this.create(`${BASE_URL}/users/request-password-reset`, { email: email })
   }
 
+  sendNewPassword(val: { token: string, newPassword: string, confirmNewPassword: string }) {
+    return this.create(`${BASE_URL}/users/reset-password`, val)
+  }
+
   verifyEmail(token: string) {
     const params = new HttpParams().set('token', token);
     return this._httpClient.get(`${BASE_URL}/users/verify-email`, { params: params })
   }
 
-  resendVerification(email: string){
-    return this.create(`${BASE_URL}/auth/resend-verification-email`, { email: email }) as Observable<{message: string}>;
+  resendVerification(email: string) {
+    return this.create(`${BASE_URL}/auth/resend-verification-email`, { email: email }) as Observable<{ message: string }>;
   }
 
 }

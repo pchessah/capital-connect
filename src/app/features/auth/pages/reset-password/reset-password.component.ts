@@ -6,7 +6,7 @@ import { FeedbackService } from '../../../../core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from 'primeng/api';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
-import { PASSWORD_STRENGTH } from '../../interfaces/auth.interface';
+import { FORM_TYPE, PASSWORD_STRENGTH } from '../../interfaces/auth.interface';
 
 @Component({
   selector: 'app-reset-password',
@@ -25,19 +25,19 @@ export class ResetPasswordComponent {
   resetPassword$ = new Observable();
 
   resetPasswordForm = this._formBuilder.group({
-    email: ['', Validators.required],
     password: ['', Validators.required],
     confirmPassword: ['', Validators.required]
   })
 
   listenToFormChanges$ = this.resetPasswordForm.valueChanges.pipe(
     tap(formVals => {
-      !!formVals.password?.length && !!formVals.confirmPassword?.length ? this._updatePasswordValidationChecks(formVals.password as string, formVals.email as string, formVals.confirmPassword as string)
+      !!formVals.password?.length && !!formVals.confirmPassword?.length ? this._updatePasswordValidationChecks(formVals.password as string, formVals.confirmPassword as string)
         : this.passwordIsValid = false;
     })
   );
   passwordIsValid = false;
   password_validation_checks: { check: string; isValid: boolean; }[] = [];
+  token: any;
 
   isTouchedOrDirty(formControlName: string) {
     const fieldIsTouched = this.resetPasswordForm.get(formControlName)?.touched;
@@ -49,13 +49,9 @@ export class ResetPasswordComponent {
     return this.resetPasswordForm.get(formControlName)?.valid;
   }
 
-  initRoute$ = this._activatedRoute.params.pipe(switchMap(params => {
-   
-    debugger
-  
-    return of(null);
-  }), tap(res => {
-  
+  initRoute$ = this._activatedRoute.params.pipe(tap(params => {
+    this.token = params['token']
+    if(!this.token) this._router.navigateByUrl('/landing')
   }))
 
   private _getPasswordStrength(password: string): PASSWORD_STRENGTH {
@@ -68,17 +64,13 @@ export class ResetPasswordComponent {
     }
   }
 
-  private _updatePasswordValidationChecks(password: string, email: string, confirmPassword: string) {
+  private _updatePasswordValidationChecks(password: string, confirmPassword: string) {
 
     this.password_validation_checks = [
       {
         check: 'Password Strength',
         isValid: this._getPasswordStrength(password) === PASSWORD_STRENGTH.STRONG ||
           this._getPasswordStrength(password) === PASSWORD_STRENGTH.MEDIUM
-      },
-      {
-        check: 'Cannot contain your name or email address',
-        isValid: !password.includes(email)
       },
       {
         check: 'At least 8 characters',
@@ -105,7 +97,22 @@ export class ResetPasswordComponent {
   }
 
   submitCredentials(){
-    this.resetPassword$ 
+    const val = {
+      token: this.token,
+      newPassword: this.resetPasswordForm.get('password')?.value as string,
+      confirmNewPassword: this.resetPasswordForm.get('confirmPassword')?.value as string
+
+    }
+    this.resetPassword$ = this._authService.sendNewPassword(val).pipe(tap(res =>{
+      this._feedbackService.success('Password reset successfully. Now Log in.')
+      this.goHome()
+
+    }))
+  }
+
+  goHome(){
+    sessionStorage.clear();
+    this._router.navigateByUrl('/landing', { state: { mode: FORM_TYPE.SIGNIN } })
   }
 
 }
