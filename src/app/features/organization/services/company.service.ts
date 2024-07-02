@@ -6,7 +6,7 @@ import { map, Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class CompanyHttpService extends BaseHttpService {
-  constructor(private _httpClient: HttpClient) { 
+  constructor(private _httpClient: HttpClient) {
     super(_httpClient);
   }
 
@@ -17,5 +17,5 @@ export class CompanyHttpService extends BaseHttpService {
   getCompanyOfUser(id:number){
     return this.readById(`${BASE_URL}/company/owner`, id).pipe(map(res => (res as any)[0])) as Observable<CompanyResponse>
   }
-  
+
 }
