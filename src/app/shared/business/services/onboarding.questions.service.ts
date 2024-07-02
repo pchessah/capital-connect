@@ -1,8 +1,7 @@
-import {CompanyStateService} from "../../../features/organization/services/company-state.service";
-import {GrowthStage} from "../../../features/organization/interfaces";
+import { CompanyStateService } from "../../../features/organization/services/company-state.service";
+import { GrowthStage } from "../../../features/organization/interfaces";
 
-const company =new CompanyStateService()
-
+const company = new CompanyStateService()
 
 export const INVESTOR_ONBOARDING_SUBSECTION_IDS = {
   ID: 7,
@@ -11,7 +10,8 @@ export const INVESTOR_ONBOARDING_SUBSECTION_IDS = {
   STEP_TWO: 24,
   STEP_THREE: 25,
 }
-export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS ={
+
+export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS = {
 
   ESTABLISHED_EXPANSION: {
     ID: 10,
@@ -21,7 +21,7 @@ export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS ={
     STEP_THREE: 69,
   },
 
-  LIQUIDATION_TURNAROUND:{
+  LIQUIDATION_TURNAROUND: {
     ID: 11,
     LANDING: null as unknown as number,
     STEP_ONE: 133,
@@ -46,7 +46,7 @@ export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS ={
   }
 }
 
-export const INVESTOR_PREPAREDNESS_SUBSECTION_IDS ={
+export const INVESTOR_PREPAREDNESS_SUBSECTION_IDS = {
   ID: 4,
   LANDING: 6,
   STEP_ONE: 16,
@@ -54,7 +54,7 @@ export const INVESTOR_PREPAREDNESS_SUBSECTION_IDS ={
   STEP_THREE: 18,
 }
 
-export const BUSINESS_FINANCIALS_SUBSECTION_IDS ={
+export const BUSINESS_FINANCIALS_SUBSECTION_IDS = {
   ID: 5,
   LANDING: 11,
   STEP_ONE: 12,
@@ -62,8 +62,8 @@ export const BUSINESS_FINANCIALS_SUBSECTION_IDS ={
   STEP_THREE: 13,
 }
 
-export const getInvestorEligibilitySubsectionIds =(companyStage:GrowthStage) =>{
-  switch (companyStage){
+export const getInvestorEligibilitySubsectionIds = (companyStage: GrowthStage) => {
+  switch (companyStage) {
     case GrowthStage.Established:
     case GrowthStage.Expansion:
       return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ESTABLISHED_EXPANSION
@@ -80,10 +80,8 @@ export const getInvestorEligibilitySubsectionIds =(companyStage:GrowthStage) =>{
   }
 }
 
-
-
-export const loadInvestorEligibilityQuestions =() =>{
-  const stage =company.currentCompany.growthStage;
+export const loadInvestorEligibilityQuestions = () => {
+  const stage = company.currentCompany.growthStage;
   return getInvestorEligibilitySubsectionIds(stage);
 }
 

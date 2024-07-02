@@ -49,6 +49,11 @@ export class SubmissionService extends BaseHttpService {
     return this._httpClient.get(`${BASE_URL}/submissions/user/${userId}/score`) as Observable<{ score: number }>
   }
 
+  
+  getSubmissionsScores(userId:number){
+    return this._httpClient.get(`${BASE_URL}/submissions/user/${userId}/score`)
+  }
+
 
 
 }

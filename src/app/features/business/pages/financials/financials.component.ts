@@ -24,6 +24,6 @@ export class FinancialsComponent {
 
   currentPage$ = this.screenService.current_page$;
 
-  usersSubmission$ = this._submissionStateService.getUserSubmissions();
+  usersSubmission$ = this._submissionStateService.getUserSubmissionsScore();
   
 }
