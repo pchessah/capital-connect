@@ -35,8 +35,7 @@ export class AuthService extends BaseHttpService {
   }
 
   forgotPassword(email: string) {
-    // TODO: integrate endpoint to send email to the backend for verification
-    return Observable<unknown>;
+    return this.create(`${BASE_URL}/users/request-password-reset`, { email: email })
   }
 
   verifyEmail(token: string) {

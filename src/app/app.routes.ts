@@ -13,8 +13,10 @@ export const routes: Routes = [
   {
     path:'verify-email',
     loadComponent: () => import('./features/auth/pages/verify-email/verify-email.component').then(c => c.VerifyEmailComponent)
-
-
+  },
+  {
+    path:'reset-password',
+    loadComponent: () => import('./features/auth/pages/reset-password/reset-password.component').then(c => c.ResetPasswordComponent)
   },
   {
     path: 'organization',
