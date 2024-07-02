@@ -27,7 +27,7 @@ function checkLogin(route: ActivatedRouteSnapshot) {
 
   if( url && url.includes('landing')){
     if (authStateService.isLoggedIn) {
-      router.navigateByUrl('/organization/setup')
+      // router.navigateByUrl('/organization/setup')
     }
     return true
   }
@@ -35,7 +35,7 @@ function checkLogin(route: ActivatedRouteSnapshot) {
   if (authStateService.isLoggedIn) {
     return true
   }
-  
+
   router.navigateByUrl('/landing',  { state: { mode: FORM_TYPE.SIGNIN } });
   return false;
 }

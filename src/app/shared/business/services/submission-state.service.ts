@@ -40,7 +40,6 @@ export class SubMissionStateService {
   getUserSubmissionsScore(){
     return this._submissionService.getSubmissionsScores(this._currentUserId).pipe(tap(res => {
       this._loadingService.setLoading(true)
-      debugger
     }));
   }
 
