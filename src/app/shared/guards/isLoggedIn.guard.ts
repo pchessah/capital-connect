@@ -7,35 +7,36 @@ export const isLoggedInCanActivateGuard: CanActivateFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {
-  return checkLogin(route)
+  return checkLogin(route, state);
 }
 
 export const isLoggedInCanActivateChildGuard: CanActivateChildFn = (
   route: ActivatedRouteSnapshot,
   state: RouterStateSnapshot
 ) => {
-  return checkLogin(route)
+  return checkLogin(route, state);
 }
 
+function checkLogin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  const authStateService = inject(AuthStateService);
+  const router = inject(Router);
 
+  // Check if the URL is empty
+  const url = state.url;
 
-function checkLogin(route: ActivatedRouteSnapshot) {
-  const authStateService = inject(AuthStateService)
-  const router = inject(Router)
-
-  const url = route.url[0]?.path;
-
-  if( url && url.includes('landing')){
+  if (url === '/') {
     if (authStateService.isLoggedIn) {
-      router.navigateByUrl('/organization/setup')
+      router.navigateByUrl('/organization/setup');
+      return false;
     }
-    return true
+    return true;
   }
+
 
   if (authStateService.isLoggedIn) {
-    return true
+    return true;
   }
-  
-  router.navigateByUrl('/landing',  { state: { mode: FORM_TYPE.SIGNIN } });
+
+  router.navigateByUrl('/', { state: { mode: FORM_TYPE.SIGNIN } });
   return false;
 }

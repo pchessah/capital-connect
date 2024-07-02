@@ -73,7 +73,7 @@ export class VerifyEmailComponent {
   }
 
   goToLogin() {
-    this._router.navigateByUrl('/landing', { state: { mode: FORM_TYPE.SIGNIN } });
+    this._router.navigateByUrl('/', { state: { mode: FORM_TYPE.SIGNIN } });
   }
 
   resendEmail() {

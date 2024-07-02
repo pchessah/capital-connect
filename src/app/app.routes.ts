@@ -3,12 +3,10 @@ import { isLoggedInCanActivateChildGuard, isLoggedInCanActivateGuard } from './s
 
 export const routes: Routes = [
   {
-    path: '', redirectTo: '/landing', pathMatch: 'full'
-  },
-  {
-    path: 'landing',
+    path: '',
     loadChildren: () => import('./features/landing/modules/landing/landing.routing.module').then(m => m.LandingRoutingModule),
     canActivate: [isLoggedInCanActivateGuard],
+    pathMatch: 'full'
   },
   {
     path:'verify-email',

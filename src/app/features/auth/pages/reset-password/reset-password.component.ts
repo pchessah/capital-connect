@@ -52,7 +52,7 @@ export class ResetPasswordComponent {
 
   initRoute$ = this._activatedRoute.params.pipe(tap(params => {
     this.token = params['token']
-    if(!this.token) this._router.navigateByUrl('/landing')
+    if(!this.token) this._router.navigateByUrl('/')
   }))
 
   private _getPasswordStrength(password: string): PASSWORD_STRENGTH {
@@ -113,7 +113,7 @@ export class ResetPasswordComponent {
 
   goHome(){
     sessionStorage.clear();
-    this._router.navigateByUrl('/landing', { state: { mode: FORM_TYPE.SIGNIN } })
+    this._router.navigateByUrl('/', { state: { mode: FORM_TYPE.SIGNIN } })
   }
 
   protected readonly forms = FORM_TYPE;
