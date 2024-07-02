@@ -8,11 +8,12 @@ import { FORM_TYPE } from '../../../auth/interfaces/auth.interface';
 import {
   ForgotPasswordFormComponent
 } from "../../../auth/components/forgot-password-form/forgot-password-form.component";
+import {WelcomeTemplateComponent} from "../../../../shared/components/welcome-template/welcome-template.component";
 
 @Component({
   selector: 'app-landing',
   standalone: true,
-  imports: [CommonModule, SignUpFormComponent, LogInFormComponent, CarouselComponent, ForgotPasswordFormComponent],
+  imports: [CommonModule, SignUpFormComponent, LogInFormComponent, CarouselComponent, ForgotPasswordFormComponent, WelcomeTemplateComponent],
   templateUrl: './landing.component.html',
   styleUrl: './landing.component.scss'
 })
@@ -21,7 +22,7 @@ export class LandingComponent {
   private _router = inject(Router);
   activeRouteData: { mode: FORM_TYPE } = this._router.getCurrentNavigation()?.extras.state as any
   forms = FORM_TYPE;
-  activeForm = this.activeRouteData?.mode === FORM_TYPE.SIGNIN ? FORM_TYPE.SIGNIN : FORM_TYPE.SIGNUP 
+  activeForm = this.activeRouteData?.mode === FORM_TYPE.SIGNIN ? FORM_TYPE.SIGNIN : FORM_TYPE.SIGNUP
 
   setActiveForm(formType: FORM_TYPE){
     this.activeForm = formType;
