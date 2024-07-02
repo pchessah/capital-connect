@@ -7,11 +7,12 @@ import { Observable, of, switchMap, tap } from 'rxjs';
 import { AuthService } from '../../services/auth.service';
 import { FormsModule } from '@angular/forms';
 import { FeedbackService } from '../../../../core';
+import {WelcomeTemplateComponent} from "../../../../shared/components/welcome-template/welcome-template.component";
 
 @Component({
   selector: 'app-verify-email',
   standalone: true,
-  imports: [CommonModule, SharedModule, RouterModule, FormsModule],
+  imports: [CommonModule, SharedModule, RouterModule, FormsModule, WelcomeTemplateComponent],
   templateUrl: './verify-email.component.html',
   styleUrl: './verify-email.component.scss'
 })

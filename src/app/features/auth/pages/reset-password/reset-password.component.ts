@@ -7,11 +7,12 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from 'primeng/api';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FORM_TYPE, PASSWORD_STRENGTH } from '../../interfaces/auth.interface';
+import {WelcomeTemplateComponent} from "../../../../shared/components/welcome-template/welcome-template.component";
 
 @Component({
   selector: 'app-reset-password',
   standalone: true,
-  imports: [CommonModule, SharedModule, ReactiveFormsModule],
+  imports: [CommonModule, SharedModule, ReactiveFormsModule, WelcomeTemplateComponent],
   templateUrl: './reset-password.component.html',
   styleUrl: './reset-password.component.scss'
 })
@@ -115,4 +116,5 @@ export class ResetPasswordComponent {
     this._router.navigateByUrl('/landing', { state: { mode: FORM_TYPE.SIGNIN } })
   }
 
+  protected readonly forms = FORM_TYPE;
 }
