@@ -78,8 +78,6 @@ export const BUSINESS_FINANCIALS_SUBSECTION_IDS = {
 }
 
 export const getInvestorEligibilitySubsectionIds = (companyStage: GrowthStage) => {
-
-  debugger
   switch (companyStage) {
     case GrowthStage.Established:
     case GrowthStage.Expansion:

@@ -57,7 +57,7 @@ export class StepTwoComponent {
   }
 
   setNextScreen() {
-    this._pageService.setCurrentPage(3)
+    this._pageService.setCurrentStep(3)
   }
 
   goBack() {
@@ -67,7 +67,6 @@ export class StepTwoComponent {
   handleSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
-    debugger
     this.questions.forEach(question => {
       if (question.type === this.field_type.MULTIPLE_CHOICE) {
         const selectedAnswers = formValues['question_' + question.id];
