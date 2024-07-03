@@ -62,7 +62,6 @@ export class IndexComponent {
   onSubmit(){
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
-    debugger
     this.questions.forEach(question => {
       if (question.type === this.field_type.MULTIPLE_CHOICE) {
         const selectedAnswers = formValues['question_' + question.id];

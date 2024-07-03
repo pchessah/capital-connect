@@ -30,7 +30,7 @@ export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS= {
 
   ESTABLISHED_EXPANSION: {
     ID: 10,
-    LANDING: null as unknown as number,
+    LANDING: 199,
     STEP_ONE: 67,
     STEP_TWO: 68,
     STEP_THREE: 69,
@@ -78,6 +78,8 @@ export const BUSINESS_FINANCIALS_SUBSECTION_IDS = {
 }
 
 export const getInvestorEligibilitySubsectionIds = (companyStage: GrowthStage) => {
+
+  debugger
   switch (companyStage) {
     case GrowthStage.Established:
     case GrowthStage.Expansion:

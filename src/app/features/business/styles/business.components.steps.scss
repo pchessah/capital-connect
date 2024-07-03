@@ -44,6 +44,10 @@ form{
   .p-multiselect-filter{
     padding: .5rem 1rem;
   }
+  .p-dropdown-item,
+  .p-dropdown-label{
+    white-space: wrap!important;
+  }
   .p-multiselect-panel ul,
   .p-dropdown ul{
       padding: .5rem;

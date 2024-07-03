@@ -5,10 +5,12 @@ import {Question, QuestionType} from "../../../../questions/interfaces";
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {QuestionsService} from "../../../../questions/services/questions/questions.service";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
-import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
+import {Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {combineLatest, Observable, tap} from "rxjs";
 import {RouterLink} from "@angular/router";
 import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
+import {DropdownModule} from "primeng/dropdown";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-step-two',
@@ -17,7 +19,9 @@ import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/s
     AuthModule,
     CommonModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    DropdownModule,
+    MultiSelectModule
   ],
   templateUrl: './step-two.component.html',
   styleUrl: './step-two.component.scss'
@@ -58,7 +62,11 @@ export class StepTwoComponent {
 
   private _createFormControls() {
     this.questions.forEach(question => {
-      this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
+      if (question.type === this.field_type.MULTIPLE_CHOICE) {
+        this.formGroup.addControl('question_' + question.id, this._formBuilder.control([], Validators.required));
+      } else {
+        this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
+      }
     });
   }
   setNextStep(){
@@ -68,18 +76,40 @@ export class StepTwoComponent {
     this._pageService.setCurrentStep(1);
   }
 
-  handleSubmit(){
+  handleSubmit() {
+    const formValues = this.formGroup.value;
+    const submissionData: Submission[] = [];
+    debugger
+    this.questions.forEach(question => {
+      if (question.type === this.field_type.MULTIPLE_CHOICE) {
+        const selectedAnswers = formValues['question_' + question.id];
+        selectedAnswers.forEach((answerId: number) => {
+          submissionData.push({
+            questionId: question.id,
+            answerId: answerId,
+            text: ''
+          });
+        });
+      }else if(question.type ==this.field_type.SHORT_ANSWER){
+        const openQuestion = question.answers.find(a => a.text === 'OPEN');
+        const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
 
-    const formValues =this.formGroup.value;
-    const submissionData = this.questions.map(question => {
-      const questionId =question.id;
-      const openQuestion = question.answers.find(a => a.text === 'OPEN');
-      const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
-      return {questionId, answerId: parseInt(answerId), text: formValues['question_' + question.id]}
+        submissionData.push({
+          questionId: question.id,
+          answerId: parseInt(answerId),
+          text: formValues['question_' + question.id]
+        });
+      }
+      else {
+        submissionData.push({
+          questionId: question.id,
+          answerId: Number(formValues['question_' + question.id]),
+          text: question.type !== this.field_type.SINGLE_CHOICE && question.type !== this.field_type.TRUE_FALSE ? formValues['question_' + question.id] : ''
+        });
+      }
     });
-
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();
-    }))
+    }));
   }
 }
