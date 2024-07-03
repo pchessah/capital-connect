@@ -15,7 +15,6 @@ import { UserSubmissionResponse} from "../interfaces/submission.interface";
 import {QuestionsService} from "../../features/questions/services/questions/questions.service";
 import {SubSection} from "../../features/questions/interfaces";
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -56,7 +55,6 @@ export class DynamicRoutingService {
         return ['/investor']
       }))
     }))
-
   }
   getUserSubmissions(companyGrowthStage: GrowthStage){
     return this._submissionStateService.getUserSubmissionsScore().pipe(map((submissions ) => {
@@ -96,14 +94,12 @@ export class DynamicRoutingService {
     }
     return []
   }
-
   subsectionSubmitted(id:number, submissions: any[], questions:any[]){
     // @ts-ignore
     const investorSubmissions =submissions.filter(submission =>{ return submission.question.subSection.id ==id })
     console.log(investorSubmissions, questions, id)
     return (investorSubmissions.length >0 && questions.length >0) || (investorSubmissions.length ==0 && questions.length ==0)
   }
-
   isAnswered(subsection?:ISCORE){
     if(!subsection) return true
     return (subsection.score == 0 && subsection.targetScore == 0) || (subsection.score > 0);

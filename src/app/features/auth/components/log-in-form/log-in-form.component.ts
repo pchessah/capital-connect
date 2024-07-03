@@ -53,6 +53,7 @@ export class LogInFormComponent {
             switchMap(company =>{
               return this._dynamicRoutingService.getUserSubmissions(company.growthStage).pipe(tap(urlSegments =>{
                 const [link, page, step] =urlSegments;
+
                 this._router.navigateByUrl(link.toString(), { state: { data: {page, step} } });
               }), catchError(err =>{
                 console.log(err)
