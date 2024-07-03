@@ -35,6 +35,12 @@ export const routes: Routes = [
     canActivateChild: [isLoggedInCanActivateChildGuard]
   },
   {
+    path: 'user-profile',
+    loadChildren: () => import('./features/profile/modules/profile.routing').then(m => m.ProfileRoutingModule),
+    canActivate: [isLoggedInCanActivateGuard],
+    canActivateChild: [isLoggedInCanActivateChildGuard]
+  },
+  {
     path: 'questions',
     loadChildren: () => import('./features/questions/questions.routing').then(m => m.QuestionsRoutingModule),
     canActivate: [isLoggedInCanActivateGuard],
