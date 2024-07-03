@@ -80,7 +80,7 @@ export class QuestionsService extends BaseHttpService {
    return this.readById(`${BASE_URL}/answers`, answerId)  as Observable<Answer>
   }
 
-  getSectionQuestions(sectionId: number): Observable<SubSection[]> {
+  getSectionQuestions(sectionId: number): Observable<any[]> {
     return this.getSingleSection(sectionId).pipe(
       switchMap(section => {
         return this.getSubSectionsOfaSection(section.id).pipe(

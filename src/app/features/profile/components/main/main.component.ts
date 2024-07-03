@@ -41,7 +41,6 @@ export class MainComponent {
               switchMap(company => {
                 return this._dynamicRoutingService.getUserSubmissions(company.growthStage).pipe(tap(urlSegments => {
                   const [link, page, step] = urlSegments;
-                  debugger
                   this._router.navigateByUrl(link.toString(), {state: {data: {page, step}}});
                 }), catchError(err => {
                   console.log(err)
@@ -51,9 +50,9 @@ export class MainComponent {
             )
 
           case USER_ROLES.INVESTOR:
-            return this._dynamicRoutingService.getInvestorSubmissions().pipe(tap(submitted => {
-              debugger
-              this._router.navigateByUrl(submitted ? '/investor' : '/investor/onboarding');
+            return this._dynamicRoutingService.getInvestorSubmissions().pipe(tap(urlSegments => {
+              const [link, page, step] =urlSegments;
+              this._router.navigateByUrl(link.toString(), { state: { data: {page, step} } });
             }))
 
           case USER_ROLES.ADMIN:
