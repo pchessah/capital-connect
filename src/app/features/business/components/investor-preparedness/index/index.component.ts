@@ -44,11 +44,11 @@ export class IndexComponent {
     return questions.some(question => responseQuestionIds.has(question.id));
   }
 
-  init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-    if(this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
-      this.setNextScreen();
-    }
-  }))
+  // init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
+  //   if(this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
+  //     this.setNextScreen();
+  //   }
+  // }))
 
   private _createFormControls() {
     this.questions.forEach(question => {

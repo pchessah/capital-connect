@@ -42,11 +42,11 @@ export class StepThreeComponent implements OnInit {
     );
 
     this.currentEntries$ = this._submissionStateService.currentUserSubmission$;
-    this.init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-      if (this._hasMatchingQuestionId(res[0], res[1])) {
-        this.setNextStep();
-      }
-    }));
+    // this.init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
+    //   if (this._hasMatchingQuestionId(res[0], res[1])) {
+    //     this.setNextStep();
+    //   }
+    // }));
   }
 
   private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
