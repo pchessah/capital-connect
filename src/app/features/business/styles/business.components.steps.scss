@@ -41,14 +41,11 @@ form{
 }
 
 :host ::ng-deep {
-  .p-multiselect-panel{
-    .p-multiselect-filter-container{
-      .p-multiselect-filter{
-        padding: .5rem 1rem;
-      }
-
-    }
-    ul{
+  .p-multiselect-filter{
+    padding: .5rem 1rem;
+  }
+  .p-multiselect-panel ul,
+  .p-dropdown ul{
       padding: .5rem;
       display: flex;
       flex-direction: column;
@@ -63,5 +60,4 @@ form{
         }
       }
     }
-  }
 }

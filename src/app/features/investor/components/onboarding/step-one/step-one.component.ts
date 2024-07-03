@@ -10,11 +10,12 @@ import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { MultiSelectModule } from "primeng/multiselect";
 import { InvestorScreensService } from "../../../services/investor.screens.service";
+import {DropdownModule} from "primeng/dropdown";
 
 @Component({
   selector: 'app-step-one',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, MultiSelectModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, MultiSelectModule, DropdownModule],
   templateUrl: './step-one.component.html',
   styleUrls: ['./step-one.component.scss']
 })
