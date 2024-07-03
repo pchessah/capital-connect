@@ -17,7 +17,8 @@
       </div>
     </div>
   </div>
-  <div class="input__wrapper">
+  <div class="flex gap-4 w-full">
+  <div class="input__wrapper w-full">
     <label class="input__label">First Name</label>
     <input [ngClass]="{'input-error' : isTouchedOrDirty('firstName') && !isValid('firstName') }"
       formControlName="firstName" type="text" name="first__name" class="input__field" placeholder="Enter first name" />
@@ -33,6 +34,7 @@
       <span *ngIf="!isValid('lastName')" class="error-text">Last Name is required</span>
     </ng-container>
   </div>
+  </div>
   <div class="input__wrapper">
     <label class="input__label">Email</label>
     <input [ngClass]="{'input-error' : isTouchedOrDirty('email') && !isValid('email') }" formControlName="email"
@@ -45,7 +47,8 @@
     </ng-container>
 
   </div>
-  <div class="input__wrapper">
+  <div class="flex gap-4 w-full">
+  <div class="input__wrapper w-full">
     <label class="input__label">Password</label>
     <input [ngClass]="{'input-error': isTouchedOrDirty('password') && !isValid('password') }" formControlName="password"
       type="password" name="password" class="input__field" placeholder="Enter password" />
@@ -64,6 +67,7 @@
       </span>
 
     </ng-container>
+  </div>
   </div>
   <div class="flex items-center gap-2">
     <input type="checkbox" class="inline-block cursor-pointer" formControlName ='agreedToTAC'/>

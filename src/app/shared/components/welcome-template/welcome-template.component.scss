@@ -5,10 +5,9 @@
   width: 100%;
   margin: auto;
   display: block;
-  max-width: 1440px;
   min-height: 100svh;
   align-items: center;
-  padding-bottom: 2rem;
+  //padding-bottom: 2rem;
   background-color: $white;
   grid-template-columns: repeat(2, 1fr);
 
@@ -55,7 +54,7 @@
 @include when-screen-is-atleast(large) {
   .main__section {
     display: grid;
-    padding: 2rem;
+    padding: 2rem 1rem;
     .hero__section {
       display: block;
     }

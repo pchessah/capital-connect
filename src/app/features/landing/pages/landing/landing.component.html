@@ -8,7 +8,6 @@
       }
       @else{
         @if(activeForm === forms.SIGNUP) {
-          <h3 class="form__role__label">Sign Up</h3>
           <div class="tabs">
             <button [class.active]="true" (click)="setActiveForm(forms.SIGNUP)">Sign Up</button>
             <button (click)="setActiveForm(forms.SIGNIN)">Sign In</button>
