@@ -30,7 +30,6 @@ export class StepOneComponent implements OnInit {
   submission$!: Observable<unknown>;
   questions$!: Observable<Question[]>;
   currentEntries$!: Observable<UserSubmissionResponse[]>;
-  init$!: Observable<[Question[], UserSubmissionResponse[]]>;
 
   field_type = QuestionType;
 
@@ -44,11 +43,6 @@ export class StepOneComponent implements OnInit {
     );
 
     this.currentEntries$ = this._submissionStateService.currentUserSubmission$;
-    // this.init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-    //   if (this._hasMatchingQuestionId(res[0], res[1])) {
-    //     this.setNextStep();
-    //   }
-    // }));
   }
 
   private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
@@ -59,7 +53,7 @@ export class StepOneComponent implements OnInit {
   private _createFormControls() {
     this.questions.forEach(question => {
       if (question.type === this.field_type.MULTIPLE_CHOICE) {
-        this.formGroup.addControl('question_' + question.id, this._formBuilder.array([], Validators.required));
+        this.formGroup.addControl('question_' + question.id, this._formBuilder.control([], Validators.required));
       } else {
         this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
       }
@@ -79,7 +73,6 @@ export class StepOneComponent implements OnInit {
   handleSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
-
     this.questions.forEach(question => {
       if (question.type === this.field_type.MULTIPLE_CHOICE) {
         const selectedAnswers = formValues['question_' + question.id];
@@ -99,7 +92,6 @@ export class StepOneComponent implements OnInit {
         });
       }
     });
-
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();
     }));

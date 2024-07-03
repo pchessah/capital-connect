@@ -25,11 +25,19 @@
                 </option>
               </select>
             </div>
-            <div *ngIf="question.type === field_type.MULTIPLE_CHOICE" class="check__form">
-              <div *ngFor="let answer of question.answers">
-                <input type="checkbox" (change)="onCheckboxChange(question.id, $event)" [value]="answer.id">
-                <label>{{ answer.text }}</label>
-              </div>
+            <div *ngIf="question.type === field_type.MULTIPLE_CHOICE" class="form__row">
+              <p-multiSelect
+                class ="input__field"
+                styleClass ="w-full gap-4"
+                [options]="question.answers"
+                optionLabel="text"
+                optionValue="id"
+                [formControlName]="'question_' + question.id"
+                [placeholder]="'Select option'" />
+<!--              <div *ngFor="let answer of question.answers">-->
+<!--                <input type="checkbox" (change)="onCheckboxChange(question.id, $event)" [value]="answer.id">-->
+<!--                <label>{{ answer.text }}</label>-->
+<!--              </div>-->
             </div>
             <div *ngIf="question.type === field_type.TRUE_FALSE" class="radio__form">
               <div *ngFor="let answer of question.answers">

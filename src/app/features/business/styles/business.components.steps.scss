@@ -40,3 +40,28 @@ form{
   }
 }
 
+:host ::ng-deep {
+  .p-multiselect-panel{
+    .p-multiselect-filter-container{
+      .p-multiselect-filter{
+        padding: .5rem 1rem;
+      }
+
+    }
+    ul{
+      padding: .5rem;
+      display: flex;
+      flex-direction: column;
+      li{
+        display: flex;
+        padding: .5rem;
+        gap: .5rem;
+        align-items: center;
+        .p-checkbox-box{
+          display: inline-block;
+          border: 1px solid #f1f1f1;
+        }
+      }
+    }
+  }
+}
