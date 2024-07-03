@@ -5,6 +5,11 @@ import {Injectable} from "@angular/core";
 import {ISCORE} from "./onboarding.questions.service";
 import {UserSubmissionResponse} from "../../interfaces/submission.interface";
 
+export interface IMatchedBusiness {
+  country:string,
+  businessSector:string,
+  growthStage:string
+}
 @Injectable({
   providedIn: 'root'
 })
@@ -19,8 +24,10 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
     return new Observable<{count?: 0}>();
   }
 
-  getMatchedBusinesses(){
-    return new Observable<{count?: 0}>();
+  getMatchedBusinesses(investorId: number){
+    return this.readById(`${BASE_URL}/company/invesetor-matches`, investorId).pipe(map(res =>{
+      return res as IMatchedBusiness[]
+    }))
   }
 
   getUserScores(userId: number, sectionId: number):Observable<ISCORE>{
@@ -28,4 +35,5 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
       return res;
     }))) as unknown as Observable<ISCORE>
   }
+
 }

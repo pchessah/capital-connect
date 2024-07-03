@@ -1,8 +1,13 @@
-import { Component } from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {OverviewSectionComponent} from "../../../../../shared/components/overview-section/overview-section.component";
 import {CardComponent} from "../../../../../shared/components/card/card.component";
 import {ModalComponent} from "../../../../../shared/components/modal/modal.component";
 import {CommonModule} from "@angular/common";
+import {
+  BusinessAndInvestorMatchingService, IMatchedBusiness
+} from "../../../../../shared/business/services/busines.and.investor.matching.service";
+import {AuthStateService} from "../../../../auth/services/auth-state.service";
+import {tap} from "rxjs";
 
 @Component({
   selector: 'app-overview',
@@ -17,15 +22,15 @@ import {CommonModule} from "@angular/common";
   styleUrl: './overview.component.scss'
 })
 export class OverviewComponent {
+  // stats$ =new Observable();
   visible =false;
-  matchedBusinesses: {id?:number, name?:string, sector?:string}[] =[
-    // {id: '', name: 'U45638', sector: 'FMCG'},
-    // {id: '', name: 'U45638', sector: 'Tech'},
-    // {id: '', name: 'U45638', sector: 'FinTech'},
-    // {id: '', name: 'U45638', sector: 'AgriFin'},
-    // {id: '', name: 'U45638', sector: 'FMCG'},
-    // {id: '', name: 'U45638', sector: 'FMCG'},
-  ]
+  private _authService =inject(AuthStateService)
+  private _businessMatchingService =inject(BusinessAndInvestorMatchingService)
+  matchedBusinesses: IMatchedBusiness[] =[]
+
+  stats$ =this._businessMatchingService.getMatchedBusinesses(this._authService.currentUserId()).pipe(tap(res =>{
+    this.matchedBusinesses =res
+  }))
 
   showDialog(){
     this.visible =true;
