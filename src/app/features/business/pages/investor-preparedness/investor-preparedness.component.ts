@@ -31,7 +31,7 @@ export class InvestorPreparednessComponent {
   activeRouteData: { data: {page: number, step: number} } = this._router.getCurrentNavigation()?.extras.state as any
 
   ngOnInit(){
-    this.screenService.setCurrentPage(this.activeRouteData.data.page || 1);
-    this.screenService.setCurrentStep(this.activeRouteData.data.step || 1);
+    this.screenService.setCurrentPage(this.activeRouteData?.data?.page || 1);
+    this.screenService.setCurrentStep(this.activeRouteData?.data?.step || 1);
   }
 }

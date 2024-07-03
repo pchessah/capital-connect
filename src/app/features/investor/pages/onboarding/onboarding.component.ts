@@ -30,7 +30,7 @@ export class OnboardingComponent {
   currentScreen$ =this._screenService.currentScreen$;
   activeRouteData: { data: {page: number, step: number} } = this._router.getCurrentNavigation()?.extras.state as any
   ngOnInit(){
-    this._screenService.setCurrentScreen(this.activeRouteData.data.page || 1);
-    this._screenService.setCurrentStep(this.activeRouteData.data.step || 1);
+    this._screenService.setCurrentScreen(this.activeRouteData?.data?.page || 1);
+    this._screenService.setCurrentStep(this.activeRouteData?.data?.step || 1);
   }
 }
