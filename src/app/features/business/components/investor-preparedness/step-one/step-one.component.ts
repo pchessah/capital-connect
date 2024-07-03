@@ -5,16 +5,18 @@ import {Question, QuestionType} from '../../../../questions/interfaces';
 import { CommonModule } from '@angular/common';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
-import {SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
+import {Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {RouterLink} from "@angular/router";
 import {
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS
 } from "../../../../../shared/business/services/onboarding.questions.service";
+import {DropdownModule} from "primeng/dropdown";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-step-one',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, DropdownModule, MultiSelectModule],
   templateUrl: './step-one.component.html',
   styleUrl: './step-one.component.scss'
 })
@@ -28,9 +30,6 @@ export class StepOneComponent {
   formGroup: FormGroup =this._formBuilder.group({})
   private _submissionStateService = inject(SubMissionStateService);
 
-  // subsections$ = this._questionService.getSubSectionsOfaSection(5).pipe(tap(res => {
-  //   debugger
-  // }))
 
   submission$ =new Observable<unknown>();
   questions$ =  this._questionService.getQuestionsOfSubSection(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_ONE).pipe(tap(questions => {
@@ -39,23 +38,18 @@ export class StepOneComponent {
   }))
 
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
-  // init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-  //   if(this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
-  //     this.setNextStep();
-  //   }
-  // }))
-
   private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
-    // Create a set of question ids from the responses array
     const responseQuestionIds = new Set(responses.map(response => response.question.id));
-
-    // Check if any question in the questions array has an id in the responseQuestionIds set
     return questions.some(question => responseQuestionIds.has(question.id));
   }
 
   private _createFormControls() {
     this.questions.forEach(question => {
-      this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
+      if (question.type === this.field_type.MULTIPLE_CHOICE) {
+        this.formGroup.addControl('question_' + question.id, this._formBuilder.control([], Validators.required));
+      } else {
+        this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
+      }
     });
   }
   setNextStep(){
@@ -66,18 +60,39 @@ export class StepOneComponent {
   }
 
   handleSubmit(){
+    const formValues = this.formGroup.value;
+    const submissionData: Submission[] = [];
+    this.questions.forEach(question => {
+      if (question.type === this.field_type.MULTIPLE_CHOICE) {
+        const selectedAnswers = formValues['question_' + question.id];
+        selectedAnswers.forEach((answerId: number) => {
+          submissionData.push({
+            questionId: question.id,
+            answerId: answerId,
+            text: ''
+          });
+        });
+      }else if(question.type ==this.field_type.SHORT_ANSWER){
+        const openQuestion = question.answers.find(a => a.text === 'OPEN');
+        const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
 
-    const formValues =this.formGroup.value;
-    const submissionData = this.questions.map(question => {
-      const questionId =question.id;
-      const openQuestion = question.answers.find(a => a.text === 'OPEN');
-      const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
-      return {questionId, answerId: parseInt(answerId), text: formValues['question_' + question.id]}
+        submissionData.push({
+          questionId: question.id,
+          answerId: parseInt(answerId),
+          text: formValues['question_' + question.id]
+        });
+      }
+      else {
+        submissionData.push({
+          questionId: question.id,
+          answerId: Number(formValues['question_' + question.id]),
+          text: question.type !== this.field_type.SINGLE_CHOICE && question.type !== this.field_type.TRUE_FALSE ? formValues['question_' + question.id] : ''
+        });
+      }
     });
-
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();
-    }))
+    }));
   }
 
 }

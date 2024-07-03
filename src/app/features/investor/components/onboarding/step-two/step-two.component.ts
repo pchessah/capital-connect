@@ -9,6 +9,8 @@ import { INVESTOR_ONBOARDING_SUBSECTION_IDS } from "../../../../../shared/busine
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { InvestorScreensService } from "../../../services/investor.screens.service";
+import {DropdownModule} from "primeng/dropdown";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-step-two',
@@ -16,7 +18,9 @@ import { InvestorScreensService } from "../../../services/investor.screens.servi
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    RouterLink
+    RouterLink,
+    DropdownModule,
+    MultiSelectModule
   ],
   templateUrl: './step-two.component.html',
   styleUrls: ['./step-two.component.scss']
@@ -35,7 +39,6 @@ export class StepTwoComponent implements OnInit {
   submission$!: Observable<unknown>;
   questions$!: Observable<Question[]>;
   currentEntries$!: Observable<UserSubmissionResponse[]>;
-  init$!: Observable<[Question[], UserSubmissionResponse[]]>;
 
   ngOnInit() {
     this.formGroup = this._formBuilder.group({});
@@ -47,11 +50,6 @@ export class StepTwoComponent implements OnInit {
     );
 
     this.currentEntries$ = this._submissionStateService.currentUserSubmission$;
-    // this.init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-    //   if (this._hasMatchingQuestionId(res[0], res[1])) {
-    //     this.setNextStep();
-    //   }
-    // }));
   }
 
   private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
@@ -62,7 +60,7 @@ export class StepTwoComponent implements OnInit {
   private _createFormControls() {
     this.questions.forEach(question => {
       if (question.type === this.field_type.MULTIPLE_CHOICE) {
-        this.formGroup.addControl('question_' + question.id, this._formBuilder.array([], Validators.required));
+        this.formGroup.addControl('question_' + question.id, this._formBuilder.control([], Validators.required));
       } else {
         this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
       }
@@ -82,7 +80,6 @@ export class StepTwoComponent implements OnInit {
   handleSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
-
     this.questions.forEach(question => {
       if (question.type === this.field_type.MULTIPLE_CHOICE) {
         const selectedAnswers = formValues['question_' + question.id];
@@ -101,8 +98,6 @@ export class StepTwoComponent implements OnInit {
         });
       }
     });
-
-    console.log(submissionData);
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();
     }));

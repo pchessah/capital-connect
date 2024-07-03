@@ -8,11 +8,13 @@ import { INVESTOR_ONBOARDING_SUBSECTION_IDS } from "../../../../../shared/busine
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 import { InvestorScreensService } from "../../../services/investor.screens.service";
+import {DropdownModule} from "primeng/dropdown";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-step-three',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, DropdownModule, MultiSelectModule],
   templateUrl: './step-three.component.html',
   styleUrls: ['./step-three.component.scss']
 })
@@ -30,7 +32,6 @@ export class StepThreeComponent implements OnInit {
   submission$!: Observable<unknown>;
   questions$!: Observable<Question[]>;
   currentEntries$!: Observable<UserSubmissionResponse[]>;
-  init$!: Observable<[Question[], UserSubmissionResponse[]]>;
 
   ngOnInit() {
     this.formGroup = this._formBuilder.group({});
@@ -42,11 +43,6 @@ export class StepThreeComponent implements OnInit {
     );
 
     this.currentEntries$ = this._submissionStateService.currentUserSubmission$;
-    // this.init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-    //   if (this._hasMatchingQuestionId(res[0], res[1])) {
-    //     this.setNextStep();
-    //   }
-    // }));
   }
 
   private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
@@ -57,7 +53,7 @@ export class StepThreeComponent implements OnInit {
   private _createFormControls() {
     this.questions.forEach(question => {
       if (question.type === this.field_type.MULTIPLE_CHOICE) {
-        this.formGroup.addControl('question_' + question.id, this._formBuilder.array([], Validators.required));
+        this.formGroup.addControl('question_' + question.id, this._formBuilder.control([], Validators.required));
       } else {
         this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
       }
@@ -96,8 +92,6 @@ export class StepThreeComponent implements OnInit {
         });
       }
     });
-
-    console.log(submissionData);
     this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
       this.setNextStep();
     }));

@@ -9,11 +9,13 @@ import {CommonModule} from "@angular/common";
 import {AuthModule} from "../../../../auth/modules/auth.module";
 import {RouterLink} from "@angular/router";
 import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
+import {DropdownModule} from "primeng/dropdown";
+import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-step-three',
   standalone: true,
-  imports: [CommonModule, AuthModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, AuthModule, ReactiveFormsModule, RouterLink, DropdownModule, MultiSelectModule],
   templateUrl: './step-three.component.html',
   styleUrl: './step-three.component.scss'
 })

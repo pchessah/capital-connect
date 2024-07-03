@@ -1,3 +1,4 @@
+<ng-container *ngIf="stats$ | async"></ng-container>
 <app-overview-section>
   <app-card [detail]="{title: 'Matched Businesses', value: matchedBusinesses.length.toString(), featured: true}" (click)="showDialog()">
     <p class="helper__text text__yellow">{{ matchedBusinesses.length.toString() }} perfect match</p>
@@ -16,9 +17,9 @@
       <div class="flex justify-between items-center business-details">
         <div class="flex items-center gap-1 flex-layout">
           <span>{{$index +1}}</span>
-          <span>{{business.name}}</span>
+          <span>{{business.country}}</span>
         </div>
-        <span>{{business.sector}}</span>
+        <span>{{business.businessSector}}</span>
         <div class="flex cta-group">
           <a class="">More details</a>
           <a class="">Connect</a>

@@ -1,9 +1,9 @@
 @import "../../../styles/main";
 
 .card{
-  gap: 1.5rem;
+  gap: .5rem;
   display: flex;
-  padding: 1.5rem;
+  padding: 1rem;
   overflow: hidden;
   border-radius: 1rem;
   flex-direction: column;
@@ -31,7 +31,7 @@
     align-items: center;
     h2{
       font-weight: 700;
-      line-height: 2.5rem;
+      line-height: 1.5rem;
       font-size: 2.125rem;
       color: $primary-color;
     }

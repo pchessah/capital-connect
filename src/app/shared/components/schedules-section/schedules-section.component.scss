@@ -1,7 +1,7 @@
 @import '../../../styles/main';
 
 section{
-  gap: 1rem;
+  gap: .5rem;
   display: flex;
   flex-direction: column;
   font-family: $font-family-sans-serif;
@@ -68,13 +68,13 @@ section{
     grid-auto-columns: 50% auto;
     background-color: $green-50;
     border-radius: 8px;
-    padding: 1.5rem;
-    gap: 1.5rem;
+    padding: 1rem;
+    gap: .5rem;
     h3{
       margin: 0;
       font-size: 18px;
       font-weight: 800;
-      line-height: 28px;
+      line-height: 1rem;
     }
     p{
       font-size: 1rem;
@@ -101,7 +101,7 @@ section{
       }
     }
     >div{
-      gap: 1rem;
+      gap: .5rem;
       display: flex;
       flex-direction: column;
     }
@@ -113,7 +113,7 @@ section{
       h3{
         color: #031D16;
         font-weight: 700;
-        line-height: 2rem;
+        line-height: 1rem;
         font-size: 1.35rem;
       }
     }
