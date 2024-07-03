@@ -38,11 +38,11 @@ export class MainComponent {
         switch (profile.roles as USER_ROLES) {
           case USER_ROLES.USER:
             return this._organizationService.getCompanyOfUser().pipe(
-              switchMap(company => {
-                return this._dynamicRoutingService.getUserSubmissions(company.growthStage).pipe(tap(urlSegments => {
-                  const [link, page, step] = urlSegments;
-                  this._router.navigateByUrl(link.toString(), {state: {data: {page, step}}});
-                }), catchError(err => {
+              switchMap(company =>{
+                return this._dynamicRoutingService.getUserSubmissions(company.growthStage).pipe(tap(urlSegments =>{
+                  const [link, page, step] =urlSegments;
+                  this._router.navigateByUrl(link.toString(), { state: { data: {page, step} } });
+                }), catchError(err =>{
                   console.log(err)
                   return EMPTY;
                 }))
