@@ -8,6 +8,7 @@ import { IndexComponent } from '../../components/investor-preparedness/index/ind
 import { StepsComponent } from '../../components/investor-preparedness/steps/steps.component';
 import { SuccessScreenComponent } from '../../components/investor-preparedness/success-screen/success-screen.component';
 import {SubMissionStateService} from "../../../../shared";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-investor-preparedness',
@@ -17,6 +18,7 @@ import {SubMissionStateService} from "../../../../shared";
   styleUrl: './investor-preparedness.component.scss'
 })
 export class InvestorPreparednessComponent {
+  private _router =inject(Router)
 
   constructor(private screenService: BusinessPageService) {}
   currentPage$ = this.screenService.current_page$
@@ -25,4 +27,11 @@ export class InvestorPreparednessComponent {
   private screenService= inject(BusinessPageService)
 
   usersSubmission$ = this._submissionStateService.getUserSubmissions();
+
+  activeRouteData: { data: {page: number, step: number} } = this._router.getCurrentNavigation()?.extras.state as any
+
+  ngOnInit(){
+    this.screenService.setCurrentPage(this.activeRouteData?.data?.page || 1);
+    this.screenService.setCurrentStep(this.activeRouteData?.data?.step || 1);
+  }
 }

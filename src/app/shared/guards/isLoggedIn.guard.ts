@@ -26,7 +26,7 @@ function checkLogin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
   if (url === '/') {
     if (authStateService.isLoggedIn) {
-      router.navigateByUrl('/organization/setup');
+      router.navigateByUrl('/user-profile');
       return false;
     }
     return true;

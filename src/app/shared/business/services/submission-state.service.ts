@@ -3,6 +3,7 @@ import { SubmissionService } from './submission.service';
 import { AuthStateService } from '../../../features/auth/services/auth-state.service';
 import { BehaviorSubject, tap } from 'rxjs';
 import { UserSubmissionResponse } from '../../interfaces/submission.interface';
+import { LoadingService } from '../../../core';
 
 @Injectable({ providedIn: 'root' })
 export class SubMissionStateService {
@@ -13,6 +14,7 @@ export class SubMissionStateService {
   private _currentUserId = this._authStateService.currentUserId();
 
   private _currentUserSubmissionSrc$$ = new BehaviorSubject<UserSubmissionResponse[]>([]);
+  private _loadingService = inject(LoadingService)
 
   currentUserSubmission$ = this._currentUserSubmissionSrc$$.asObservable();
 
@@ -36,7 +38,9 @@ export class SubMissionStateService {
   }
 
   getUserSubmissionsScore(){
-    
+    return this._submissionService.getSubmissionsScores(this._currentUserId).pipe(tap(res => {
+      this._loadingService.setLoading(true)
+    }));
   }
 
 }

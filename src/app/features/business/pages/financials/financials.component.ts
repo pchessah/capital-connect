@@ -8,6 +8,7 @@ import { IndexLayoutComponent } from '../../../../shared/business/components/ind
 import { FormsLayoutComponent } from '../../../../shared/business/components/forms-layout/forms-layout.component';
 import { SuccessScreenComponent } from '../../components/financials/success-screen/success-screen.component';
 import { SubMissionStateService } from '../../../../shared';
+import {Router} from "@angular/router";
 
 @Component({
   standalone: true,
@@ -18,12 +19,18 @@ import { SubMissionStateService } from '../../../../shared';
 })
 
 export class FinancialsComponent {
-
+  private _router =inject(Router)
   private _submissionStateService = inject(SubMissionStateService)
   private screenService= inject(BusinessPageService)
 
   currentPage$ = this.screenService.current_page$;
 
-  usersSubmission$ = this._submissionStateService.getUserSubmissions();
-  
+  usersSubmission$ = this._submissionStateService.getUserSubmissionsScore();
+  activeRouteData: { data: {page: number, step: number} } = this._router.getCurrentNavigation()?.extras.state as any
+
+  ngOnInit(){
+    this.screenService.setCurrentPage(this.activeRouteData?.data?.page || 1);
+    this.screenService.setCurrentStep(this.activeRouteData?.data?.step || 1);
+  }
+
 }

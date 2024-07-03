@@ -1,6 +1,6 @@
 <div class="container">
   <div class="content">
-    <ng-container *ngIf="init$ | async"></ng-container>
+<!--    <ng-container *ngIf="init$ | async"></ng-container>-->
     <ng-container *ngIf="submission$ | async"></ng-container>
     <ng-container *ngIf="questions$ | async as questions">
       <form [formGroup]="formGroup" (ngSubmit)="handleSubmit()">

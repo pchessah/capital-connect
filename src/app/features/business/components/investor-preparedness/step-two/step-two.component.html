@@ -1,4 +1,4 @@
-<ng-container *ngIf="init$ | async"></ng-container>
+<!--<ng-container *ngIf="init$ | async"></ng-container>-->
 <ng-container *ngIf="submission$ | async"></ng-container>
 <ng-container *ngIf="questions$ | async">
   <form [formGroup]="formGroup" (ngSubmit)="handleSubmit()">

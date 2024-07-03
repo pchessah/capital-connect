@@ -1,5 +1,5 @@
 <ng-container *ngIf="logIn$ | async"></ng-container>
-
+<ng-container *ngIf="routing$ | async"></ng-container>
 <form [formGroup]="signInForm" class="user__auth__form" >
     <div class="input__wrapper">
         <label class="input__label">Email</label>

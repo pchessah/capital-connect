@@ -4,8 +4,10 @@ import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angula
 import {CommonModule} from "@angular/common";
 import {Router} from "@angular/router";
 import {AuthService} from '../../services/auth.service';
-import {catchError, EMPTY, Observable, tap} from 'rxjs';
+import {catchError, EMPTY, Observable, switchMap, tap} from 'rxjs';
 import {USER_ROLES} from "../../../../shared";
+import {DynamicRoutingService} from "../../../../shared/services/dynamic.routing.service";
+import {OrganizationOnboardService} from "../../../organization/services/organization-onboard.service";
 
 @Component({
   selector: 'app-log-in-form',
@@ -19,8 +21,11 @@ export class LogInFormComponent {
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
   private _authService = inject(AuthService);
+  private _dynamicRoutingService =inject(DynamicRoutingService);
+  private _organizationService =inject(OrganizationOnboardService)
 
   logIn$ = new Observable<unknown>();
+  routing$ =new Observable<unknown>();
 
   signInForm = this._formBuilder.group({
     email: ['', Validators.required],
@@ -41,25 +46,38 @@ export class LogInFormComponent {
   submitCredentials() {
     const credentials = { username: this.signInForm.value.email as string, password: this.signInForm.value.password as string };
                                                                                       //{role, access_token}
-    this.logIn$ = this._authService.login(credentials).pipe(tap((profile) => { ///fitrsntme, roleses, id
+    this.logIn$ = this._authService.login(credentials).pipe(switchMap((profile) => { ///fitrsntme, roleses, id
       switch (profile.roles as USER_ROLES) {
         case USER_ROLES.USER:
-          this._router.navigateByUrl('/organization/setup');
-          break
+          return this._organizationService.getCompanyOfUser().pipe(
+            switchMap(company =>{
+              return this._dynamicRoutingService.getUserSubmissions(company.growthStage).pipe(tap(urlSegments =>{
+                const [link, page, step] =urlSegments;
+                debugger
+                this._router.navigateByUrl(link.toString(), { state: { data: {page, step} } });
+              }), catchError(err =>{
+                console.log(err)
+                return EMPTY;
+              }))
+            })
+
+          )
+
         case USER_ROLES.INVESTOR:
-          this._router.navigateByUrl('/investor/onboarding');
-          break
+          return this._dynamicRoutingService.getInvestorSubmissions().pipe(tap(submitted => {
+            debugger
+            this._router.navigateByUrl(submitted? '/investor': '/investor/onboarding');
+          }))
+
         case USER_ROLES.ADMIN:
           this._router.navigateByUrl('/questions');
-          break
-        default:
-          this._router.navigateByUrl('/organization/setup');
-          break;
       }
-    }), catchError((err) => {
-      console.error(err)
-      return EMPTY
-    }))
+      return EMPTY;
+      }),
+      catchError(error =>{
+        console.error(error)
+        return EMPTY
+      }))
 
   }
 

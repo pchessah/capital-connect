@@ -4,9 +4,11 @@ import { catchError } from 'rxjs/operators';
 import { EMPTY, throwError } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FeedbackService } from '../../core';
+import {Router} from "@angular/router";
 
 export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
   const feedbackService = inject(FeedbackService);
+  const router =inject(Router)
 
   return next(req).pipe(
     catchError((error: HttpErrorResponse) => {
@@ -14,7 +16,10 @@ export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         feedbackService.warning('You are unauthorized to perform the following action. Kindly Contact administrator.');
         return EMPTY;
       }
-      if(isValidCompanyOwnerPath(error.url as string) && (error.error.statusCode === 404)){
+      if(isValidCompanyOwnerPath(error.url as string)){
+        if(error.error.statusCode === 404){
+          router.navigateByUrl('/organization/setup')
+        }
         feedbackService.info('Kindly add your company details.')
         return EMPTY;
       }
