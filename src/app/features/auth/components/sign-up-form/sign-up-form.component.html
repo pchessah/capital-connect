@@ -17,7 +17,7 @@
       </div>
     </div>
   </div>
-  <div class="flex gap-4 w-full">
+  <div class="flex gap-4 flex-col md:flex-row w-full">
   <div class="input__wrapper w-full">
     <label class="input__label">First Name</label>
     <input [ngClass]="{'input-error' : isTouchedOrDirty('firstName') && !isValid('firstName') }"
@@ -47,7 +47,7 @@
     </ng-container>
 
   </div>
-  <div class="flex gap-4 w-full">
+  <div class="flex gap-4 flex-col md:flex-row w-full">
   <div class="input__wrapper w-full">
     <label class="input__label">Password</label>
     <input [ngClass]="{'input-error': isTouchedOrDirty('password') && !isValid('password') }" formControlName="password"
