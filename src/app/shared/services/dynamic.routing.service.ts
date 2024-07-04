@@ -1,101 +1,160 @@
-import {inject, Injectable} from "@angular/core";
-import {SubMissionStateService} from "../business/services/submission-state.service";
-import {map, switchMap} from "rxjs/operators";
+import { inject, Injectable } from "@angular/core";
+import { SubMissionStateService } from "../business/services/submission-state.service";
+import { map, switchMap } from "rxjs/operators";
 import {
   BUSINESS_FINANCIALS_SUBSECTION_IDS,
-  ESUBSECTIONS,
   getInvestorEligibilitySubsectionIds,
   INVESTOR_ONBOARDING_SUBSECTION_IDS,
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS,
-  Score,
-  ISECTION
 } from "../business/services/onboarding.questions.service";
-import {GrowthStage} from "../../features/organization/interfaces";
-import { UserSubmissionResponse} from "../interfaces/submission.interface";
-import {QuestionsService} from "../../features/questions/services/questions/questions.service";
-import {SubSection} from "../../features/questions/interfaces";
-import {of} from "rxjs";
+import { QuestionsService } from "../../features/questions/services/questions/questions.service";
+import { combineLatest } from "rxjs";
+import { CompanyStateService } from "../../features/organization/services/company-state.service";
+import { Router } from "@angular/router";
+import { LoadingService } from "../../core";
 
 @Injectable({
   providedIn: 'root'
 })
 
 export class DynamicRoutingService {
-  private _submissionStateService =inject(SubMissionStateService);
-  private _questionService =inject(QuestionsService)
+  private _submissionStateService = inject(SubMissionStateService);
+  private _questionService = inject(QuestionsService);
+  private _companyStateService = inject(CompanyStateService)
+  private _route = inject(Router)
+  private _loadingService = inject(LoadingService)
 
-  //
-  getInvestorSubmissions(){
-    return this._getSubsectionSubmissions(INVESTOR_ONBOARDING_SUBSECTION_IDS).pipe(map(sections =>{
-      return sections.length? ['/investor/onboarding', ...sections]: ['/investor']
-    }))
-  }
+  private _getUniqueNumbers(numbers: number[]): number[] {
+    const uniqueNumbersSet = new Set(numbers);
+    const uniqueNumbersArray = Array.from(uniqueNumbersSet);
+    return uniqueNumbersArray;
+}
 
-  getUserSubmissions(companyGrowthStage: GrowthStage){
+  testGetUserSubmissions() {
+    const companyGrowthStage = this._companyStateService.currentCompany.growthStage;
+    const userSubmissions$ = this._submissionStateService.getUserSubmissions();
+    const questionsOfBusinessFinancials$ = this._questionService.testGetSectionQuestions(BUSINESS_FINANCIALS_SUBSECTION_IDS.ID);
+    const INVESTOR_ELIGIBILITY_SUBSECTION_IDS = getInvestorEligibilitySubsectionIds(companyGrowthStage)
+    const questionsOfInvestorEligibilty$ = this._questionService.testGetSectionQuestions(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ID);
+    const questionsOfInvestorPreparedness$ = this._questionService.testGetSectionQuestions(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID);
 
-    return this._getSubsectionSubmissions(BUSINESS_FINANCIALS_SUBSECTION_IDS).pipe(
-      switchMap((missing_sections) => {
-        if (missing_sections.length) {
-          return of(['/business/financials', ...missing_sections]);
-        } else {
-          return this._getSubsectionSubmissions(getInvestorEligibilitySubsectionIds(companyGrowthStage)).pipe(
-            switchMap((secs) => {
-              if (secs.length) {
-                return of(['/business/investor-eligibility', ...secs]);
-              } else {
-                return this._getSubsectionSubmissions(INVESTOR_PREPAREDNESS_SUBSECTION_IDS).pipe(
-                  map((sections) => {
-                    if (sections.length) {
-                      return ['/business/investor-preparedness', ...sections];
-                    } else {
-                      return ['/business'];
-                    }
-                  })
-                );
+    const init$ =
+      userSubmissions$.pipe(
+        switchMap((userSubmissions) => {
+          this._loadingService.setLoading(true);
+          return combineLatest([questionsOfBusinessFinancials$, questionsOfInvestorEligibilty$, questionsOfInvestorPreparedness$])
+            .pipe(map(([questionsOfBusinessFinancials, questionsOfInvestorEligibilty, questionsOfInvestorPreparedness]) => {
+
+              const userSubmissionQuestionIds = this._getUniqueNumbers(userSubmissions.map(us => us.question.id));
+
+              const missingBusinessFinancialSubsectionIds = questionsOfBusinessFinancials
+                .filter(question => !userSubmissionQuestionIds.includes(question.id))
+                .map(question => question.subSection.id);
+
+
+              if (missingBusinessFinancialSubsectionIds.length > 0) {
+                const url = '/business/financials'
+                if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.LANDING)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
+                } else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_ONE)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
+                }
+                else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_TWO)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
+                }
+                else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_THREE)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
+                }
+                this._loadingService.setLoading(false)
+                return (false)
               }
-            })
-          );
-        }
-      })
-    );
-  }
-  private _getSubsectionSubmissions(section:ISECTION){
-    return this._questionService.getSectionQuestions(section.ID).pipe(switchMap(questions =>{
-      return this._submissionStateService.getUserSubmissions().pipe(map(submissions => {
-        for(let id of Object.keys(section)){
-          let subsectionID =-1
-          switch(id as ESUBSECTIONS) {
-            case ESUBSECTIONS.LANDING:
-              subsectionID =section.LANDING as number
-              if(!this.subsectionSubmitted(subsectionID, submissions, questions.find(question =>question.id ==subsectionID).questions || []))
-                return [1]
-              break
-            case ESUBSECTIONS.STEP_ONE:
-              subsectionID =section.STEP_ONE
-              if(!this.subsectionSubmitted(subsectionID, submissions, questions.find(question =>question.id ==subsectionID).questions || []))
-                return [2, 1]
-              break
-            case ESUBSECTIONS.STEP_TWO:
-              subsectionID =section.STEP_TWO
-              if(!this.subsectionSubmitted(subsectionID, submissions, questions.find(question =>question.id ==subsectionID).questions || []))
-                return [2, 2]
-              break
-            case ESUBSECTIONS.STEP_THREE:
-              subsectionID =section.STEP_THREE
-              if(!this.subsectionSubmitted(subsectionID, submissions, questions.find(question =>question.id ==subsectionID).questions || []))
-                return [2, 3]
-              break
-          }
 
+              const missingInvestorEligibilitySubsectionIds = questionsOfInvestorEligibilty.filter(question => !userSubmissionQuestionIds.includes(question.id))
+                .map(question => question.subSection.id);
+
+              if (missingInvestorEligibilitySubsectionIds.length > 0) {
+                const url = '/business/investor-eligibility'
+                if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.LANDING)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
+                } else if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_ONE)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
+                }
+                else if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_TWO)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
+                }
+                else if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_THREE)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
+                }
+                this._loadingService.setLoading(false)
+                return (false)
+              }
+
+              const missingInvestorPreparednessSubsectionIds = questionsOfInvestorPreparedness.filter(question => !userSubmissionQuestionIds.includes(question.id))
+                .map(question => question.subSection.id);
+
+              if (missingInvestorPreparednessSubsectionIds.length > 0) {
+                const url = '/business/investor-preparedness'
+                if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.LANDING)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
+                } else if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_ONE)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
+                }
+                else if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_TWO)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
+                }
+                else if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_THREE)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
+                }
+                return (false)
+              }
+
+              this._route.navigateByUrl('/business')
+              this._loadingService.setLoading(false)
+              return true;
+            }))
+        })
+      )
+
+
+    return init$
+  }
+
+  testGetInvestorSubmission() {
+    this._loadingService.setLoading(true)
+    const questionsOfInvestorOnboarding$ = this._questionService.testGetSectionQuestions(INVESTOR_ONBOARDING_SUBSECTION_IDS.ID);
+    const userSubmissions$ = this._submissionStateService.getUserSubmissions()
+    const init$ = combineLatest([userSubmissions$, questionsOfInvestorOnboarding$]).pipe(map(([userSubmissions, questionsOfInvestorOnboarding]) => {
+      const userSubmissionQuestionIds = userSubmissions.map(us => us.question.id);
+
+      const missingInvestorOnboardingIds = questionsOfInvestorOnboarding
+        .filter(question => !userSubmissionQuestionIds.includes(question.id))
+        .map(question => question.subSection.id);
+
+      if (missingInvestorOnboardingIds.length > 0) {
+        const url = '/investor/onboarding'
+        if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.LANDING)) {
+          this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
+        } else if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_ONE)) {
+          this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
         }
-        return []
-      }))
+        else if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_TWO)) {
+          this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
+        }
+        else if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_THREE)) {
+          this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
+        }
+
+        this._loadingService.setLoading(false)
+        return (false)
+      }
+      this._route.navigateByUrl('/investor')
+      this._loadingService.setLoading(false)
+      return true
     }))
-  }
-  subsectionSubmitted(id:number, submissions: any[], questions:any[]){
-    // @ts-ignore
-    const investorSubmissions =submissions.filter(submission => submission.question.subSection.id ===id )
-    return (investorSubmissions.length >0 && questions.length >0) || (investorSubmissions.length ===0 && questions.length ===0)
+
+    return init$
 
   }
+
+
 }

@@ -1,11 +1,11 @@
-import {Component, inject} from '@angular/core';
-import {Observable, tap} from "rxjs";
-import {Router} from "@angular/router";
-import {BusinessPageService} from "../../../services/business-page/business.page.service";
-import {AuthStateService} from "../../../../auth/services/auth-state.service";
-import {SubmissionService} from "../../../../../shared";
-import {FeedbackService} from "../../../../../core";
-import {CommonModule} from "@angular/common";
+import { Component, inject } from '@angular/core';
+import { Observable, tap } from "rxjs";
+import { Router } from "@angular/router";
+import { BusinessPageService } from "../../../services/business-page/business.page.service";
+import { AuthStateService } from "../../../../auth/services/auth-state.service";
+import { SubmissionService } from "../../../../../shared";
+import { FeedbackService } from "../../../../../core";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-success-screen',
@@ -21,7 +21,7 @@ export class SuccessScreenComponent {
   private _submissionService = inject(SubmissionService);
   private _feedBackService = inject(FeedbackService);
   score$ = new Observable();
-  private _currentUserId = this._authStateService.currentUserId();
+  private _currentUserId = this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId()  : Number(sessionStorage.getItem('userId'));;
   calculateScore() {
     this.score$ = this._submissionService.calculateScoreOfUser(this._currentUserId).pipe(tap(res => {
       this._feedBackService.info(`Your Score is: ${res.score}`, `Your Eligibility Score`)

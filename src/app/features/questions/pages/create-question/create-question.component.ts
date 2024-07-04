@@ -31,7 +31,10 @@ export class CreateQuestionComponent {
   questionForm = this._fb.group({
     subsectionId: [  null as any , Validators.required],
     text: ['', Validators.required],
-    type: ['', Validators.required]
+    type: ['', Validators.required],
+    tooltip: ['', Validators.required],
+    order: [null as unknown as number, Validators.required],
+
   });
 
   questionTypes: { label: string, value: QuestionType }[] = [

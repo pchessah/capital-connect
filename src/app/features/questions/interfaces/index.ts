@@ -23,7 +23,7 @@ export enum QuestionType {
   TRUE_FALSE = 'TRUE_FALSE'
 }
 
-export interface Section{
+export interface Section {
   id: number;
   name: string;
   description: string;
@@ -32,18 +32,20 @@ export interface Section{
 export interface Question {
   text: string;
   type: QuestionType;
+  tooltip: string,
+  order: number;
   subSection: {
     id: number;
   }
   id: number;
-  answers:Answer[]
+  answers: Answer[]
 }
 
 export interface SubSection {
   id: number;
   name: string;
   description: string;
-  sectionId?:number;
+  sectionId?: number;
   section?: { id: number }
 }
 
@@ -52,6 +54,7 @@ export interface Answer {
   weight: number;
   id: number;
   recommendation?: string,
+  order?: number;
   question: {
     id: number
   }
