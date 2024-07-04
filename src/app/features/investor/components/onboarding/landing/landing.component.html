@@ -9,7 +9,7 @@
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
         <div *ngFor="let question of questions; let i = index" class="input__wrapper">
           <label class="input__label">{{question.text}}<sup>*</sup></label>
-          <a [title]="question.tooltip?? ''">Why do we ask this?</a>
+          <a [title]="question.tooltip ||  ''">Why do we ask this?</a>
           @if(question.type === field_type.SINGLE_CHOICE){
             <div class="form__col">
               <p-dropdown
