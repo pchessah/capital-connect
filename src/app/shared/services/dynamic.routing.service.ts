@@ -7,7 +7,7 @@ import {
   getInvestorEligibilitySubsectionIds,
   INVESTOR_ONBOARDING_SUBSECTION_IDS,
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS,
-  ISCORE,
+  Score,
   ISECTION
 } from "../business/services/onboarding.questions.service";
 import {GrowthStage} from "../../features/organization/interfaces";
@@ -59,7 +59,7 @@ export class DynamicRoutingService {
   getUserSubmissions(companyGrowthStage: GrowthStage){
     return this._submissionStateService.getUserSubmissionsScore().pipe(map((submissions ) => {
       // @ts-ignore
-      const questions =submissions.score as  ISCORE[];
+      const questions =submissions.score as  Score[];
       let progress =this.checkSubsectionProgress(BUSINESS_FINANCIALS_SUBSECTION_IDS, questions)
       if(progress.length >0) return ['/business/financials', ...progress];
       progress =this.checkSubsectionProgress(getInvestorEligibilitySubsectionIds(companyGrowthStage), questions)
@@ -70,7 +70,7 @@ export class DynamicRoutingService {
     }))
   }
 
-  checkSubsectionProgress(subsection: ISECTION, questions: ISCORE[]){
+  checkSubsectionProgress(subsection: ISECTION, questions: Score[]){
     const ids =Object.keys(subsection)
     for (let key of ids){
       switch (key as ESUBSECTIONS){
@@ -100,7 +100,7 @@ export class DynamicRoutingService {
     console.log(investorSubmissions, questions, id)
     return (investorSubmissions.length >0 && questions.length >0) || (investorSubmissions.length ==0 && questions.length ==0)
   }
-  isAnswered(subsection?:ISCORE){
+  isAnswered(subsection?:Score){
     if(!subsection) return true
     return (subsection.score == 0 && subsection.targetScore == 0) || (subsection.score > 0);
   }

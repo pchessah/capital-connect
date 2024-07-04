@@ -13,7 +13,7 @@ export interface ISECTION{
   STEP_TWO: number,
   STEP_THREE: number,
 }
-export interface ISCORE {
+export interface Score {
   percentageScore: number, score: number, targetScore: number,
   subSectionName?: string, subSectionId?: number
 }
