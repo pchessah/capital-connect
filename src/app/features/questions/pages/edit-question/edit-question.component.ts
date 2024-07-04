@@ -28,7 +28,9 @@ export class EditQuestionComponent {
   questionForm = this._fb.group({
     subsectionId: ['', Validators.required],
     text: ['', Validators.required],
-    type: ['', Validators.required]
+    type: ['', Validators.required],
+    tooltip: ['', Validators.required],
+    order: [null as unknown as number, Validators.required],
   });
 
   params$ = this._activatedRoute.params.pipe(tap(param => {
@@ -44,7 +46,9 @@ export class EditQuestionComponent {
       this.questionForm.patchValue({
         subsectionId: question.id.toString(),
         type: question.type,
-        text: question.text
+        text: question.text,
+        order: question.order,
+        tooltip: question.tooltip
       });
     }))
 
