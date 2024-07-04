@@ -17,9 +17,21 @@ export class CarouselComponent {
   config: CarouselConfig<ICarouselItem> ={
       items: [
         {
-          title: 'Investor Matchmaking',
-          body: 'We will connect you with the investor who match your criteria',
-        }
+          title: 'Capital Raising Eligibility',
+          body: 'We will advise you on how eligible and prepared you are for capital Raising',
+        },
+        {
+          title: 'Investor Match Making',
+          body: 'We will connect you with the right investor',
+        },
+        {
+          title: 'Capital Raising Advisory',
+          body: 'We will support and advise you in your transactions',
+        },
+        {
+          title: 'Deal Flow for Investors',
+          body: 'We will provide you with a quality deal pipeline',
+        },
       ]
   }
 }
