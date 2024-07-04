@@ -39,7 +39,7 @@ export class OverviewComponent {
   private _companyService = inject(CompanyStateService);
   private _scoringService = inject(BusinessAndInvestorMatchingService);
 
-  userId = this._authStateService.currentUserId() && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId() : Number(sessionStorage.getItem('userId'));;
+  userId = this._authStateService.currentUserId() && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId() : Number(sessionStorage.getItem('userId'));
   currentCompany = this._companyService.currentCompany;
 
   stats$ = this._businessService.getMatchedInvestors().pipe(tap(res => {

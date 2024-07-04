@@ -3,14 +3,10 @@ import { SubMissionStateService } from "../business/services/submission-state.se
 import { map, switchMap } from "rxjs/operators";
 import {
   BUSINESS_FINANCIALS_SUBSECTION_IDS,
-  ESUBSECTIONS,
   getInvestorEligibilitySubsectionIds,
   INVESTOR_ONBOARDING_SUBSECTION_IDS,
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS,
-  Score,
-  ISECTION
 } from "../business/services/onboarding.questions.service";
-import { GrowthStage } from "../../features/organization/interfaces";
 import { QuestionsService } from "../../features/questions/services/questions/questions.service";
 import { combineLatest } from "rxjs";
 import { CompanyStateService } from "../../features/organization/services/company-state.service";
@@ -135,12 +131,23 @@ export class DynamicRoutingService {
         .map(question => question.subSection.id);
 
       if (missingInvestorOnboardingIds.length > 0) {
-        //Route to missing subsection step
+        const url = '/investor/onboarding'
+        if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.LANDING)) {
+          this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
+        } else if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_ONE)) {
+          this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
+        }
+        else if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_TWO)) {
+          this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
+        }
+        else if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_THREE)) {
+          this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
+        }
 
         this._loadingService.setLoading(false)
         return (false)
       }
-
+      this._route.navigateByUrl('/investor')
       this._loadingService.setLoading(false)
       return true
     }))
