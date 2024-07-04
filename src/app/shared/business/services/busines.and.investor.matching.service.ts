@@ -19,7 +19,6 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
   }
 
   getMatchedBusinesses(investorId: number) {
-    debugger
     return this.readById(`${BASE_URL}/company/invesetor-matches`, investorId).pipe(map(res => {
       return res as MatchedBusiness[]
     }))
