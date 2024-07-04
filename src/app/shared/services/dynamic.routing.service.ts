@@ -30,7 +30,7 @@ export class DynamicRoutingService {
   testGetUserSubmissions() {
 
     const companyGrowthStage = this._companyStateService.currentCompany.growthStage;
-    const userSubmissions$ = this._submissionStateService.getUserSubmissions('testGetUserSubmissions');
+    const userSubmissions$ = this._submissionStateService.getUserSubmissions();
     const questionsOfBusinessFinancials$ = this._questionService.testGetSectionQuestions(BUSINESS_FINANCIALS_SUBSECTION_IDS.ID);
     const INVESTOR_ELIGIBILITY_SUBSECTION_IDS =getInvestorEligibilitySubsectionIds(companyGrowthStage)
     const questionsOfInvestorEligibilty$ = this._questionService.testGetSectionQuestions(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ID);
@@ -116,7 +116,7 @@ export class DynamicRoutingService {
 
 testGetInvestorSubmission() {
   const questionsOfInvestorOnboarding$ = this._questionService.testGetSectionQuestions(INVESTOR_ONBOARDING_SUBSECTION_IDS.ID);
-  const userSubmissions$ =this._submissionStateService.getUserSubmissions('testGetInvestorSubmission')
+  const userSubmissions$ =this._submissionStateService.getUserSubmissions()
   const init$ = combineLatest([userSubmissions$,questionsOfInvestorOnboarding$]).pipe(map(([userSubmissions, questionsOfInvestorOnboarding]) => {
  const userSubmissionQuestionIds = userSubmissions.map(us => us.question.id);
 
@@ -139,7 +139,7 @@ testGetInvestorSubmission() {
 
   getInvestorSubmissions() {
     return this._questionService.getSectionQuestions(INVESTOR_ONBOARDING_SUBSECTION_IDS.ID).pipe(switchMap(questions => {
-      return this._submissionStateService.getUserSubmissions('testGetInvestorSubmission').pipe(map(submissions => {
+      return this._submissionStateService.getUserSubmissions().pipe(map(submissions => {
         for (let id of Object.keys(INVESTOR_ONBOARDING_SUBSECTION_IDS)) {
           let subsectionID = 0
           switch (id as ESUBSECTIONS) {

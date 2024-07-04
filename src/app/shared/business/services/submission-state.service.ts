@@ -31,7 +31,7 @@ export class SubMissionStateService {
     return this._currentUserSubmissionSrc$$.next([])
   }
 
-  getUserSubmissions(calledBy: string) {
+  getUserSubmissions() {
     const userId =this._currentUserId && this._currentUserId >0? this._currentUserId: Number(sessionStorage.getItem('userId'));
     if(userId){
       return this._submissionService.fetchSubmissionsByUser(userId).pipe(tap(res => {
