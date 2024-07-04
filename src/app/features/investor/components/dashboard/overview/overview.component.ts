@@ -26,7 +26,7 @@ export class OverviewComponent {
   visible = false;
   matchedBusinesses: MatchedBusiness[] = []
 
-  stats$ = this._businessMatchingService.getMatchedBusinesses(this._authService.currentUserId()).pipe(tap(res => {
+  stats$ = this._businessMatchingService.getMatchedBusinesses(this._authService.currentUserId()  && this._authService.currentUserId() > 0 ? this._authService.currentUserId()  : Number(sessionStorage.getItem('userId'))).pipe(tap(res => {
     this.matchedBusinesses = res
   }))
 

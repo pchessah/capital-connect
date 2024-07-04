@@ -36,7 +36,7 @@ export class StepTwoComponent {
   field_type =QuestionType;
   private _submissionStateService = inject(SubMissionStateService)
   // subsections$ = this._questionService.getSubSectionsOfaSection(5).pipe(tap(res => {
-  //   debugger
+  //    
   // }))
 
   submission$ =new Observable<unknown>();
@@ -79,7 +79,7 @@ export class StepTwoComponent {
   handleSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
-    debugger
+     
     this.questions.forEach(question => {
       if (question.type === this.field_type.MULTIPLE_CHOICE) {
         const selectedAnswers = formValues['question_' + question.id];

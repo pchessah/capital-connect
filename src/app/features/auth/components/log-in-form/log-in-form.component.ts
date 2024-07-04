@@ -1,14 +1,14 @@
-import {Component, EventEmitter, inject, Output} from '@angular/core';
-import {AuthModule} from '../../modules/auth.module';
-import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {CommonModule} from "@angular/common";
-import {Router} from "@angular/router";
-import {AuthService} from '../../services/auth.service';
-import {catchError, EMPTY, Observable, switchMap, tap} from 'rxjs';
-import {USER_ROLES} from "../../../../shared";
-import {DynamicRoutingService} from "../../../../shared/services/dynamic.routing.service";
-import {OrganizationOnboardService} from "../../../organization/services/organization-onboard.service";
-import {map} from "rxjs/operators";
+import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { AuthModule } from '../../modules/auth.module';
+import { FormBuilder, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
+import { AuthService } from '../../services/auth.service';
+import { catchError, EMPTY, Observable, switchMap } from 'rxjs';
+import { USER_ROLES } from "../../../../shared";
+import { DynamicRoutingService } from "../../../../shared/services/dynamic.routing.service";
+import { OrganizationOnboardService } from "../../../organization/services/organization-onboard.service";
+import { LoadingService } from '../../../../core';
 
 @Component({
   selector: 'app-log-in-form',
@@ -22,11 +22,12 @@ export class LogInFormComponent {
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
   private _authService = inject(AuthService);
-  private _dynamicRoutingService =inject(DynamicRoutingService);
-  private _organizationService =inject(OrganizationOnboardService)
+  private _dynamicRoutingService = inject(DynamicRoutingService);
+  private _organizationService = inject(OrganizationOnboardService);
+  private _loadingService = inject(LoadingService)
 
   logIn$ = new Observable<unknown>();
-  routing$ =new Observable<unknown>();
+  routing$ = new Observable<unknown>();
 
   signInForm = this._formBuilder.group({
     email: ['', Validators.required],
@@ -45,18 +46,20 @@ export class LogInFormComponent {
   }
 
   submitCredentials() {
+    this._loadingService.setLoading(true)
     const credentials = { username: this.signInForm.value.email as string, password: this.signInForm.value.password as string };
     //{role, access_token}
-    this.logIn$ = this._authService.login(credentials).pipe(switchMap((profile) => { 
+    this.logIn$ = this._authService.login(credentials).pipe(switchMap((profile) => {
+
       switch (profile.roles as USER_ROLES) {
         case USER_ROLES.USER:
           return this._organizationService.getCompanyOfUser().pipe(
-            switchMap(company =>{
-              if(company){
+            switchMap(company => {
+              if (company) {
                 return this._dynamicRoutingService.testGetUserSubmissions()
               } else {
-
-                //ROUTE TO ORGANIZATION/SETUP
+                this._router.navigateByUrl('/organization/setup')
+                this._loadingService.setLoading(false)
                 return EMPTY
               }
             })
@@ -68,16 +71,18 @@ export class LogInFormComponent {
         case USER_ROLES.ADMIN:
           this._router.navigateByUrl('/questions');
       }
+      this._loadingService.setLoading(false)
       return EMPTY;
-      }),
-      catchError(error =>{
+    }),
+      catchError(error => {
         console.error(error)
+        this._loadingService.setLoading(false)
         return EMPTY
       }))
 
   }
 
-  goToForgetPassword(){
+  goToForgetPassword() {
     this.goToForgetPasswordScreenEvent.emit()
   }
 

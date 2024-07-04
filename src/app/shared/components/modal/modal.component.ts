@@ -22,6 +22,5 @@ export class ModalComponent {
 
     hideModal() {
       this.visible = false;
-      debugger
     }
 }

@@ -22,7 +22,7 @@ export class SuccessScreenComponent {
   private  _router =inject(Router);
   private _pageService = inject(BusinessPageService);
   private _authStateService =inject(AuthStateService);
-  private _currentUserId: number =this._authStateService.currentUserId();
+  private _currentUserId: number =this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId()  : Number(sessionStorage.getItem('userId'));;
   private _submissionService =inject(SubmissionService);
   private _feedBackService =inject(FeedbackService);
   

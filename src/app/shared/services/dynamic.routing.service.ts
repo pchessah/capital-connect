@@ -29,19 +29,12 @@ export class DynamicRoutingService {
   private _loadingService = inject(LoadingService)
 
   private _getUniqueNumbers(numbers: number[]): number[] {
-    // Create a Set from the numbers array to automatically remove duplicates
     const uniqueNumbersSet = new Set(numbers);
-
-    // Convert the Set back to an array
     const uniqueNumbersArray = Array.from(uniqueNumbersSet);
-
     return uniqueNumbersArray;
 }
 
-
   testGetUserSubmissions() {
-    this._loadingService.setLoading(true)
-
     const companyGrowthStage = this._companyStateService.currentCompany.growthStage;
     const userSubmissions$ = this._submissionStateService.getUserSubmissions();
     const questionsOfBusinessFinancials$ = this._questionService.testGetSectionQuestions(BUSINESS_FINANCIALS_SUBSECTION_IDS.ID);
@@ -52,6 +45,7 @@ export class DynamicRoutingService {
     const init$ =
       userSubmissions$.pipe(
         switchMap((userSubmissions) => {
+          this._loadingService.setLoading(true);
           return combineLatest([questionsOfBusinessFinancials$, questionsOfInvestorEligibilty$, questionsOfInvestorPreparedness$])
             .pipe(map(([questionsOfBusinessFinancials, questionsOfInvestorEligibilty, questionsOfInvestorPreparedness]) => {
 
@@ -82,7 +76,6 @@ export class DynamicRoutingService {
               const missingInvestorEligibilitySubsectionIds = questionsOfInvestorEligibilty.filter(question => !userSubmissionQuestionIds.includes(question.id))
                 .map(question => question.subSection.id);
 
-
               if (missingInvestorEligibilitySubsectionIds.length > 0) {
                 const url = '/business/investor-eligibility'
                 if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.LANDING)) {
@@ -103,7 +96,6 @@ export class DynamicRoutingService {
               const missingInvestorPreparednessSubsectionIds = questionsOfInvestorPreparedness.filter(question => !userSubmissionQuestionIds.includes(question.id))
                 .map(question => question.subSection.id);
 
-
               if (missingInvestorPreparednessSubsectionIds.length > 0) {
                 const url = '/business/investor-preparedness'
                 if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.LANDING)) {
@@ -122,9 +114,7 @@ export class DynamicRoutingService {
 
               this._route.navigateByUrl('/business')
               this._loadingService.setLoading(false)
-              return true
-
-
+              return true;
             }))
         })
       )
@@ -159,85 +149,5 @@ export class DynamicRoutingService {
 
   }
 
-  getInvestorSubmissions() {
-    return this._questionService.getSectionQuestions(INVESTOR_ONBOARDING_SUBSECTION_IDS.ID).pipe(switchMap(questions => {
-      return this._submissionStateService.getUserSubmissions().pipe(map(submissions => {
-        for (let id of Object.keys(INVESTOR_ONBOARDING_SUBSECTION_IDS)) {
-          let subsectionID = 0
-          switch (id as ESUBSECTIONS) {
-            case ESUBSECTIONS.LANDING:
-              subsectionID = INVESTOR_ONBOARDING_SUBSECTION_IDS.LANDING
-              if (!this.subsectionSubmitted(subsectionID, submissions, questions.find((question: { id: number; }) => question.id == subsectionID).questions || []))
-                return ['/investor/onboarding', [1]]
-              break
-            case ESUBSECTIONS.STEP_ONE:
-              subsectionID = INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_ONE
-              if (!this.subsectionSubmitted(subsectionID, submissions, questions.find((question: { id: number; }) => question.id == subsectionID).questions || []))
-                return ['/investor/onboarding', [2, 1]]
-              break
-            case ESUBSECTIONS.STEP_TWO:
-              subsectionID = INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_TWO
-              if (!this.subsectionSubmitted(subsectionID, submissions, questions.find((question: { id: number; }) => question.id == subsectionID).questions || []))
-                return ['/investor/onboarding', [2, 2]]
-              break
-            case ESUBSECTIONS.STEP_THREE:
-              subsectionID = INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_THREE
-              if (!this.subsectionSubmitted(subsectionID, submissions, questions.find((question: { id: number; }) => question.id == subsectionID).questions || []))
-                return ['/investor/onboarding', [2, 3]]
-              break
-          }
 
-        }
-        return ['/investor']
-      }))
-    }))
-  }
-  getUserSubmissions(companyGrowthStage: GrowthStage) {
-    return this._submissionStateService.getUserSubmissionsScore().pipe(map((submissions) => {
-      // @ts-ignore
-      const questions = submissions.score as Score[];
-      let progress = this.checkSubsectionProgress(BUSINESS_FINANCIALS_SUBSECTION_IDS, questions)
-      if (progress.length > 0) return ['/business/financials', ...progress];
-      progress = this.checkSubsectionProgress(getInvestorEligibilitySubsectionIds(companyGrowthStage), questions)
-      if (progress.length > 0) return ['/business/investor-eligibility', ...progress];
-      progress = this.checkSubsectionProgress(INVESTOR_PREPAREDNESS_SUBSECTION_IDS, questions)
-      if (progress.length > 0) return ['/business/investor-preparedness', ...progress];
-      return ['/business']
-    }))
-  }
-
-  checkSubsectionProgress(subsection: ISECTION, questions: Score[]) {
-    const ids = Object.keys(subsection)
-    for (let key of ids) {
-      switch (key as ESUBSECTIONS) {
-        case ESUBSECTIONS.LANDING:
-          if (!this.isAnswered(questions.find(question => question.subSectionId == subsection.LANDING)))
-            return [1]
-          break
-        case ESUBSECTIONS.STEP_ONE:
-          if (!this.isAnswered(questions.find(question => question.subSectionId == subsection.STEP_ONE)))
-            return [2, 1]
-          break
-        case ESUBSECTIONS.STEP_TWO:
-          if (!this.isAnswered(questions.find(question => question.subSectionId == subsection.STEP_TWO)))
-            return [2, 2]
-          break
-        case ESUBSECTIONS.STEP_THREE:
-          if (!this.isAnswered(questions.find(question => question.subSectionId == subsection.STEP_THREE)))
-            return [2, 3]
-          break
-      }
-    }
-    return []
-  }
-  subsectionSubmitted(id: number, submissions: any[], questions: any[]) {
-    // @ts-ignore
-    const investorSubmissions = submissions.filter(submission => { return submission.question.subSection.id == id })
-    console.log(investorSubmissions, questions, id)
-    return (investorSubmissions.length > 0 && questions.length > 0) || (investorSubmissions.length == 0 && questions.length == 0)
-  }
-  isAnswered(subsection?: Score) {
-    if (!subsection) return true
-    return (subsection.score == 0 && subsection.targetScore == 0) || (subsection.score > 0);
-  }
 }

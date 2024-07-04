@@ -22,7 +22,7 @@ export class SuccessScreenComponent {
   private _submissionService = inject(SubmissionService);
   private _feedBackService = inject(FeedbackService);
 
-  private _currentUserId = this._authStateService.currentUserId();
+  private _currentUserId = this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId()  : Number(sessionStorage.getItem('userId'));;
 
   score$ = new Observable();
   calculateScore() {

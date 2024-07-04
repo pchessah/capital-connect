@@ -15,7 +15,7 @@ export class CompanyHttpService extends BaseHttpService {
   }
 
   getCompanyOfUser(id:number){
-    return this.readById(`${BASE_URL}/company/owner`, id).pipe(map(res => (res as any)[0])) as Observable<CompanyResponse>
+    return this.readById(`${BASE_URL}/company/owner`, id) as Observable<CompanyResponse>
   }
 
 }
