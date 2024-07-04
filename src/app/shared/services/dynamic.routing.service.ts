@@ -24,6 +24,7 @@ export class DynamicRoutingService {
   private _submissionStateService =inject(SubMissionStateService);
   private _questionService =inject(QuestionsService)
 
+  //
   getInvestorSubmissions(){
     return this._getSubsectionSubmissions(INVESTOR_ONBOARDING_SUBSECTION_IDS).pipe(map(sections =>{
       return sections.length? ['/investor/onboarding', ...sections]: ['/investor']
@@ -31,6 +32,7 @@ export class DynamicRoutingService {
   }
 
   getUserSubmissions(companyGrowthStage: GrowthStage){
+
     return this._getSubsectionSubmissions(BUSINESS_FINANCIALS_SUBSECTION_IDS).pipe(
       switchMap((missing_sections) => {
         if (missing_sections.length) {
@@ -57,7 +59,6 @@ export class DynamicRoutingService {
       })
     );
   }
-
   private _getSubsectionSubmissions(section:ISECTION){
     return this._questionService.getSectionQuestions(section.ID).pipe(switchMap(questions =>{
       return this._submissionStateService.getUserSubmissions().pipe(map(submissions => {
@@ -93,8 +94,8 @@ export class DynamicRoutingService {
   }
   subsectionSubmitted(id:number, submissions: any[], questions:any[]){
     // @ts-ignore
-    const investorSubmissions =submissions.filter(submission =>{ return submission.question.subSection.id ==id })
-    console.log(investorSubmissions, questions, id)
-    return (investorSubmissions.length >0 && questions.length >0) || (investorSubmissions.length ==0 && questions.length ==0)
+    const investorSubmissions =submissions.filter(submission => submission.question.subSection.id ===id )
+    return (investorSubmissions.length >0 && questions.length >0) || (investorSubmissions.length ===0 && questions.length ===0)
+
   }
 }
