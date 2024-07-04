@@ -4,7 +4,7 @@
   gap: 1rem;
   width: 100%;
   display: block;
-  padding: 2rem 0;
+  padding: 1rem 0;
   align-items: center;
   flex-direction: column;
   .logo__wrapper {
@@ -63,16 +63,16 @@
 @include when-screen-is-atleast(large) {
   .form__section {
     padding: 0;
-    width: 70%;
+    width: 80%;
     margin: auto;
     .forms__group {
       > img {
         margin: 0;
-        width: 15rem;
-        height: 7rem;
+        width: 11rem;
+        //height: 7rem;
       }
       .forms__group {
-        width: 60%;
+        //width: 60%;
       }
     }
   }
