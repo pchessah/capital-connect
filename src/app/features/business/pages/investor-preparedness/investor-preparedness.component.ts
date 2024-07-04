@@ -26,7 +26,7 @@ export class InvestorPreparednessComponent {
   // @ts-ignore
   private screenService= inject(BusinessPageService)
 
-  usersSubmission$ = this._submissionStateService.getUserSubmissions();
+  usersSubmission$ = this._submissionStateService.getUserSubmissions('Investor Preparedness');
 
   activeRouteData: { data: {page: number, step: number} } = this._router.getCurrentNavigation()?.extras.state as any
 
