@@ -35,9 +35,7 @@ export class DynamicRoutingService {
 
     return this._getSubsectionSubmissions(BUSINESS_FINANCIALS_SUBSECTION_IDS).pipe(
       switchMap((missing_sections) => {
-        debugger
         if (missing_sections.length) {
-          debugger
           return of(['/business/financials', ...missing_sections]);
         } else {
           return this._getSubsectionSubmissions(getInvestorEligibilitySubsectionIds(companyGrowthStage)).pipe(
@@ -61,8 +59,6 @@ export class DynamicRoutingService {
       })
     );
   }
-
-  // check if a user submitted subsesctions
   private _getSubsectionSubmissions(section:ISECTION){
     return this._questionService.getSectionQuestions(section.ID).pipe(switchMap(questions =>{
       return this._submissionStateService.getUserSubmissions().pipe(map(submissions => {
@@ -100,5 +96,6 @@ export class DynamicRoutingService {
     // @ts-ignore
     const investorSubmissions =submissions.filter(submission => submission.question.subSection.id ===id )
     return (investorSubmissions.length >0 && questions.length >0) || (investorSubmissions.length ===0 && questions.length ===0)
+
   }
 }
