@@ -7,11 +7,11 @@
           <p>Step 3 of 3</p>
           <ul class="indicators">
             @for (step of [].constructor(3); track $index){
-              <li [class.active] ="($index +1) <= 3"></li>
+              <li [class.active]="($index +1) <= 3"></li>
             }
           </ul>
         </div>
-        <strong>Investor Eligibility</strong>
+        <strong>Investor Preparedness</strong>
       </div>
       <div *ngFor="let question of questions; let i = index" class="input__wrapper">
         <label class="input__label">{{question.text}}<sup>*</sup></label>
@@ -58,7 +58,9 @@
     <div class="cta__group">
       <a routerLink="/business">Skip and go to dashboard</a>
       <button class="btn btn-primary outline" type="button" (click)="goBack()">Back</button>
-      <button class="btn btn-primary" [disabled]="!formGroup.valid" [ngClass]="{'disabled-btn': !formGroup.valid }">Next</button>
+      <button class="btn btn-primary" [disabled]="!formGroup.valid"
+              [ngClass]="{'disabled-btn': !formGroup.valid }">Next</button>
     </div>
+
   </form>
 </ng-container>

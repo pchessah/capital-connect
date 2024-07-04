@@ -8,6 +8,7 @@ import {catchError, EMPTY, Observable, switchMap, tap} from 'rxjs';
 import {USER_ROLES} from "../../../../shared";
 import {DynamicRoutingService} from "../../../../shared/services/dynamic.routing.service";
 import {OrganizationOnboardService} from "../../../organization/services/organization-onboard.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-log-in-form',
@@ -45,7 +46,7 @@ export class LogInFormComponent {
 
   submitCredentials() {
     const credentials = { username: this.signInForm.value.email as string, password: this.signInForm.value.password as string };
-                                                                                      //{role, access_token}
+    //{role, access_token}
     this.logIn$ = this._authService.login(credentials).pipe(switchMap((profile) => { ///fitrsntme, roleses, id
       switch (profile.roles as USER_ROLES) {
         case USER_ROLES.USER:
@@ -53,14 +54,12 @@ export class LogInFormComponent {
             switchMap(company =>{
               return this._dynamicRoutingService.getUserSubmissions(company.growthStage).pipe(tap(urlSegments =>{
                 const [link, page, step] =urlSegments;
-
                 this._router.navigateByUrl(link.toString(), { state: { data: {page, step} } });
               }), catchError(err =>{
                 console.log(err)
                 return EMPTY;
               }))
             })
-
           )
 
         case USER_ROLES.INVESTOR:
