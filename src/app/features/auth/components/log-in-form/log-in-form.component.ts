@@ -47,26 +47,23 @@ export class LogInFormComponent {
   submitCredentials() {
     const credentials = { username: this.signInForm.value.email as string, password: this.signInForm.value.password as string };
     //{role, access_token}
-    this.logIn$ = this._authService.login(credentials).pipe(switchMap((profile) => { ///fitrsntme, roleses, id
+    this.logIn$ = this._authService.login(credentials).pipe(switchMap((profile) => { 
       switch (profile.roles as USER_ROLES) {
         case USER_ROLES.USER:
           return this._organizationService.getCompanyOfUser().pipe(
             switchMap(company =>{
-              return this._dynamicRoutingService.getUserSubmissions(company.growthStage).pipe(tap(urlSegments =>{
-                const [link, page, step] =urlSegments;
-                this._router.navigateByUrl(link.toString(), { state: { data: {page, step} } });
-              }), catchError(err =>{
-                console.log(err)
-                return EMPTY;
-              }))
+              if(company){
+                return this._dynamicRoutingService.testGetUserSubmissions()
+              } else {
+
+                //ROUTE TO ORGANIZATION/SETUP
+                return EMPTY
+              }
             })
           )
 
         case USER_ROLES.INVESTOR:
-          return this._dynamicRoutingService.getInvestorSubmissions().pipe(tap(urlSegments => {
-            const [link, page, step] =urlSegments;
-            this._router.navigateByUrl(link.toString(), { state: { data: {page, step} } });
-          }))
+          return this._dynamicRoutingService.testGetInvestorSubmission()
 
         case USER_ROLES.ADMIN:
           this._router.navigateByUrl('/questions');

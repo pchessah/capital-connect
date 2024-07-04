@@ -12,8 +12,7 @@ export class CompanyStateService {
 
   get currentCompany(): Company {
     if (this._currentCompanySrc()) return this._currentCompanySrc()
-    // TODO: add functionality to fetch c
-    return this._currentCompanySrc()
+    return JSON.parse(sessionStorage.getItem('currentCompany') as string)  as Company
   }
 
   resetCompany() {

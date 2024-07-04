@@ -11,7 +11,7 @@ export class SubMissionStateService {
   private _submissionService = inject(SubmissionService);
   private _authStateService = inject(AuthStateService);
 
-  private _currentUserId = this._authStateService.currentUserId();
+  private _currentUserId = this._authStateService.currentUserId() ?? Number(sessionStorage.getItem('userId'));
 
   private _currentUserSubmissionSrc$$ = new BehaviorSubject<UserSubmissionResponse[]>([]);
   private _loadingService = inject(LoadingService)
