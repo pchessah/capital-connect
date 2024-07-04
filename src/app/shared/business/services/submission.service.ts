@@ -5,18 +5,18 @@ import { Submission, SubmissionResponse, UserSubmissionResponse } from '../../in
 import { map, Observable } from 'rxjs';
 import { AuthStateService } from '../../../features/auth/services/auth-state.service';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class SubmissionService extends BaseHttpService {
 
   private _authStateService = inject(AuthStateService);
   private _feedBackService = inject(FeedbackService);
-  private _currentUserId = this._authStateService.currentUserId();
+  private _currentUserId =  this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId()  : Number(sessionStorage.getItem('userId'))
 
   constructor(private _httpClient: HttpClient) {
     super(_httpClient)
   }
 
-  createSingleSubmission(submission: Submission){
+  createSingleSubmission(submission: Submission) {
     submission.userId = this._currentUserId
     return this.create(`${BASE_URL}/submissions`, submission).pipe((map(res => {
       this._feedBackService.success('Submitted Successfully')
@@ -27,9 +27,11 @@ export class SubmissionService extends BaseHttpService {
   }
 
   createMultipleSubmissions(submissions: Submission[]): Observable<SubmissionResponse[]> {
-    const valToSubmit = JSON.stringify({ submissions: submissions.map(s => {
-      return { ...s, userId: this._currentUserId };
-    }) });
+    const valToSubmit = JSON.stringify({
+      submissions: submissions.map(s => {
+        return { ...s, userId: this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId() : Number(sessionStorage.getItem('userId')) };
+      })
+    });
     return this.create(`${BASE_URL}/submissions/bulk`, valToSubmit).pipe((map(res => {
       this._feedBackService.success('Submitted Successfully')
       return res
@@ -45,12 +47,12 @@ export class SubmissionService extends BaseHttpService {
     }))) as Observable<UserSubmissionResponse[]>;
   }
 
-  calculateScoreOfUser(userId:number) {
+  calculateScoreOfUser(userId: number) {
     return this._httpClient.get(`${BASE_URL}/submissions/user/${userId}/score`) as Observable<{ score: number }>
   }
 
-  
-  getSubmissionsScores(userId:number){
+
+  getSubmissionsScores(userId: number) {
     return this._httpClient.get(`${BASE_URL}/submissions/user/${userId}/score`)
   }
 

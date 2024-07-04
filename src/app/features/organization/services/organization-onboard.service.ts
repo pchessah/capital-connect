@@ -78,7 +78,7 @@ export class OrganizationOnboardService {
   }
 
   getCompanyOfUser(){
-    const currentUserId = this._authStateService.currentUserId();
+    const currentUserId = this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId()  : Number(sessionStorage.getItem('userId'));
     return this._companyService.getCompanyOfUser(currentUserId).pipe(tap(company =>{
       this._companyInput.set(company);
       this._companyStateService.setCompany(company);

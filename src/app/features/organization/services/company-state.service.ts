@@ -11,8 +11,8 @@ export class CompanyStateService {
   }
 
   get currentCompany(): Company {
-    if (this._currentCompanySrc()) return this._currentCompanySrc()
-    return JSON.parse(sessionStorage.getItem('currentCompany') as string)  as Company
+    const company  = !!this._currentCompanySrc() ? this._currentCompanySrc() :JSON.parse(sessionStorage.getItem('currentCompany') as string)  as Company
+    return company
   }
 
   resetCompany() {

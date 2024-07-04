@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { SubmissionService } from './submission.service';
 import { AuthStateService } from '../../../features/auth/services/auth-state.service';
-import {BehaviorSubject, EMPTY, tap} from 'rxjs';
+import { BehaviorSubject, EMPTY, tap } from 'rxjs';
 import { UserSubmissionResponse } from '../../interfaces/submission.interface';
 import { LoadingService } from '../../../core';
 
@@ -11,7 +11,7 @@ export class SubMissionStateService {
   private _submissionService = inject(SubmissionService);
   private _authStateService = inject(AuthStateService);
 
-  private _currentUserId = this._authStateService.currentUserId() ?? Number(sessionStorage.getItem('userId'));
+  private _currentUserId = this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId()  : Number(sessionStorage.getItem('userId'));
 
   private _currentUserSubmissionSrc$$ = new BehaviorSubject<UserSubmissionResponse[]>([]);
   private _loadingService = inject(LoadingService)
@@ -32,8 +32,8 @@ export class SubMissionStateService {
   }
 
   getUserSubmissions() {
-    const userId =this._currentUserId && this._currentUserId >0? this._currentUserId: Number(sessionStorage.getItem('userId'));
-    if(userId){
+    const userId = this._currentUserId && this._currentUserId > 0 ? this._currentUserId : Number(sessionStorage.getItem('userId'));
+    if (userId) {
       return this._submissionService.fetchSubmissionsByUser(userId).pipe(tap(res => {
         this.setCurrentUserSubmission(res);
       }));
@@ -41,7 +41,7 @@ export class SubMissionStateService {
     return EMPTY;
   }
 
-  getUserSubmissionsScore(){
+  getUserSubmissionsScore() {
     return this._submissionService.getSubmissionsScores(this._currentUserId).pipe(tap(res => {
       this._loadingService.setLoading(true)
     }));
