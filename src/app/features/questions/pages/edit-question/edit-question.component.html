@@ -25,9 +25,17 @@
             <label class="input__label">Question<sup>*</sup></label>
             <input formControlName="text" class="input__field" placeholder="enter question" />
           </div>
+          <div class="form__col">
+            <label class="input__label">Question Order<sup>*</sup></label>
+            <input type="number" formControlName="order" class="input__field" placeholder="How this question is ordered" />
+          </div>
         </div>
       </div>
-
+      <div class="input__wrapper">
+        <label class="input__label">Why we ask for this information</label>
+        <textarea formControlName="tooltip" class="input__field" placeholder="Help the user understand why we collect this information"
+                  rows="5"></textarea>
+      </div>
       <div class="input__wrapper">
         <label class="input__label">Question Type<sup>*</sup></label>
         <div class="input__group">

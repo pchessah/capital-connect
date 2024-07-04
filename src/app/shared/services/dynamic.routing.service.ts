@@ -14,6 +14,7 @@ import { GrowthStage } from "../../features/organization/interfaces";
 import { QuestionsService } from "../../features/questions/services/questions/questions.service";
 import { combineLatest, Observable, of } from "rxjs";
 import { CompanyStateService } from "../../features/organization/services/company-state.service";
+import {Router} from "@angular/router";
 
 @Injectable({
   providedIn: 'root'
@@ -23,74 +24,109 @@ export class DynamicRoutingService {
   private _submissionStateService = inject(SubMissionStateService);
   private _questionService = inject(QuestionsService);
   private _companyStateService = inject(CompanyStateService)
-  private _userSubmissions$ = this._submissionStateService.getUserSubmissions();
+  private _route =inject(Router)
 
 
   testGetUserSubmissions() {
-  
-    const companyGrowthStage = this._companyStateService.currentCompany.growthStage;
 
+    const companyGrowthStage = this._companyStateService.currentCompany.growthStage;
+    const userSubmissions$ = this._submissionStateService.getUserSubmissions();
     const questionsOfBusinessFinancials$ = this._questionService.testGetSectionQuestions(BUSINESS_FINANCIALS_SUBSECTION_IDS.ID);
-    const questionsOfInvestorEligibilty$ = this._questionService.testGetSectionQuestions(getInvestorEligibilitySubsectionIds(companyGrowthStage).ID);
+    const INVESTOR_ELIGIBILITY_SUBSECTION_IDS =getInvestorEligibilitySubsectionIds(companyGrowthStage)
+    const questionsOfInvestorEligibilty$ = this._questionService.testGetSectionQuestions(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ID);
     const questionsOfInvestorPreparedness$ = this._questionService.testGetSectionQuestions(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID);
 
-    const init$ = 
-    combineLatest([this._userSubmissions$, questionsOfBusinessFinancials$, questionsOfInvestorEligibilty$, questionsOfInvestorPreparedness$])
-        .pipe(map(([userSubmissions, questionsOfBusinessFinancials, questionsOfInvestorEligibilty, questionsOfInvestorPreparedness]) => {
+    const init$ =
+    userSubmissions$.pipe(
+      switchMap((submissions) => {
+        return combineLatest([userSubmissions$, questionsOfBusinessFinancials$, questionsOfInvestorEligibilty$, questionsOfInvestorPreparedness$])
+          .pipe(map(([userSubmissions, questionsOfBusinessFinancials, questionsOfInvestorEligibilty, questionsOfInvestorPreparedness]) => {
 
-      const userSubmissionQuestionIds = new Set(userSubmissions.map(us => us.question.id));
+            const userSubmissionQuestionIds = userSubmissions.map(us => us.question.id);
+            const missingBusinessFinancialSubsectionIds = questionsOfBusinessFinancials
+              .filter(question => !userSubmissionQuestionIds.includes(question.id))
+              .map(question => question.subSection.id);
 
-      const missingBusinessFinancialSubsectionIds = questionsOfBusinessFinancials
-        .filter(question => !userSubmissionQuestionIds.has(question.id))
-        .map(question => question.subSection.id);
+            if (missingBusinessFinancialSubsectionIds.length > 0) {
+              const url ='/business/financials'
+              if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.LANDING)) {
+                this._route.navigateByUrl(url, {state: {data: {page: 1, step: 1}}})
+              }else if(missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_ONE)){
+                this._route.navigateByUrl(url, {state: {data: {page: 2, step: 1}}})
+              }
+              else if(missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_TWO)){
+                this._route.navigateByUrl(url, {state: {data: {page: 2, step: 2}}})
+              }
+              else if(missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_THREE)){
+                this._route.navigateByUrl(url, {state: {data: {page: 2, step: 3}}})
+              }
+              return (false)
+            }
 
-      if (missingBusinessFinancialSubsectionIds.length > 0) {
-        //Route to missing subsection step
-      debugger
-        return (false)
-      }
+            const missingInvestorEligibilitySubsectionIds = questionsOfInvestorEligibilty.filter(question => !userSubmissionQuestionIds.includes(question.id))
+              .map(question => question.subSection.id);
 
-      const missingInvestorEligibilitySubsectionIds = questionsOfInvestorEligibilty.filter(question => !userSubmissionQuestionIds.has(question.id))
-        .map(question => question.subSection.id);
+            if (missingInvestorEligibilitySubsectionIds.length > 0) {
+              const url ='/business/investor-eligibility'
+              if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.LANDING)) {
+                this._route.navigateByUrl(url, {state: {data: {page: 1, step: 1}}})
+              }else if(missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_ONE)){
+                this._route.navigateByUrl(url, {state: {data: {page: 2, step: 1}}})
+              }
+              else if(missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_TWO)){
+                this._route.navigateByUrl(url, {state: {data: {page: 2, step: 2}}})
+              }
+              else if(missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_THREE)){
+                this._route.navigateByUrl(url, {state: {data: {page: 2, step: 3}}})
+              }
+              return (false)
+            }
 
-      if (missingInvestorEligibilitySubsectionIds.length > 0) {
-        //Route to missing investor eligibilty  subsection
-        debugger
-        return (false)
-      }
+            const missingInvestorPreparednessSubsectionIds = questionsOfInvestorPreparedness.filter(question => !userSubmissionQuestionIds.includes(question.id))
+              .map(question => question.subSection.id);
 
-      const missingInvestorPreparednessSubsectionIds = questionsOfInvestorPreparedness.filter(question => !userSubmissionQuestionIds.has(question.id))
-        .map(question => question.subSection.id);
+            if (missingInvestorPreparednessSubsectionIds.length > 0) {
+              const url ='/business/financials'
+              if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.LANDING)) {
+                this._route.navigateByUrl(url, {state: {data: {page: 1, step: 1}}})
+              }else if(missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_ONE)){
+                this._route.navigateByUrl(url, {state: {data: {page: 2, step: 1}}})
+              }
+              else if(missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_TWO)){
+                this._route.navigateByUrl(url, {state: {data: {page: 2, step: 2}}})
+              }
+              else if(missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_THREE)){
+                this._route.navigateByUrl(url, {state: {data: {page: 2, step: 3}}})
+              }
+              return (false)
+            }
 
-      if (missingInvestorPreparednessSubsectionIds.length > 0) {
-        debugger
-        //Route to missing investor preparedness  subsection
-        return (false)
-      }
+            //route to dashboard
 
-      //route to dashboard
-      debugger
-      return true
+            return true
 
 
-    }))
+          }))
+      })
+    )
+
 
     return init$
   }
 
 testGetInvestorSubmission() {
   const questionsOfInvestorOnboarding$ = this._questionService.testGetSectionQuestions(INVESTOR_ONBOARDING_SUBSECTION_IDS.ID);
-
-  const init$ = combineLatest([this._userSubmissions$,questionsOfInvestorOnboarding$]).pipe(map(([userSubmissions, questionsOfInvestorOnboarding]) => {
- const userSubmissionQuestionIds = new Set(userSubmissions.map(us => us.question.id));
+  const userSubmissions$ =this._submissionStateService.getUserSubmissions()
+  const init$ = combineLatest([userSubmissions$,questionsOfInvestorOnboarding$]).pipe(map(([userSubmissions, questionsOfInvestorOnboarding]) => {
+ const userSubmissionQuestionIds = userSubmissions.map(us => us.question.id);
 
       const missingInvestorOnboardingIds = questionsOfInvestorOnboarding
-        .filter(question => !userSubmissionQuestionIds.has(question.id))
+        .filter(question => !userSubmissionQuestionIds.includes(question.id))
         .map(question => question.subSection.id);
 
       if (missingInvestorOnboardingIds.length > 0) {
         //Route to missing subsection step
-      debugger
+
         return (false)
       }
 

@@ -32,6 +32,8 @@ export interface Section {
 export interface Question {
   text: string;
   type: QuestionType;
+  tooltip: string,
+  order: number;
   subSection: {
     id: number;
   }
