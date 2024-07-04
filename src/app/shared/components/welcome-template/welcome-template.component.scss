@@ -54,6 +54,7 @@
 @include when-screen-is-atleast(large) {
   .main__section {
     display: grid;
+    gap:3rem;
     padding: 2rem 1rem;
     .hero__section {
       display: block;

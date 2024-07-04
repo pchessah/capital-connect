@@ -28,9 +28,6 @@ export class StepThreeComponent {
   formGroup: FormGroup =this._formBuilder.group({})
   field_type =QuestionType;
   private _submissionStateService = inject(SubMissionStateService)
-  // subsections$ = this._questionService.getSubSectionsOfaSection(5).pipe(tap(res => {
-  //   debugger
-  // }))
 
   submission$ =new Observable<unknown>();
   questions$ =  this._questionService.getQuestionsOfSubSection(loadInvestorEligibilityQuestions().STEP_THREE).pipe(tap(questions => {
@@ -39,11 +36,6 @@ export class StepThreeComponent {
   }))
 
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
-  // init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-  //   if(this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
-  //     this.setNextStep();
-  //   }
-  // }))
 
   private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
     // Create a set of question ids from the responses array
@@ -66,7 +58,6 @@ export class StepThreeComponent {
   }
 
   handleSubmit(){
-
     const formValues =this.formGroup.value;
     const submissionData = this.questions.map(question => {
       const questionId =question.id;
