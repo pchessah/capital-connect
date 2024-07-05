@@ -2,10 +2,13 @@ import {Component, inject} from '@angular/core';
 import {Router, RouterLink} from "@angular/router";
 import {Observable, tap} from "rxjs";
 import {AuthStateService} from "../../../../auth/services/auth-state.service";
-import {SubmissionService} from "../../../../../shared";
 import {FeedbackService} from "../../../../../core";
 import { CommonModule} from "@angular/common";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
+import {BusinessOnboardingScoringService} from "../../../../../shared/services/business.onboarding.scoring.service";
+import {
+  INVESTOR_PREPAREDNESS_SUBSECTION_IDS
+} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-success-screen',
@@ -22,15 +25,13 @@ export class SuccessScreenComponent {
   private  _router =inject(Router);
   private _pageService = inject(BusinessPageService);
   private _authStateService =inject(AuthStateService);
-  private _currentUserId: number =this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId()  : Number(sessionStorage.getItem('userId'));;
-  private _submissionService =inject(SubmissionService);
+  private _scoringService =inject(BusinessOnboardingScoringService);
   private _feedBackService =inject(FeedbackService);
-  
   currentUserName = this._authStateService.currentUserName()
 
   calculateScore() {
-    this.score$ =this._submissionService.calculateScoreOfUser(this._currentUserId).pipe(tap(res =>{
-      this._feedBackService.info(`Your Score is: ${res.score}`, `Your Eligibility Score`)
+    this.score$ =this._scoringService.getSectionScore(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID).pipe(tap(res =>{
+      this._feedBackService.info(`Your Score is: ${res}%`, `Your Eligibility Score`)
     }));
 
   }

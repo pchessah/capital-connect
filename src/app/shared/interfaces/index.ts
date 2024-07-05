@@ -3,3 +3,7 @@ export interface MatchedBusiness {
   businessSector: string,
   growthStage: string
 }
+
+export interface MatchedInvestor {
+  name: string
+}

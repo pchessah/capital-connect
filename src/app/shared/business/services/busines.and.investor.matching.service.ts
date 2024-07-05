@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 import { BASE_URL, BaseHttpService } from "../../../core";
 import { Score } from "./onboarding.questions.service";
-import { MatchedBusiness } from "../../interfaces";
+import {MatchedBusiness, MatchedInvestor} from "../../interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -14,20 +14,28 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
     super(_httpClient);
   }
 
-  getMatchedInvestors() {
-    return new Observable<{ count?: 0 }>();
+  getMatchedInvestors(userId: number) {
+    return this.readById(`${BASE_URL}/company/business-matches`, userId).pipe(map(res => {
+      return res as MatchedInvestor[]
+    }))
   }
 
   getMatchedBusinesses(investorId: number) {
     return this.readById(`${BASE_URL}/company/invesetor-matches`, investorId).pipe(map(res => {
-      return res as MatchedBusiness[]
+      return res as  MatchedBusiness[]
     }))
   }
 
-  getUserScores(userId: number, sectionId: number): Observable<Score> {
+  getOnboardingScores(userId: number): Observable<Score[]> {
+    return this.read(`${BASE_URL}/submissions/user/${userId}/score`).pipe((map(res  => {
+      // @ts-ignore
+      return res.score as Score[];
+    })))
+  }
+
+  getSectionScore(userId: number, sectionId: number): Observable<Score> {
     return this.read(`${BASE_URL}/submissions/user/${userId}/score/${sectionId}`).pipe((map(res => {
       return res;
     }))) as unknown as Observable<Score>
   }
-
 }
