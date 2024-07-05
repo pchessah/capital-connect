@@ -7,6 +7,7 @@ import {
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS
 } from "../business/services/onboarding.questions.service";
 import {CompanyStateService} from "../../features/organization/services/company-state.service";
+import {MatchedInvestor} from "../interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,7 @@ export class BusinessOnboardingScoringService {
     }))
   }
   getMatchedInvestors() {
-    return this._scoringService.getMatchedInvestors(this._userId).pipe(map((investors:any[]) =>{
+    return this._scoringService.getMatchedInvestors(this._userId).pipe(map((investors:MatchedInvestor[]) =>{
       return investors
     }))
   }
