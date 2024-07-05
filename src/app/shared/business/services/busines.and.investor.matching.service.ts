@@ -22,15 +22,15 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
 
   getMatchedBusinesses(investorId: number) {
     return this.readById(`${BASE_URL}/company/invesetor-matches`, investorId).pipe(map(res => {
-      return res as  []
+      return res as  any[]
     }))
   }
 
-  getOnboardingScores(userId: number): Observable<Score> {
-    return this.read(`${BASE_URL}/submissions/user/${userId}/score`).pipe((map(res => {
-      debugger
-      return res;
-    }))) as unknown as Observable<Score>
+  getOnboardingScores(userId: number): Observable<Score[]> {
+    return this.read(`${BASE_URL}/submissions/user/${userId}/score`).pipe((map(res  => {
+      // @ts-ignore
+      return res.score as Score[];
+    })))
   }
 
   getSectionScore(userId: number, sectionId: number): Observable<Score> {
