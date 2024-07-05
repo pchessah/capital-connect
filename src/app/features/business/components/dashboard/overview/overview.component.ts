@@ -23,7 +23,8 @@ import {BusinessOnboardingScoringService} from "../../../../../shared/services/b
 })
 export class OverviewComponent {
   visible = false;
-  matchedInvestors: number = 0;
+  investorsDiagVisible =false;
+  matchedInvestors: any[] = [];
   investorEligibilityScore: string = '0';
   investorPreparednessScore: string = '0';
 
@@ -35,7 +36,7 @@ export class OverviewComponent {
   currentCompany = this._companyService.currentCompany;
 
   stats$ = this._scoringService.getMatchedInvestors().pipe(tap(res => {
-    this.matchedInvestors = res.length;
+    this.matchedInvestors = res;
   }))
 
   scoring$ = this._scoringService.getOnboardingScores().pipe(tap(scores => {
@@ -44,6 +45,10 @@ export class OverviewComponent {
   }))
 
   showDialog() {
-    this.visible = true;
+    this.visible = !this.visible;
+  }
+
+  showMatchedInvestors() {
+    this.investorsDiagVisible = !this.investorsDiagVisible;
   }
 }
