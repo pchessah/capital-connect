@@ -6,7 +6,9 @@ import { tap } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { ModalComponent } from "../../../../../shared/components/modal/modal.component";
 import { CompanyStateService } from "../../../../organization/services/company-state.service";
-import {BusinessOnboardingScoringService} from "../../../../../shared/services/business.onboarding.scoring.service";
+import { BusinessOnboardingScoringService } from "../../../../../shared/services/business.onboarding.scoring.service";
+
+import { MatchedInvestor } from "../../../../../shared/interfaces";
 
 @Component({
   selector: 'app-overview',
@@ -23,8 +25,8 @@ import {BusinessOnboardingScoringService} from "../../../../../shared/services/b
 })
 export class OverviewComponent {
   visible = false;
-  investorsDiagVisible =false;
-  matchedInvestors: any[] = [];
+  investorsDiagVisible = false;
+  matchedInvestors: MatchedInvestor[] = [];
   investorEligibilityScore: string = '0';
   investorPreparednessScore: string = '0';
 

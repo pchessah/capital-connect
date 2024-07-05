@@ -3,7 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { map, Observable } from "rxjs";
 import { BASE_URL, BaseHttpService } from "../../../core";
 import { Score } from "./onboarding.questions.service";
-import { MatchedBusiness } from "../../interfaces";
+import {MatchedBusiness, MatchedInvestor} from "../../interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -16,13 +16,13 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
 
   getMatchedInvestors(userId: number) {
     return this.readById(`${BASE_URL}/company/business-matches`, userId).pipe(map(res => {
-      return res as any[]
+      return res as MatchedInvestor[]
     }))
   }
 
   getMatchedBusinesses(investorId: number) {
     return this.readById(`${BASE_URL}/company/invesetor-matches`, investorId).pipe(map(res => {
-      return res as  any[]
+      return res as  MatchedBusiness[]
     }))
   }
 
