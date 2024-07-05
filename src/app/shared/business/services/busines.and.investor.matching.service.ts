@@ -14,20 +14,28 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
     super(_httpClient);
   }
 
-  getMatchedInvestors() {
-    return new Observable<{ count?: 0 }>();
+  getMatchedInvestors(userId: number) {
+    return this.readById(`${BASE_URL}/company/business-matches`, userId).pipe(map(res => {
+      return res as any[]
+    }))
   }
 
   getMatchedBusinesses(investorId: number) {
     return this.readById(`${BASE_URL}/company/invesetor-matches`, investorId).pipe(map(res => {
-      return res as MatchedBusiness[]
+      return res as  []
     }))
   }
 
-  getUserScores(userId: number, sectionId: number): Observable<Score> {
-    return this.read(`${BASE_URL}/submissions/user/${userId}/score/${sectionId}`).pipe((map(res => {
+  getOnboardingScores(userId: number): Observable<Score> {
+    return this.read(`${BASE_URL}/submissions/user/${userId}/score`).pipe((map(res => {
+      debugger
       return res;
     }))) as unknown as Observable<Score>
   }
 
+  getSectionScore(userId: number, sectionId: number): Observable<Score> {
+    return this.read(`${BASE_URL}/submissions/user/${userId}/score/${sectionId}`).pipe((map(res => {
+      return res;
+    }))) as unknown as Observable<Score>
+  }
 }
