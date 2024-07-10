@@ -8,21 +8,53 @@
       }
       @else{
         @if(activeForm === forms.SIGNUP) {
-          <div class="tabs">
-            <button [class.active]="true" (click)="setActiveForm(forms.SIGNUP)">Sign Up</button>
-            <button (click)="setActiveForm(forms.SIGNIN)">Sign In</button>
-          </div>
+          <h3 class="form__role__label">Sign Up</h3>
           <app-sign-up-form (changeFormTypeEvent)="setActiveForm(forms.SIGNIN)" />
         }
         @else if(activeForm == forms.SIGNIN) {
           <h3 class="form__role__label">Sign In</h3>
-          <div class="tabs">
-            <button (click)="setActiveForm(forms.SIGNUP)">Sign Up</button>
-            <button [class.active]="true" (click)="setActiveForm(forms.SIGNIN)">Sign In</button>
-          </div>
+     
           <app-log-in-form (goToForgetPasswordScreenEvent)="setActiveForm(forms.FORGOT_PASSWORD)"/>
         }
+
+        <span class="or">
+          or
+        </span>
+
+        <div class="btn-container">
+          <button [class.active]="true" class="btn btn-success-alt " (click)="activeForm === forms.SIGNUP ? setActiveForm(forms.SIGNIN) : setActiveForm(forms.SIGNUP)">
+            {{ activeForm === forms.SIGNUP? 'Sign In' : 'Sign Up' }}
+          </button>
+        </div>
       }
+
+ 
+   
+
+      <div class="footer-links">
+        <a href="https://corporate.capitalconnect.africa/" target="_blank" class="footer-link" class="muted__action__link">
+          Home Page
+        </a>
+        
+        <a href="https://corporate.capitalconnect.africa/terms-and-conditions/" target="_blank" class="footer-link" class="muted__action__link">
+          Terms and Conditions
+        </a>
+      </div>
+
+      <div class="social-links">
+        <a href="https://www.facebook.com/people/Capital-Connect-Africa/61560887034410/" target="_blank" class="social-link">
+          <i class="pi pi-facebook"></i>
+        </a>
+        <a href="https://www.instagram.com/capital_connect_africa/" target="_blank" class="social-link">
+          <i class="pi pi-instagram"></i>
+        </a>
+        <a href="https://www.linkedin.com/company/capital-connect-africa?originalSubdomain=ke" target="_blank" class="social-link">
+          <i class="pi pi-linkedin"></i>
+        </a>
+        <a href="https://x.com/maliaccess" target="_blank" class="social-link">
+          <i class="pi pi-twitter"></i> 
+        </a>
+      </div>
 
     </div>
   </section>
