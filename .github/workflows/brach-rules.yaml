@@ -1,0 +1,22 @@
+name: Enforce Branch Protection
+
+on:
+  push:
+    branches:
+      - staging
+      - master
+
+jobs:
+  prevent-direct-push:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Prevent Direct Push
+      if: github.event_name == 'push' && github.ref == 'refs/heads/staging'
+      run: |
+        echo "Direct pushes to the staging branch are not allowed. Please use a pull request." && exit 1
+
+    - name: Prevent Direct Push
+      if: github.event_name == 'push' && github.ref == 'refs/heads/master'
+      run: |
+        echo "Direct pushes to the master branch are not allowed. Please use a pull request." && exit 1
