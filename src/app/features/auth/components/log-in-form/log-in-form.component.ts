@@ -18,14 +18,15 @@ import { LoadingService } from '../../../../core';
   styleUrl: './log-in-form.component.scss'
 })
 export class LogInFormComponent {
-  @Output() goToForgetPasswordScreenEvent = new EventEmitter();
+  
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
   private _authService = inject(AuthService);
   private _dynamicRoutingService = inject(DynamicRoutingService);
   private _organizationService = inject(OrganizationOnboardService);
   private _loadingService = inject(LoadingService)
-
+  
+  @Output() goToForgetPasswordScreenEvent = new EventEmitter();
   logIn$ = new Observable<unknown>();
   routing$ = new Observable<unknown>();
 
