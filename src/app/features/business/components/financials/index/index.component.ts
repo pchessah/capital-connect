@@ -1,16 +1,16 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { combineLatest, Observable } from 'rxjs';
+import { Router } from "@angular/router";
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
 import { BusinessPageService } from '../../../services/business-page/business.page.service';
 import { QuestionsService } from '../../../../questions/services/questions/questions.service';
-import {Question, QuestionType} from '../../../../questions/interfaces';
-import {Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse} from '../../../../../shared';
-import {Router} from "@angular/router";
-import {BUSINESS_FINANCIALS_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
-import {DropdownModule} from "primeng/dropdown";
-import {MultiSelectModule} from "primeng/multiselect";
+import { Question, QuestionType } from '../../../../questions/interfaces';
+import { Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse } from '../../../../../shared';
+import { BUSINESS_FINANCIALS_SUBSECTION_IDS } from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-index',
@@ -25,10 +25,11 @@ export class IndexComponent {
   private _submissionService = inject(SubmissionService);
   private _submissionStateService = inject(SubMissionStateService)
   private _formBuilder = inject(FormBuilder);
-  private _router =inject(Router);
+  private _router = inject(Router);
 
-  field_type =QuestionType
+  field_type = QuestionType
   formGroup: FormGroup = this._formBuilder.group({});
+
   questions$ = this._questionService.getQuestionsOfSubSection(BUSINESS_FINANCIALS_SUBSECTION_IDS.LANDING).pipe(
     tap(questions => {
       this.questions = questions;
@@ -49,17 +50,17 @@ export class IndexComponent {
     return questions.some(question => responseQuestionIds.has(question.id));
   }
 
-   private _createFormControls() {
-     this.questions.forEach(question => {
-       if (question.type === this.field_type.MULTIPLE_CHOICE) {
-         this.formGroup.addControl('question_' + question.id, this._formBuilder.control([], Validators.required));
-       } else {
-         this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
-       }
-     });
+  private _createFormControls() {
+    this.questions.forEach(question => {
+      if (question.type === this.field_type.MULTIPLE_CHOICE) {
+        this.formGroup.addControl('question_' + question.id, this._formBuilder.control([], Validators.required));
+      } else {
+        this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
+      }
+    });
   }
 
-  onSubmit(){
+  onSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
     this.questions.forEach(question => {
@@ -72,9 +73,9 @@ export class IndexComponent {
             text: ''
           });
         });
-      }else if(question.type ==this.field_type.SHORT_ANSWER){
+      } else if (question.type == this.field_type.SHORT_ANSWER) {
         const openQuestion = question.answers.find(a => a.text === 'OPEN');
-        const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
+        const answerId = openQuestion ? openQuestion.id : formValues['question_' + question.id]
 
         submissionData.push({
           questionId: question.id,

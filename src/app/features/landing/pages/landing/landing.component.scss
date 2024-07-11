@@ -1,1 +1,54 @@
 @import '../../../auth/styles/form.section';
+
+.form__section {
+  height: 80vh;
+}
+
+
+.or {
+  width: 100%;
+  text-align: center;
+}
+
+.btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  button {
+    width: 100%;
+  }
+}
+
+.forms__group{
+  padding-bottom: 1rem !important;
+}
+
+.footer-links, .social-links {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.footer-link, .social-link {
+  text-decoration: none;
+  font-size: 14px;
+  margin: 1rem;
+}
+
+.footer-links{
+  justify-content: space-between;
+  font-size: small;
+}
+
+.social-link i {
+  font-size: 20px;
+}
+
+/* Additional styles for hover effects */
+.footer-link:hover, .social-link:hover {
+  color: #007bff;
+}
+
+.muted__action__link{
+  color: $gray-550;
+}

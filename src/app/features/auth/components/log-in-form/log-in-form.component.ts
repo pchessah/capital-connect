@@ -18,7 +18,7 @@ import { LoadingService } from '../../../../core';
   styleUrl: './log-in-form.component.scss'
 })
 export class LogInFormComponent {
-  @Output() goToForgetPasswordScreenEvent = new EventEmitter();
+
   private _formBuilder = inject(FormBuilder);
   private _router = inject(Router);
   private _authService = inject(AuthService);
@@ -26,6 +26,7 @@ export class LogInFormComponent {
   private _organizationService = inject(OrganizationOnboardService);
   private _loadingService = inject(LoadingService)
 
+  @Output() goToForgetPasswordScreenEvent = new EventEmitter();
   logIn$ = new Observable<unknown>();
   routing$ = new Observable<unknown>();
 
@@ -46,9 +47,10 @@ export class LogInFormComponent {
   }
 
   submitCredentials() {
-    this._loadingService.setLoading(true)
+    this._loadingService.setLoading(true);
+
     const credentials = { username: this.signInForm.value.email as string, password: this.signInForm.value.password as string };
-    //{role, access_token}
+
     this.logIn$ = this._authService.login(credentials).pipe(switchMap((profile) => {
 
       switch (profile.roles as USER_ROLES) {
@@ -56,7 +58,7 @@ export class LogInFormComponent {
           return this._organizationService.getCompanyOfUser().pipe(
             switchMap(company => {
               if (company) {
-                return this._dynamicRoutingService.testGetUserSubmissions()
+                return this._dynamicRoutingService.getUserSubmissions()
               } else {
                 this._router.navigateByUrl('/organization/setup')
                 this._loadingService.setLoading(false)
@@ -66,7 +68,7 @@ export class LogInFormComponent {
           )
 
         case USER_ROLES.INVESTOR:
-          return this._dynamicRoutingService.testGetInvestorSubmission()
+          return this._dynamicRoutingService.getInvestorSubmissions()
 
         case USER_ROLES.ADMIN:
           this._router.navigateByUrl('/questions');
