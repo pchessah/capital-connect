@@ -10,6 +10,8 @@ import { BusinessOnboardingScoringService } from "../../../../../shared/services
 import { MatchedInvestor } from "../../../../../shared/interfaces";
 import { PdfGeneratorService } from '../../../../../shared/services/pdf-generator.service';
 import { SubMissionStateService } from '../../../../../shared';
+import { UserSubmissionResponse } from '../../../../../shared';
+import { GeneralSummary } from '../../../../../shared';
 
 @Component({
   selector: 'app-overview',
@@ -31,9 +33,9 @@ export class OverviewComponent {
   matchedInvestors: MatchedInvestor[] = [];
   investorEligibilityScore: string = '0';
   investorPreparednessScore: string = '0';
-  answers: any[] = [];
-  userId: number = 333;
-  generalSummary : any;
+  answers: UserSubmissionResponse[] = [];
+  generalSummary!: GeneralSummary;
+
 
   private _companyService = inject(CompanyStateService);
   private _scoringService = inject(BusinessOnboardingScoringService);
@@ -54,11 +56,7 @@ export class OverviewComponent {
   }))
 
   submissions$ = this._submissionStateService.getUserSubmissionsPerSection().pipe(tap(submissions => {
-    if(submissions[0]?.question?.type === "SHORT_ANSWER"){
-      this.answers = submissions
-    }else{
-      this.answers = submissions
-    } 
+    this.answers = submissions
   }))
 
   preparednessScore = parseFloat(this.investorPreparednessScore); 
