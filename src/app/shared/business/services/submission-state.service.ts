@@ -4,6 +4,8 @@ import { AuthStateService } from '../../../features/auth/services/auth-state.ser
 import { BehaviorSubject, EMPTY, tap } from 'rxjs';
 import { UserSubmissionResponse } from '../../interfaces/submission.interface';
 import { LoadingService } from '../../../core';
+import { getInvestorEligibilitySubsectionIds } from './onboarding.questions.service';
+import { CompanyStateService } from '../../../features/organization/services/company-state.service';
 
 @Injectable({ providedIn: 'root' })
 export class SubMissionStateService {
@@ -15,6 +17,7 @@ export class SubMissionStateService {
 
   private _currentUserSubmissionSrc$$ = new BehaviorSubject<UserSubmissionResponse[]>([]);
   private _loadingService = inject(LoadingService)
+  private _companyService = inject(CompanyStateService)
 
   currentUserSubmission$ = this._currentUserSubmissionSrc$$.asObservable();
 
@@ -35,6 +38,17 @@ export class SubMissionStateService {
     const userId = this._currentUserId && this._currentUserId > 0 ? this._currentUserId : Number(sessionStorage.getItem('userId'));
     if (userId) {
       return this._submissionService.fetchSubmissionsByUser(userId).pipe(tap(res => {
+        this.setCurrentUserSubmission(res);
+      }));
+    }
+    return EMPTY;
+  }
+
+  getUserSubmissionsPerSection() {
+    const sectionId = getInvestorEligibilitySubsectionIds(this._companyService.currentCompany.growthStage)
+    const userId = this._currentUserId && this._currentUserId > 0 ? this._currentUserId : Number(sessionStorage.getItem('userId'));
+    if (userId) {
+      return this._submissionService.fetchSubmissionsByUserPerSection(userId,sectionId.ID).pipe(tap(res => {
         this.setCurrentUserSubmission(res);
       }));
     }
