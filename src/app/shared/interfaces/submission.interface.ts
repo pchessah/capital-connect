@@ -24,5 +24,5 @@ export interface UserSubmissionResponse {
   id: number;
   answer: Answer;
   question: Question;
-
+  text: string;
 }
