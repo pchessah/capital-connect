@@ -16,27 +16,6 @@
 </app-overview-section>
 
 <app-modal  [visible] ="visible" [title]="'Your Investor Ready Report'" [helperText] ="'Below is your investor readiness Summary'">
-  <div   *ngIf="false" class="flex flex-col diag-body gap-[.5rem]">
-    <h3 class="sub-title">{{ currentCompany.name }}</h3>
-    <p>Country - {{ currentCompany.country }} </p>
-    <p>Sector - {{ currentCompany.businessSector }}</p>
-    <h3 class="sub-title">Investor  Preparedness score</h3>
-    <h2 class="score-value">{{investorPreparednessScore}}%</h2>
-    <h3 class="sub-title">Investor  Eligibility score</h3>
-    <h2 class="score-value">{{investorEligibilityScore}}%</h2>
-
-    <h3 class="sub-title">Submissions</h3>
-    <p class="">{{answers}}</p>
-
-  </div>
-
-
-
-
-
-
-
-
 
 <div  #content>  
     <main>
