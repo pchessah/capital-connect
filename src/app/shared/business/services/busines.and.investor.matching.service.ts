@@ -38,4 +38,10 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
       return res;
     }))) as unknown as Observable<Score>
   }
+
+  getGeneralSummary(score: number, type: string): Observable<Score> {
+    return this.read(`${BASE_URL}/scorings/score/${score}?type=${type}`).pipe((map(res => {
+      return res;
+    }))) as unknown as Observable<Score>
+  }
 }
