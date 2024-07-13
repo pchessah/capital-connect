@@ -47,6 +47,14 @@ export class SubmissionService extends BaseHttpService {
     }))) as Observable<UserSubmissionResponse[]>;
   }
 
+  // http://api.capitalconnect.africa/submissions/user/6/section/1
+  fetchSubmissionsByUserPerSection(userId: number,section:number): Observable<UserSubmissionResponse[]> {
+    return this.read(`${BASE_URL}/submissions/user/${userId}/section/${section}`).pipe((map(res => {
+      return res
+
+    }))) as Observable<UserSubmissionResponse[]>;
+  }
+
   calculateScoreOfUser(userId: number) {
     return this._httpClient.get(`${BASE_URL}/submissions/user/${userId}/score`) as Observable<{ score: number }>
   }

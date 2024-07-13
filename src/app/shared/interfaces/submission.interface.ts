@@ -24,5 +24,16 @@ export interface UserSubmissionResponse {
   id: number;
   answer: Answer;
   question: Question;
+  text: string;
+  explanation : string;
+}
 
+export interface GeneralSummary{
+  id: number,
+  score: string,
+  comment: string,
+  implication: string,
+  action: string,
+  recommendation : string
+  type : string
 }

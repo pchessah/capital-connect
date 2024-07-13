@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject , ViewChild, ElementRef} from '@angular/core';
 import { OverviewSectionComponent } from "../../../../../shared/components/overview-section/overview-section.component";
 import { CardComponent } from "../../../../../shared/components/card/card.component";
 import { PhotoCollageComponent } from "../photo-collage/photo-collage.component";
@@ -7,8 +7,11 @@ import { CommonModule } from "@angular/common";
 import { ModalComponent } from "../../../../../shared/components/modal/modal.component";
 import { CompanyStateService } from "../../../../organization/services/company-state.service";
 import { BusinessOnboardingScoringService } from "../../../../../shared/services/business.onboarding.scoring.service";
-
 import { MatchedInvestor } from "../../../../../shared/interfaces";
+import { PdfGeneratorService } from '../../../../../shared/services/pdf-generator.service';
+import { SubMissionStateService } from '../../../../../shared';
+import { UserSubmissionResponse } from '../../../../../shared';
+import { GeneralSummary } from '../../../../../shared';
 
 @Component({
   selector: 'app-overview',
@@ -24,15 +27,20 @@ import { MatchedInvestor } from "../../../../../shared/interfaces";
   styleUrl: './overview.component.scss'
 })
 export class OverviewComponent {
+  @ViewChild('content', { static: false }) content!: ElementRef;
   visible = false;
   investorsDiagVisible = false;
   matchedInvestors: MatchedInvestor[] = [];
   investorEligibilityScore: string = '0';
   investorPreparednessScore: string = '0';
+  answers: UserSubmissionResponse[] = [];
+  generalSummary!: GeneralSummary;
 
 
   private _companyService = inject(CompanyStateService);
   private _scoringService = inject(BusinessOnboardingScoringService);
+  private _pdfService = inject(PdfGeneratorService)
+  private _submissionStateService = inject(SubMissionStateService)
 
 
   currentCompany = this._companyService.currentCompany;
@@ -44,6 +52,16 @@ export class OverviewComponent {
   scoring$ = this._scoringService.getOnboardingScores().pipe(tap(scores => {
     this.investorEligibilityScore = scores.investorEligibility;
     this.investorPreparednessScore = scores.investorPreparedness;
+    
+  }))
+
+  submissions$ = this._submissionStateService.getUserSubmissionsPerSection().pipe(tap(submissions => {
+    this.answers = submissions
+  }))
+
+  preparednessScore = parseFloat(this.investorPreparednessScore); 
+  generalSummary$ = this._scoringService.getGeneralSummary(this.preparednessScore,"PREPAREDNESS").pipe(tap(generalSummary => {
+    this.generalSummary = generalSummary
   }))
 
   showDialog() {
@@ -53,4 +71,14 @@ export class OverviewComponent {
   showMatchedInvestors() {
     this.investorsDiagVisible = !this.investorsDiagVisible;
   }
+
+  generatePDF() {
+    if (this.content && this.content.nativeElement) {
+      const contentElement = this.content.nativeElement;
+      this._pdfService.generatePDF(contentElement, 'InvestorReadyReport');
+    } else {
+      console.error('Content element is null or undefined.');
+    }
+  }
+
 }
