@@ -44,4 +44,13 @@ export class BusinessOnboardingScoringService {
       return Number(score.percentageScore).toFixed(1);
     }))
   }
+
+  getGeneralSummary(score:number, type:string) {
+    return this._scoringService.getGeneralSummary(score, type).pipe(map(generalSummary => {
+      return generalSummary
+    }))
+  }
+
+
+
 }

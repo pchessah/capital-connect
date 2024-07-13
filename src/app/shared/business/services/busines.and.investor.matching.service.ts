@@ -4,6 +4,7 @@ import { map, Observable } from "rxjs";
 import { BASE_URL, BaseHttpService } from "../../../core";
 import { Score } from "./onboarding.questions.service";
 import {MatchedBusiness, MatchedInvestor} from "../../interfaces";
+import { GeneralSummary } from "../../interfaces/submission.interface";
 
 @Injectable({
   providedIn: 'root'
@@ -37,5 +38,11 @@ export class BusinessAndInvestorMatchingService extends BaseHttpService {
     return this.read(`${BASE_URL}/submissions/user/${userId}/score/${sectionId}`).pipe((map(res => {
       return res;
     }))) as unknown as Observable<Score>
+  }
+
+  getGeneralSummary(score: number, type: string): Observable<GeneralSummary> {
+    return this.read(`${BASE_URL}/scorings/score/${score}?type=${type}`).pipe((map(res => {
+      return res;
+    }))) as unknown as Observable<GeneralSummary>
   }
 }
