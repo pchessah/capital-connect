@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { SharedModule } from "../../../../shared";
 import { UiComponent } from "../../components/ui/ui.component";
-import {RouterLink} from '@angular/router';
-import { QuestionsService } from '../../services/questions/questions.service';
+import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import {ReactiveFormsModule} from "@angular/forms";
+import { ReactiveFormsModule } from "@angular/forms";
 import { SectorCard } from '../../components/sector-card/sector-card.component';
+import { SectorsService } from '../../services/sectors/sectors.service';
 
 
 @Component({
@@ -24,12 +24,12 @@ import { SectorCard } from '../../components/sector-card/sector-card.component';
 })
 export class SavedResponseComponent {
 
-  private _questionService = inject(QuestionsService);
+  private _sectorService = inject(SectorsService);
 
 
-  sections$ = this._questionService.getAllSections()
+  sectors$ = this._sectorService.getAllSectors()
 
-  reFetchSections(){
-    this.sections$ = this._questionService.getAllSections();
+  reFetchSections() {
+    this.sectors$ = this._sectorService.getAllSectors();
   }
 }

@@ -1,74 +1,76 @@
 import { Component, inject } from '@angular/core';
 import { UiComponent } from "../../components/ui/ui.component";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { tap, switchMap, EMPTY, Observable } from 'rxjs';
-import { SubSection, Section } from '../../interfaces';
+import { SubSector, Sector } from '../../interfaces';
 import { FormStateService } from '../../services/form-state/form-state.service';
-import { QuestionsService } from '../../services/questions/questions.service';
+import { SectorsService } from '../../services/sectors/sectors.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
-    selector: 'app-edit-sector',
-    standalone: true,
-    templateUrl: './edit-sector.component.html',
-    styleUrl: './edit-sector.component.scss',
+  selector: 'app-edit-sector',
+  standalone: true,
+  templateUrl: './edit-sector.component.html',
+  styleUrl: './edit-sector.component.scss',
   imports: [UiComponent, CommonModule, ReactiveFormsModule]
 })
 export class EditSectorComponent {
+
   private _fb = inject(FormBuilder)
   private _router = inject(Router);
   private _formStateService = inject(FormStateService);
-  private _questionsService = inject(QuestionsService);
+  private _sectorService = inject(SectorsService);
   private _activatedRoute = inject(ActivatedRoute);
-  subsections: SubSection[] =[];
-  sectionForm: FormGroup = this._fb.group({
+
+  subsectors: SubSector[] = [];
+  sectorForm: FormGroup = this._fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required]
   });
 
-  sectionForm$ = this.sectionForm.valueChanges.pipe(tap(vals => {
-    this._formStateService.setSectionFormState(vals);
-    this._formStateService.setSectionFormIsValid(this.sectionForm.valid);
+  sectorForm$ = this.sectorForm.valueChanges.pipe(tap(vals => {
+    this._formStateService.setSectorFormState(vals);
+    this._formStateService.setSectorFormIsValid(this.sectorForm.valid);
   }))
 
-  isSectionFormValid$ = this._formStateService.sectionFormIsValid$.pipe(tap(isValid => {
-    this.isSectionFormValid = isValid;
+  isSectorFormValid$ = this._formStateService.sectorFormIsValid$.pipe(tap(isValid => {
+    this.isSectorFormValid = isValid;
   }))
 
-  fetchedSection$ = this._activatedRoute.paramMap .pipe(switchMap(params => {
+  fetchedSectors$ = this._activatedRoute.paramMap.pipe(switchMap(params => {
     const id = params.get('id');
-    this.sectionId = Number(id);
-    if(id) return  this._questionsService.getSingleSection(this.sectionId);
+    this.sectorId = Number(id);
+    if (id) return this._sectorService.getSingleSector(this.sectorId);
     return EMPTY
   }), tap(res => {
 
-    this.sectionForm.patchValue({
+    this.sectorForm.patchValue({
       name: res.name,
       description: res.description,
     });
     this.editMode = true
   }))
 
-  subSections$ = this._activatedRoute.paramMap .pipe(tap((res) =>{
+  subSections$ = this._activatedRoute.paramMap.pipe(tap((res) => {
     // @ts-ignore
-    const id =Number(res.params.id);
-    this._questionsService.getSubSectionsOfaSection(id).pipe(tap(vals => {
-      this.subsections =vals;
+    const id = Number(res.params.id);
+    this._sectorService.getSubSectorOfaSector(id).pipe(tap(vals => {
+      this.subsectors = vals;
     })).subscribe();
   }))
 
-  sectionId!: number;
+  sectorId!: number;
 
-  isSectionFormValid = false;
+  isSectorFormValid = false;
   editMode = false;
-  nextOperation$: Observable<Section> = new Observable();
+  nextOperation$: Observable<Sector> = new Observable();
 
   nextStep() {
-    const createSection$ = this._formStateService.createSection();
-    const updateSection$ = this._formStateService.updateSection(this.sectionId);
+    const createSector$ = this._formStateService.createSector();
+    const updateSection$ = this._formStateService.updateSector(this.sectorId);
 
-    const call$ = this.editMode ? updateSection$ : createSection$
+    const call$ = this.editMode ? updateSection$ : createSector$
     this.nextOperation$ = call$.pipe(tap(res => {
       if (res.id) {
         // this._router.navigate(['/questions']);
@@ -77,6 +79,6 @@ export class EditSectorComponent {
   }
 
   cancel() {
-    this._router.navigateByUrl('/questions')
+    this._router.navigateByUrl('/sectors')
   }
 }

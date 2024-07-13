@@ -1,10 +1,10 @@
-import {Component, inject} from '@angular/core';
-import {UiComponent} from "../../components/ui/ui.component";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import { Router} from "@angular/router";
-import {FormStateService} from "../../services/form-state/form-state.service";
-import { tap} from "rxjs";
-import {CommonModule} from "@angular/common";
+import { Component, inject } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { Router } from "@angular/router";
+import { tap } from "rxjs";
+import { UiComponent } from "../../components/ui/ui.component";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormStateService } from "../../services/form-state/form-state.service";
 
 @Component({
   selector: 'app-create-sector',
@@ -20,30 +20,30 @@ export class CreateSectorComponent {
   private _router = inject(Router);
   private _formStateService = inject(FormStateService);
 
-  sectionForm: FormGroup = this._fb.group({
+  sectorForm: FormGroup = this._fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required]
   });
 
-  sectionForm$ = this.sectionForm.valueChanges.pipe(tap(vals => {
-    this._formStateService.setSectionFormState(vals);
-    this._formStateService.setSectionFormIsValid(this.sectionForm.valid);
+  sectorForm$ = this.sectorForm.valueChanges.pipe(tap(vals => {
+    this._formStateService.setSectorFormState(vals);
+    this._formStateService.setSectorFormIsValid(this.sectorForm.valid);
   }))
 
-  isSectionFormValid$ = this._formStateService.sectionFormIsValid$.pipe(tap(isValid => {
-    this.isSectionFormValid = isValid;
+  isSectorFormValid$ = this._formStateService.sectorFormIsValid$.pipe(tap(isValid => {
+    this.isSectorFormValid = isValid;
   }))
 
-  isSectionFormValid = false;
+  isSectorFormValid = false;
 
   nextStep() {
-    this._formStateService.createSection().pipe(tap(_ =>{
-      this.sectionForm.reset();
+    this._formStateService.createSector().pipe(tap(() => {
+      this.sectorForm.reset();
     })).subscribe();
 
   }
 
   cancel() {
-    this._router.navigateByUrl('/questions')
+    this._router.navigateByUrl('/sectors')
   }
 }

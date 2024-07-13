@@ -1,10 +1,10 @@
-import {Component, EventEmitter, inject, Input, Output} from '@angular/core';
-import {Observable, of, switchMap, tap} from "rxjs";
-import {QuestionsService} from "../../services/questions/questions.service";
-import { RouterLink} from "@angular/router";
-import {MatIcon} from "@angular/material/icon";
-import { CommonModule} from "@angular/common";
-import {ConfirmationService, FeedbackService} from "../../../../core";
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Observable, of, switchMap, tap } from "rxjs";
+import { SectorsService } from "../../services/sectors/sectors.service";
+import { RouterLink } from "@angular/router";
+import { MatIcon } from "@angular/material/icon";
+import { CommonModule } from "@angular/common";
+import { ConfirmationService, FeedbackService } from "../../../../core";
 
 @Component({
   selector: 'app-subsector-card',
@@ -18,26 +18,27 @@ import {ConfirmationService, FeedbackService} from "../../../../core";
   styleUrl: './subsector-card.component.scss'
 })
 export class SubsectorCardComponent {
-  @Input() id!:number;
-  @Input() name!:string;
-  @Input() sectionId!:number;
-  @Output() refreshSubsectionsEvent = new EventEmitter();
+  @Input() id!: number;
+  @Input() name!: string;
+  @Input() sectorId!: number;
+  @Output() refreshSubSectorEvent = new EventEmitter();
 
-  private _questionService = inject(QuestionsService);
-
+  private _sectorService = inject(SectorsService);
   private _confirmationService = inject(ConfirmationService);
-  delete$ = new Observable();
   private _feedBackService = inject(FeedbackService);
-  deleteSubsection(sectionId: number) {
-    this.delete$ =this._confirmationService.confirm('Are you sure to delete this sub-section?').pipe(switchMap(confirmation => {
+
+  delete$ = new Observable();
+
+  deleteSubsector(sectorId: number) {
+    this.delete$ = this._confirmationService.confirm('Are you sure to delete this sub-sector?').pipe(switchMap(confirmation => {
       if (confirmation) {
-        return this._questionService.removeSubSection(sectionId);
+        return this._sectorService.removeSubSector(sectorId);
       }
       return of(null);
     }), tap(confirmation => {
       if (confirmation) {
         this._feedBackService.success('Subsection was removed successfully!');
-        this.refreshSubsectionsEvent.emit(true);
+        this.refreshSubSectorEvent.emit(true);
       }
     }))
 

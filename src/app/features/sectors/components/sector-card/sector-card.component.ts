@@ -2,7 +2,7 @@ import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
 import { SharedModule } from "../../../../shared";
 import { CommonModule } from "@angular/common";
 import { Observable, of, switchMap, tap } from "rxjs";
-import { QuestionsService } from "../../services/questions/questions.service";
+import { QuestionsService } from "../../services/sectors/sectors.service";
 import { RouterLink } from "@angular/router";
 import { ConfirmationService, FeedbackService } from "../../../../core";
 

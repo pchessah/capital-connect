@@ -1,10 +1,11 @@
 <ng-container *ngIf="init$ |async"></ng-container>
-<app-ui [title]="sectionName">
+
+<app-ui [title]="sectorName">
   <div class="btn-grp">
-    <a routerLink ="/questions" class="btn btn-success"><mat-icon>arrow_left</mat-icon> Back</a>
-    <a [routerLink] ="'/questions/section/'+sectionId+'/add-subsection'" class="btn btn-primary">Add Subsection <mat-icon>add</mat-icon></a>
+    <a routerLink ="/sectors" class="btn btn-success"><mat-icon>arrow_left</mat-icon> Back</a>
+    <a [routerLink] ="'/sectors/sector/'+sectorId+'/add-subsector'" class="btn btn-primary">Add Subsection <mat-icon>add</mat-icon></a>
   </div>
   <div class="cards__grid">
-    <app-subsector-card *ngFor="let subsection of subsections" (refreshSubsectionsEvent)="reFetchSubsections()"   [name] ="subsection.name" [id]="subsection.id" [sectionId]="sectionId"/>
+    <app-subsector-card *ngFor="let subsector of subsectors" (refreshSubSectorEvent)="reFetchSubsectors()"   [name] ="subsector.name" [id]="subsector.id" [sectorId]="sectorId"/>
   </div>
 </app-ui>

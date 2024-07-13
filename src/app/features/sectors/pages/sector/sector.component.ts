@@ -5,8 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { switchMap, tap } from 'rxjs';
 import { UiComponent } from "../../components/ui/ui.component";
 import { SharedModule } from '../../../../shared';
-import { QuestionsService } from '../../services/questions/questions.service';
+import { SectorsService } from '../../services/sectors/sectors.service';
 import { SubsectorCardComponent } from "../../components/subsector-card/subsector-card.component";
+import { SubSector } from '../../interfaces';
 
 @Component({
   selector: 'app-sector',
@@ -16,31 +17,31 @@ import { SubsectorCardComponent } from "../../components/subsector-card/subsecto
   styleUrl: './sector.component.scss'
 })
 export class SectorComponent {
-  private _questionsService = inject(QuestionsService);
+  private _sectorService = inject(SectorsService);
   private _activatedRoute = inject(ActivatedRoute);
-  subsections: any[] = [];
-  sectionName!: string;
-  sectionId!: number;
+  subsectors: SubSector[] = [];
+  sectorName!: string;
+  sectorId!: number;
 
-  init$ = this.getSubsections();
-  getSubsections() {
+  init$ = this.getSubsectors();
+  getSubsectors() {
     return this._activatedRoute.paramMap.pipe(
       switchMap(res => {
         const id = Number((res as any).params.id);
-        this.sectionId = id;
-        return this._questionsService.getSingleSection(id)
+        this.sectorId = id;
+        return this._sectorService.getSingleSector(id)
       }),
       switchMap((res) => {
-        this.sectionName = res.name;
-        return this._questionsService.getSubSectionsOfaSection(res.id)
+        this.sectorName = res.name;
+        return this._sectorService.getSubSectorOfaSector(res.id)
       }), (tap(vals => {
-        this.subsections = vals;
+        this.subsectors = vals;
       })))
   }
 
 
-  reFetchSubsections() {
-    this.init$ = this.getSubsections();
+  reFetchSubsectors() {
+    this.init$ = this.getSubsectors();
   }
 
 }

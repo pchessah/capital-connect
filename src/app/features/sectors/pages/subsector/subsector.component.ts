@@ -6,11 +6,12 @@ import { SharedModule } from '../../../../shared';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form.steps.enum";
 import { UiComponent } from "../../components/ui/ui.component";
-import { QuestionsService } from '../../services/questions/questions.service';
+import { SectorsService } from '../../services/sectors/sectors.service';
 import { QuestionCardComponent } from '../../../questions/components/question-card/question-card.component';
+import { Sector } from '../../interfaces';
 
 @Component({
-  selector: 'app-subsection',
+  selector: 'app-subsector',
   standalone: true,
   imports: [
     ReactiveFormsModule,
@@ -24,39 +25,29 @@ import { QuestionCardComponent } from '../../../questions/components/question-ca
   styleUrl: './subsector.component.scss'
 })
 export class SubSectorComponent {
-  section!: any;
-  questions: any[] = [];
+  sector!: Sector;
   subSectionId!: number;
   subsectionName!: string;
   routeId!: string;
 
-  protected readonly STEPS = QUESTION_FORM_STEPS;
   private _activatedRoute = inject(ActivatedRoute);
-  private _questionsService = inject(QuestionsService);
+  private _sectorsService = inject(SectorsService);
 
   sectionId!: number;
 
-  init$ =this.fetchQuestions();
-    fetchQuestions(){
-      return this._activatedRoute.params.pipe(switchMap((res) => {
-        // @ts-ignore
-        this.routeId = res['id'].trim();
-        const ids = this.routeId.split('-');
-        this.sectionId = Number(ids.at(0))
-        this.subSectionId = Number(ids.at(1));
+  init$ = this.fetchQuestions();
+  fetchQuestions() {
+    return this._activatedRoute.params.pipe(switchMap((res) => {
+      // @ts-ignore
+      this.routeId = res['id'].trim();
+      const ids = this.routeId.split('-');
+      this.sectionId = Number(ids.at(0))
+      this.subSectionId = Number(ids.at(1));
 
-        const sectionInfo$ = this._questionsService.getSingleSubsection(this.subSectionId);
-        const questionsFetch$ = this._questionsService.getQuestionsOfSubSection(this.subSectionId)
+      return  this._sectorsService.getSingleSubsector(this.subSectionId);
 
-        return combineLatest([sectionInfo$, questionsFetch$])
-
-      }), tap(([subsectionInfo, questions]) => {
-        this.subsectionName = subsectionInfo.name;
-        this.questions = questions
-      }))
-    }
-
-  reloadUI(){
-      this.init$ =this.fetchQuestions();
+    }), tap((subsectionInfo) => {
+      this.subsectionName = subsectionInfo.name;
+    }))
   }
 }

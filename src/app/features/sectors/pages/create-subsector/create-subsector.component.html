@@ -1,41 +1,42 @@
-<ng-container *ngIf="subsectionForm$ | async"></ng-container>
-<ng-container *ngIf="isSubsectionFormValid$ | async"></ng-container>
+<ng-container *ngIf="subsectorForm$ | async"></ng-container>
+<ng-container *ngIf="isSubsectorFormValid$ | async"></ng-container>
 <ng-container *ngIf="questions$ | async"></ng-container>
+
 <app-ui>
-<div class="form__card">
-  <form [formGroup]="subsectionForm" class="user__auth__form">
-    <div class="input__wrapper">
-      <div class="form__row">
-        <div class="form__col">
-          <label class="input__label">Section<sup>*</sup></label>
-          <select class="input__field">
-            <option [value]="sectionId" disabled selected *ngIf="section" > {{section.name}} </option>
-          </select>
-        </div>
+  <div class="form__card">
+    <form [formGroup]="subsectorForm" class="user__auth__form">
+      <div class="input__wrapper">
+        <div class="form__row">
+          <div class="form__col">
+            <label class="input__label">Section<sup>*</sup></label>
+            <select class="input__field">
+              <option [value]="sectorId" disabled selected *ngIf="sector"> {{sector.name}} </option>
+            </select>
+          </div>
 
-      </div>
-    </div>
-    <div class="input__wrapper">
-      <div class="form__row">
-        <div class="form__col">
-          <label class="input__label">Title<sup>*</sup></label>
-          <input formControlName="name" class="input__field" placeholder="enter title" />
         </div>
-
       </div>
-    </div>
-    <div class="input__wrapper">
-      <label class="input__label">Description<sup>*</sup></label>
-      <textarea formControlName="description" class="input__field" placeholder="Write something..."
-        rows="5"></textarea>
-    </div>
-  </form>
-</div>
-<div class="action__buttons">
-  <button (click)="cancel()" class="btn__outline">Back</button>
-  <div class="inline__cta">
-    <button [ngClass]="{'disabled-btn': !isSubsectionFormValid}" [disabled]="!isSubsectionFormValid"
-      (click)="submit()" class="btn__primary">Create Subsection</button>
+      <div class="input__wrapper">
+        <div class="form__row">
+          <div class="form__col">
+            <label class="input__label">Title<sup>*</sup></label>
+            <input formControlName="name" class="input__field" placeholder="enter title" />
+          </div>
+
+        </div>
+      </div>
+      <div class="input__wrapper">
+        <label class="input__label">Description<sup>*</sup></label>
+        <textarea formControlName="description" class="input__field" placeholder="Write something..."
+          rows="5"></textarea>
+      </div>
+    </form>
   </div>
-</div>
+  <div class="action__buttons">
+    <button (click)="cancel()" class="btn__outline">Back</button>
+    <div class="inline__cta">
+      <button [ngClass]="{'disabled-btn': !isSubsectorFormValid}" [disabled]="!isSubsectorFormValid" (click)="submit()"
+        class="btn__primary">Create Subsection</button>
+    </div>
+  </div>
 </app-ui>

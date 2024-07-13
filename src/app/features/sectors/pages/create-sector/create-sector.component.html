@@ -1,9 +1,9 @@
-<ng-container *ngIf="sectionForm$ |  async"></ng-container>
+<ng-container *ngIf="sectorForm$ | async"></ng-container>
+<ng-container *ngIf="isSectorFormValid$ | async"></ng-container>
 
-<ng-container *ngIf="isSectionFormValid$ | async"></ng-container>
-<app-ui [title]="'New section'">
+<app-ui [title]="'New Sector'">
     <div class="form__card">
-      <form [formGroup]="sectionForm" class="user__auth__form">
+      <form [formGroup]="sectorForm" class="user__auth__form">
         <div class="input__wrapper">
           <div class="form__row">
             <div class="form__group">
@@ -23,7 +23,7 @@
     </div>
     <div class="action__buttons">
       <button (click)="cancel()" class="btn__outline">Back</button>
-      <button class="btn__primary" (click)="nextStep()" [disabled]="!isSectionFormValid"
-        [ngClass]="{'disabled-btn' : !isSectionFormValid }">Create Section</button>
+      <button class="btn__primary" (click)="nextStep()" [disabled]="!isSectorFormValid"
+        [ngClass]="{'disabled-btn' : !isSectorFormValid }">Create Section</button>
     </div>
 </app-ui>
