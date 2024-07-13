@@ -1,13 +1,13 @@
-import {Component, inject} from '@angular/core';
-import {UiComponent} from "../../components/ui/ui.component";
-import {Question, Section, SubSection, SubSectionInput} from "../../interfaces";
-import {QUESTION_FORM_STEPS} from "../../../../shared/interfaces/question.form.steps.enum";
-import {ActivatedRoute, Router} from "@angular/router";
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
-import {FormStateService} from "../../services/form-state/form-state.service";
-import {QuestionsService} from "../../services/questions/questions.service";
-import {Observable, tap} from "rxjs";
-import {CommonModule} from "@angular/common";
+import { Component, inject } from '@angular/core';
+import { UiComponent } from "../../components/ui/ui.component";
+import { Section, SubSection, SubSectionInput } from "../../interfaces";
+import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form.steps.enum";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
+import { FormStateService } from "../../services/form-state/form-state.service";
+import { QuestionsService } from "../../services/questions/questions.service";
+import { Observable, tap } from "rxjs";
+import { CommonModule } from "@angular/common";
 
 @Component({
   selector: 'app-edit-subsection',
@@ -29,18 +29,18 @@ export class EditSubsectionComponent {
   private _questionsService = inject(QuestionsService);
 
   subSectionId!: number;
-  sectionId!:number;
+  sectionId!: number;
 
   subsectionForm = this._fb.group({
     name: ['', Validators.required],
     description: ['', Validators.required]
   });
 
-  params$ =this._activatedRoute.params.pipe(tap(param =>{
-    const ids =param['id'].split('-')
-    this.sectionId =Number(ids.at(0));
-    this.subSectionId =Number(ids.at(1));
-    this.fetchedSection$ =this._questionsService.getSingleSection(this.sectionId)
+  params$ = this._activatedRoute.params.pipe(tap(param => {
+    const ids = param['id'].split('-')
+    this.sectionId = Number(ids.at(0));
+    this.subSectionId = Number(ids.at(1));
+    this.fetchedSection$ = this._questionsService.getSingleSection(this.sectionId)
     this.fetchedSubSection$ = this._formStateService.getCurrentSubSectionBeingEdited(this.subSectionId).pipe(tap(subsection => {
       this.subsectionForm.patchValue({
         name: subsection.name,
