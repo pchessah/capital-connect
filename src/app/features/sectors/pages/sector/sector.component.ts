@@ -19,6 +19,7 @@ import { SubSector } from '../../interfaces';
 export class SectorComponent {
   private _sectorService = inject(SectorsService);
   private _activatedRoute = inject(ActivatedRoute);
+  
   subsectors: SubSector[] = [];
   sectorName!: string;
   sectorId!: number;

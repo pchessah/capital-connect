@@ -1,12 +1,12 @@
 import { Component, inject } from '@angular/core';
-import { UiComponent } from "../../components/ui/ui.component";
+import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { UiComponent } from "../../components/ui/ui.component";
 import { tap, switchMap, EMPTY, Observable } from 'rxjs';
 import { SubSector, Sector } from '../../interfaces';
 import { FormStateService } from '../../services/form-state/form-state.service';
 import { SectorsService } from '../../services/sectors/sectors.service';
-import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-edit-sector',

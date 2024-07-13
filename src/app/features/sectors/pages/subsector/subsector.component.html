@@ -1,12 +1,5 @@
-<app-ui [title]="subsectionName">
+<app-ui [title]="subsectorName">
   <div class="btn-grp">
-    <a [routerLink]="'/questions/section/'+sectionId" class="btn btn-success"><mat-icon>arrow_left</mat-icon> Back</a>
-    <a [routerLink]="'/questions/sub-section/'+routeId+'/add-question'" class="btn btn-primary">Add Question
-      <mat-icon>add</mat-icon></a>
+    <a [routerLink]="'/sectors/sector/'+sectorId" class="btn btn-success"><mat-icon>arrow_left</mat-icon> Back</a>
   </div>
-  <ng-container *ngIf="init$ | async">
-    <app-question-card *ngFor="let question of questions" (refreshUIEvent)="reloadUI()"  [text]="question.text" [type]="question.type"
-      [id]="question.id" [answers]="question.answers" [subSectionId]="subSectionId" [sectionId]="sectionId" />
-  </ng-container>
-
 </app-ui>

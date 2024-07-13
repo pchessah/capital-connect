@@ -30,14 +30,14 @@ export class SubsectorCardComponent {
   delete$ = new Observable();
 
   deleteSubsector(sectorId: number) {
-    this.delete$ = this._confirmationService.confirm('Are you sure to delete this sub-sector?').pipe(switchMap(confirmation => {
+    this.delete$ = this._confirmationService.confirm('Are you sure to delete this subsector?').pipe(switchMap(confirmation => {
       if (confirmation) {
         return this._sectorService.removeSubSector(sectorId);
       }
       return of(null);
     }), tap(confirmation => {
       if (confirmation) {
-        this._feedBackService.success('Subsection was removed successfully!');
+        this._feedBackService.success('Subsector was removed successfully!');
         this.refreshSubSectorEvent.emit(true);
       }
     }))

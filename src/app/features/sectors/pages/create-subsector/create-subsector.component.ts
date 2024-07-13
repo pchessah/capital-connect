@@ -22,7 +22,7 @@ export class CreateSubsectorComponent {
   private _fb = inject(FormBuilder);
   private _formStateService = inject(FormStateService);
   private _router = inject(Router);
-  private _questionsService = inject(SectorsService);
+  private _sectorService = inject(SectorsService);
 
   sector!: Sector;
   sectorId!: number;
@@ -32,11 +32,11 @@ export class CreateSubsectorComponent {
     description: ['', Validators.required]
   });
 
-  questions$ = this._activatedRoute.paramMap.pipe(tap((res) => {
+  init$= this._activatedRoute.paramMap.pipe(tap((res) => {
     // @ts-ignore
     const id = Number(res.params['id']);
     this.sectorId = id;
-    this._questionsService.getSingleSector(id).pipe(tap(vals => {
+    this._sectorService.getSingleSector(id).pipe(tap(vals => {
       this.sector = vals;
     })).subscribe()
   }))
@@ -66,6 +66,6 @@ export class CreateSubsectorComponent {
   }
 
   cancel() {
-    this._router.navigateByUrl(`/questions/sector/${this.sectorId}`);
+    this._router.navigateByUrl(`/sectors/sector/${this.sectorId}`);
   }
 }

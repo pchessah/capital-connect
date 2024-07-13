@@ -26,7 +26,6 @@ export class SavedResponseComponent {
 
   private _sectorService = inject(SectorsService);
 
-
   sectors$ = this._sectorService.getAllSectors()
 
   reFetchSections() {

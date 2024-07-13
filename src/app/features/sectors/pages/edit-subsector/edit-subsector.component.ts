@@ -1,7 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { UiComponent } from "../../components/ui/ui.component";
 import { Sector, SubSector, SubSectorInput } from "../../interfaces";
-import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form.steps.enum";
 import { ActivatedRoute, Router } from "@angular/router";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { FormStateService } from "../../services/form-state/form-state.service";
@@ -21,7 +20,6 @@ import { CommonModule } from "@angular/common";
 export class EditSubSectorComponet {
   fetchedSector$: Observable<Sector> = new Observable();
 
-  protected readonly STEPS = QUESTION_FORM_STEPS;
   private _activatedRoute = inject(ActivatedRoute);
   private _fb = inject(FormBuilder);
   private _formStateService = inject(FormStateService);

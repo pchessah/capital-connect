@@ -54,25 +54,25 @@ export class FormStateService {
 
   createSubsector(sectorId: number) {
     if (!sectorId) {
-      this._feedbackService.error('Could not find section');
-      throw new Error("Could not find section");
+      this._feedbackService.error('Could not find sector');
+      throw new Error("Could not find sector");
 
     };
     const input: SubSectorInput = { ...this._subsectorFormStateSrc.value, sectorId: sectorId }
     return this._sectorsService.createSubSector(input).pipe(tap(res => {
-      this._feedbackService.success('SubSection added successfully');
+      this._feedbackService.success('SubSector added successfully');
     }))
   }
 
   updateSubSector(sectorId: number, subsectorId: number) {
     if (!sectorId) {
-      this._feedbackService.error('Could not find section');
-      throw new Error("Could not find section");
+      this._feedbackService.error('Could not find sector');
+      throw new Error("Could not find sector");
 
     };
     const input = { ...this._subsectorFormStateSrc.value, sectorId: sectorId, id: subsectorId }
     return this._sectorsService.updateSubSector(input).pipe(tap(res => {
-      this._feedbackService.success('SubSection added successfully');
+      this._feedbackService.success('SubSector edited successfully');
     }))
   }
 
