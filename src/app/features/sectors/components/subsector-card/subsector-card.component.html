@@ -1,0 +1,12 @@
+<ng-container *ngIf="delete$ | async"></ng-container>
+
+<div class="card__item">
+  <div class="card__item__header">
+    <a [routerLink]="'/questions/sub-section/'+sectionId+'-'+id+'/edit'"
+      class="btn-warning"><mat-icon>edit</mat-icon></a>
+    <button class="btn-danger"><mat-icon (click)="deleteSubsection(id)">close</mat-icon></button>
+  </div>
+  <h2>{{name}}</h2>
+
+  <a [routerLink]="'/questions/sub-section/'+sectionId+'-'+id" class="link">Open</a>
+</div>

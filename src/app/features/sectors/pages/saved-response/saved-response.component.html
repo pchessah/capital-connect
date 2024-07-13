@@ -1,0 +1,8 @@
+<app-ui title="Sections">
+  <div>
+    <a routerLink ="/questions/section" class="btn btn-primary">Add Sector <mat-icon>add</mat-icon></a>
+  </div>
+  <div class="cards__grid" *ngIf="sections$ | async as sections">
+    <app-sector-card *ngFor="let section of sections" (refreshSectionsEvent)="reFetchSections()" [name]="section.name" [id]="section.id"/>
+  </div>
+</app-ui>
