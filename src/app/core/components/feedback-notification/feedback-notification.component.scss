@@ -9,27 +9,31 @@
   z-index: 1000;
   width: calc(100vw - 10px);
   display: flex;
-  outline: 1px solid;
+  border-left: 10px solid;
 }
 
 .message.success {
   background-color: $success-color-alt;
   outline-color: $secondary-color;
+  border-left-color: $secondary-color ;
 }
 
 .message.info {
   background-color: $info-color-alt;
   outline-color: $info-color;
+  border-left-color: $secondary-color ;
 }
 
 .message.warn {
   background-color: $warning-color-alt;
   outline-color: $warning-color;
+  border-left-color:$info-color;
 }
 
 .message.error {
   background-color: $danger-color-alt;
   outline-color: $danger-color;
+  border-left-color: $danger-color
 }
 
 .message-summary {
