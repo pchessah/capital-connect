@@ -1,0 +1,7 @@
+<div *ngIf="message" class="message" [ngClass]="message.type">
+  <mat-icon [ngStyle]="{'color':'white'}" class="dialog-icon">{{ getIcon(message.type) }}</mat-icon>
+  <div class="content">
+    <div class="message-summary">{{ message.title }}</div>
+    <div class="message-detail">{{ message.message }}</div>
+  </div>
+</div>

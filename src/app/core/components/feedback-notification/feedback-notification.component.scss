@@ -1,0 +1,60 @@
+@import "../../../styles/main.scss";
+
+.message {
+  padding: 10px;
+  margin: 10px 5px;
+  border-radius: 5px;
+  color: white;
+  position: absolute;
+  z-index: 1000;
+  width: calc(100vw - 10px);
+  display: flex;
+  border-left: 10px solid;
+}
+
+.message.success {
+  background-color: $success-color-alt;
+  outline-color: $secondary-color;
+  border-left-color: $secondary-color ;
+}
+
+.message.info {
+  background-color: $info-color-alt;
+  outline-color: $info-color;
+  border-left-color: $secondary-color ;
+}
+
+.message.warn {
+  background-color: $warning-color-alt;
+  outline-color: $warning-color;
+  border-left-color:$info-color;
+}
+
+.message.error {
+  background-color: $danger-color-alt;
+  outline-color: $danger-color;
+  border-left-color: $danger-color
+}
+
+.message-summary {
+  font-weight: bold;
+}
+
+.message-detail {
+  margin-top: 5px;
+}
+
+.dialog-icon {
+  font-size: 36px;
+  color: $white;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+}
+
+::ng-deep .mat-icon {
+  height: 40px !important;
+  width: 40px !important;
+}
