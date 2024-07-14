@@ -1,15 +1,14 @@
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { SharedModule } from './shared';
 import { LoadingComponent } from './core/components/loading/loading.component';
-import { LoadingService } from './core';
-import { tap } from 'rxjs';
-import { CommonModule } from '@angular/common';
+import { FeedbackNotificationComponent, LoadingService } from './core';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SharedModule, LoadingComponent],
+  imports: [CommonModule, RouterOutlet, SharedModule, LoadingComponent, FeedbackNotificationComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
