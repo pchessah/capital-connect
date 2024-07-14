@@ -2,7 +2,7 @@ import { Component, inject , ViewChild, ElementRef} from '@angular/core';
 import { OverviewSectionComponent } from "../../../../../shared/components/overview-section/overview-section.component";
 import { CardComponent } from "../../../../../shared/components/card/card.component";
 import { PhotoCollageComponent } from "../photo-collage/photo-collage.component";
-import { tap } from "rxjs";
+import { tap,switchMap  } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { ModalComponent } from "../../../../../shared/components/modal/modal.component";
 import { CompanyStateService } from "../../../../organization/services/company-state.service";
@@ -12,6 +12,7 @@ import { PdfGeneratorService } from '../../../../../shared/services/pdf-generato
 import { SubMissionStateService } from '../../../../../shared';
 import { UserSubmissionResponse } from '../../../../../shared';
 import { GeneralSummary } from '../../../../../shared';
+import { RemoveQuotesPipe } from '../../../../../shared/pipes/remove-quotes.pipe';
 
 @Component({
   selector: 'app-overview',
@@ -22,6 +23,7 @@ import { GeneralSummary } from '../../../../../shared';
     PhotoCollageComponent,
     CommonModule,
     ModalComponent,
+    RemoveQuotesPipe
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
@@ -52,6 +54,7 @@ export class OverviewComponent {
   scoring$ = this._scoringService.getOnboardingScores().pipe(tap(scores => {
     this.investorEligibilityScore = scores.investorEligibility;
     this.investorPreparednessScore = scores.investorPreparedness;
+    console.log("Investor preparedness",scores.investorPreparedness)
     
   }))
 
@@ -59,10 +62,18 @@ export class OverviewComponent {
     this.answers = submissions
   }))
 
+
   preparednessScore = parseFloat(this.investorPreparednessScore); 
-  generalSummary$ = this._scoringService.getGeneralSummary(this.preparednessScore,"PREPAREDNESS").pipe(tap(generalSummary => {
-    this.generalSummary = generalSummary
-  }))
+  generalSummary$ = this.scoring$.pipe(
+    tap(scores => {
+      this.preparednessScore = parseFloat(scores.investorPreparedness);
+    }),
+    switchMap(() => this._scoringService.getGeneralSummary(this.preparednessScore, "PREPAREDNESS")),
+    tap(generalSummary => {
+      this.generalSummary = generalSummary;
+    })
+  );
+
 
   showDialog() {
     this.visible = !this.visible;
