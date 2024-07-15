@@ -71,7 +71,7 @@ export class LogInFormComponent {
           return this._dynamicRoutingService.getInvestorSubmissions()
 
         case USER_ROLES.ADMIN:
-          this._router.navigateByUrl('/questions');
+          this._router.navigateByUrl('/dashboard');
       }
       this._loadingService.setLoading(false)
       return EMPTY;
