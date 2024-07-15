@@ -39,7 +39,7 @@ export class PdfGeneratorService {
     pdf.setFillColor('#ffffff'); // White color
     pdf.rect(0, 0, pdfWidth, margin, 'F'); // Fill rectangle for top margin
 
-    html2canvas(element, { scale }).then(canvas => {
+    html2canvas(element, { scale , backgroundColor : '#FFFFFF'}).then(canvas => {
       const imgData = canvas.toDataURL('image/jpeg', 0.8); // Adjust quality for smaller file size
       const imgProps = pdf.getImageProperties(imgData);
       const canvasWidth = imgProps.width;
@@ -81,8 +81,6 @@ export class PdfGeneratorService {
           const pageNumber = i + 1;
           pdf.setFontSize(10); // Set font size for page number
           const textWidth = pdf.getStringUnitWidth(`Page ${pageNumber}`) * pdf.getFontSize() / pdf.internal.scaleFactor;
-
-          // https://capitalconnect.africa/
           const textX = (pdfWidth - textWidth) / 2;
           const textY = pdfHeight - margin + 5; // Position below the bottom margin
           pdf.text(`Page ${pageNumber}`, textX, textY, { align: 'center' });
@@ -90,14 +88,9 @@ export class PdfGeneratorService {
       }
 
       addTimestamp();
-
-      // Save PDF with the provided filename
       pdf.save(filename + '.pdf');
-
-      // Set loading to false after the PDF is generated and saved
       this._loadingService.setLoading(false);
     }).catch(error => {
-      // Set loading to false in case of an error
       this._loadingService.setLoading(false);
       console.error('Error generating PDF:', error);
     });

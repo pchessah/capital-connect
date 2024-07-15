@@ -35,8 +35,17 @@ export class OverviewComponent {
   matchedInvestors: MatchedInvestor[] = [];
   investorEligibilityScore: string = '0';
   investorPreparednessScore: string = '0';
-  answers: UserSubmissionResponse[] = [];
-  generalSummary!: GeneralSummary;
+
+  preparednessAnswers: UserSubmissionResponse[] = [];
+  eligibilityAnswers: UserSubmissionResponse[] = [];
+
+
+  InvestorPreparednessgeneralSummary: GeneralSummary | undefined;
+  InvestorEligibilitygeneralSummary: GeneralSummary | undefined;
+  
+
+  currentModal: 'eligibility' | 'preparedness' = 'eligibility';
+  
 
 
   private _companyService = inject(CompanyStateService);
@@ -53,29 +62,47 @@ export class OverviewComponent {
 
   scoring$ = this._scoringService.getOnboardingScores().pipe(tap(scores => {
     this.investorEligibilityScore = scores.investorEligibility;
-    this.investorPreparednessScore = scores.investorPreparedness;
-    console.log("Investor preparedness",scores.investorPreparedness)
-    
+    this.investorPreparednessScore = scores.investorPreparedness;    
   }))
 
   submissions$ = this._submissionStateService.getUserSubmissionsPerSection().pipe(tap(submissions => {
-    this.answers = submissions
+    this.eligibilityAnswers = submissions
+  }))
+
+  preparednessSubmissions$ = this._submissionStateService.getUserPreparednessSubmissionsPerSection().pipe(tap(submissions => {
+    this.preparednessAnswers = submissions
   }))
 
 
   preparednessScore = parseFloat(this.investorPreparednessScore); 
-  generalSummary$ = this.scoring$.pipe(
+  investorPreparednessGeneralSummary$ = this.scoring$.pipe(
     tap(scores => {
       this.preparednessScore = parseFloat(scores.investorPreparedness);
     }),
     switchMap(() => this._scoringService.getGeneralSummary(this.preparednessScore, "PREPAREDNESS")),
     tap(generalSummary => {
-      this.generalSummary = generalSummary;
+      this.InvestorPreparednessgeneralSummary = generalSummary;
+    })
+  );
+
+  eligibilityScore = parseFloat(this.investorEligibilityScore); 
+  investorEligibilityGeneralSummary$ = this.scoring$.pipe(
+    tap(scores => {
+      this.eligibilityScore = parseFloat(scores.investorEligibility);
+    }),
+    switchMap(() => this._scoringService.getGeneralSummary(this.eligibilityScore, "ELIGIBILITY")),
+    tap(generalSummary => {
+      this.InvestorEligibilitygeneralSummary = generalSummary;
     })
   );
 
 
-  showDialog() {
+  showDialog(reportType : string) {
+    if(reportType === this.investorEligibilityScore){
+      this.currentModal = "eligibility"
+    }else if(reportType === this.investorPreparednessScore){
+      this.currentModal = "preparedness"
+    }
     this.visible = !this.visible;
   }
 
