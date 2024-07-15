@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { isLoggedInCanActivateChildGuard, isLoggedInCanActivateGuard } from './shared/guards/isLoggedIn.guard';
+import { isAdminCanActivateChildGuard, isAdminCanActivateGuard } from './shared/guards/isAdminGuard';
 
 export const routes: Routes = [
   {
@@ -48,7 +49,21 @@ export const routes: Routes = [
   {
     path: 'questions',
     loadChildren: () => import('./features/questions/questions.routing').then(m => m.QuestionsRoutingModule),
-    canActivate: [isLoggedInCanActivateGuard],
-    canActivateChild: [isLoggedInCanActivateChildGuard]
+    canActivate: [isLoggedInCanActivateGuard, isAdminCanActivateGuard],
+    canActivateChild: [isLoggedInCanActivateChildGuard, isAdminCanActivateChildGuard]
+  },
+
+  {
+    path: 'sectors',
+    loadChildren: () => import('./features/sectors/sectors.routing').then(m => m.SectorsRoutingModule),
+    canActivate: [isLoggedInCanActivateGuard, isAdminCanActivateGuard],
+    canActivateChild: [isLoggedInCanActivateChildGuard, isAdminCanActivateChildGuard]
+  },
+
+  {
+    path: 'dashboard',
+    loadChildren: () => import('./features/admin/admin.routing.module').then(m => m.AdminRoutingModule),
+    canActivate: [isLoggedInCanActivateGuard, isAdminCanActivateGuard],
+    canActivateChild: [isLoggedInCanActivateChildGuard, isAdminCanActivateChildGuard]
   }
 ];

@@ -35,6 +35,8 @@ export class OverviewComponent {
   matchedInvestors: MatchedInvestor[] = [];
   investorEligibilityScore: string = '0';
   investorPreparednessScore: string = '0';
+  answers: UserSubmissionResponse[] = [];
+  generalSummary!: GeneralSummary;
 
   preparednessAnswers: UserSubmissionResponse[] = [];
   eligibilityAnswers: UserSubmissionResponse[] = [];

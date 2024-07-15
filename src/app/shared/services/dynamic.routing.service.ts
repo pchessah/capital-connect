@@ -30,7 +30,7 @@ export class DynamicRoutingService {
     return uniqueNumbersArray;
 }
 
-  testGetUserSubmissions() {
+  getUserSubmissions() {
     const companyGrowthStage = this._companyStateService.currentCompany.growthStage;
     const userSubmissions$ = this._submissionStateService.getUserSubmissions();
     const questionsOfBusinessFinancials$ = this._questionService.testGetSectionQuestions(BUSINESS_FINANCIALS_SUBSECTION_IDS.ID);
@@ -119,7 +119,7 @@ export class DynamicRoutingService {
     return init$
   }
 
-  testGetInvestorSubmission() {
+  getInvestorSubmissions() {
     this._loadingService.setLoading(true)
     const questionsOfInvestorOnboarding$ = this._questionService.testGetSectionQuestions(INVESTOR_ONBOARDING_SUBSECTION_IDS.ID);
     const userSubmissions$ = this._submissionStateService.getUserSubmissions()

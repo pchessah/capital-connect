@@ -61,7 +61,9 @@ export class QuestionsService extends BaseHttpService {
   }
 
   getQuestionsOfSubSection(subsectionId: number) {
-    return this.read(`${BASE_URL}/subsections/${subsectionId}/questions`) as Observable<Question[]>
+    return this.read(`${BASE_URL}/subsections/${subsectionId}/questions`).pipe(map(questions => {
+      return (questions as Question[]).sort((a, b) => a.order - b.order);
+    })) as Observable<Question[]>
   }
 
   //Answers

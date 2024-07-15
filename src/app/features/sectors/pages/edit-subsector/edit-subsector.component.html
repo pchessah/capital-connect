@@ -1,0 +1,47 @@
+<ng-container *ngIf="fetchedSubSector$ | async"></ng-container>
+<ng-container *ngIf="nextOperation$ |async"></ng-container>
+<ng-container *ngIf="subsectorForm$ | async"></ng-container>
+<ng-container *ngIf="isSubsectorFormValid$ | async"></ng-container>
+<ng-container *ngIf="params$ | async" />
+<ng-container *ngIf="fetchedSector$ | async as sector">
+
+  <app-ui>
+    <div class="form__card">
+      <form [formGroup]="subsectorForm" class="user__auth__form">
+        <div class="input__wrapper">
+          <div class="form__row">
+            <div class="form__col">
+              <label class="input__label">Section<sup>*</sup></label>
+              <select class="input__field">
+                <option [value]="sectorId" disabled selected> {{sector.name}} </option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+        <div class="input__wrapper">
+          <div class="form__row">
+            <div class="form__col">
+              <label class="input__label">Title<sup>*</sup></label>
+              <input formControlName="name" class="input__field" placeholder="enter title" />
+            </div>
+
+          </div>
+        </div>
+        <div class="input__wrapper">
+          <label class="input__label">Description<sup>*</sup></label>
+          <textarea formControlName="description" class="input__field" placeholder="Write something..."
+            rows="5"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="action__buttons">
+      <button (click)="cancel()" class="btn__outline">Back</button>
+      <div class="inline__cta">
+        <!-- <button class="btn__outline">Go to Section</button> -->
+        <button [ngClass]="{'disabled-btn': !isSubsectorFormValid}" [disabled]="!isSubsectorFormValid"
+          (click)="submit()" class="btn__primary">Edit Subsector</button>
+      </div>
+    </div>
+  </app-ui>
+</ng-container>

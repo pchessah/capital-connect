@@ -3,10 +3,10 @@ import { GrowthStage } from "../../../features/organization/interfaces";
 
 const company = new CompanyStateService()
 
-export enum ESUBSECTIONS{
-  LANDING ='LANDING', STEP_ONE ='STEP_ONE', STEP_TWO ='STEP_TWO', STEP_THREE ='STEP_THREE'
+export enum ESUBSECTIONS {
+  LANDING = 'LANDING', STEP_ONE = 'STEP_ONE', STEP_TWO = 'STEP_TWO', STEP_THREE = 'STEP_THREE'
 }
-export interface ISECTION{
+export interface ISECTION {
   ID: number,
   LANDING?: number,
   STEP_ONE: number,
@@ -26,7 +26,7 @@ export const INVESTOR_ONBOARDING_SUBSECTION_IDS = {
   STEP_THREE: 25,
 }
 
-export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS= {
+export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS = {
 
   ESTABLISHED_EXPANSION: {
     ID: 10,

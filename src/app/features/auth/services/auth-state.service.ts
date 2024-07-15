@@ -36,6 +36,11 @@ export class AuthStateService {
     return this.currentToken();
   }
 
+  get userIsAdmin() {
+    const currentUser = JSON.parse(sessionStorage.getItem('userProfile') as string) as Profile;
+    return !!currentUser && currentUser.roles.includes('admin');
+  }
+
   removeToken() {
     this.currentToken.set(null as any);
     sessionStorage.clear();
