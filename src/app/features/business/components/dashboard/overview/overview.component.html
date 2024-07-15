@@ -1,13 +1,21 @@
 <ng-container *ngIf="stats$ | async"></ng-container>
 <ng-container *ngIf="scoring$ | async"></ng-container>
 <ng-container *ngIf="submissions$ | async"></ng-container>
-<ng-container *ngIf="generalSummary$ | async"></ng-container>
+<ng-container *ngIf="investorPreparednessGeneralSummary$ | async"></ng-container>
+<ng-container *ngIf="investorEligibilityGeneralSummary$ | async"></ng-container>
+<ng-container *ngIf="preparednessSubmissions$ | async"></ng-container>
+
 
 
 <app-overview-section>
-    <app-card [detail]="{title: 'Investor Preparedness', value: investorPreparednessScore+' %', featured: true}" (click)="showDialog()">
+    <app-card [detail]="{title: 'Investor Eligibility', value: investorEligibilityScore+' %', featured: true}" (click)="showDialog(investorEligibilityScore)">
       <p class="helper__text text__yellow">See suggested actions</p>
     </app-card>
+    <app-card [detail]="{title: 'Investor Preparedness', value: investorPreparednessScore+' %', featured: true}" (click)="showDialog(investorPreparednessScore)">
+      <p class="helper__text text__yellow">See suggested actions</p>
+    </app-card>
+
+
     <app-card [detail]="{title: 'Impact element assessment', value: '0', featured: false}" >
       <p class="helper__text text__red">Check your eligibility</p>
     </app-card>
@@ -15,7 +23,9 @@
     <app-card (click)="showMatchedInvestors()" [detail]="{title: 'Matched Investors', value: (matchedInvestors.length).toString(), featured: false, period: '0 Past Months'}" ><app-photo-collage/></app-card>
 </app-overview-section>
 
-<app-modal  [visible] ="visible" [title]="'Your Investor Ready Report'" [helperText] ="'Below is your investor readiness Summary'">
+<app-modal 
+ [visible] ="visible"
+ [title]="'Your Investor Ready Report'" [helperText] ="'Below is your investor readiness Summary'">
 
 <div  #content>  
     <main>
@@ -28,43 +38,54 @@
     </section>
     <div class="content">
         <section class="score-section">
-            <h3>Your Investor Eligibilty</h3>
-            <h2>{{investorEligibilityScore}}%</h2>
+            <h3>{{currentModal==="eligibility"? "Your Investor Eligibility" :currentModal==="preparedness"?"Your Investor Preparedness":""}}</h3>
+            <h2>{{currentModal==="eligibility"? investorEligibilityScore :currentModal==="preparedness"?investorPreparednessScore:""}}%</h2>
         </section>
         <h2 class="title">Feedback and recommendations</h2>
-        <div *ngIf="answers.length > 0">
+        
+        <div *ngIf="(currentModal === 'eligibility' && eligibilityAnswers.length > 0) || (currentModal === 'preparedness' && preparednessAnswers.length > 0)">
           <ul class="responses">
-            <li *ngFor="let submission of answers">
-              <h3>{{ submission.question.text | json}}</h3>
-              <h4>Answer: {{ submission.answer.text| json }}</h4>
-              <p>{{ submission.explanation | json}}</p>
+            <li *ngFor="let submission of (currentModal === 'eligibility' ? eligibilityAnswers : preparednessAnswers)">
+              <h3>{{ submission.question.text | removeQuotes }}</h3>
+              <h4>{{ submission.answer.text | removeQuotes }}</h4>
+              <p>{{ submission.explanation | removeQuotes }}</p>
             </li>
           </ul>
         </div>
         
-        <div *ngIf="answers.length === 0">
+      
+
+        <div *ngIf="(currentModal === 'eligibility' && eligibilityAnswers.length === 0) || (currentModal === 'preparedness' && preparednessAnswers.length === 0)">
           <p>No submissions found.</p>
         </div>
+        
         
      
         </div>
 
-        <div *ngIf="generalSummary"  class="executive-summary">
+
+      
+        <div class="executive-summary">
           <section class="score-section">
-            <h3>Score</h3>
-            <h2>{{generalSummary.score}}%</h2>
-            <p>{{generalSummary.comment}}</p>
+            <h3>Score</h3>  
+            <h2>{{currentModal==="eligibility" && InvestorEligibilitygeneralSummary ? InvestorEligibilitygeneralSummary.score 
+              :currentModal==="preparedness" && InvestorPreparednessgeneralSummary ?InvestorPreparednessgeneralSummary.score:""}}</h2>
+
+            <p>{{currentModal==="eligibility" && InvestorEligibilitygeneralSummary ? InvestorEligibilitygeneralSummary.comment 
+              :currentModal==="preparedness" && InvestorPreparednessgeneralSummary ?InvestorPreparednessgeneralSummary.comment:""}}</p>
           </section>
 
           <h2 class="title">Implication</h2>
-          <p>{{generalSummary.implication}}</p>
+          <p>{{currentModal==="eligibility" && InvestorEligibilitygeneralSummary ? InvestorEligibilitygeneralSummary.implication
+             :currentModal==="preparedness" && InvestorPreparednessgeneralSummary?InvestorPreparednessgeneralSummary.implication:""}}</p>
           <h2 class="title">Action</h2>
-          <p>{{generalSummary.action}}</p>
+
+          <p>{{currentModal==="eligibility" && InvestorEligibilitygeneralSummary ? InvestorEligibilitygeneralSummary.action 
+            :currentModal==="preparedness" && InvestorPreparednessgeneralSummary?InvestorPreparednessgeneralSummary.action:""}}</p>
           <h2 class="title">Recommendation</h2>
-          <p>{{generalSummary.recommendation}}</p>
 
-
-
+          <p>{{currentModal==="eligibility" && InvestorEligibilitygeneralSummary? InvestorEligibilitygeneralSummary.recommendation 
+            :currentModal==="preparedness" && InvestorPreparednessgeneralSummary?InvestorPreparednessgeneralSummary.recommendation:""}}</p>
         </div>
 
 
@@ -73,32 +94,25 @@
       <p class="italic text-red-500 ">Disclaimer: It is recommended that once a suitable investor has been identified, a transaction advisor should be engaged to oversee the capital structuring process until the final investment. This advisory role is crucial in ensuring that the capital structure is optimized to meet the goals and objectives of the business and business owners whilst minimizing the risks. The transaction advisor will work closely with all parties involved in the transaction, including the business, potential financer, and other advisors including the legal and tax</p>
     </div>
     <footer>
-        <p>Capital Connect Africa | Email: info&#64;capitalconnect.africa | Address:4th Floor, CVS Plaza Lenana Road, Nairobi</p>
+        <p>Capital Connect Africa | Email: services&#64;capitalconnect.africa | Address:4th Floor, CVS Plaza Lenana Road, Nairobi</p>
     </footer>
     </div>
 
 
 
-
-
-
-
-
-
-
   <div class="details flex flex-col gap-4 pb-12">
-    <p class="diag-title">Need a detailed report?.</p>
     <p class="sub-title">On Capital Connect Africa you can:</p>
     <ul class="flex-col flex gap-2 actions-list">
       <li>Get a detailed report on your company's investment readiness</li>
       <li>Plan your next milestones to unlock more capital</li>
       <li>Learn to speak investor and break down barriers</li>
-      <li>Match with investors and support organizations that are a good fit for you</li>
+      <li>Match with investors and organizations that are a good fit for you</li>
     </ul>
     <div class="call-to-action flex gap-8 items-center">
-      <a href="mailto: services@capitalconnect.africa">Request document</a>
       <a href="mailto: services@capitalconnect.africa">Contact your account manager</a>
       <a href="javascript:void(0);" (click)="generatePDF()">Download Report</a>
+      <a href="mailto:?subject=Investor%20Ready%20Report&body=Attached%20is%20the%20Investor%20Ready%20Report%20you%20requested.%0D%0A%0D%0AKind%20regards,%0D%0A%0D%0A{{currentCompany.name}}" target="_blank">Email Report</a>
+
     </div>
   </div>
 </app-modal>

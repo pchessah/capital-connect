@@ -2,7 +2,7 @@ import { Component, inject , ViewChild, ElementRef} from '@angular/core';
 import { OverviewSectionComponent } from "../../../../../shared/components/overview-section/overview-section.component";
 import { CardComponent } from "../../../../../shared/components/card/card.component";
 import { PhotoCollageComponent } from "../photo-collage/photo-collage.component";
-import { tap } from "rxjs";
+import { tap,switchMap  } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { ModalComponent } from "../../../../../shared/components/modal/modal.component";
 import { CompanyStateService } from "../../../../organization/services/company-state.service";
@@ -12,6 +12,7 @@ import { PdfGeneratorService } from '../../../../../shared/services/pdf-generato
 import { SubMissionStateService } from '../../../../../shared';
 import { UserSubmissionResponse } from '../../../../../shared';
 import { GeneralSummary } from '../../../../../shared';
+import { RemoveQuotesPipe } from '../../../../../shared/pipes/remove-quotes.pipe';
 
 @Component({
   selector: 'app-overview',
@@ -22,6 +23,7 @@ import { GeneralSummary } from '../../../../../shared';
     PhotoCollageComponent,
     CommonModule,
     ModalComponent,
+    RemoveQuotesPipe
   ],
   templateUrl: './overview.component.html',
   styleUrl: './overview.component.scss'
@@ -35,6 +37,17 @@ export class OverviewComponent {
   investorPreparednessScore: string = '0';
   answers: UserSubmissionResponse[] = [];
   generalSummary!: GeneralSummary;
+
+  preparednessAnswers: UserSubmissionResponse[] = [];
+  eligibilityAnswers: UserSubmissionResponse[] = [];
+
+
+  InvestorPreparednessgeneralSummary: GeneralSummary | undefined;
+  InvestorEligibilitygeneralSummary: GeneralSummary | undefined;
+  
+
+  currentModal: 'eligibility' | 'preparedness' = 'eligibility';
+  
 
 
   private _companyService = inject(CompanyStateService);
@@ -51,20 +64,47 @@ export class OverviewComponent {
 
   scoring$ = this._scoringService.getOnboardingScores().pipe(tap(scores => {
     this.investorEligibilityScore = scores.investorEligibility;
-    this.investorPreparednessScore = scores.investorPreparedness;
-    
+    this.investorPreparednessScore = scores.investorPreparedness;    
   }))
 
   submissions$ = this._submissionStateService.getUserSubmissionsPerSection().pipe(tap(submissions => {
-    this.answers = submissions
+    this.eligibilityAnswers = submissions
   }))
+
+  preparednessSubmissions$ = this._submissionStateService.getUserPreparednessSubmissionsPerSection().pipe(tap(submissions => {
+    this.preparednessAnswers = submissions
+  }))
+
 
   preparednessScore = parseFloat(this.investorPreparednessScore); 
-  generalSummary$ = this._scoringService.getGeneralSummary(this.preparednessScore,"PREPAREDNESS").pipe(tap(generalSummary => {
-    this.generalSummary = generalSummary
-  }))
+  investorPreparednessGeneralSummary$ = this.scoring$.pipe(
+    tap(scores => {
+      this.preparednessScore = parseFloat(scores.investorPreparedness);
+    }),
+    switchMap(() => this._scoringService.getGeneralSummary(this.preparednessScore, "PREPAREDNESS")),
+    tap(generalSummary => {
+      this.InvestorPreparednessgeneralSummary = generalSummary;
+    })
+  );
 
-  showDialog() {
+  eligibilityScore = parseFloat(this.investorEligibilityScore); 
+  investorEligibilityGeneralSummary$ = this.scoring$.pipe(
+    tap(scores => {
+      this.eligibilityScore = parseFloat(scores.investorEligibility);
+    }),
+    switchMap(() => this._scoringService.getGeneralSummary(this.eligibilityScore, "ELIGIBILITY")),
+    tap(generalSummary => {
+      this.InvestorEligibilitygeneralSummary = generalSummary;
+    })
+  );
+
+
+  showDialog(reportType : string) {
+    if(reportType === this.investorEligibilityScore){
+      this.currentModal = "eligibility"
+    }else if(reportType === this.investorPreparednessScore){
+      this.currentModal = "preparedness"
+    }
     this.visible = !this.visible;
   }
 
