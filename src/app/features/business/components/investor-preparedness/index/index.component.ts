@@ -1,18 +1,18 @@
-import {Component, EventEmitter, inject, Output} from '@angular/core';
-import { BusinessPageService } from '../../../services/business-page/business.page.service';
-import {QuestionsService} from "../../../../questions/services/questions/questions.service";
-import {Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {tap} from "rxjs/operators";
-import {Question, QuestionType} from "../../../../questions/interfaces";
+import { Component, inject } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import {RouterLink} from "@angular/router";
-import {combineLatest, Observable} from "rxjs";
+import { RouterLink } from "@angular/router";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { Observable } from "rxjs";
+import { BusinessPageService } from '../../../services/business-page/business.page.service';
+import { QuestionsService } from "../../../../questions/services/questions/questions.service";
+import { tap } from "rxjs/operators";
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
+import { Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse } from "../../../../../shared";
+import { Question, QuestionType } from "../../../../questions/interfaces";
 import {
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS
 } from "../../../../../shared/business/services/onboarding.questions.service";
-import {DropdownModule} from "primeng/dropdown";
-import {MultiSelectModule} from "primeng/multiselect";
 
 @Component({
   selector: 'app-index',
@@ -28,11 +28,13 @@ import {MultiSelectModule} from "primeng/multiselect";
   styleUrl: './index.component.scss',
 })
 export class IndexComponent {
+
   private _pageService = inject(BusinessPageService);
   private _questionService = inject(QuestionsService);
   private _submissionService = inject(SubmissionService);
   private _submissionStateService = inject(SubMissionStateService)
   private _formBuilder = inject(FormBuilder);
+
   questions: Question[] = [];
   formGroup: FormGroup = this._formBuilder.group({});
 
@@ -43,10 +45,6 @@ export class IndexComponent {
     })
   );
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
-  private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
-    const responseQuestionIds = new Set(responses.map(response => response.question.id));
-    return questions.some(question => responseQuestionIds.has(question.id));
-  }
 
   private _createFormControls() {
     this.questions.forEach(question => {
@@ -74,9 +72,9 @@ export class IndexComponent {
             text: ''
           });
         });
-      }else if(question.type ==this.field_type.SHORT_ANSWER){
+      } else if (question.type == this.field_type.SHORT_ANSWER) {
         const openQuestion = question.answers.find(a => a.text === 'OPEN');
-        const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
+        const answerId = openQuestion ? openQuestion.id : formValues['question_' + question.id]
 
         submissionData.push({
           questionId: question.id,
@@ -92,7 +90,7 @@ export class IndexComponent {
         });
       }
     });
-    this.submit$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
+    this.submit$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(() => {
       this.setNextScreen();
     }));
   }
