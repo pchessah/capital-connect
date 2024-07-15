@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BASE_URL, BaseHttpService } from '../../../../core';
 import { HttpClient } from '@angular/common/http';
-import { Sector, SectorInput, SubSector, SubSectorInput } from '../../interfaces';
 import { map, Observable } from 'rxjs';
+import { BASE_URL, BaseHttpService } from '../../../../core';
+import { Sector, SectorInput, SubSector, SubSectorInput } from '../../interfaces';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class SectorsService extends BaseHttpService {
   }
 
   getAllSectors() {
-    return this.read(`${BASE_URL}/sectors`) as Observable<Sector[]>
+    return this.read(`${BASE_URL}/sectors?page=1&limit=50`) as Observable<Sector[]>
   }
 
   getSingleSector(id: number) {
