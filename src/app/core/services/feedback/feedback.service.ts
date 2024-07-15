@@ -14,9 +14,9 @@ export class FeedbackService implements OnDestroy {
   private openMessage(title: string, message: string, type: 'info' | 'success' | 'warning' | 'error') {
     this.messageSubject.next({ title, message, type });
 
-    // setTimeout(() => {
-    //   this.messageSubject.next(null);
-    // }, 3000);
+    setTimeout(() => {
+      this.messageSubject.next(null);
+    }, 3000);
   }
 
   info(message: string, title = 'Information') {
