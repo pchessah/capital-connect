@@ -19,16 +19,15 @@
     <app-card [detail]="{title: 'Impact element assessment', value: '0', featured: false}" >
       <p class="helper__text text__red">Check your eligibility</p>
     </app-card>
-    <app-card [detail]="{title: 'Matched Advisors', value: '0', featured: false, period: '0 Past Months'}" ><app-photo-collage/></app-card>
+    <app-card [detail]="{title: 'Business Fact Sheet', value: '0', featured: false, period: '0 Past Months'}" ><app-photo-collage/></app-card>
     <app-card (click)="showMatchedInvestors()" [detail]="{title: 'Matched Investors', value: (matchedInvestors.length).toString(), featured: false, period: '0 Past Months'}" ><app-photo-collage/></app-card>
 </app-overview-section>
 
 <app-modal 
- [visible] ="visible"
- [title]="'Your Investor Ready Report'" [helperText] ="'Below is your investor readiness Summary'">
+[visible] ="visible"
+>
 
 <div  #content>  
-    <main>
     <img src="../../../../../../assets/img/logo.png" alt="logo"/>
     <section class="brand-details">
         <h2>Your Investment Preparedness Report</h2>
@@ -70,12 +69,12 @@
             <h3>Score</h3>  
             <h2>{{currentModal==="eligibility" && InvestorEligibilitygeneralSummary ? InvestorEligibilitygeneralSummary.score 
               :currentModal==="preparedness" && InvestorPreparednessgeneralSummary ?InvestorPreparednessgeneralSummary.score:""}}</h2>
-
-            <p>{{currentModal==="eligibility" && InvestorEligibilitygeneralSummary ? InvestorEligibilitygeneralSummary.comment 
-              :currentModal==="preparedness" && InvestorPreparednessgeneralSummary ?InvestorPreparednessgeneralSummary.comment:""}}</p>
           </section>
 
-          <h2 class="title">Implication</h2>
+          <p>{{currentModal==="eligibility" && InvestorEligibilitygeneralSummary ? InvestorEligibilitygeneralSummary.comment 
+            :currentModal==="preparedness" && InvestorPreparednessgeneralSummary ?InvestorPreparednessgeneralSummary.comment:""}}</p>
+
+          <h2 class="title implication">Implication</h2>
           <p>{{currentModal==="eligibility" && InvestorEligibilitygeneralSummary ? InvestorEligibilitygeneralSummary.implication
              :currentModal==="preparedness" && InvestorPreparednessgeneralSummary?InvestorPreparednessgeneralSummary.implication:""}}</p>
           <h2 class="title">Action</h2>
@@ -89,7 +88,6 @@
         </div>
 
 
-    </main>
     <div class="disclaimer">
       <p class="italic text-red-500 ">Disclaimer: It is recommended that once a suitable investor has been identified, a transaction advisor should be engaged to oversee the capital structuring process until the final investment. This advisory role is crucial in ensuring that the capital structure is optimized to meet the goals and objectives of the business and business owners whilst minimizing the risks. The transaction advisor will work closely with all parties involved in the transaction, including the business, potential financer, and other advisors including the legal and tax</p>
     </div>
@@ -116,8 +114,6 @@
     </div>
   </div>
 </app-modal>
-
-<p >This is the report to download</p>
 
 
 <app-modal [visible] ="investorsDiagVisible" title="Matched Investors" [value]="matchedInvestors.length" helperText ="You had a good match with this investor">

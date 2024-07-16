@@ -115,7 +115,13 @@ export class OverviewComponent {
   generatePDF() {
     if (this.content && this.content.nativeElement) {
       const contentElement = this.content.nativeElement;
-      this._pdfService.generatePDF(contentElement, 'InvestorReadyReport');
+      var reportName:string = '';
+      if(this.currentModal === 'eligibility'){
+          reportName = "InvestorEligibilityReport"
+      }else if(this.currentModal === 'preparedness'){
+        reportName = "InvestorPreparednessReport"
+      }
+      this._pdfService.generatePDF(contentElement, reportName);
     } else {
       console.error('Content element is null or undefined.');
     }
