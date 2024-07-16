@@ -28,7 +28,7 @@ export class PdfGeneratorService {
       const pdfHeight = pdf.internal.pageSize.getHeight();
       const url = 'www.capitalconnect.africa';
 
-      pdf.setFontSize(10); /
+      pdf.setFontSize(10); 
 
       for (let i = 1; i <= totalPages; i++) {
         pdf.setPage(i);
