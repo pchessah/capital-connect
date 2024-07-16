@@ -4,7 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { SharedModule } from '../../../../shared';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
 import { tap } from 'rxjs';
-import {CompanyInput, GrowthStage, NumberOfEmployees, RegistrationStructure, YearsOfOperation} from '../../interfaces';
+import { CompanyInput, GrowthStage, NumberOfEmployees, RegistrationStructure, YearsOfOperation } from '../../interfaces';
 
 @Component({
   selector: 'app-step-two',
@@ -44,11 +44,11 @@ export class StepTwoComponent {
 
 
   stepTwoForm: FormGroup = this._fb.group({
-    registrationStructure: [ this._currentCompanyData.registrationStructure ?? '', Validators.required],
-    yearsOfOperation: [ this._currentCompanyData.yearsOfOperation ?? '', [Validators.required]],
-    growthStage: [ this._currentCompanyData.growthStage ?? '', Validators.required],
+    registrationStructure: [this._currentCompanyData.registrationStructure ?? '', Validators.required],
+    yearsOfOperation: [this._currentCompanyData.yearsOfOperation ?? '', [Validators.required]],
+    growthStage: [this._currentCompanyData.growthStage ?? '', Validators.required],
     numberOfEmployees: [this._currentCompanyData.numberOfEmployees ?? '', Validators.required],
-    fullTimeBusiness: [this._currentCompanyData.fullTimeBusiness , Validators.required]
+    fullTimeBusiness: [this._currentCompanyData.fullTimeBusiness, Validators.required]
   });
 
   stepTwoForm$ = this.stepTwoForm.valueChanges.pipe(tap(vals => {

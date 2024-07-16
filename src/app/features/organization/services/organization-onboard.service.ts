@@ -1,10 +1,11 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { toObservable } from '@angular/core/rxjs-interop';
-import { CompanyInput, GrowthStage, RegistrationStructure } from '../interfaces';
-import { CompanyHttpService } from './company.service';
 import { of, switchMap, tap } from 'rxjs';
 import { FeedbackService, UploadService } from '../../../core';
 import { AuthStateService } from '../../auth/services/auth-state.service';
+import { SectorsService } from '../../sectors/services/sectors/sectors.service';
+import { CompanyInput, GrowthStage, RegistrationStructure } from '../interfaces';
+import { CompanyHttpService } from './company.service';
 import { CompanyStateService } from './company-state.service';
 
 @Injectable({providedIn: 'root'})
@@ -15,18 +16,30 @@ export class OrganizationOnboardService {
   private _authStateService = inject(AuthStateService);
   private _uploadService = inject(UploadService);
   private _companyStateService = inject(CompanyStateService);
+  private _sectorsService = inject(SectorsService);
 
   step1isValid = signal<boolean>(false);
   step2isValid = signal<boolean>(false);
   step3isValid = signal<boolean>(false);
   step4isValid = signal<boolean>(false);
 
-  companyLogoToUpload = signal<File>(null as any)
+  fetchSectors$ = this._sectorsService.getAllSectors();
+
+  fetchSubSectors(sectorId: number) {
+    return this.fetchSectors$
+  }
+
+  fetchSpecificSubSectors(sectorId: number) {
+    return this._sectorsService.getSubSectorOfaSector(sectorId)
+  }
+
+  companyLogoToUpload = signal<File>(null as any);
 
   private _companyInput = signal<CompanyInput>({
     name: '',
     country: '',
     businessSector: '',
+    businessSubsector: '',
     productsAndServices: '',
     registrationStructure: RegistrationStructure.CoOperative,
     yearsOfOperation:   "0 - 10" ,
@@ -53,6 +66,7 @@ export class OrganizationOnboardService {
       name: '',
       country: '',
       businessSector: '',
+      businessSubsector: '',
       productsAndServices: '',
       registrationStructure: RegistrationStructure.CoOperative,
       yearsOfOperation: '0 - 10',
