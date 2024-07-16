@@ -25,6 +25,7 @@ export interface CompanyInput {
   name: string;
   country: string;
   businessSector: string;
+  businessSubsector: string;
   productsAndServices: string;
   registrationStructure: RegistrationStructure;
   yearsOfOperation: string;

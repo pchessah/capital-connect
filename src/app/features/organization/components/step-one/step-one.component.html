@@ -1,5 +1,6 @@
 <ng-container *ngIf="stepOneForm$ | async"></ng-container>
-<ng-container *ngIf="company$ | async" />
+<ng-container *ngIf="company$ | async"></ng-container>
+<ng-container *ngIf="subsectors$ | async"></ng-container>
 
 <form [formGroup]="stepOneForm" class="form__grid">
   <div class="input__wrapper">
@@ -15,17 +16,28 @@
       }
     </select>
   </div>
+
   <div class="input__wrapper">
     <label class="input__label">Which sector do you operate in?<sup>*</sup></label>
-    <select formControlName="businessSector" class="input__field">
-      @for (sector of sectors; track $index) {
-
-      <option [value]="sector" [selected]="userCompany.businessSector ==sector">{{ sector }}</option>
-
-      }
-
+    <select  (change)="onSectorSelected($event.target)" formControlName="businessSector" class="input__field">
+      <ng-container *ngIf="sectors$ | async as sectors">
+        @for (sector of sectors; track $index) {
+        <option [value]="sector.name" [selected]="userCompany.businessSector === sector.name">{{ sector.name | titlecase }}</option>
+        }
+      </ng-container>
     </select>
   </div>
+
+  <div class="input__wrapper">
+    <label class="input__label">Which sub-sector do you operate in?<sup>*</sup></label>
+    <select formControlName="businessSubsector" class="input__field">
+      @for (subsector of subsectors; track $index) {
+      <option [value]="subsector.name" [selected]="userCompany.businessSubsector === subsector.name">{{ subsector.name | titlecase }}
+      </option>
+      }
+    </select>
+  </div>
+
   <div class="input__wrapper">
     <label class="input__label">Which products and services are you offering?<sup>*</sup></label>
     <input formControlName="productsAndServices" class="input__field" placeholder="Enter your products and services"

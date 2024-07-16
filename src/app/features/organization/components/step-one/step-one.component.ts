@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { SharedModule } from '../../../../shared';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
 import { Company, CompanyInput } from '../../interfaces';
 import { UserCompanyService } from "../../../../core/services/company/user.company.service";
+import { Sector, SubSector } from '../../../sectors/interfaces';
 
 @Component({
   selector: 'app-step-one',
@@ -18,12 +19,22 @@ export class StepOneComponent {
   private _userCompany = inject(UserCompanyService)
   private _fb = inject(FormBuilder)
   private _orgStateService = inject(OrganizationOnboardService);
+
+  sectors$: Observable<Sector[]> = this._orgStateService.fetchSectors$.pipe(tap(sectors => { 
+    this.sectors = sectors;
+    this.businessSubsectorCtrl?.disable();
+    this.businessSubsectorCtrl?.reset();
+  }));
+  subsectors$!: Observable<SubSector[]>
+
   private _currentCompanyData: CompanyInput = this._orgStateService.companyInput;
   userCompany!: Company;
+
   stepOneForm: FormGroup = this._fb.group({
     name: [this._currentCompanyData.name ?? '', Validators.required],
     country: [this._currentCompanyData.country ?? 'Kenya', Validators.required],
     businessSector: [this._currentCompanyData.businessSector ?? '', Validators.required],
+    businessSubsector: [this._currentCompanyData.businessSubsector ?? '', Validators.required],
     productsAndServices: [this._currentCompanyData.productsAndServices ?? '', Validators.required]
   });
 
@@ -33,6 +44,19 @@ export class StepOneComponent {
       this._orgStateService.updateCompanyInput(vals)
     }
   }))
+
+  onSectorSelected(target: EventTarget | null) {
+    this.businessSubsectorCtrl?.reset();
+    this.businessSubsectorCtrl?.enable();
+    const sectorId = Number(this.sectors.find(sector => sector.name === (target as any).value)?.id) as number;
+    this.subsectors$ = this._orgStateService.fetchSpecificSubSectors(sectorId).pipe(tap(subsectors => {
+      this.subsectors = subsectors
+    }))
+  }
+
+  get businessSubsectorCtrl() {
+    return this.stepOneForm.get('businessSubsector')
+  }
 
   countries = [
     "Algeria",
@@ -91,20 +115,8 @@ export class StepOneComponent {
     "Other"
   ];
 
-  sectors: string[] =[
-    "Technology",
-    "Healthcare",
-    "Consumer Goods and Services",
-    "Energy and Natural Resources",
-    "Financial Services",
-    "Industrials",
-    "Real Estate",
-    "Telecommunications",
-    "Media and Entertainment",
-    "Education",
-    "Food & Agri Business",
-    "Utilities"
-  ];
+  sectors: Sector[] = [];
+  subsectors: SubSector[] = [];
 
 
   productsAndServices: string[] = ['FMCG', 'Fintech', 'Software', 'Consulting', 'Logistics', 'Telecommunications', 'Biotechnology', 'Construction', 'Energy', 'Tourism'];
