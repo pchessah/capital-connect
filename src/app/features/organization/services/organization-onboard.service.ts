@@ -99,4 +99,11 @@ export class OrganizationOnboardService {
     }))
   }
 
+  getCompanyToBeEdited(companyId: number) {
+    return this._companyService.getSingleCompany(companyId).pipe(tap(c => {
+      this._companyStateService.setCompany(c);
+      debugger
+    }))
+  }
+
 }

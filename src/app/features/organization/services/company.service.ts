@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BASE_URL, BaseHttpService } from '../../../core';
 import { HttpClient } from '@angular/common/http';
 import { CompanyInput, CompanyResponse } from '../interfaces';
-import { map, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({providedIn: 'root'})
 export class CompanyHttpService extends BaseHttpService {
@@ -16,6 +16,14 @@ export class CompanyHttpService extends BaseHttpService {
 
   getCompanyOfUser(id:number){
     return this.readById(`${BASE_URL}/company/owner`, id) as Observable<CompanyResponse>
+  }
+
+  getAllCompanies() {
+    return this.read(`${BASE_URL}/company`) as Observable<CompanyResponse[]>
+  }
+
+  getSingleCompany(companyId: number) {
+    return this.readById(`${BASE_URL}/company/`, companyId) as Observable<CompanyResponse>
   }
 
 }

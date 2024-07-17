@@ -1,7 +1,8 @@
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../../../shared";
+import { Company } from '../../interfaces';
 
 @Component({
   selector: 'app-organization-card',
@@ -12,9 +13,6 @@ import { SharedModule } from "../../../../shared";
 })
 export class OrganizationCardComponent {
 
-
-  @Input() name!: string;
-  @Input() id!: number;
-  @Output() refreshSectorEvent = new EventEmitter();
+  @Input() company!: Company;
 
 }

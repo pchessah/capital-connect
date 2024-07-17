@@ -1,1 +1,19 @@
-<p>organization-list works!</p>
+<app-ui-shared [title]="'Companies'">
+  <ng-container *ngIf="companies$ | async as companies">
+    <div class="search-container">
+      <div class="search-form">
+        <input [(ngModel)]="searchString" type="text" class="search-input" placeholder="Search..." >
+        <button [disabled]="searchString.trim().length === 0" (click)="search()" type="submit" class="search-button"><span class="pi pi-search"></span></button>
+      </div>
+      <div *ngIf="searchString" class="chip-container">
+        <span class="chip">{{ searchString }}  <button class="chip-close" (click)="clearSearch()">×</button></span>
+       
+      </div>
+    </div>
+    <div class="organization-container">
+      <ng-container *ngFor="let company of companies; let i = index">
+        <app-organization-card [company]="company"></app-organization-card>
+      </ng-container>
+    </div>
+  </ng-container>
+</app-ui-shared>
