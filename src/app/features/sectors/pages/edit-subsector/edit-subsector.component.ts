@@ -9,7 +9,7 @@ import { Observable, tap } from "rxjs";
 import { CommonModule } from "@angular/common";
 
 @Component({
-  selector: 'app-edit-subsection',
+  selector: 'app-edit-subsector',
   standalone: true,
   imports: [
     UiComponent, CommonModule, ReactiveFormsModule
@@ -38,7 +38,7 @@ export class EditSubSectorComponet {
     const ids = param['id'].split('-')
     this.sectorId = Number(ids.at(0));
     this.subSectorId = Number(ids.at(1));
-    this.fetchedSector$ = this._sectorService.getSingleSubsector(this.sectorId)
+    this.fetchedSector$ = this._sectorService.getSingleSector(this.sectorId)
     this.fetchedSubSector$ = this._formStateService.getCurrentSubSectorBeingEdited(this.subSectorId).pipe(tap(subsector => {
       this.subsectorForm.patchValue({
         name: subsector.name,
