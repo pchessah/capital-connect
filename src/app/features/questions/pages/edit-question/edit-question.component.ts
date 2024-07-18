@@ -1,11 +1,11 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { ActivatedRoute, Router } from "@angular/router";
+import { Observable, tap } from "rxjs";
 import { QUESTION_FORM_STEPS } from "../../../../shared/interfaces/question.form.steps.enum";
 import { FormBuilder, ReactiveFormsModule, Validators } from "@angular/forms";
 import { FormStateService } from "../../services/form-state/form-state.service";
-import { ActivatedRoute, Router } from "@angular/router";
-import { Observable,  tap } from "rxjs";
 import { Question, QuestionInput, QuestionType, SubSection } from "../../interfaces";
-import { CommonModule } from "@angular/common";
 import { UiComponent } from "../../components/ui/ui.component";
 import { QuestionsService } from "../../services/questions/questions.service";
 
@@ -17,19 +17,29 @@ import { QuestionsService } from "../../services/questions/questions.service";
   styleUrl: './edit-question.component.scss'
 })
 export class EditQuestionComponent {
-  protected readonly STEPS = QUESTION_FORM_STEPS;
   private _fb = inject(FormBuilder)
   private _activatedRoute = inject(ActivatedRoute);
   private _formStateService = inject(FormStateService)
   private _questionsService = inject(QuestionsService);
   private _router = inject(Router);
-  private  _routerId!:string;
+  
+  fetchedSubSection$: Observable<SubSection> = new Observable();
+  fetchQuestionBeingEdited$: Observable<Question> = new Observable();
+  subsections$: Observable<SubSection> = new Observable()
+  updateQuestion$: Observable<Question> = new Observable();
+  
+  protected readonly STEPS = QUESTION_FORM_STEPS;
+  private _routerId!: string;
   questionId!: number;
+  isQuestionFormValid = false;
+  subsectionId!: number;
+  question!: Question;
+
   questionForm = this._fb.group({
     subsectionId: ['', Validators.required],
     text: ['', Validators.required],
     type: ['', Validators.required],
-    tooltip: ['', Validators.required],
+    tooltip: [''],
     order: [null as unknown as number, Validators.required],
   });
 
@@ -38,7 +48,7 @@ export class EditQuestionComponent {
     const ids = param['id'].trim().split('-')
     this.subsectionId = Number(ids.at(1));
     this.questionId = Number(ids.at(2));
-    this._routerId =ids.slice(0,2).join('-')
+    this._routerId = ids.slice(0, 2).join('-')
     this.fetchedSubSection$ = this._questionsService.getSingleSubsection(this.subsectionId);
 
     this.fetchQuestionBeingEdited$ = this._formStateService.getCurrentQuestionBeingEdited(this.questionId).pipe(tap(question => {
@@ -50,9 +60,7 @@ export class EditQuestionComponent {
         order: question.order,
         tooltip: question.tooltip
       });
-    }))
-
-
+    }));
   }));
 
   questionTypes: { label: string, value: QuestionType }[] = [
@@ -69,23 +77,13 @@ export class EditQuestionComponent {
 
   isQuestionFormValid$ = this._formStateService.questionFormIsValid$.pipe(tap(isValid => {
     this.isQuestionFormValid = isValid;
-  }))
-
-  fetchedSubSection$: Observable<SubSection> = new Observable();
-  fetchQuestionBeingEdited$: Observable<Question> = new Observable();
-  subsections$: Observable<SubSection> = new Observable()
-  updateQuestion$: Observable<Question> = new Observable();
-
-  isQuestionFormValid = false;
-  subsectionId!: number;
-  question!: Question;
-
+  }));
 
   submit() {
     const { type, text } = this.questionForm.value as Question;
     this.question = { ...this.question, type, text };
     this.updateQuestion$ =
-    this._formStateService.updateQuestion(this.question, this.subsectionId)
+      this._formStateService.updateQuestion(this.question, this.subsectionId)
   }
 
   cancel() {
