@@ -86,6 +86,12 @@ export class SetupComponent implements OnInit {
   }
 
   cancel() {
+    this._organizationOnboardService.resetCompanyInput()
     this.isEditMode ? this._router.navigateByUrl('/organization/list') : this._router.navigateByUrl('/')
+  }
+
+  ngOnDestroy(): void {
+    this._organizationOnboardService.resetCompanyInput()
+    
   }
 }
