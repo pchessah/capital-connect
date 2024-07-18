@@ -1,0 +1,80 @@
+@import '../../../styles/main.scss';
+
+main {
+  display: grid;
+  padding: 1rem;
+  justify-items: center;
+  grid-template-rows: max-content auto;
+
+  .logo {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+    img {
+      width: 7.5rem;
+      height: auto;
+    }
+  }
+
+  .title__bar {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+    font-family: $font-family-sans-serif;
+
+    h2 {
+      font-size: 1.5rem;
+      line-height: 1.8rem;
+      font-weight: $font-weight-medium;
+    }
+
+    p {
+      color: $gray-525;
+      font-size: 1rem;
+      line-height: 1.25rem;
+      font-weight: $font-weight-normal;
+    }
+
+  }
+  .grid__area{
+    gap: 1rem;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 1rem 0;
+
+  }
+  .form__section {
+    gap: 2rem;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    padding: 1rem 0;
+  }
+}
+
+@include when-screen-is-atleast(large){
+  main{
+    padding: 2rem 4.5rem;
+    .logo {
+      justify-content: flex-start;
+      img{
+        width: 7.5rem;
+      }
+    }
+    .title__bar{
+      h2{
+        font-size: 1.8rem;
+      }
+      p {
+        font-size: 1.25rem;
+      }
+    }
+    .grid__area {
+      width: 70%;
+      gap: 2rem;
+    }
+  }
+}

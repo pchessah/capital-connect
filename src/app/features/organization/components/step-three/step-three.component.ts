@@ -1,8 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { SharedModule } from '../../../../shared';
+import { Component, inject, Input } from '@angular/core';
 import { Observable } from 'rxjs';
+import { SharedModule } from '../../../../shared';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
+import { CompanyResponse } from '../../interfaces';
 @Component({
   selector: 'app-step-three',
   standalone: true,
@@ -13,6 +14,8 @@ import { OrganizationOnboardService } from '../../services/organization-onboard.
 export class StepThreeComponent {
 
   private _organizationOnboardService = inject(OrganizationOnboardService);
+
+  @Input() companyToBeEdited!: CompanyResponse
 
   upload$ = new Observable();
   previewUrl!: string | ArrayBuffer | null;
