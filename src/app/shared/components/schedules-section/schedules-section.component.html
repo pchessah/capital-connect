@@ -46,8 +46,22 @@
     <div>
       <h3>{{subTitle}}</h3>
       <p>{{body}}</p>
-      <a [href]="link || 'https://calendly.com/investor-eligibility/investor-preparedness'" target="_blank">{{linkLabel}}</a>
+      <a><button href="#" (click)="createBooking()" >{{linkLabel}}</button></a>
+
     </div>
   </div>
+
+  <app-modal   [visible]="visible" title="Payment Instructions" helperText="Make payments to facilitate your session" >
+  <div >
+    <iframe [src]="redirectUrl" width="100%" height="600"></iframe>
+  </div>
+
+  <div class="temp__schedule">
+    <a *ngIf="booking" href="https://calendly.com/investor-eligibility/investor-preparedness" target="_blank">Go to Calendly</a>
+  </div>
+
+
+</app-modal>
+
 
 </section>
