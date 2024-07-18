@@ -4,7 +4,7 @@ import { of, switchMap, tap } from 'rxjs';
 import { FeedbackService, UploadService } from '../../../core';
 import { AuthStateService } from '../../auth/services/auth-state.service';
 import { SectorsService } from '../../sectors/services/sectors/sectors.service';
-import { CompanyInput, GrowthStage, RegistrationStructure } from '../interfaces';
+import { Company, CompanyInput, GrowthStage, RegistrationStructure } from '../interfaces';
 import { CompanyHttpService } from './company.service';
 import { CompanyStateService } from './company-state.service';
 
@@ -24,10 +24,6 @@ export class OrganizationOnboardService {
   step4isValid = signal<boolean>(false);
 
   fetchSectors$ = this._sectorsService.getAllSectors();
-
-  fetchSubSectors(sectorId: number) {
-    return this.fetchSectors$
-  }
 
   fetchSpecificSubSectors(sectorId: number) {
     return this._sectorsService.getSubSectorOfaSector(sectorId)
@@ -77,8 +73,11 @@ export class OrganizationOnboardService {
   }
   
 
-  submitCompanyInfo() {
-    return this._companyService.createCompany(this.companyInput).pipe(
+  submitCompanyInfo(isEditMode: boolean, editId = 0) {
+
+    const valToEdit = {...this.companyInput, id: editId}
+    const res$ = isEditMode && editId ? this._companyService.updateCompany(editId, valToEdit as Company) :  this._companyService.createCompany(this.companyInput)
+    return res$.pipe(
       switchMap(() => {
         if(this.companyLogoToUpload()){
           const file = this.companyLogoToUpload()
@@ -87,7 +86,8 @@ export class OrganizationOnboardService {
         return of(true) //Always return an observable to satisfy conditions of switchmap
       }),
       tap(() => {
-      this._feedbackService.success('Company created successfully.')
+        this.resetCompanyInput()
+      this._feedbackService.success(isEditMode ? 'Company updated Successfully.': 'Company created successfully.')
     }))
   }
 
@@ -96,6 +96,12 @@ export class OrganizationOnboardService {
     return this._companyService.getCompanyOfUser(currentUserId).pipe(tap(company =>{
       this._companyInput.set(company);
       this._companyStateService.setCompany(company);
+    }))
+  }
+
+  getCompanyToBeEdited(companyId: number) {
+    return this._companyService.getSingleCompany(companyId).pipe(tap(c => {
+      this.updateCompanyInput(c);
     }))
   }
 
