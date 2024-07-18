@@ -27,11 +27,7 @@ function checkIsAdmin() {
     return true;
   }
 
-  debugger
-
   feedBackService.warning('You are not authorized to view this page, Kindly contact the administrator.')
-
-
 
   location.back();
   return false;

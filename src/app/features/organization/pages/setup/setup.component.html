@@ -1,5 +1,7 @@
 <ng-container *ngIf="submitCompanyInfo$ | async"></ng-container>
 <ng-container *ngIf="companyOfUser$  | async"></ng-container>
+<ng-container *ngIf="companyToBeEdited$ | async"></ng-container>
+
 <main class="main">
   <div class="logo"><img alt="logo" src="assets/img/logo.png" /></div>
   <section class="main__content__section">
@@ -15,13 +17,13 @@
         }
       </ul>
       <div class="hr"></div>
-      <app-step-one *ngIf="current_step == 1" />
-      <app-step-two *ngIf="current_step == 2" />
-      <app-step-three *ngIf="current_step == 3" />
+      <app-step-one [companyToBeEdited]="companyToBeEdited" *ngIf="current_step == 1" />
+      <app-step-two [companyToBeEdited]="companyToBeEdited" *ngIf="current_step == 2" />
+      <app-step-three [companyToBeEdited]="companyToBeEdited" *ngIf="current_step == 3" />
       <app-step-four *ngIf="current_step == 4" />
     </div>
     <div class="buttons__group">
-      <button class="outline" *ngIf="current_step ===  1">Cancel</button>
+      <button (click)="cancel()" class="outline" *ngIf="current_step ===  1">Cancel</button>
       <button class="outline" *ngIf="current_step > 1 && current_step < 4" (click)="setStep(-1)">Previous Step</button>
       <div class="form__controls">
         <button class="outline" (click)="setStep(1)" *ngIf="current_step == 3 ">Skip Step</button>
