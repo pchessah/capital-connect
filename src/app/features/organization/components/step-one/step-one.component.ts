@@ -40,8 +40,8 @@ export class StepOneComponent implements OnChanges {
     name: [this._currentCompanyData.name ?? this.companyToBeEdited.name ?? '', Validators.required],
     country: [this._currentCompanyData.country ?? this.companyToBeEdited.country ?? 'Kenya', Validators.required],
     businessSector: [this._currentCompanyData.businessSector ?? this.companyToBeEdited.businessSector ?? '', Validators.required],
-    businessSubsector: [this._currentCompanyData.businessSubsector ?? this.companyToBeEdited.businessSubsector ?? '', Validators.required],
-    productsAndServices: [this._currentCompanyData.productsAndServices ?? this.companyToBeEdited.productsAndServices ?? '', Validators.required]
+    businessSubsector: [this._currentCompanyData?.businessSubsector ?? this.companyToBeEdited?.businessSubsector ?? '', Validators.required],
+    productsAndServices: [this._currentCompanyData.productsAndServices ?? this.companyToBeEdited?.productsAndServices ?? '', Validators.required]
   });
 
   stepOneForm$ = this.stepOneForm.valueChanges.pipe(tap(vals => {

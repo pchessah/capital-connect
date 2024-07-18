@@ -4,7 +4,7 @@ import { of, switchMap, tap } from 'rxjs';
 import { FeedbackService, UploadService } from '../../../core';
 import { AuthStateService } from '../../auth/services/auth-state.service';
 import { SectorsService } from '../../sectors/services/sectors/sectors.service';
-import { CompanyInput, GrowthStage, RegistrationStructure } from '../interfaces';
+import { Company, CompanyInput, GrowthStage, RegistrationStructure } from '../interfaces';
 import { CompanyHttpService } from './company.service';
 import { CompanyStateService } from './company-state.service';
 
@@ -73,8 +73,11 @@ export class OrganizationOnboardService {
   }
   
 
-  submitCompanyInfo() {
-    return this._companyService.createCompany(this.companyInput).pipe(
+  submitCompanyInfo(isEditMode: boolean, editId = 0) {
+
+    const valToEdit = {...this.companyInput, id: editId}
+    const res$ = isEditMode && editId ? this._companyService.updateCompany(editId, valToEdit as Company) :  this._companyService.createCompany(this.companyInput)
+    return res$.pipe(
       switchMap(() => {
         if(this.companyLogoToUpload()){
           const file = this.companyLogoToUpload()
@@ -83,7 +86,8 @@ export class OrganizationOnboardService {
         return of(true) //Always return an observable to satisfy conditions of switchmap
       }),
       tap(() => {
-      this._feedbackService.success('Company created successfully.')
+        this.resetCompanyInput()
+      this._feedbackService.success(isEditMode ? 'Company updated Successfully.': 'Company created successfully.')
     }))
   }
 

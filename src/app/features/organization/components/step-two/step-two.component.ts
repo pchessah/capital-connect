@@ -25,7 +25,7 @@ export class StepTwoComponent {
 
   registrationStructures = Object.values(RegistrationStructure);
   growthStages = Object.values(GrowthStage);
-  
+
 
   yearsOfOperation: YearsOfOperation[] = [
     YearsOfOperation.ZeroYears,
@@ -71,8 +71,6 @@ export class StepTwoComponent {
         numberOfEmployees: this._currentCompanyData.numberOfEmployees.length ? this._currentCompanyData.numberOfEmployees : this.companyToBeEdited.numberOfEmployees,
         fullTimeBusiness: this._currentCompanyData.fullTimeBusiness ? this._currentCompanyData.fullTimeBusiness : this.companyToBeEdited.fullTimeBusiness,
       });
-
-      debugger
     }
   }
 

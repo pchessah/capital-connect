@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { SharedModule } from '../../../../shared';
 import { Observable } from 'rxjs';
+import { SharedModule } from '../../../../shared';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
 import { CompanyResponse } from '../../interfaces';
 @Component({

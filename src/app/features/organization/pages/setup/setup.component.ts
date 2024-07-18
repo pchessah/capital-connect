@@ -17,50 +17,50 @@ import { CompanyResponse } from '../../interfaces';
   styleUrl: './setup.component.scss'
 })
 export class SetupComponent implements OnInit {
-  companyToBeEdited!:CompanyResponse;
-  ngOnInit(): void {
-    this._init();
-  }
 
   private _organizationOnboardService = inject(OrganizationOnboardService);
   private _router = inject(Router);
   private _activateRoute = inject(ActivatedRoute);
 
-  isEditMode = !!this._activateRoute.snapshot.paramMap.get('id')?.length;
-  editId = this._activateRoute.snapshot.paramMap.get('id')
-
   submitCompanyInfo$ = new Observable();
-
   companyToBeEdited$ = new Observable();
-
   companyOfUser$ = new Observable();
 
+  isEditMode = !!this._activateRoute.snapshot.paramMap.get('id')?.length;
+  editId = this._activateRoute.snapshot.paramMap.get('id')
+  current_step = 1;
+  steps = [1, 2, 3, 4];
+  companyToBeEdited!: CompanyResponse;
+
+  ngOnInit(): void {
+    this._init();
+  }
+
   private _init() {
-    if(this.editId) {
+    if (this.editId) {
       this.companyToBeEdited$ = this._organizationOnboardService.getCompanyToBeEdited(Number(this.editId)).pipe(tap(company => {
+        this._organizationOnboardService.resetCompanyInput()
         this.companyToBeEdited = company;
       }))
     } else {
-      this.companyOfUser$ = this._organizationOnboardService.getCompanyOfUser().pipe(filter(() => !this.isEditMode),tap(company => {
-        if(company && company.id){
+      this.companyOfUser$ = this._organizationOnboardService.getCompanyOfUser().pipe(filter(() => !this.isEditMode), tap(company => {
+        if (company && company.id) {
           this.goToBusinessFinancials();
         }
       }));
-      
     }
   }
-
-  current_step = 1;
-  steps = [1, 2, 3, 4];
 
   setStep(direction: number) {
     if (direction > 0 && (this.current_step >= this.steps.length)) return;
     if (direction < 0 && (this.current_step <= 1)) return;
 
-    if (this.current_step === 3) {
-      this.submitCompanyInfo$ = this._organizationOnboardService.submitCompanyInfo().pipe(tap(res => {
+    if (this.current_step === 3 && direction !== -1) { //Only do this if we are going forward
+      this.submitCompanyInfo$ = this._organizationOnboardService.submitCompanyInfo(this.isEditMode, Number(this.editId) ?? null).pipe(tap(res => {
         this.companyOfUser$ = this._organizationOnboardService.getCompanyOfUser()
+        if (this.isEditMode) this._router.navigateByUrl('/organization/list')
         this.current_step += direction
+
       }), catchError(err => {
         console.error('There was an error:', err)
         return EMPTY
@@ -83,5 +83,9 @@ export class SetupComponent implements OnInit {
   }
   goToDashBoard() {
     this._router.navigateByUrl('/business')
+  }
+
+  cancel() {
+    this.isEditMode ? this._router.navigateByUrl('/organization/list') : this._router.navigateByUrl('/')
   }
 }
