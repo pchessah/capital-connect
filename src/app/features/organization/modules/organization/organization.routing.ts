@@ -4,14 +4,20 @@ import { isAdminCanActivateChildGuard, isAdminCanActivateGuard } from '../../../
 
 
 const routes: Routes = [
-  { path: 'setup', loadComponent: () => import('../../pages/setup/setup.component').then(c => c.SetupComponent) },
-  { path: 'setup/:id', loadComponent: () => import('../../pages/setup/setup.component').then(c => c.SetupComponent) },
-  { 
+  { path: 'setup',
+    loadComponent: () => import('../../pages/setup/setup.component').then(c => c.SetupComponent) },
+  {
+    path: 'setup/:id',
+    loadComponent: () => import('../../pages/setup/setup.component').then(c => c.SetupComponent),
+    canActivate: [isAdminCanActivateGuard],
+    canActivateChild: [isAdminCanActivateChildGuard]
+  },
+  {
     path: 'list',
     loadComponent: () => import('../../pages/organization-list/organization-list.component').then(c => c.OrganizationListComponent),
     canActivate: [isAdminCanActivateGuard],
     canActivateChild: [isAdminCanActivateChildGuard]
-   }
+  }
 ];
 
 @NgModule({
