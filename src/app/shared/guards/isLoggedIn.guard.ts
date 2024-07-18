@@ -25,8 +25,11 @@ function checkLogin(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
   const url = state.url;
 
   if (url === '/') {
-    if (authStateService.isLoggedIn) {
+    if (authStateService.isLoggedIn && !authStateService.userIsAdmin) {
       router.navigateByUrl('/user-profile');
+      return false;
+    }  else if(authStateService.userIsAdmin){
+      router.navigateByUrl('/dashboard')
       return false;
     }
     return true;
