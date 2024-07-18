@@ -7,6 +7,7 @@ import { StepTwoComponent } from '../../components/step-two/step-two.component';
 import { StepThreeComponent } from '../../components/step-three/step-three.component';
 import { StepFourComponent } from '../../components/step-four/step-four.component';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
+import { CompanyResponse } from '../../interfaces';
 
 @Component({
   selector: 'app-setup',
@@ -16,8 +17,9 @@ import { OrganizationOnboardService } from '../../services/organization-onboard.
   styleUrl: './setup.component.scss'
 })
 export class SetupComponent implements OnInit {
+  companyToBeEdited!:CompanyResponse;
   ngOnInit(): void {
-    this._initCompanyEditMode();
+    this._init();
   }
 
   private _organizationOnboardService = inject(OrganizationOnboardService);
@@ -31,19 +33,22 @@ export class SetupComponent implements OnInit {
 
   companyToBeEdited$ = new Observable();
 
-  companyOfUser$ = this._organizationOnboardService.getCompanyOfUser().pipe(filter(() => !this.isEditMode),tap(company => {
-    if(company && company.id){
-      this.goToBusinessFinancials();
-    }
-  }));
+  companyOfUser$ = new Observable();
 
-  private _initCompanyEditMode() {
+  private _init() {
     if(this.editId) {
-      this.companyToBeEdited$ = this._organizationOnboardService.getCompanyToBeEdited(Number(this.editId))
-
+      this.companyToBeEdited$ = this._organizationOnboardService.getCompanyToBeEdited(Number(this.editId)).pipe(tap(company => {
+        this.companyToBeEdited = company;
+      }))
+    } else {
+      this.companyOfUser$ = this._organizationOnboardService.getCompanyOfUser().pipe(filter(() => !this.isEditMode),tap(company => {
+        if(company && company.id){
+          this.goToBusinessFinancials();
+        }
+      }));
+      
     }
   }
-
 
   current_step = 1;
   steps = [1, 2, 3, 4];

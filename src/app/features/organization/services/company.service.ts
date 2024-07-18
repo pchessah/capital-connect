@@ -23,7 +23,7 @@ export class CompanyHttpService extends BaseHttpService {
   }
 
   getSingleCompany(companyId: number) {
-    return this.readById(`${BASE_URL}/company/`, companyId) as Observable<CompanyResponse>
+    return this.readById(`${BASE_URL}/company`, companyId) as Observable<CompanyResponse>
   }
 
 }

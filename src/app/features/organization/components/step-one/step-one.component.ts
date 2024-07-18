@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
-import { SharedModule } from '../../../../shared';
+import { ChangeDetectionStrategy, Component, inject, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Observable, tap } from 'rxjs';
+import { SharedModule } from '../../../../shared';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
-import { Company, CompanyInput } from '../../interfaces';
+import { Company, CompanyInput, CompanyResponse } from '../../interfaces';
 import { UserCompanyService } from "../../../../core/services/company/user.company.service";
 import { Sector, SubSector } from '../../../sectors/interfaces';
 
@@ -13,29 +13,35 @@ import { Sector, SubSector } from '../../../sectors/interfaces';
   standalone: true,
   imports: [CommonModule, SharedModule, ReactiveFormsModule],
   templateUrl: './step-one.component.html',
-  styleUrl: './step-one.component.scss'
+  styleUrl: './step-one.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class StepOneComponent {
+export class StepOneComponent implements OnChanges {
   private _userCompany = inject(UserCompanyService)
   private _fb = inject(FormBuilder)
   private _orgStateService = inject(OrganizationOnboardService);
 
-  sectors$: Observable<Sector[]> = this._orgStateService.fetchSectors$.pipe(tap(sectors => { 
+  @Input() companyToBeEdited!: CompanyResponse
+
+  sectors$: Observable<Sector[]> = this._orgStateService.fetchSectors$.pipe(tap(sectors => {
     this.sectors = sectors;
-    this.businessSubsectorCtrl?.disable();
-    this.businessSubsectorCtrl?.reset();
+    if (!this.companyToBeEdited) {
+      this.businessSubsectorCtrl?.disable();
+      this.businessSubsectorCtrl?.reset();
+    }
   }));
   subsectors$!: Observable<SubSector[]>
 
   private _currentCompanyData: CompanyInput = this._orgStateService.companyInput;
-  userCompany!: Company;
+
+  userCompany: Company = this.companyToBeEdited;
 
   stepOneForm: FormGroup = this._fb.group({
-    name: [this._currentCompanyData.name ?? '', Validators.required],
-    country: [this._currentCompanyData.country ?? 'Kenya', Validators.required],
-    businessSector: [this._currentCompanyData.businessSector ?? '', Validators.required],
-    businessSubsector: [this._currentCompanyData.businessSubsector ?? '', Validators.required],
-    productsAndServices: [this._currentCompanyData.productsAndServices ?? '', Validators.required]
+    name: [this._currentCompanyData.name ?? this.companyToBeEdited.name ?? '', Validators.required],
+    country: [this._currentCompanyData.country ?? this.companyToBeEdited.country ?? 'Kenya', Validators.required],
+    businessSector: [this._currentCompanyData.businessSector ?? this.companyToBeEdited.businessSector ?? '', Validators.required],
+    businessSubsector: [this._currentCompanyData.businessSubsector ?? this.companyToBeEdited.businessSubsector ?? '', Validators.required],
+    productsAndServices: [this._currentCompanyData.productsAndServices ?? this.companyToBeEdited.productsAndServices ?? '', Validators.required]
   });
 
   stepOneForm$ = this.stepOneForm.valueChanges.pipe(tap(vals => {
@@ -44,6 +50,31 @@ export class StepOneComponent {
       this._orgStateService.updateCompanyInput(vals)
     }
   }))
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["companyToBeEdited"] && changes["companyToBeEdited"].currentValue) {
+      this.stepOneForm.patchValue({
+        name: this._currentCompanyData.name.length ? this._currentCompanyData.name : this.companyToBeEdited.name,
+        country: this._currentCompanyData.country.length ? this._currentCompanyData.country : this.companyToBeEdited.country,
+        businessSector: this._currentCompanyData.businessSector.length ? this._currentCompanyData.businessSector : this.companyToBeEdited.businessSector,
+        businessSubsector: this._currentCompanyData.businessSubsector.length ? this._currentCompanyData.businessSubsector : this.companyToBeEdited.businessSubsector,
+        productsAndServices: this._currentCompanyData.productsAndServices ? this._currentCompanyData.productsAndServices : this.companyToBeEdited.productsAndServices,
+      });
+      const formVal = this.stepOneForm.value;
+      this._initSubSector(formVal.businessSector)
+    }
+  }
+
+  private _initSubSector(sector: string) {
+    this.sectors$ = this._orgStateService.fetchSectors$.pipe(tap(sectors => {
+      const sectorId = sectors.find(s => s.name == sector)?.id;
+      if (sectorId) {
+        this.subsectors$ = this._orgStateService.fetchSpecificSubSectors(Number(sectorId)).pipe(tap(subsectors => {
+          this.subsectors = subsectors
+        }))
+      }
+    }));
+  }
 
   onSectorSelected(target: EventTarget | null) {
     this.businessSubsectorCtrl?.reset();

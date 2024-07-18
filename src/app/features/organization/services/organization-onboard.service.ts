@@ -25,10 +25,6 @@ export class OrganizationOnboardService {
 
   fetchSectors$ = this._sectorsService.getAllSectors();
 
-  fetchSubSectors(sectorId: number) {
-    return this.fetchSectors$
-  }
-
   fetchSpecificSubSectors(sectorId: number) {
     return this._sectorsService.getSubSectorOfaSector(sectorId)
   }
@@ -101,8 +97,7 @@ export class OrganizationOnboardService {
 
   getCompanyToBeEdited(companyId: number) {
     return this._companyService.getSingleCompany(companyId).pipe(tap(c => {
-      this._companyStateService.setCompany(c);
-      debugger
+      this.updateCompanyInput(c);
     }))
   }
 

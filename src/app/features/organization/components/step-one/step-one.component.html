@@ -19,7 +19,7 @@
 
   <div class="input__wrapper">
     <label class="input__label">Which sector do you operate in?<sup>*</sup></label>
-    <select  (change)="onSectorSelected($event.target)" formControlName="businessSector" class="input__field">
+    <select (change)="onSectorSelected($event.target)" formControlName="businessSector" class="input__field">
       <ng-container *ngIf="sectors$ | async as sectors">
         @for (sector of sectors; track $index) {
         <option [value]="sector.name" [selected]="userCompany.businessSector === sector.name">{{ sector.name | titlecase }}</option>
