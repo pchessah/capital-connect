@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseHttpService } from '../../core/http/base/base.http.service';
-import { CreateBookingRequest,CreateBookingResponse } from '../interfaces/booking';
+import { CreateBookingRequest, CreateBookingResponse } from '../interfaces/booking';
 import { BASE_URL } from '../../core';
 import { Router } from '@angular/router';
 
@@ -11,7 +11,7 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class BookingService extends BaseHttpService {
-  constructor(private _httpClient: HttpClient,private router: Router) {
+  constructor(private _httpClient: HttpClient, private router: Router) {
     super(_httpClient);
   }
 

@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { BaseHttpService } from '../../core';
+import { BaseHttpService } from '../../core/http/base/base.http.service';
 import { BASE_URL } from '../../core';
 
 // const BASE_URL = 'https://pay.pesapal.com/v3/api';
@@ -50,6 +50,7 @@ export interface TransactionStatus {
   status_code: number;
   merchant_reference: string;
   currency: string;
+  status:string;
 }
 
 interface OrderCancellation {
