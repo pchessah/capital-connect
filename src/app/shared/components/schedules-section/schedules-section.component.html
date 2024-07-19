@@ -58,7 +58,9 @@
 
     <div class="temp__schedule">
       <a *ngIf="booking" href="https://calendly.com/investor-eligibility/investor-preparedness" target="_blank">Go to Calendly</a>
-      <a *ngIf="checkStatus"><button (click)="checkPaymentStatus()">Check Payment Status</button></a>
+      <a *ngIf="checkStatus">
+        <button (click)="checkPaymentStatus()">Check Payment Status</button>
+      </a>
     </div>
 
   </app-modal>

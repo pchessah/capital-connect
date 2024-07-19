@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "../../index";
 import { SCHEDULE_TYPE } from "../../../features/business/interfaces/schedules.type";
@@ -11,6 +11,8 @@ import { TransactionStatus } from '../../services/payment.service';
 import { switchMap, take, takeWhile } from 'rxjs/operators';
 import { FeedbackService } from '../../../core';
 import { FeedbackNotificationComponent } from '../../../core';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-schedules-section',
@@ -19,7 +21,7 @@ import { FeedbackNotificationComponent } from '../../../core';
   templateUrl: './schedules-section.component.html',
   styleUrls: ['./schedules-section.component.scss']
 })
-export class SchedulesSectionComponent implements OnInit{
+export class SchedulesSectionComponent implements OnInit {
   visible: boolean = false;
   orderTrackingId: string = '';
   createBooking$ = new Observable<unknown>();
@@ -46,10 +48,9 @@ export class SchedulesSectionComponent implements OnInit{
   @Input() body!: string;
   @Input() linkLabel!: string;
   @Input() link!: string;
-  cd: any;
+  cd: ChangeDetectorRef | undefined;
 
   constructor() { }
-
 
   ngOnInit() {
     this._feedbackService.message$
@@ -61,14 +62,13 @@ export class SchedulesSectionComponent implements OnInit{
       });
   }
 
-
   checkPaymentStatus() {
     this._paymentService.getTransactionStatus(this.orderTrackingId)
       .subscribe((status: TransactionStatus) => {
         if (status.status === '200') {
           this.booking = true;
           this.checkStatus = false;
-          this.visible = false
+          this.visible = false;  // Ensure modal is hidden on success
           this._feedbackService.success('Payment successful!', 'Payment Status');
         } else if (status.payment_status_description === 'pending') {
           this._feedbackService.warning('Payment pending.', 'Payment Status');
@@ -81,12 +81,13 @@ export class SchedulesSectionComponent implements OnInit{
   }
 
   createBooking() {
+    this.visible = false
     this.createBooking$ = this._bookingService.createBooking({ calendlyEventId: 'ueiuwiiwu' });
     this.createBooking$.subscribe({
       next: (response: any) => {
         if (response && response.redirectUrl) {
           this.redirectUrl = this._sanitizer.bypassSecurityTrustResourceUrl(response.redirectUrl);
-          this.visible = true;
+          this.visible = true;  // Ensure modal is shown
 
           // Start checking transaction status every twenty seconds
           const orderTrackingId = response.orderTrackingId;
@@ -99,13 +100,12 @@ export class SchedulesSectionComponent implements OnInit{
               switchMap(() => this._paymentService.getTransactionStatus(orderTrackingId)),
               takeWhile((status: TransactionStatus) => {
                 checkCount++;
-                return checkCount < 3 && status?.status === "500";
+                return checkCount < 3 && status?.status === "500" && this.visible;
               }, true)
             );
 
           (this.transactionStatusSubscription$ as Observable<TransactionStatus>).subscribe({
             next: (status: TransactionStatus) => {
-              console.log('Transaction Status:', status.status);
               if (status.status === "500") {
                 this.booking = false;
                 this.checkStatus = true;
@@ -115,15 +115,14 @@ export class SchedulesSectionComponent implements OnInit{
               }
             },
             error: (error: any) => {
-              console.error('Error checking transaction status', error);
+              this._feedbackService.error('Error checking transaction status', error);
             }
           });
         }
       },
       error: (error: any) => {
-        console.error('Error creating booking', error);
+        this._feedbackService.error('Error creating booking', error);
       }
     });
   }
-
 }

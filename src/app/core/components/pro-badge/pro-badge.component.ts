@@ -8,6 +8,8 @@ import { TransactionStatus } from '../../../shared/services/payment.service';
 import { switchMap ,take, takeWhile } from 'rxjs/operators';
 import { BookingService } from '../../../shared/services/booking.service';
 import { FeedbackService } from '../../services/feedback/feedback.service';
+import { ChangeDetectorRef } from '@angular/core';
+
 
 
 
@@ -31,9 +33,21 @@ export class ProBadgeComponent {
   booking : boolean = false;
   subscription!: Subscription;
   checkStatus: boolean = false
-
+  message: { title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null = null;
+  cd: ChangeDetectorRef | undefined;
 
   constructor(){} 
+
+  ngOnInit() {
+    this._feedbackService.message$
+      .subscribe((message: { title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null) => {
+        this.message = message;
+        if (this.cd) {
+          this.cd.detectChanges();
+        }
+      });
+  }
+
 
 
   checkPaymentStatus() {
@@ -55,15 +69,17 @@ export class ProBadgeComponent {
   }
 
 
-  
+
+
 
   createBooking() {
+    this.visible = false
     this.createBooking$ = this._bookingService.createBooking({ calendlyEventId: 'ueiuwiiwu' });
     this.createBooking$.subscribe({
       next: (response: any) => {
         if (response && response.redirectUrl) {
           this.redirectUrl = this._sanitizer.bypassSecurityTrustResourceUrl(response.redirectUrl);
-          this.visible = true;
+          this.visible = true;  // Ensure modal is shown
 
           // Start checking transaction status every twenty seconds
           const orderTrackingId = response.orderTrackingId;
@@ -76,13 +92,12 @@ export class ProBadgeComponent {
               switchMap(() => this._paymentService.getTransactionStatus(orderTrackingId)),
               takeWhile((status: TransactionStatus) => {
                 checkCount++;
-                return checkCount < 3 && status?.message !== "Request processed successfully";
+                return checkCount < 3 && status?.status === "500" && this.visible;
               }, true)
             );
 
           (this.transactionStatusSubscription$ as Observable<TransactionStatus>).subscribe({
             next: (status: TransactionStatus) => {
-              console.log('Transaction Status:', status.status);
               if (status.status === "500") {
                 this.booking = false;
                 this.checkStatus = true;
@@ -92,16 +107,18 @@ export class ProBadgeComponent {
               }
             },
             error: (error: any) => {
-              console.error('Error checking transaction status', error);
+              this._feedbackService.error('Error checking transaction status', error);
             }
           });
         }
       },
       error: (error: any) => {
-        console.error('Error creating booking', error);
+        this._feedbackService.error('Error creating booking', error);
       }
     });
   }
+  
+
 
 
 
