@@ -14,6 +14,13 @@ import {
   SchedulesSectionComponent
 } from "../../../../../shared/components/schedules-section/schedules-section.component";
 import {OverviewComponent} from "../overview/overview.component";
+import { CardComponent } from '../../../../../shared/components/card/card.component';
+import { MatchedBusiness } from '../../../../../shared/interfaces';
+import { inject } from '@angular/core';
+import { BusinessAndInvestorMatchingService } from '../../../../../shared/business/services/busines.and.investor.matching.service';
+import { AuthStateService } from '../../../../auth/services/auth-state.service';
+import { tap } from 'rxjs';
+
 
 @Component({
   selector: 'app-main',
@@ -25,11 +32,25 @@ import {OverviewComponent} from "../overview/overview.component";
     NavbarComponent,
     OverviewSectionComponent,
     SchedulesSectionComponent,
-    OverviewComponent
+    OverviewComponent,
+    CardComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
+  private _authService = inject(AuthStateService)
+  private _businessMatchingService = inject(BusinessAndInvestorMatchingService)
+  visible = false;
+  matchedBusinesses: MatchedBusiness[] = []
+
+  stats$ = this._businessMatchingService.getMatchedBusinesses(this._authService.currentUserId()  && this._authService.currentUserId() > 0 ? this._authService.currentUserId()  : Number(sessionStorage.getItem('userId'))).pipe(tap((res: MatchedBusiness[]) => {
+    this.matchedBusinesses = res
+  }))
+
+  showDialog() {
+    this.visible = true;
+  }
+
 
 }

@@ -1,27 +1,31 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Input, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { tap } from 'rxjs';
 import { SharedModule } from '../../../../shared';
 import { OrganizationOnboardService } from '../../services/organization-onboard.service';
-import { tap } from 'rxjs';
-import { CompanyInput, GrowthStage, NumberOfEmployees, RegistrationStructure, YearsOfOperation } from '../../interfaces';
+import { CompanyInput, CompanyResponse, GrowthStage, NumberOfEmployees, RegistrationStructure, YearsOfOperation } from '../../interfaces';
 
 @Component({
   selector: 'app-step-two',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, SharedModule],
   templateUrl: './step-two.component.html',
-  styleUrl: './step-two.component.scss'
+  styleUrl: './step-two.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class StepTwoComponent {
 
   private _fb = inject(FormBuilder)
   private _orgStateService = inject(OrganizationOnboardService);
 
+  @Input() companyToBeEdited!: CompanyResponse
+
   private _currentCompanyData: CompanyInput = this._orgStateService.companyInput;
 
   registrationStructures = Object.values(RegistrationStructure);
   growthStages = Object.values(GrowthStage);
+
 
   yearsOfOperation: YearsOfOperation[] = [
     YearsOfOperation.ZeroYears,
@@ -57,5 +61,17 @@ export class StepTwoComponent {
       this._orgStateService.updateCompanyInput(vals);
     }
   }))
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes["companyToBeEdited"] && changes["companyToBeEdited"].currentValue) {
+      this.stepTwoForm.patchValue({
+        registrationStructure: this._currentCompanyData.registrationStructure.length ? this._currentCompanyData.registrationStructure : this.companyToBeEdited.registrationStructure,
+        yearsOfOperation: this._currentCompanyData.yearsOfOperation.length ? this._currentCompanyData.yearsOfOperation : this.companyToBeEdited.yearsOfOperation,
+        growthStage: this._currentCompanyData.growthStage.length ? this._currentCompanyData.growthStage : this.companyToBeEdited.growthStage,
+        numberOfEmployees: this._currentCompanyData.numberOfEmployees.length ? this._currentCompanyData.numberOfEmployees : this.companyToBeEdited.numberOfEmployees,
+        fullTimeBusiness: this._currentCompanyData.fullTimeBusiness ? this._currentCompanyData.fullTimeBusiness : this.companyToBeEdited.fullTimeBusiness,
+      });
+    }
+  }
 
 }

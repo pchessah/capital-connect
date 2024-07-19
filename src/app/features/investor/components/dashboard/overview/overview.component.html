@@ -3,9 +3,21 @@
   <app-card [detail]="{title: 'Matched Businesses', value: matchedBusinesses.length.toString(), featured: true}" (click)="showDialog()">
     <p class="helper__text text__yellow">{{ matchedBusinesses.length.toString() }} perfect match</p>
   </app-card>
-  <app-card [detail]="{title: 'Matched Advisors', value: '0', featured: false}" >
-    <p class="helper__text text__red">No views yet</p>
+
+  <app-card [detail]="{title: 'Interesting Businesses', value: matchedBusinesses.length.toString(), featured: true}" (click)="showDialog()">
+    <p class="helper__text text__yellow">{{ matchedBusinesses.length.toString() }} Interesting Businesses</p>
   </app-card>
+
+  <app-card [detail]="{title: 'Connected Businesses', value: matchedBusinesses.length.toString(), featured: true}" (click)="showDialog()">
+    <p class="helper__text text__yellow">{{ matchedBusinesses.length.toString() }} Connected Businesses</p>
+  </app-card>
+
+  <app-card [detail]="{title: 'Rejected Businesses', value: matchedBusinesses.length.toString(), featured: true}" (click)="showDialog()">
+    <p class="helper__text text__yellow">{{ matchedBusinesses.length.toString() }} Rejected Businesses</p>
+  </app-card>
+  <!-- <app-card [detail]="{title: 'Matched Advisors', value: '0', featured: false}" >
+    <p class="helper__text text__red">No views yet</p>
+  </app-card> -->
 </app-overview-section>
 
 <app-modal [visible] ="visible" title="Matched Businesses" [value]="matchedBusinesses.length" helperText ="You had a good match with this businesses">
