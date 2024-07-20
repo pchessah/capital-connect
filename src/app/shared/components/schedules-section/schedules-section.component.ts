@@ -14,6 +14,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { TransactionStatus } from '../../interfaces/payment';
 import { tap, catchError,mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
+import { CALENDLYEVENTID } from '../../../core';
 
 @Component({
   selector: 'app-schedules-section',
@@ -87,7 +88,7 @@ export class SchedulesSectionComponent implements OnInit {
 
   createBooking() {
     this.visible = false
-    this.createBooking$ = this._bookingService.createBooking({ calendlyEventId: 'ueiuwiiwu' }).pipe(
+    this.createBooking$ = this._bookingService.createBooking({ calendlyEventId: CALENDLYEVENTID }).pipe(
       mergeMap((response: any) => {
         if (response && response.redirectUrl) {
           this.redirectUrl = this._sanitizer.bypassSecurityTrustResourceUrl(response.redirectUrl);

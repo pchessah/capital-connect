@@ -11,7 +11,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { TransactionStatus } from '../../../shared/interfaces/payment';
 import { tap, catchError,mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
-
+import { CALENDLYEVENTID } from '../../http/base/constants';
 
 
 
@@ -77,7 +77,7 @@ export class ProBadgeComponent {
 
   createBooking() {
     this.visible = false
-    this.createBooking$ = this._bookingService.createBooking({ calendlyEventId: 'ueiuwiiwu' }).pipe(
+    this.createBooking$ = this._bookingService.createBooking({ calendlyEventId: CALENDLYEVENTID }).pipe(
       mergeMap((response: any) => {
         if (response && response.redirectUrl) {
           this.redirectUrl = this._sanitizer.bypassSecurityTrustResourceUrl(response.redirectUrl);
