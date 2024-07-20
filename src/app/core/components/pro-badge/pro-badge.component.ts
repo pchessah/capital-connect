@@ -9,6 +9,9 @@ import { BookingService } from '../../../shared/services/booking.service';
 import { FeedbackService } from '../../services/feedback/feedback.service';
 import { ChangeDetectorRef } from '@angular/core';
 import { TransactionStatus } from '../../../shared/interfaces/payment';
+import { tap, catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 
 
 
@@ -34,6 +37,7 @@ export class ProBadgeComponent {
   checkStatus: boolean = false
   message: { title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null = null;
   cd: ChangeDetectorRef | undefined;
+  transactionStatus$ = new Observable<unknown>() ;
 
   constructor(){} 
 
@@ -50,23 +54,26 @@ export class ProBadgeComponent {
 
 
   checkPaymentStatus() {
-    this._paymentService.getTransactionStatus(this.orderTrackingId)
-      .subscribe((status: TransactionStatus) => {
+    this.transactionStatus$ = this._paymentService.getTransactionStatus(this.orderTrackingId).pipe(
+      tap((status: TransactionStatus) => {
         if (status.status === '200') {
           this.booking = true;
           this.checkStatus = false;
-          this.visible = false
+          this.visible = false;  
           this._feedbackService.success('Payment successful!', 'Payment Status');
         } else if (status.payment_status_description === 'pending') {
           this._feedbackService.warning('Payment pending.', 'Payment Status');
         } else {
           this._feedbackService.error('Payment failed.', 'Payment Status');
         }
-      }, (error: any) => {
+      }),
+      catchError((error: any) => {
         this._feedbackService.error('Error checking payment status.', 'Payment Status');
-      });
+        return of(null);
+      }),
+    );
   }
-
+ 
 
 
 
