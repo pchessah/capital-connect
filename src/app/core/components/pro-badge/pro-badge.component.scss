@@ -63,3 +63,22 @@
     display: block;
   }
 }
+
+.temp__schedule{
+  a{
+    width: max-content;
+    text-decoration: none;
+    display: block;
+    background-color: $primary-color;
+    padding: 14px 30px;
+    border-radius: 6px;
+    font-family: $font-family-sans-serif;
+    font-weight: $font-weight-medium;
+    font-size: 1rem;
+    color: white;
+    transition: .2s linear;
+    &:hover{
+      //background-color: red;
+    }
+  }
+}
