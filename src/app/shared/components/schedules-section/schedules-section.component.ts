@@ -12,7 +12,7 @@ import { FeedbackService } from '../../../core';
 import { FeedbackNotificationComponent } from '../../../core';
 import { ChangeDetectorRef } from '@angular/core';
 import { TransactionStatus } from '../../interfaces/payment';
-import { tap, catchError } from 'rxjs/operators';
+import { tap, catchError,mergeMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 
 @Component({
@@ -25,7 +25,7 @@ import { of } from 'rxjs';
 export class SchedulesSectionComponent implements OnInit {
   visible: boolean = false;
   orderTrackingId: string = '';
-  createBooking$ = new Observable<unknown>();
+  createBooking$ = new Observable<TransactionStatus | null>();
   transactionStatusSubscription$ = new Observable<unknown>();
   private _bookingService = inject(BookingService);
   private _sanitizer = inject(DomSanitizer);
@@ -69,7 +69,6 @@ export class SchedulesSectionComponent implements OnInit {
         if (status.status === '200') {
           this.booking = true;
           this.checkStatus = false;
-          this.visible = false; 
           this._feedbackService.success('Payment successful!', 'Payment Status');
         } else if (status.payment_status_description === 'pending') {
           this._feedbackService.warning('Payment pending.', 'Payment Status');
@@ -85,49 +84,47 @@ export class SchedulesSectionComponent implements OnInit {
   }
 
 
+
   createBooking() {
     this.visible = false
-    this.createBooking$ = this._bookingService.createBooking({ calendlyEventId: 'ueiuwiiwu' });
-    this.createBooking$.subscribe({
-      next: (response: any) => {
+    this.createBooking$ = this._bookingService.createBooking({ calendlyEventId: 'ueiuwiiwu' }).pipe(
+      mergeMap((response: any) => {
         if (response && response.redirectUrl) {
           this.redirectUrl = this._sanitizer.bypassSecurityTrustResourceUrl(response.redirectUrl);
-          this.visible = true;  // Ensure modal is shown
-
-          // Start checking transaction status every twenty seconds
-          const orderTrackingId = response.orderTrackingId;
+          this.visible = true;
           this.orderTrackingId = response.orderTrackingId;
-          let checkCount = 0;
 
-          this.transactionStatusSubscription$ = interval(20000)
-            .pipe(
-              take(3), // Limit to 3 intervals
-              switchMap(() => this._paymentService.getTransactionStatus(orderTrackingId)),
-              takeWhile((status: TransactionStatus) => {
-                checkCount++;
-                return checkCount < 3 && status?.status === "500" && this.visible;
-              }, true)
-            );
-
-          (this.transactionStatusSubscription$ as Observable<TransactionStatus>).subscribe({
-            next: (status: TransactionStatus) => {
-              if (status.status === "500") {
-                this.booking = false;
-                this.checkStatus = true;
-              } else if (status.status === "200") {
-                this.booking = true;
-                this.checkStatus = false;
+          // Return an observable that emits the transaction status
+          return interval(20000).pipe(
+            take(3),
+            switchMap(() => this._paymentService.getTransactionStatus(this.orderTrackingId)),
+            takeWhile((status: TransactionStatus) => status?.status === '500' && this.visible, true),
+            tap((status: TransactionStatus | null) => {
+              if (status) {
+                if (status.status === '500') {
+                  this.booking = false;
+                  this.checkStatus = true;
+                } else if (status.status === '200') {
+                  this.booking = true;
+                  this.checkStatus = false;
+                }
               }
-            },
-            error: (error: any) => {
+            }),
+            catchError((error: any) => {
               this._feedbackService.error('Error checking transaction status', error);
-            }
-          });
+              return of(null); 
+            })
+          );
+        } else {
+          return of(null); 
         }
-      },
-      error: (error: any) => {
+      }),
+      catchError((error: any) => {
         this._feedbackService.error('Error creating booking', error);
-      }
-    });
+        return of(null); 
+      })
+    );
   }
+
+
 }

@@ -6,23 +6,37 @@
     <p class="body">get personalized insights, expert advice, and tailored strategies for your business</p>
     <!-- <a target="_blank" href="https://calendly.com/investor-eligibility/investor-preparedness" class="cta">Book session</a> -->
     <!-- <a href="#" class="cta">Book session</a> -->
-    <a class="cta"><button href="#" (click)="createBooking()" >Book session</button></a>
+    <a class="cta"><button href="#" (click)="createBooking()">Book session</button></a>
 
 
-  <app-modal   [visible]="visible" title="Payment Instructions" helperText="Make payments to facilitate your session" >
-    <div >
-      <iframe [src]="redirectUrl" width="100%" height="600"></iframe>
-    </div>
+    <app-modal [visible]="visible" title="Payment Instructions" helperText="Make payments to facilitate your session">
+      <div>
+        <iframe [src]="redirectUrl" width="100%" height="600"></iframe>
+      </div>
 
-    <div class="temp__schedule">
-      <a *ngIf="booking" href="https://calendly.com/investor-eligibility/investor-preparedness" target="_blank">Go to Calendly</a>
+      <div *ngIf="createBooking$ | async as transactionStatus" class="temp__schedule">
+        <div *ngIf="transactionStatus">
+          <a *ngIf="transactionStatus.status === '200'"
+            href="https://calendly.com/investor-eligibility/investor-preparedness" target="_blank">Go to Calendly</a>
 
-      <a *ngIf="checkStatus">
-        <button (click)="checkPaymentStatus()">Check Payment Status</button>
-      </a>
-    </div>
-  
-  </app-modal>
+          <!-- <div *ngIf="transactionStatus.status === '500'">
+          <p>Booking Pending...</p>
+        </div> -->
+
+          <a *ngIf="transactionStatus.status === '500'">
+            <button (click)="checkPaymentStatus()">Check Payment Status</button>
+          </a>
+
+          <div
+            *ngIf="transactionStatus.status && transactionStatus.status !== '200' && transactionStatus.status !== '500'">
+            <p>Booking Failed.</p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </app-modal>
 
   </div>
 </div>
