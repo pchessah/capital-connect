@@ -51,18 +51,14 @@ export class SchedulesSectionComponent implements OnInit {
   @Input() body!: string;
   @Input() linkLabel!: string;
   @Input() link!: string;
-  cd: ChangeDetectorRef | undefined;
+
+  private cd =  inject(ChangeDetectorRef)
+  message$ = new Observable<{ title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null>;
 
   constructor() { }
 
   ngOnInit() {
-    this._feedbackService.message$
-      .subscribe((message: { title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null) => {
-        this.message = message;
-        if (this.cd) {
-          this.cd.detectChanges();
-        }
-      });
+    this.message$ = this._feedbackService.message$;
   }
 
 

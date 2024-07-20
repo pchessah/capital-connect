@@ -28,28 +28,10 @@ export class PaymentService extends BaseHttpService {
     return this.create(url, body, this.headers) as Observable<AuthResponse>;
   }
 
-  submitOrder(request: OrderRequest): Observable<any> {
-    const url = `${BASE_URL}/Transactions/SubmitOrderRequest`;
-    return this.create(url, request, this.headers);
-  }
-
   getTransactionStatus(orderTrackingId: string): Observable<TransactionStatus> {
     const url = `${BASE_URL}/payments/status?orderTrackingId=${orderTrackingId}`;
     return this.read(url, this.headers) as unknown as Observable<TransactionStatus>;
   }
 
-  cancelOrder(request: OrderCancellation): Observable<any> {
-    const url = `${BASE_URL}/Transactions/CancelOrder`;
-    return this.create(url, request, this.headers);
-  }
 
-  requestRefund(request: RefundRequest): Observable<any> {
-    const url = `${BASE_URL}/Transactions/RefundRequest`;
-    return this.create(url, request, this.headers);
-  }
-
-  registerIPN(request: IPNRegistration): Observable<any> {
-    const url = `${BASE_URL}/URLSetup/RegisterIPN`;
-    return this.create(url, request, this.headers);
-  }
 }

@@ -36,20 +36,18 @@ export class ProBadgeComponent {
   subscription!: Subscription;
   checkStatus: boolean = false
   message: { title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null = null;
-  cd: ChangeDetectorRef | undefined;
+
   transactionStatus$ = new Observable<unknown>() ;
+
+  private cd =  inject(ChangeDetectorRef)
+  message$ = new Observable<{ title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null>;
 
   constructor(){} 
 
   ngOnInit() {
-    this._feedbackService.message$
-      .subscribe((message: { title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null) => {
-        this.message = message;
-        if (this.cd) {
-          this.cd.detectChanges();
-        }
-      });
+    this.message$ = this._feedbackService.message$;
   }
+
 
 
 
