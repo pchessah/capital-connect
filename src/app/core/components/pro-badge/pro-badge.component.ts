@@ -4,12 +4,11 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { CommonModule } from "@angular/common";
 import { Observable , interval,Subscription} from 'rxjs';
 import { PaymentService } from '../../../shared/services/payment.service';
-import { TransactionStatus } from '../../../shared/services/payment.service';
 import { switchMap ,take, takeWhile } from 'rxjs/operators';
 import { BookingService } from '../../../shared/services/booking.service';
 import { FeedbackService } from '../../services/feedback/feedback.service';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { TransactionStatus } from '../../../shared/interfaces/payment';
 
 
 

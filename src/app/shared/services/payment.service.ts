@@ -1,73 +1,14 @@
-// paypal.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { BaseHttpService } from '../../core/http/base/base.http.service';
 import { BASE_URL } from '../../core';
-
-// const BASE_URL = 'https://pay.pesapal.com/v3/api';
-
-interface AuthResponse {
-  token: string;
-  expiryDate: string;
-}
-
-interface OrderRequest {
-  id: string;
-  currency: string;
-  amount: number;
-  description: string;
-  callback_url: string;
-  notification_id: string;
-  branch?: string;
-  billing_address: {
-    phone_number?: string;
-    email_address?: string;
-    country_code?: string;
-    first_name?: string;
-    middle_name?: string;
-    last_name?: string;
-    line_1?: string;
-    line_2?: string;
-    city?: string;
-    state?: string;
-    postal_code?: string;
-    zip_code?: string;
-  };
-}
-
-export interface TransactionStatus {
-  payment_method: string;
-  amount: number;
-  created_date: string;
-  confirmation_code: string;
-  payment_status_description: string;
-  description: string;
-  message: string;
-  payment_account: string;
-  call_back_url: string;
-  status_code: number;
-  merchant_reference: string;
-  currency: string;
-  status:string;
-}
-
-interface OrderCancellation {
-  order_tracking_id: string;
-}
-
-interface RefundRequest {
-  confirmation_code: string;
-  amount: number;
-  username: string;
-  remarks: string;
-}
-
-interface IPNRegistration {
-  url: string;
-  ipn_notification_type: string;
-}
+import { AuthResponse } from '../interfaces/payment';
+import { OrderRequest } from '../interfaces/payment';
+import { TransactionStatus } from '../interfaces/payment';
+import { OrderCancellation } from '../interfaces/payment';
+import { RefundRequest } from '../interfaces/payment';
+import { IPNRegistration } from '../interfaces/payment';
 
 @Injectable({
   providedIn: 'root'

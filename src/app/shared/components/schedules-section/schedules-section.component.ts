@@ -7,11 +7,11 @@ import { Observable, interval } from 'rxjs';
 import { ModalComponent } from '../modal/modal.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { PaymentService } from '../../services/payment.service';
-import { TransactionStatus } from '../../services/payment.service';
 import { switchMap, take, takeWhile } from 'rxjs/operators';
 import { FeedbackService } from '../../../core';
 import { FeedbackNotificationComponent } from '../../../core';
 import { ChangeDetectorRef } from '@angular/core';
+import { TransactionStatus } from '../../interfaces/payment';
 
 
 @Component({
