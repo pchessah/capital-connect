@@ -46,6 +46,13 @@ export const routes: Routes = [
     canActivate: [isLoggedInCanActivateGuard],
     canActivateChild: [isLoggedInCanActivateChildGuard]
   },
+
+  {
+    path: 'calendly-booking',
+    loadChildren: () => import('./features/booking/modules/booking.routing').then(m => m.BookingRoutingModule),
+    canActivate: [isLoggedInCanActivateGuard],
+    canActivateChild: [isLoggedInCanActivateChildGuard]
+  },
   {
     path: 'questions',
     loadChildren: () => import('./features/questions/questions.routing').then(m => m.QuestionsRoutingModule),

@@ -4,11 +4,13 @@ import { SharedModule } from "../../../shared";
 import { Observable } from 'rxjs';
 import { AuthStateService } from '../../../features/auth/services/auth-state.service';
 import { CompanyStateService } from '../../../features/organization/services/company-state.service';
+import { RouterModule } from '@angular/router';
+
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [SharedModule, CommonModule],
+  imports: [SharedModule, CommonModule, RouterModule],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss'
 })
