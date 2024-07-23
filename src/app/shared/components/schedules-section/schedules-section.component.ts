@@ -85,6 +85,10 @@ export class SchedulesSectionComponent implements OnInit {
     );
   }
 
+  goToCalendly(){
+    this._bookingService.goToCalendly()
+  }
+
 
 
   createBooking() {
