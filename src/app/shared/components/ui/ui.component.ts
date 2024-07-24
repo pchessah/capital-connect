@@ -1,9 +1,11 @@
+import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { SharedModule } from '../../shared.module';
 
 @Component({
   selector: 'app-ui-shared',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, SharedModule],
   templateUrl: './ui.component.html',
   styleUrl: './ui.component.scss'
 })

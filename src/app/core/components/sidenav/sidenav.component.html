@@ -19,6 +19,8 @@
 <!--      <li><a><mat-icon>settings</mat-icon> <span>Settings</span></a></li>-->
 <!--      <li><a href=""><mat-icon>logout</mat-icon><span>Sign Out</span></a></li>-->
     </ul>
-    <app-pro-badge *ngIf="showNav" />
+    <div *appRole="'user'">
+      <app-pro-badge  *ngIf="showNav " />
+    </div>
   </nav>
 </ng-container>
