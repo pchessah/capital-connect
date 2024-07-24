@@ -28,7 +28,9 @@ export class VerifyEmailComponent {
 
   initRoute$ = this._activatedRoute.queryParams.pipe(switchMap(params => {
     const token = params['token'];
-    if (token) return this._authService.verifyEmail(token);
+    if (token) {
+      return this._authService.verifyEmail(token);
+    }
     return of(null);
   }), tap(res => {
     if (!res) {
