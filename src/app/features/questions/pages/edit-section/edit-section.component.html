@@ -2,7 +2,8 @@
 <ng-container *ngIf="isSectionFormValid$ | async"></ng-container>
 <ng-container *ngIf="nextOperation$ | async"></ng-container>
 <ng-container *ngIf="fetchedSection$ |async"></ng-container>
-<app-ui>
+
+<app-ui [title]="'Section'">
    <div class="form__card">
      <form [formGroup]="sectionForm"  class="user__auth__form">
        <div class="input__wrapper">

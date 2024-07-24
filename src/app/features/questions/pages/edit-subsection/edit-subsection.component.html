@@ -4,7 +4,8 @@
 <ng-container *ngIf="isSubsectionFormValid$ | async"></ng-container>
 <ng-container *ngIf="params$ | async"/>
 <ng-container *ngIf="fetchedSection$ | async as section" >
-<app-ui>
+
+<app-ui [title]="'Edit subsection'">
       <div class="form__card">
         <form [formGroup]="subsectionForm" class="user__auth__form">
           <div class="input__wrapper">

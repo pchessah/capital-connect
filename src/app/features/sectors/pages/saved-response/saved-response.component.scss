@@ -22,3 +22,9 @@ a{
   display: grid;
   grid-template-columns: repeat(2, 1fr);
 }
+
+.btn-grp{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}

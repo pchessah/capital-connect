@@ -122,7 +122,6 @@ export class SignUpFormComponent {
     }
 
     this.signUp$ = this._authService.signUpUser(input).pipe(tap((res) => {
-      this.changeFormTypeEvent.emit(FORM_TYPE.SIGNIN);
       this._router.navigateByUrl('/verify-email', { state: { mode: 'unverified' } });
     }), catchError(err => {
       console.error(err);
