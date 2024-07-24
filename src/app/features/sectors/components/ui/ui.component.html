@@ -1,5 +1,7 @@
 <main>
-  <div class="logo"><img src="assets/img/logo.png" alt="logo" height="104" width="224"/></div>
+  @if(showLogo) {
+    <div (click)="goToHome()" class="logo"><img src="assets/img/logo.png" alt="logo" height="104" width="224"/></div>
+  }
   <section class="grid__area">
     <div class="title__bar">
       <h2>{{ title }}</h2>

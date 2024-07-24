@@ -1,10 +1,10 @@
-import {Component, HostListener, inject, Input} from '@angular/core';
+import { Component, HostListener, inject, Input } from '@angular/core';
+import { RouterLink, RouterLinkActive } from "@angular/router";
+import { CommonModule } from "@angular/common";
+import { tap } from "rxjs";
 import { ProBadgeComponent } from "../pro-badge/pro-badge.component";
 import { SharedModule } from "../../../shared";
-import { CommonModule } from "@angular/common";
 import { NavbarToggleService } from "../../services/navbar-toggle/navbar.toggle.service";
-import { tap } from "rxjs";
-import {RouterLink, RouterLinkActive} from "@angular/router";
 
 @Component({
   selector: 'app-sidenav',
@@ -15,16 +15,16 @@ import {RouterLink, RouterLinkActive} from "@angular/router";
 })
 
 export class SidenavComponent {
-  @Input() links!:{label: string, href:string, exact: boolean, icon?: string}[];
+  @Input() links!: { label: string, href: string, exact: boolean, icon?: string }[];
   private toggleService = inject(NavbarToggleService);
 
-  ngOnInit(){
+  ngOnInit() {
     if (window.innerWidth > 991) {
       this.toggleService.showNavBar();
     }
     else if (window.innerWidth > 767) {
       this.toggleService.showNavBar();
-      this.showNav =false;
+      this.showNav = false;
     }
   }
   @HostListener('window:resize', ['$event'])

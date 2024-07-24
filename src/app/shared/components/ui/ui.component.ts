@@ -1,12 +1,24 @@
-import { Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, inject, Input } from '@angular/core';
+import { SharedModule } from '../../shared.module';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ui-shared',
   standalone: true,
-  imports: [],
+  imports: [CommonModule, SharedModule],
   templateUrl: './ui.component.html',
   styleUrl: './ui.component.scss'
 })
 export class UiSharedComponent {
   @Input({ required: true }) title: string | undefined;
+
+  private _router = inject(Router);
+
+  goToHome() {
+    this._router.navigateByUrl('/')
+  }
+
+
+
 }

@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import {MainComponent} from "../../components/dashboard/main/main.component";
+import { MainComponent } from "../../components/dashboard/main/main.component";
 import { SidenavComponent } from '../../../../core';
-
 
 @Component({
   selector: 'app-dashboard',
@@ -18,7 +17,7 @@ export class DashboardComponent {
     {label: 'My Bookings', href: '/business/my-bookings', exact: false, icon: 'event'}
 
   ]
-  toggle_hidden(){
+  toggle_hidden() {
     this.hidden = !this.hidden;
   }
 }

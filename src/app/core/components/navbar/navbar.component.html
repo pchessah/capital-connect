@@ -9,17 +9,30 @@
             <button class="menu__button" (click)="toggleDrawer()" *ngIf="drawer_showing"><mat-icon>close</mat-icon></button>
         </div>
 
-        <nav class="navbar">
+        <nav class="navbar" [ngStyle]="{'justify-content' : !isAdmin ? 'space-between' : 'end'}">
+          @if (!isAdmin) {
             <div class="search__box">
-                <button><mat-icon>search</mat-icon></button>
-                <input type="search" placeholder="search here..." style="width: 100%;"/>
-            </div>
+              <button><mat-icon>search</mat-icon></button>
+              <input type="search" placeholder="search here..." style="width: 100%;"/>
+          </div>
+          }
+         
             <ul>
-              <li class="search"><mat-icon>search</mat-icon></li>                
+
+              @if(!isAdmin) {
+                <li>
+                    <a mat-button [routerLink]="['/business']">
+                    <mat-icon>business</mat-icon> 
+                    <span>Business</span>
+                    </a>
+                </li>
+              <li class="search"><mat-icon>search</mat-icon></li>
+                
               
                 <li><svg width="24" height="24" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M16.0001 5.33366C10.116 5.33366 5.33341 10.1323 5.33341 16.0674C5.33341 17.7505 5.71744 19.3394 6.40066 20.7537C6.72098 21.4167 6.44314 22.2139 5.78008 22.5342C5.11702 22.8546 4.31983 22.5767 3.99951 21.9137C3.14515 20.1452 2.66675 18.1605 2.66675 16.0674C2.66675 8.67359 8.62928 2.66699 16.0001 2.66699C23.3709 2.66699 29.3334 8.67359 29.3334 16.0674C29.3334 18.1605 28.855 20.1452 28.0007 21.9137C27.6803 22.5767 26.8831 22.8546 26.2201 22.5342C25.557 22.2139 25.2792 21.4167 25.5995 20.7537C26.2827 19.3394 26.6667 17.7505 26.6667 16.0674C26.6667 10.1323 21.8841 5.33366 16.0001 5.33366Z" fill="#8C8C8C"/><path fill-rule="evenodd" clip-rule="evenodd" d="M19.3487 21.7662C21.333 20.6114 22.6667 18.4616 22.6667 16.0003C22.6667 12.3184 19.682 9.33366 16.0001 9.33366C12.3182 9.33366 9.33342 12.3184 9.33342 16.0003C9.33342 18.4616 10.6672 20.6114 12.6514 21.7662C10.6106 22.3192 9.04922 23.327 7.91676 24.3398C7.07966 25.0885 6.47836 25.8376 6.08319 26.4048C5.88511 26.689 5.73726 26.9299 5.63613 27.1053C5.58552 27.1931 5.54647 27.2648 5.51856 27.3177C5.50459 27.3441 5.4934 27.3658 5.48493 27.3826L5.47425 27.4039L5.47042 27.4116L5.46888 27.4148L5.4682 27.4161C5.46789 27.4168 5.46759 27.4174 6.66675 28.0003L5.46759 27.4174C5.14565 28.0797 5.42155 28.8775 6.08382 29.1995C6.7443 29.5205 7.53963 29.247 7.86327 28.5886L7.86403 28.5871L7.87646 28.5632C7.88982 28.5379 7.91305 28.495 7.9465 28.437C8.01348 28.3208 8.12084 28.1449 8.27114 27.9292C8.57273 27.4964 9.04087 26.9121 9.69452 26.3275C10.989 25.1696 13.0171 24.0003 16.0001 24.0003C18.9831 24.0003 21.0111 25.1696 22.3056 26.3275C22.9593 26.9121 23.4274 27.4964 23.729 27.9292C23.8793 28.1449 23.9867 28.3208 24.0537 28.437C24.0871 28.495 24.1103 28.5379 24.1237 28.5632L24.1361 28.5871L24.1369 28.5886C24.4605 29.247 25.2559 29.5206 25.9163 29.1995C26.5786 28.8775 26.8545 28.0797 26.5326 27.4174L25.3334 28.0003C26.5326 27.4174 26.5323 27.4168 26.532 27.4161L26.5297 27.4116L26.5259 27.4039L26.5152 27.3826C26.5068 27.3658 26.4956 27.3441 26.4816 27.3177C26.4537 27.2648 26.4146 27.1931 26.364 27.1053C26.2629 26.9299 26.115 26.689 25.917 26.4048C25.5218 25.8376 24.9205 25.0885 24.0834 24.3398C22.9509 23.327 21.3896 22.3192 19.3487 21.7662ZM16.0001 20.0003C18.2092 20.0003 20.0001 18.2095 20.0001 16.0003C20.0001 13.7912 18.2092 12.0003 16.0001 12.0003C13.7909 12.0003 12.0001 13.7912 12.0001 16.0003C12.0001 18.2095 13.7909 20.0003 16.0001 20.0003Z" fill="#8C8C8C"/></svg><span>Account</span></li>
                 <li><mat-icon>inbox</mat-icon> <span>Inbox</span></li>
                 <li><mat-icon>notifications</mat-icon><span>Notifications</span></li>
+              }
                 <li class="profile"  [matMenuTriggerFor]="menu">
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALAAAACUCAMAAAAEVFNMAAAAMFBMVEXk5ueutLfp6uu+w8WrsbTHy821ur3h4+SorrLKztC5vsHe4OLr7e7b3t/S1dfV2Nr5rpp2AAAEJklEQVR4nO2c25KkIAxAJVxFkf//20Xty3Q72w0EE6bK8zbzdCoVQ4DQw3BxcXFxcXFxcXFxcXFx8cexCW6HLGCY4jJquaLHJU7pP/0CELT0Qj0RRo4TdOoMgzZCKPFK+tssXYZ50u5d9o5T48St9wZYfYjti7IYuRVfmBfzSXdLDR9mbs0n8pvuFmXNrXknfA3vzdj3kckx0zelhQkdlIuYq7sp8xtHV+CbjCO3b0l8NwKrbyjVTXnM6Wuzv7efxnxpPGfV33f46jEsZR/cg4UpxlOdblqlmXr7qoTYjHmSorxCPI1ZQlwd4CQsGbI4VH5xuzH98gG+PsAJ+hBPKF9hqDtN0ChfochrsUcKS+JCEXG+CWLhEZfCqaOgbYwtogjvKEkrbJC+yZh01z9hVo0dR+lbupP7VZh0sdPYFE4pMRJWYpBoXyE0pTBy2digbCfmBr7CUwrjUzj1P5fw2cJ0vn8wwg18ST86wLcSxMK4Dd0O6bbury3NQ+2p2g9oO3jUocRNmHSPZNG+wpE28Bbf/VAWiaHBV+do73JhwQbYER/9oHeh1Ifa2D0H+Zk2LMgkJr9gBJwv7THKJowKMf3hZQIVYY6LL0Q/QXwSeMNW95jKc/hiFg+mGYTa4xSme8XVuConmBJiEy4f71iFJ8YxmoqmzZFujQ4UXx3wJfAOFBpz+yaKqrGj7yEOlFwo9eC73uJmGqteRlzTkpejrExkHwu8AUF+b4Sc5Ky/Bxb1LcjcM4xvrAPw/3VWyuj+JvdhGv2vykr5patseGKDVm+T+8oJzTse+hkAu2wHAEasBxdGjnbuM7hPIBlOIcYY7DD3l7kHIDHfga6Fk5wNcX2H5L1JeO+350hh6Ex7FZ3Cor1wK+r1m9v+lXI5hsn28MIHIAVVrq4fFw6lVmu9BF7n9XWXN+LrIvewFsbIOLC9mDlW3Sxt5xf64VYYohYVtjtOySVQfolzWoWzOsr/hzllNJkyTPL4zq/CWXiaI8zgq1PhHSdOz2aIMrcmZKH8aE8MM1jZIBdejZU5LzGsbhrdh7M5qVuOraP7MHYn5EUqDSfpbsrNCwacFt67cuM5QY0fN/iCa/j8EqYWEzPfUM3eVEE4OR0eyo3SAntJW2Dc4qwQ0OP5Jcb464+Z0reBMWl8WxhT+yKN8YMyNcb1E4OAfNFVa6xrd6kNhtPqjGtXkDPbnc9UnXeSF4gndR+eZfOtm3xtMtNcTfkYXvUz9kYUJ0WD92coSitF9u3macKFo461vxPQDrcUBZivpD0oeuaBnFNsQtFsW4MHiXgKQtzkuRwalV+LubqeN7KXO5Y2+Eh+R1E6eHQWJrdpa/DmoQ25q11gXpbvqMwRIfR4eyuyf9Khg2VuJ7ef4G58nuQJW6k6IbONt/sPmXZA7m8MQjfk+fbNP0nUOaYuq8XQAAAAAElFTkSuQmCC" class="avatar" alt="profile"/>
                     <div class="selection">

@@ -15,6 +15,17 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  span {
+    margin-left: 5px;
+    cursor: pointer;
+    padding: 5px;
+  }
+
+  span:hover{
+    transition: border-color 0.3s ease;
+    border-radius: 50%;
+  }
+
 }
 
 .search-input {
