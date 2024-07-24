@@ -1,5 +1,9 @@
-<app-ui title="Dashboard">
-  <div class="main">    
+<div class="navbar">
+  <app-navbar [isAdmin]="true" on_dashboard="true" />
+</div>
+
+<app-ui [showLogo]="false" title="Dashboard">
+  <div class="main">
     <main>
       <div class="left__col">
         <div class="button-group">

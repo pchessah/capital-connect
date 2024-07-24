@@ -21,8 +21,8 @@ export class DashboardComponent {
 
   links = [
     { label: 'Sections', href: '/questions', exact: true, icon: 'grid_view' },
-    { label: 'Companies', href: '/business', exact: true, icon: 'grid_view' },
-    { label: 'Sectors', href: '/sectors', exact: false, icon: 'business_center' }
+    { label: 'Companies', href: '/business', exact: true, icon: 'store' },
+    { label: 'Sectors', href: '/sectors', exact: false, icon: 'group_work' }
   ]
   navigateTo(path: string) {
     this._router.navigate([path]);
