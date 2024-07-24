@@ -26,7 +26,6 @@ export class SavedResponseComponent {
 
   private _questionService = inject(QuestionsService);
 
-
   sections$ = this._questionService.getAllSections()
 
   reFetchSections(){
