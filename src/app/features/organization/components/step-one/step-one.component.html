@@ -4,12 +4,12 @@
 
 <form [formGroup]="stepOneForm" class="form__grid">
   <div class="input__wrapper">
-    <label class="input__label">Company Name <sup>*</sup></label>
+    <label class="input__label">What is the name of your business?<sup>*</sup></label>
     <input formControlName="name" class="input__field" placeholder="Enter your company name"
       [value]="userCompany.name || ''" />
   </div>
   <div class="input__wrapper">
-    <label class="input__label">What country is your business based?<sup>*</sup></label>
+    <label class="input__label">What is your business country of operation?<sup>*</sup></label>
     <select formControlName="country" class="input__field">
       @for (country of countries; track $index) {
       <option [value]="country" [selected]="userCompany.country ==country">{{ country }}</option>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="input__wrapper">
-    <label class="input__label">Which sector do you operate in?<sup>*</sup></label>
+    <label class="input__label">In which sector does the business operate is?<sup>*</sup></label>
     <select (change)="onSectorSelected($event.target)" formControlName="businessSector" class="input__field">
       <ng-container *ngIf="sectors$ | async as sectors">
         @for (sector of sectors; track $index) {
@@ -29,7 +29,7 @@
   </div>
 
   <div class="input__wrapper">
-    <label class="input__label">Which sub-sector do you operate in?<sup>*</sup></label>
+    <label class="input__label">In which subsector does the business operate is?<sup>*</sup></label>
     <select formControlName="businessSubsector" class="input__field">
       @for (subsector of subsectors; track $index) {
       <option [value]="subsector.name" [selected]="userCompany.businessSubsector === subsector.name">{{ subsector.name | titlecase }}
@@ -39,7 +39,7 @@
   </div>
 
   <div class="input__wrapper">
-    <label class="input__label">Which products and services are you offering?<sup>*</sup></label>
+    <label class="input__label">What products and services are you offering?<sup>*</sup></label>
     <input formControlName="productsAndServices" class="input__field" placeholder="Enter your products and services"
       [value]="userCompany.productsAndServices || ''" />
   </div>
