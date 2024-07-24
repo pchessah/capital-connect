@@ -2,13 +2,17 @@
   <ng-container *ngIf="companies$ | async as companies">
     <div class="search-container">
       <div class="search-form">
-        <input [(ngModel)]="searchString" type="text" class="search-input" placeholder="Search..." >
+        <input (ngModelChange)="checkReset($event)" [(ngModel)]="searchString" type="text" class="search-input" placeholder="Search..." >
         <button [disabled]="searchString.trim().length === 0" (click)="search()" type="submit" class="search-button"><span class="pi pi-search"></span></button>
+        <span (click)="clearSearch()">
+          <i class="pi pi-sync"></i>
+        </span>
       </div>
       <div *ngIf="searchString" class="chip-container">
         <span class="chip">{{ searchString }}  <button class="chip-close" (click)="clearSearch()">×</button></span>
-       
       </div>
+
+  
     </div>
     <div class="organization-container">
       <ng-container *ngFor="let company of companies; let i = index">

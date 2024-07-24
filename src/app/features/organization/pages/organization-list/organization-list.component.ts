@@ -35,4 +35,8 @@ export class OrganizationListComponent {
     this.searchString = '';
     this.companies$ = this._companiesService.getAllCompanies();
   }
+
+  checkReset(event: string) {
+    if(event.length === 0) this.clearSearch();
+  }
 }
