@@ -1,4 +1,5 @@
 import { Component, inject } from '@angular/core';
+import { SidenavComponent } from '../../../../core';
 
 import { MatIcon } from "@angular/material/icon";
 import { NavbarComponent } from "../../../../core";
@@ -15,14 +16,17 @@ import { CommonModule } from "@angular/common";
     NavbarComponent,
     OverviewComponent,
     SchedulesSectionComponent,
-    CommonModule
+    CommonModule,
+    SidenavComponent
   ],
   templateUrl: './main.component.html',
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
+  links =[
+    {label: 'Dashboard', href: '/business', exact: true, icon: 'grid_view'},
+    {label: 'My business', href: '/business/my-business', exact: false, icon: 'business_center'},
+    {label: 'My Bookings', href: '/business/my-bookings', exact: false, icon: 'event'}
 
-
-
-
+  ]
 }

@@ -6,6 +6,7 @@ import { CreateBookingRequest, CreateBookingResponse } from '../interfaces/booki
 import { BASE_URL } from '../../core';
 import { Router } from '@angular/router';
 import { AuthStateService } from '../../features/auth/services/auth-state.service';
+import { Booking } from '../interfaces/booking';
 
 
 @Injectable({
@@ -32,6 +33,11 @@ export class BookingService extends BaseHttpService {
   goToCalendly(): void {
     const calendlyUrl = 'https://calendly.com/investor-eligibility/investor-preparedness';
     window.open(calendlyUrl, '_blank');
+  }
+
+  getBookings(page:number,limit:number) : Observable<Booking[]>{
+    const url =  `${BASE_URL}/bookings?page=${page}&limit=${limit}`;
+    return this.read(url, this.headers) as unknown as Observable<Booking[]>;
   }
 
 }

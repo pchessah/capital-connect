@@ -1,18 +1,18 @@
 import { Component } from '@angular/core';
 import {SidenavComponent} from "../../../../core";
-import {MainComponent} from "../../components/my-business/main/main.component";
+import {BookingComponent} from "../../components/my-bookings/main/booking.component";
 
 @Component({
-  selector: 'app-my-business',
+  selector: 'app-my-bookings',
   standalone: true,
   imports: [
-    MainComponent,
+    BookingComponent,
     SidenavComponent
   ],
-  templateUrl: './my-business.component.html',
-  styleUrl: './my-business.component.scss'
+  templateUrl: './my-bookings.component.html',
+  styleUrl: './my-bookings.component.scss'
 })
-export class MyBusinessComponent {
+export class MyBookingsComponent {
   links =[
     {label: 'Dashboard', href: '/business', exact: true, icon: 'grid_view'},
     {label: 'My business', href: '/business/my-business', exact: false, icon: 'business_center'},
