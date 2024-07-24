@@ -16,7 +16,7 @@
     </div>
     <div class="organization-container">
       <ng-container *ngFor="let company of companies; let i = index">
-        <app-organization-card [company]="company"></app-organization-card>
+        <app-organization-card (refreshCompaniesEvent)="clearSearch()" [company]="company"></app-organization-card>
       </ng-container>
     </div>
   </ng-container>
