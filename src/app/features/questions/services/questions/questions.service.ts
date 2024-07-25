@@ -82,28 +82,9 @@ export class QuestionsService extends BaseHttpService {
     return this.readById(`${BASE_URL}/answers`, answerId) as Observable<Answer>
   }
 
-  getSectionQuestions(sectionId: number): Observable<any> {
-    return this.getSingleSection(sectionId).pipe(
-      switchMap(section => {
-        return this.getSubSectionsOfaSection(section.id).pipe(
-          mergeMap(subSections => {
-            const subSectionsAndQuestions$ = subSections.map(subSection =>
-              this.getQuestionsOfSubSection(subSection.id).pipe(
-                map(questions => ({
-                  ...subSection,
-                  subsectionId: subSection.id,
-                  questions: questions
-                }))
-              )
-            );
-            return forkJoin(subSectionsAndQuestions$);
-          })
-        );
-      })
-    );
-  }
 
-  testGetSectionQuestions(sectionId: number): Observable<Question[]> {
+
+  getSectionQuestions(sectionId: number): Observable<Question[]> {
     const subsections$ = this.getSubSectionsOfaSection(sectionId);
 
     return subsections$.pipe(

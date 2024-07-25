@@ -1,16 +1,18 @@
-import {Component, inject} from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from "@angular/common";
-import {AuthModule} from "../../../../auth/modules/auth.module";
-import {Question, QuestionType} from "../../../../questions/interfaces";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {QuestionsService} from "../../../../questions/services/questions/questions.service";
-import {BusinessPageService} from "../../../services/business-page/business.page.service";
-import {Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
-import {combineLatest, Observable, tap} from "rxjs";
-import {RouterLink} from "@angular/router";
-import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
-import {DropdownModule} from "primeng/dropdown";
-import {MultiSelectModule} from "primeng/multiselect";
+import { AuthModule } from "../../../../auth/modules/auth.module";
+import { Question, QuestionType } from "../../../../questions/interfaces";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { QuestionsService } from "../../../../questions/services/questions/questions.service";
+import { BusinessPageService } from "../../../services/business-page/business.page.service";
+import { Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse } from "../../../../../shared";
+import { combineLatest, Observable, tap } from "rxjs";
+import { RouterLink } from "@angular/router";
+import { loadInvestorEligibilityQuestions } from "../../../../../shared/business/services/onboarding.questions.service";
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
+import { GrowthStage } from '../../../../organization/interfaces';
+import { CompanyStateService } from '../../../../organization/services/company-state.service';
 
 @Component({
   selector: 'app-step-two',
@@ -28,37 +30,28 @@ import {MultiSelectModule} from "primeng/multiselect";
 })
 export class StepTwoComponent {
   questions: Question[] = [];
-  private _formBuilder =inject(FormBuilder)
+  private _formBuilder = inject(FormBuilder)
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);
   private _submissionService = inject(SubmissionService);
-  formGroup: FormGroup =this._formBuilder.group({})
-  field_type =QuestionType;
-  private _submissionStateService = inject(SubMissionStateService)
-  // subsections$ = this._questionService.getSubSectionsOfaSection(5).pipe(tap(res => {
-  //    
-  // }))
+  private _companyStateService = inject(CompanyStateService)
+  private _submissionStateService = inject(SubMissionStateService);
 
-  submission$ =new Observable<unknown>();
-  questions$ =  this._questionService.getQuestionsOfSubSection(loadInvestorEligibilityQuestions().STEP_TWO).pipe(tap(questions => {
+  private _companyGrowthStage = this._companyStateService.currentCompany.growthStage;
+  private _idToLoad = this._companyGrowthStage === GrowthStage.SeedStartUpIdea ? (loadInvestorEligibilityQuestions() as { STEP_TWO_PRE_REVENUE: number }).STEP_TWO_PRE_REVENUE
+    : (loadInvestorEligibilityQuestions() as { STEP_TWO_POST_REVENUE: number }).STEP_TWO_POST_REVENUE;
+
+
+  submission$ = new Observable<unknown>();
+  formGroup: FormGroup = this._formBuilder.group({})
+  field_type = QuestionType;
+
+  questions$ = this._questionService.getQuestionsOfSubSection(this._idToLoad).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))
 
   currentEntries$ = this._submissionStateService.currentUserSubmission$;
-  // init$ = combineLatest([this.questions$, this.currentEntries$]).pipe(tap(res => {
-  //   if(this._hasMatchingQuestionId(res[0], res[1])) { //Checks whether
-  //     this.setNextStep();
-  //   }
-  // }))
-
-  private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
-    // Create a set of question ids from the responses array
-    const responseQuestionIds = new Set(responses.map(response => response.question.id));
-
-    // Check if any question in the questions array has an id in the responseQuestionIds set
-    return questions.some(question => responseQuestionIds.has(question.id));
-  }
 
   private _createFormControls() {
     this.questions.forEach(question => {
@@ -69,17 +62,17 @@ export class StepTwoComponent {
       }
     });
   }
-  setNextStep(){
+  setNextStep() {
     this._pageService.setCurrentStep(3)
   }
-  goBack(){
+  goBack() {
     this._pageService.setCurrentStep(1);
   }
 
   handleSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
-     
+
     this.questions.forEach(question => {
       if (question.type === this.field_type.MULTIPLE_CHOICE) {
         const selectedAnswers = formValues['question_' + question.id];
@@ -90,9 +83,9 @@ export class StepTwoComponent {
             text: ''
           });
         });
-      }else if(question.type ==this.field_type.SHORT_ANSWER){
+      } else if (question.type == this.field_type.SHORT_ANSWER) {
         const openQuestion = question.answers.find(a => a.text === 'OPEN');
-        const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
+        const answerId = openQuestion ? openQuestion.id : formValues['question_' + question.id]
 
         submissionData.push({
           questionId: question.id,

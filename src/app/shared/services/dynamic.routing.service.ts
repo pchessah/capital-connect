@@ -12,6 +12,7 @@ import { combineLatest } from "rxjs";
 import { CompanyStateService } from "../../features/organization/services/company-state.service";
 import { Router } from "@angular/router";
 import { LoadingService } from "../../core";
+import { GrowthStage } from "../../features/organization/interfaces";
 
 @Injectable({
   providedIn: 'root'
@@ -33,10 +34,10 @@ export class DynamicRoutingService {
   getUserSubmissions() {
     const companyGrowthStage = this._companyStateService.currentCompany.growthStage;
     const userSubmissions$ = this._submissionStateService.getUserSubmissions();
-    const questionsOfBusinessFinancials$ = this._questionService.testGetSectionQuestions(BUSINESS_FINANCIALS_SUBSECTION_IDS.ID);
+    const questionsOfBusinessFinancials$ = this._questionService.getSectionQuestions(BUSINESS_FINANCIALS_SUBSECTION_IDS.ID);
     const INVESTOR_ELIGIBILITY_SUBSECTION_IDS = getInvestorEligibilitySubsectionIds(companyGrowthStage)
-    const questionsOfInvestorEligibilty$ = this._questionService.testGetSectionQuestions(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ID);
-    const questionsOfInvestorPreparedness$ = this._questionService.testGetSectionQuestions(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID);
+    const questionsOfInvestorEligibilty$ = this._questionService.getSectionQuestions(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ID);
+    const questionsOfInvestorPreparedness$ = this._questionService.getSectionQuestions(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID);
 
     const init$ =
       userSubmissions$.pipe(
@@ -69,17 +70,25 @@ export class DynamicRoutingService {
                 return (false)
               }
 
+              
               const missingInvestorEligibilitySubsectionIds = questionsOfInvestorEligibilty.filter(question => !userSubmissionQuestionIds.includes(question.id))
-                .map(question => question.subSection.id);
+              .map(question => question.subSection.id);
+              
+              const step1NotDone = companyGrowthStage === GrowthStage.SeedStartUpIdea ?  missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS as { STEP_ONE_PRE_REVENUE: number }).STEP_ONE_PRE_REVENUE) :
+              missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS as { STEP_ONE_POST_REVENUE: number }).STEP_ONE_POST_REVENUE)
 
+              const step2NotDone = companyGrowthStage === GrowthStage.SeedStartUpIdea ? missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS as { STEP_TWO_PRE_REVENUE: number }).STEP_TWO_PRE_REVENUE) :
+              missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS as { STEP_TWO_POST_REVENUE: number }).STEP_TWO_POST_REVENUE)
+
+              
               if (missingInvestorEligibilitySubsectionIds.length > 0) {
                 const url = '/business/investor-eligibility'
                 if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.LANDING)) {
                   this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
-                } else if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_ONE)) {
+                } else if (step1NotDone) {
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
                 }
-                else if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_TWO)) {
+                else if (step2NotDone) {
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
                 }
                 else if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_THREE)) {
@@ -114,14 +123,12 @@ export class DynamicRoutingService {
             }))
         })
       )
-
-
     return init$
   }
 
   getInvestorSubmissions() {
     this._loadingService.setLoading(true)
-    const questionsOfInvestorOnboarding$ = this._questionService.testGetSectionQuestions(INVESTOR_ONBOARDING_SUBSECTION_IDS.ID);
+    const questionsOfInvestorOnboarding$ = this._questionService.getSectionQuestions(INVESTOR_ONBOARDING_SUBSECTION_IDS.ID);
     const userSubmissions$ = this._submissionStateService.getUserSubmissions()
     const init$ = combineLatest([userSubmissions$, questionsOfInvestorOnboarding$]).pipe(map(([userSubmissions, questionsOfInvestorOnboarding]) => {
       const userSubmissionQuestionIds = userSubmissions.map(us => us.question.id);

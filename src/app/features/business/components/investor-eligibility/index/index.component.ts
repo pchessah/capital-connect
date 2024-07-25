@@ -1,17 +1,17 @@
 import { Component, inject } from '@angular/core';
 import { BusinessPageService } from '../../../services/business-page/business.page.service';
 import { QuestionsService } from "../../../../questions/services/questions/questions.service";
-import {Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
+import { Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse } from "../../../../../shared";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { tap } from "rxjs/operators";
 import { combineLatest, Observable } from "rxjs";
-import {Question, QuestionType} from "../../../../questions/interfaces";
+import { Question, QuestionType } from "../../../../questions/interfaces";
 import { CommonModule } from "@angular/common";
-import {Router} from "@angular/router";
-import {ProgressBarComponent} from "../../../../../core/components/progress-bar/progress-bar.component";
-import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
-import {DropdownModule} from "primeng/dropdown";
-import {MultiSelectModule} from "primeng/multiselect";
+import { Router } from "@angular/router";
+import { ProgressBarComponent } from "../../../../../core/components/progress-bar/progress-bar.component";
+import { loadInvestorEligibilityQuestions } from "../../../../../shared/business/services/onboarding.questions.service";
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
 
 @Component({
   selector: 'app-index',
@@ -27,8 +27,8 @@ export class IndexComponent {
   private _submissionService = inject(SubmissionService);
   private _submissionStateService = inject(SubMissionStateService)
   private _formBuilder = inject(FormBuilder);
-  field_type =QuestionType
-  private _router =inject(Router);
+  field_type = QuestionType
+  private _router = inject(Router);
 
   formGroup: FormGroup = this._formBuilder.group({});
   questions$ = this._questionService.getQuestionsOfSubSection(loadInvestorEligibilityQuestions().LANDING).pipe(
@@ -43,10 +43,6 @@ export class IndexComponent {
 
   questions: Question[] = [];
 
-  private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
-    const responseQuestionIds = new Set(responses.map(response => response.question.id));
-    return questions.some(question => responseQuestionIds.has(question.id));
-  }
 
   private _createFormControls() {
     this.questions.forEach(question => {
@@ -58,7 +54,7 @@ export class IndexComponent {
     });
   }
 
-  onSubmit(){
+  onSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
     this.questions.forEach(question => {
@@ -71,9 +67,9 @@ export class IndexComponent {
             text: ''
           });
         });
-      }else if(question.type ==this.field_type.SHORT_ANSWER){
+      } else if (question.type == this.field_type.SHORT_ANSWER) {
         const openQuestion = question.answers.find(a => a.text === 'OPEN');
-        const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
+        const answerId = openQuestion ? openQuestion.id : formValues['question_' + question.id]
 
         submissionData.push({
           questionId: question.id,
