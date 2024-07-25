@@ -1,17 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { MatIcon } from "@angular/material/icon";
-import { NavbarComponent } from "../../../../../core";
-import { BookingService } from '../../../../../shared/services/booking.service';
-import { PaginationService } from 'ngx-pagination';
 import { CommonModule } from '@angular/common';
-import { NgxPaginationModule } from 'ngx-pagination';
-import { Booking } from '../../../../../shared/interfaces/booking';
+import { PaginationService } from 'ngx-pagination';
 import { Observable, of } from 'rxjs';
+import { tap, catchError } from 'rxjs/operators';
+import { NgxPaginationModule } from 'ngx-pagination';
+import { BookingService } from '../../../../../shared/services/booking.service';
+import { Booking } from '../../../../../shared/interfaces/booking';
 import { PaymentService } from '../../../../../shared/services/payment.service';
 import { TransactionStatus } from '../../../../../shared/interfaces/payment';
-import { FeedbackService } from '../../../../../core';
-import { tap, catchError } from 'rxjs/operators';
-
+import { FeedbackService, NavbarComponent } from '../../../../../core';
 
 @Component({
   selector: 'app-bookings',
