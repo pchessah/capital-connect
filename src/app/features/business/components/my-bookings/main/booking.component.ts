@@ -1,16 +1,16 @@
-import { Component,inject,OnInit } from '@angular/core';
-import {MatIcon} from "@angular/material/icon";
-import {NavbarComponent} from "../../../../../core";
+import { Component, inject } from '@angular/core';
+import { MatIcon } from "@angular/material/icon";
+import { NavbarComponent } from "../../../../../core";
 import { BookingService } from '../../../../../shared/services/booking.service';
-import { PaginatePipe, PaginationService } from 'ngx-pagination';
+import { PaginationService } from 'ngx-pagination';
 import { CommonModule } from '@angular/common';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { Booking } from '../../../../../shared/interfaces/booking';
-import { Observable,of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { PaymentService } from '../../../../../shared/services/payment.service';
 import { TransactionStatus } from '../../../../../shared/interfaces/payment';
 import { FeedbackService } from '../../../../../core';
-import { tap, catchError,mergeMap } from 'rxjs/operators';
+import { tap, catchError } from 'rxjs/operators';
 
 
 @Component({
@@ -26,7 +26,7 @@ import { tap, catchError,mergeMap } from 'rxjs/operators';
   styleUrl: './booking.component.scss',
   providers: [PaginationService]
 })
-export class BookingComponent{
+export class BookingComponent {
   bookings: Booking[] = [];
   currentPage: number = 1;
   itemsPerPage: number = 8;
@@ -37,7 +37,7 @@ export class BookingComponent{
   private _feedbackService = inject(FeedbackService)
 
   private _bookingService = inject(BookingService)
-  transactionStatus$ = new Observable<unknown>() ;
+  transactionStatus$ = new Observable<unknown>();
 
   message$ = new Observable<{ title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null>;
 
@@ -48,9 +48,9 @@ export class BookingComponent{
 
 
 
-  constructor(private bookingService: BookingService) {}
+  constructor(private bookingService: BookingService) { }
 
-  bookings$ = this._bookingService.getBookings(8, 10).pipe(tap(res=>{
+  bookings$ = this._bookingService.getBookings(8, 10).pipe(tap(res => {
     this.bookings = res
     this.totalItems = res.length;
   }))
