@@ -42,7 +42,7 @@ export class StepOneComponent {
 
   private _createFormControls() {
     this.questions.forEach(question => {
-      if (question.type === this.field_type.MULTIPLE_CHOICE) {
+      if (question.type === this.fieldType.MULTIPLE_CHOICE) {
         this.formGroup.addControl('question_' + question.id, this._formBuilder.control([], Validators.required));
       } else {
         this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
@@ -61,7 +61,7 @@ export class StepOneComponent {
     const submissionData: Submission[] = [];
 
     this.questions.forEach(question => {
-      if (question.type === this.field_type.MULTIPLE_CHOICE) {
+      if (question.type === this.fieldType.MULTIPLE_CHOICE) {
         const selectedAnswers = formValues['question_' + question.id];
         selectedAnswers.forEach((answerId: number) => {
           submissionData.push({
@@ -70,7 +70,7 @@ export class StepOneComponent {
             text: ''
           });
         });
-      }else if(question.type ==this.field_type.SHORT_ANSWER){
+      }else if(question.type ==this.fieldType.SHORT_ANSWER){
         const openQuestion = question.answers.find(a => a.text === 'OPEN');
         const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
 
@@ -84,7 +84,7 @@ export class StepOneComponent {
         submissionData.push({
           questionId: question.id,
           answerId: Number(formValues['question_' + question.id]),
-          text: question.type !== this.field_type.SINGLE_CHOICE && question.type !== this.field_type.TRUE_FALSE ? formValues['question_' + question.id] : ''
+          text: question.type !== this.fieldType.SINGLE_CHOICE && question.type !== this.fieldType.TRUE_FALSE ? formValues['question_' + question.id] : ''
         });
       }
     });
@@ -93,5 +93,5 @@ export class StepOneComponent {
     }));
   }
 
-  protected readonly field_type = QuestionType;
+  protected readonly fieldType = QuestionType;
 }

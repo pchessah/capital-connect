@@ -10,7 +10,7 @@
           <div *ngFor="let question of questions; let i = index" class="input__wrapper">
             <label class="input__label">{{question.text}}<sup>*</sup></label>
             <a [title]="question.tooltip || ''">Why do we ask this?</a>
-            @if(question.type === field_type.SINGLE_CHOICE){
+            @if(question.type === fieldType.SINGLE_CHOICE){
               <div class="form__col">
                 <p-dropdown
                   [options]="question.answers"
@@ -22,7 +22,7 @@
                   placeholder="Select option" />
               </div>
             }
-            @else if(question.type === field_type.MULTIPLE_CHOICE){
+            @else if(question.type === fieldType.MULTIPLE_CHOICE){
               <div class="form__col">
                 <p-multiSelect
                   class ="input__field"
@@ -33,7 +33,7 @@
                   [formControlName]="'question_' + question.id"
                   [placeholder]="'Select option'" />
               </div>
-            } @else if (question.type === field_type.TRUE_FALSE){
+            } @else if (question.type === fieldType.TRUE_FALSE){
               <div class="radio__form">
                 <div *ngFor="let answer of question.answers">
                   <input type="radio" [formControlName]="'question_' + question.id" [value]="answer.id">
@@ -41,7 +41,7 @@
                 </div>
               </div>
             }
-            @else if(question.type === field_type.SHORT_ANSWER){
+            @else if(question.type === fieldType.SHORT_ANSWER){
               <div  class="form__col">
                 <input class="input__field" [formControlName]="'question_' + question.id" type="text" placeholder="" />
               </div>
