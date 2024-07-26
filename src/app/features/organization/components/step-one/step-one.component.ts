@@ -7,6 +7,8 @@ import { OrganizationOnboardService } from '../../services/organization-onboard.
 import { Company, CompanyInput, CompanyResponse } from '../../interfaces';
 import { UserCompanyService } from "../../../../core/services/company/user.company.service";
 import { Sector, SubSector } from '../../../sectors/interfaces';
+import { CountriesService } from '../../../../shared/services/countries.service';
+import { Country } from '../../../../shared/interfaces/countries';
 
 @Component({
   selector: 'app-step-one',
@@ -19,7 +21,10 @@ import { Sector, SubSector } from '../../../sectors/interfaces';
 export class StepOneComponent implements OnChanges {
   private _userCompany = inject(UserCompanyService)
   private _fb = inject(FormBuilder)
+  private _countries = inject(CountriesService)
   private _orgStateService = inject(OrganizationOnboardService);
+  countries : Country[] = []
+
 
   @Input() companyToBeEdited!: CompanyResponse
 
@@ -50,6 +55,11 @@ export class StepOneComponent implements OnChanges {
       this._orgStateService.updateCompanyInput(vals)
     }
   }))
+
+  countries$ = this._countries.getCountries().pipe(tap(countries => {
+    this.countries = countries
+  }))
+
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes["companyToBeEdited"] && changes["companyToBeEdited"].currentValue) {
@@ -88,63 +98,6 @@ export class StepOneComponent implements OnChanges {
   get businessSubsectorCtrl() {
     return this.stepOneForm.get('businessSubsector')
   }
-
-  countries = [
-    "Algeria",
-    "Angola",
-    "Benin",
-    "Botswana",
-    "Burundi",
-    "Cabo Verde",
-    "Cameroon",
-    "Central African Republic (CAR)",
-    "Chad",
-    "Comoros",
-    "Congo, Democratic Republic of the",
-    "Congo, Republic of the",
-    "Cote d’Ivoire",
-    "Djibouti",
-    "Egypt",
-    "Equatorial Guinea",
-    "Eritrea",
-    "Eswatini",
-    "Ethiopia",
-    "Gabon",
-    "Gambia",
-    "Ghana",
-    "Guinea",
-    "Guinea-Bissau",
-    "Kenya",
-    "Lesotho",
-    "Liberia",
-    "Libya",
-    "Madagascar",
-    "Malawi",
-    "Mali",
-    "Mauritania",
-    "Mauritius",
-    "Morocco",
-    "Mozambique",
-    "Namibia",
-    "Niger",
-    "Nigeria",
-    "Rwanda",
-    "Sao Tome and Principe",
-    "Senegal",
-    "Seychelles",
-    "Sierra Leone",
-    "Somalia",
-    "South Africa",
-    "South Sudan",
-    "Sudan",
-    "Tanzania",
-    "Togo",
-    "Tunisia",
-    "Uganda",
-    "Zambia",
-    "Zimbabwe",
-    "Other"
-  ];
 
   sectors: Sector[] = [];
   subsectors: SubSector[] = [];
