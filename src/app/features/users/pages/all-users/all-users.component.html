@@ -1,3 +1,64 @@
 <app-admin-ui-container [title]="'Users'">
 
+  <ng-container *ngIf="users$ | async as users">
+    <div class="mat-elevation-z8">
+      <div class="table-header">
+        <h5>Manage Users</h5>
+        <mat-form-field>
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applyFilter($event)">
+        </mat-form-field>
+      </div>
+      <table mat-table [dataSource]="dataSource" matSort class="full-width-table">
+    
+        <!-- First Name Column -->
+        <ng-container matColumnDef="firstName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> First Name </th>
+          <td mat-cell *matCellDef="let user"> {{user.firstName}} </td>
+        </ng-container>
+    
+        <!-- Last Name Column -->
+        <ng-container matColumnDef="lastName">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Last Name </th>
+          <td mat-cell *matCellDef="let user"> {{user.lastName}} </td>
+        </ng-container>
+    
+        <!-- Roles Column -->
+        <ng-container matColumnDef="roles">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Roles </th>
+          <td mat-cell *matCellDef="let user"> {{user.roles}} </td>
+        </ng-container>
+    
+        <!-- Email Verified Column -->
+        <ng-container matColumnDef="isEmailVerified">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email Verified </th>
+          <td mat-cell *matCellDef="let user"> {{user.isEmailVerified ? 'Yes' : 'No'}} </td>
+        </ng-container>
+    
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Actions </th>
+          <td mat-cell *matCellDef="let user">
+            <button mat-icon-button color="primary" (click)="editUser(user)" matTooltip="Edit">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" (click)="deleteUser(user)" matTooltip="Delete">
+              <mat-icon>delete</mat-icon>
+            </button>
+            <button mat-icon-button color="accent" (click)="viewUser(user)" matTooltip="View">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+    
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    
+      <mat-paginator [pageSizeOptions]="[10, 20, 30]" showFirstLastButtons></mat-paginator>
+    </div>
+    
+
+  </ng-container>
+
 </app-admin-ui-container>
