@@ -1,17 +1,20 @@
 import { Component, inject } from '@angular/core';
 import { BusinessPageService } from '../../../services/business-page/business.page.service';
 import { QuestionsService } from "../../../../questions/services/questions/questions.service";
-import {Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
+import { Submission, SubmissionService, SubMissionStateService } from "../../../../../shared";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { tap } from "rxjs/operators";
-import { combineLatest, Observable } from "rxjs";
-import {Question, QuestionType} from "../../../../questions/interfaces";
+import { switchMap, tap } from "rxjs/operators";
+import { Observable, of } from "rxjs";
+import { Question, QuestionType } from "../../../../questions/interfaces";
 import { CommonModule } from "@angular/common";
-import {Router} from "@angular/router";
-import {ProgressBarComponent} from "../../../../../core/components/progress-bar/progress-bar.component";
-import {loadInvestorEligibilityQuestions} from "../../../../../shared/business/services/onboarding.questions.service";
-import {DropdownModule} from "primeng/dropdown";
-import {MultiSelectModule} from "primeng/multiselect";
+import { Router } from "@angular/router";
+import { ProgressBarComponent } from "../../../../../core/components/progress-bar/progress-bar.component";
+import { loadInvestorEligibilityQuestions } from "../../../../../shared/business/services/onboarding.questions.service";
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
+import { CompanyStateService } from '../../../../organization/services/company-state.service';
+import { GrowthStage } from '../../../../organization/interfaces';
+import { OrganizationOnboardService } from '../../../../organization/services/organization-onboard.service';
 
 @Component({
   selector: 'app-index',
@@ -27,8 +30,11 @@ export class IndexComponent {
   private _submissionService = inject(SubmissionService);
   private _submissionStateService = inject(SubMissionStateService)
   private _formBuilder = inject(FormBuilder);
-  field_type =QuestionType
-  private _router =inject(Router);
+  private _router = inject(Router);
+  private _companyStateService = inject(CompanyStateService);
+  private _orgOnboardService = inject(OrganizationOnboardService)
+
+  fieldType = QuestionType
 
   formGroup: FormGroup = this._formBuilder.group({});
   questions$ = this._questionService.getQuestionsOfSubSection(loadInvestorEligibilityQuestions().LANDING).pipe(
@@ -43,14 +49,10 @@ export class IndexComponent {
 
   questions: Question[] = [];
 
-  private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
-    const responseQuestionIds = new Set(responses.map(response => response.question.id));
-    return questions.some(question => responseQuestionIds.has(question.id));
-  }
 
   private _createFormControls() {
     this.questions.forEach(question => {
-      if (question.type === this.field_type.MULTIPLE_CHOICE) {
+      if (question.type === this.fieldType.MULTIPLE_CHOICE) {
         this.formGroup.addControl('question_' + question.id, this._formBuilder.control([], Validators.required));
       } else {
         this.formGroup.addControl('question_' + question.id, this._formBuilder.control('', Validators.required));
@@ -58,11 +60,11 @@ export class IndexComponent {
     });
   }
 
-  onSubmit(){
+  onSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
     this.questions.forEach(question => {
-      if (question.type === this.field_type.MULTIPLE_CHOICE) {
+      if (question.type === this.fieldType.MULTIPLE_CHOICE) {
         const selectedAnswers = formValues['question_' + question.id];
         selectedAnswers.forEach((answerId: number) => {
           submissionData.push({
@@ -71,9 +73,9 @@ export class IndexComponent {
             text: ''
           });
         });
-      }else if(question.type ==this.field_type.SHORT_ANSWER){
+      } else if (question.type == this.fieldType.SHORT_ANSWER) {
         const openQuestion = question.answers.find(a => a.text === 'OPEN');
-        const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
+        const answerId = openQuestion ? openQuestion.id : formValues['question_' + question.id]
 
         submissionData.push({
           questionId: question.id,
@@ -85,22 +87,40 @@ export class IndexComponent {
         submissionData.push({
           questionId: question.id,
           answerId: Number(formValues['question_' + question.id]),
-          text: question.type !== this.field_type.SINGLE_CHOICE && question.type !== this.field_type.TRUE_FALSE ? formValues['question_' + question.id] : ''
+          text: question.type !== this.fieldType.SINGLE_CHOICE && question.type !== this.fieldType.TRUE_FALSE ? formValues['question_' + question.id] : ''
         });
       }
     });
-    this.submit$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
-      this.setNextScreen();
-    }));
+
+    const shouldUpdateCompany = this._companyStateService.currentCompany.growthStage === GrowthStage.SeedStartUpIdea || this._companyStateService.currentCompany.growthStage === GrowthStage.StartUpPostRevenues 
+
+    //We update company growth stage first based on this answer
+    const isPreRevenue = submissionData.find(s => s.questionId === 20 && s.answerId === 45)
+    const isPostRevenue = submissionData.find(s => s.questionId === 20 && s.answerId === 46)
+
+    const companyToEdit = {
+      ...this._companyStateService.currentCompany,
+      growthStage: isPreRevenue ? GrowthStage.SeedStartUpIdea : isPostRevenue ? 
+      GrowthStage.StartUpPostRevenues
+        : this._companyStateService.currentCompany.growthStage
+    }
+
+    this._orgOnboardService.updateCompanyInput(companyToEdit)
+
+    const updateCompany$ =  shouldUpdateCompany ? this._orgOnboardService.submitCompanyInfo(true, companyToEdit.id) : of(true)
+    const submission$ = this._submissionService.createMultipleSubmissions(submissionData)
+
+    this.submit$ =
+      updateCompany$.pipe(switchMap(() => submission$), tap(res => {
+        this.setNextScreen();
+      }))
   }
 
   skip() {
-    // this._pageService.setCurrentPage(1);
     this._router.navigateByUrl('/business')
   }
 
   setNextScreen() {
-
     this._pageService.setCurrentPage(2);
   }
 }
