@@ -6,6 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from "@angular/forms";
 import { SectorCard } from '../../components/sector-card/sector-card.component';
 import { SectorsService } from '../../services/sectors/sectors.service';
+import { AdminUiContainerComponent } from "../../../admin/components/admin-ui-container/admin-ui-container.component";
 
 
 @Component({
@@ -17,8 +18,9 @@ import { SectorsService } from '../../services/sectors/sectors.service';
     UiComponent,
     ReactiveFormsModule,
     SectorCard,
-    RouterLink
-  ],
+    RouterLink,
+    AdminUiContainerComponent
+],
   templateUrl: './saved-response.component.html',
   styleUrl: './saved-response.component.scss'
 })

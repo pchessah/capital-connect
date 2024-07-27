@@ -14,9 +14,10 @@ import { SidenavComponent } from "../../../../core/components/sidenav/sidenav.co
 export class AdminUiContainerComponent {
 
   links = [
-    { label: 'Sections', href: '/questions', exact: true, icon: 'grid_view' },
-    { label: 'Companies', href: '/business', exact: true, icon: 'store' },
-    { label: 'Sectors', href: '/sectors', exact: false, icon: 'group_work' }
+    { label: 'Sections', href: '/questions', exact: false, icon: 'grid_view' },
+    { label: 'Companies', href: '/organization/list', exact: false, icon: 'store' },
+    { label: 'Sectors', href: '/sectors', exact: false, icon: 'group_work' },
+    { label: 'Users', href: '/users', exact: false, icon: 'supervised_user_circle' },
   ]
 
   @Input({ required: true}) title = 'Dashboard';

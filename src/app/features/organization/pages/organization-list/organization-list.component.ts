@@ -38,6 +38,6 @@ export class OrganizationListComponent {
   }
 
   checkReset(event: string) {
-    if(event.length === 0) this.clearSearch();
+    if (event.length === 0) this.clearSearch();
   }
 }
