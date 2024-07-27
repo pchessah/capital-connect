@@ -1,22 +1,21 @@
 import { Component } from '@angular/core';
 import {SidenavComponent} from "../../../../core";
-import {MainComponent} from "../../components/dashboard/main/main.component";
+import {InvestorProfileComponent} from "../../components/InvestorProfile/investor-profile.component";
 
 
 @Component({
-  selector: 'app-dashboard',
+  selector: 'app-investor',
   standalone: true,
   imports: [
     SidenavComponent,
-    MainComponent,
+    InvestorProfileComponent
 ],
-  templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  templateUrl: './InvestorProfile.component.html',
+  styleUrl: './InvestorProfile.component.scss'
 })
-export class DashboardComponent {
+export class InvestorProfile {
     links =[
       {label: 'Dashboard', href: '/investor', exact: true, icon: 'grid_view'},
       {label: 'Investor Profile', href: '/investor/profile', exact: true, icon: 'person'}
-
     ]
 }
