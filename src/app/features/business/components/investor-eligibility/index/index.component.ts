@@ -49,7 +49,6 @@ export class IndexComponent {
 
   questions: Question[] = [];
 
-
   private _createFormControls() {
     this.questions.forEach(question => {
       if (question.type === this.fieldType.MULTIPLE_CHOICE) {

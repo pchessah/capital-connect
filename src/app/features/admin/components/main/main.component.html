@@ -1,8 +1,4 @@
-<div class="navbar">
-  <app-navbar [isAdmin]="true" on_dashboard="true" />
-</div>
-
-<app-ui [showLogo]="false" title="Dashboard">
+<app-admin-ui-container [title]="'Dashboard'">
   <div class="main">
     <main>
       <div class="left__col">
@@ -12,9 +8,6 @@
           <button pButton type="button" label=" Companies" icon="pi pi-building" class="btn btn-primary" (click)="navigateTo('/organization/list')"></button>
         </div>
       </div>
-      <!-- <div class="right__col">
-        right col
-      </div> -->
     </main>
   </div>
-</app-ui>
+</app-admin-ui-container>

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { RouterLink } from "@angular/router";
+import { Router, RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { SharedModule } from "../../../../shared";
@@ -21,6 +21,7 @@ export class OrganizationCardComponent {
   private _confirmationService = inject(ConfirmationService);
   private _companiesService = inject(CompanyHttpService);
   private _feedbackService = inject(FeedbackService);
+  private _router = inject(Router);
 
   @Input() company!: Company;
   @Output() refreshCompaniesEvent: EventEmitter<unknown> = new EventEmitter()
@@ -33,10 +34,12 @@ export class OrganizationCardComponent {
           return this._companiesService.deleteCompany(this.company.id)
         }
         return EMPTY
-      }), tap(res => {
+      }), tap(() => {
         this.refreshCompaniesEvent.emit();
         this._feedbackService.success('Company deleted successfully')
       }))
   }
+
+
 
 }

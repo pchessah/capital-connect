@@ -1,4 +1,4 @@
-<app-ui-shared [title]="'Companies'">
+<app-admin-ui-container [title]="'Companies'">
   <ng-container *ngIf="companies$ | async as companies">
     <div class="search-container">
       <div class="search-form">
@@ -20,4 +20,4 @@
       </ng-container>
     </div>
   </ng-container>
-</app-ui-shared>
+</app-admin-ui-container>
