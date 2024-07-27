@@ -14,7 +14,7 @@ export class SubMissionStateService {
   private _submissionService = inject(SubmissionService);
   private _authStateService = inject(AuthStateService);
 
-  private _currentUserId = this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId()  : Number(sessionStorage.getItem('userId'));
+  private _currentUserId = this._authStateService.currentUserId() && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId() : Number(sessionStorage.getItem('userId'));
 
   private _currentUserSubmissionSrc$$ = new BehaviorSubject<UserSubmissionResponse[]>([]);
   private _loadingService = inject(LoadingService)
@@ -29,7 +29,6 @@ export class SubMissionStateService {
   setCurrentUserSubmission(submission: UserSubmissionResponse[]) {
     this._currentUserSubmissionSrc$$.next(submission)
   }
-
 
   clearUserSubmissionResponse() {
     return this._currentUserSubmissionSrc$$.next([])
@@ -49,7 +48,7 @@ export class SubMissionStateService {
     const sectionId = getInvestorEligibilitySubsectionIds(this._companyService.currentCompany.growthStage)
     const userId = this._currentUserId && this._currentUserId > 0 ? this._currentUserId : Number(sessionStorage.getItem('userId'));
     if (userId) {
-      return this._submissionService.fetchSubmissionsByUserPerSection(userId,sectionId.ID).pipe(tap(res => {
+      return this._submissionService.fetchSubmissionsByUserPerSection(userId, sectionId.ID).pipe(tap(res => {
         this.setCurrentUserSubmission(res);
       }));
     }
@@ -59,7 +58,7 @@ export class SubMissionStateService {
   getUserPreparednessSubmissionsPerSection() {
     const userId = this._currentUserId && this._currentUserId > 0 ? this._currentUserId : Number(sessionStorage.getItem('userId'));
     if (userId) {
-      return this._submissionService.fetchSubmissionsByUserPerSection(userId,INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID).pipe(tap(res => {
+      return this._submissionService.fetchSubmissionsByUserPerSection(userId, INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID).pipe(tap(res => {
         this.setCurrentUserSubmission(res);
       }));
     }
