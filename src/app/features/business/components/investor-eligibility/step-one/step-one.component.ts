@@ -10,9 +10,8 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { QuestionsService } from "../../../../questions/services/questions/questions.service";
 import { BusinessPageService } from "../../../services/business-page/business.page.service";
 import { Submission, SubmissionService, SubMissionStateService } from "../../../../../shared";
-import { loadInvestorEligibilityQuestions } from "../../../../../shared/business/services/onboarding.questions.service";
+import { getInvestorEligibilitySubsectionIds, loadInvestorEligibilityQuestions } from "../../../../../shared/business/services/onboarding.questions.service";
 import { CompanyStateService } from '../../../../organization/services/company-state.service';
-import { GrowthStage } from '../../../../organization/interfaces';
 
 @Component({
   selector: 'app-step-one',
@@ -33,16 +32,17 @@ export class StepOneComponent {
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);
   private _submissionService = inject(SubmissionService);
-  private _submissionStateService = inject(SubMissionStateService)
-  private _companyStateService = inject(CompanyStateService)
+  private _submissionStateService = inject(SubMissionStateService);
+  private _companyStateService = inject(CompanyStateService);
 
   formGroup: FormGroup = this._formBuilder.group({})
   fieldType = QuestionType;
   questions: Question[] = [];
 
   private _companyGrowthStage = this._companyStateService.currentCompany.growthStage;
-  private _idToLoad = this._companyGrowthStage === GrowthStage.SeedStartUpIdea ? (loadInvestorEligibilityQuestions() as { STEP_ONE_PRE_REVENUE: number }).STEP_ONE_PRE_REVENUE
-    : (loadInvestorEligibilityQuestions() as { STEP_ONE_POST_REVENUE: number }).STEP_ONE_POST_REVENUE;
+  private _investorEligibilitySubsectionId = getInvestorEligibilitySubsectionIds(this._companyGrowthStage);
+
+  private _idToLoad = (this._investorEligibilitySubsectionId).STEP_ONE
 
   submission$ = new Observable<unknown>();
 

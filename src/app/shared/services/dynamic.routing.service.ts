@@ -49,62 +49,46 @@ export class DynamicRoutingService {
 
               const userSubmissionQuestionIds = this._getUniqueNumbers(userSubmissions.map(us => us.question.id));
 
-              debugger
-
               const missingBusinessFinancialSubsectionIds = questionsOfBusinessFinancials
                 .filter(question => !userSubmissionQuestionIds.includes(question.id))
                 .map(question => question.subSection.id);
 
-                debugger
-
-
               if (missingBusinessFinancialSubsectionIds.length > 0) {
                 const url = '/business/financials'
                 if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.LANDING)) {
-                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
                 } else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_ONE)) {
-                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
                 }
                 else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_TWO)) {
-                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
                 }
                 else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_THREE)) {
-                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
                 this._loadingService.setLoading(false)
                 return (false)
               }
 
-
               const missingInvestorEligibilitySubsectionIds = questionsOfInvestorEligibilty.filter(question => !userSubmissionQuestionIds.includes(question.id))
-                .map(question => question.subSection.id);
+                .map(question => question.subSection.id); 
 
-              const step1NotDone = companyGrowthStage === GrowthStage.SeedStartUpIdea ? missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS as { STEP_ONE_PRE_REVENUE: number }).STEP_ONE_PRE_REVENUE) :
-                missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS as { STEP_ONE_POST_REVENUE: number }).STEP_ONE_POST_REVENUE)
+              const step1NotDone = missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS).STEP_ONE)
 
-              const step2NotDone = companyGrowthStage === GrowthStage.SeedStartUpIdea ? missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS as { STEP_TWO_PRE_REVENUE: number }).STEP_TWO_PRE_REVENUE) :
-                missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS as { STEP_TWO_POST_REVENUE: number }).STEP_TWO_POST_REVENUE)
-
+              const step2NotDone = missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS).STEP_TWO)
 
               if (missingInvestorEligibilitySubsectionIds.length > 0) {
                 const url = '/business/investor-eligibility'
                 if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.LANDING)) {
-                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
                 } else if (step1NotDone) {
-                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
                 }
                 else if (step2NotDone) {
-                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
                 }
                 else if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_THREE)) {
-                  debugger
+        
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
                 this._loadingService.setLoading(false)
@@ -117,18 +101,18 @@ export class DynamicRoutingService {
               if (missingInvestorPreparednessSubsectionIds.length > 0) {
                 const url = '/business/investor-preparedness'
                 if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.LANDING)) {
-                  debugger
+        
                   this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
                 } else if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_ONE)) {
-                  debugger
+        
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
                 }
                 else if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_TWO)) {
-                  debugger
+        
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
                 }
                 else if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_THREE)) {
-                  debugger
+        
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
                 return (false)
@@ -157,18 +141,18 @@ export class DynamicRoutingService {
       if (missingInvestorOnboardingIds.length > 0) {
         const url = '/investor/onboarding'
         if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.LANDING)) {
-          debugger
+
           this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
         } else if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_ONE)) {
-          debugger
+
           this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
         }
         else if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_TWO)) {
-          debugger
+
           this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
         }
         else if (missingInvestorOnboardingIds.includes(INVESTOR_ONBOARDING_SUBSECTION_IDS.STEP_THREE)) {
-          debugger
+
           this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
         }
 

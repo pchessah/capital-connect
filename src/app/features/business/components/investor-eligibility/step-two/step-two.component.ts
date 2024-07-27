@@ -10,8 +10,7 @@ import { Question, QuestionType } from "../../../../questions/interfaces";
 import { QuestionsService } from "../../../../questions/services/questions/questions.service";
 import { BusinessPageService } from "../../../services/business-page/business.page.service";
 import { Submission, SubmissionService, SubMissionStateService } from "../../../../../shared";
-import { loadInvestorEligibilityQuestions } from "../../../../../shared/business/services/onboarding.questions.service";
-import { GrowthStage } from '../../../../organization/interfaces';
+import { getInvestorEligibilitySubsectionIds } from "../../../../../shared/business/services/onboarding.questions.service";
 import { CompanyStateService } from '../../../../organization/services/company-state.service';
 
 @Component({
@@ -29,17 +28,17 @@ import { CompanyStateService } from '../../../../organization/services/company-s
   styleUrl: './step-two.component.scss'
 })
 export class StepTwoComponent {
-  private _formBuilder = inject(FormBuilder)
+  private _formBuilder = inject(FormBuilder);
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);
   private _submissionService = inject(SubmissionService);
-  private _companyStateService = inject(CompanyStateService)
   private _submissionStateService = inject(SubMissionStateService);
+  private _companyStateService = inject(CompanyStateService);
   
   private _companyGrowthStage = this._companyStateService.currentCompany.growthStage;
-  private _idToLoad = this._companyGrowthStage === GrowthStage.SeedStartUpIdea ? (loadInvestorEligibilityQuestions() as { STEP_TWO_PRE_REVENUE: number }).STEP_TWO_PRE_REVENUE
-  : (loadInvestorEligibilityQuestions() as { STEP_TWO_POST_REVENUE: number }).STEP_TWO_POST_REVENUE;
-  
+  private _investorEligibilitySubsectionId = getInvestorEligibilitySubsectionIds(this._companyGrowthStage);
+
+  private _idToLoad = (this._investorEligibilitySubsectionId).STEP_TWO
   
   submission$ = new Observable<unknown>();
   formGroup: FormGroup = this._formBuilder.group({})

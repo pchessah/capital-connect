@@ -4,7 +4,7 @@ import { QuestionsService } from "../../../../questions/services/questions/quest
 import { Submission, SubmissionService, SubMissionStateService } from "../../../../../shared";
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { switchMap, tap } from "rxjs/operators";
-import { Observable } from "rxjs";
+import { Observable, of } from "rxjs";
 import { Question, QuestionType } from "../../../../questions/interfaces";
 import { CommonModule } from "@angular/common";
 import { Router } from "@angular/router";
@@ -92,36 +92,35 @@ export class IndexComponent {
       }
     });
 
+    const shouldUpdateCompany = this._companyStateService.currentCompany.growthStage === GrowthStage.SeedStartUpIdea || this._companyStateService.currentCompany.growthStage === GrowthStage.StartUpPostRevenues 
+
     //We update company growth stage first based on this answer
     const isPreRevenue = submissionData.find(s => s.questionId === 20 && s.answerId === 45)
     const isPostRevenue = submissionData.find(s => s.questionId === 20 && s.answerId === 46)
 
     const companyToEdit = {
       ...this._companyStateService.currentCompany,
-      growthStage: isPreRevenue ? GrowthStage.SeedStartUpIdea : isPostRevenue ? GrowthStage.StartUpPostRevenues
+      growthStage: isPreRevenue ? GrowthStage.SeedStartUpIdea : isPostRevenue ? 
+      GrowthStage.StartUpPostRevenues
         : this._companyStateService.currentCompany.growthStage
     }
 
     this._orgOnboardService.updateCompanyInput(companyToEdit)
 
-    const updateCompany$ = this._orgOnboardService.submitCompanyInfo(true, companyToEdit.id)
+    const updateCompany$ =  shouldUpdateCompany ? this._orgOnboardService.submitCompanyInfo(true, companyToEdit.id) : of(true)
     const submission$ = this._submissionService.createMultipleSubmissions(submissionData)
-
 
     this.submit$ =
       updateCompany$.pipe(switchMap(() => submission$), tap(res => {
         this.setNextScreen();
       }))
-
   }
 
   skip() {
-    // this._pageService.setCurrentPage(1);
     this._router.navigateByUrl('/business')
   }
 
   setNextScreen() {
-
     this._pageService.setCurrentPage(2);
   }
 }
