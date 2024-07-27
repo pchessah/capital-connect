@@ -1,5 +1,5 @@
 import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
-import { Router, RouterLink } from "@angular/router";
+import { RouterLink } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { EMPTY, Observable, switchMap, tap } from 'rxjs';
 import { SharedModule } from "../../../../shared";
@@ -21,7 +21,6 @@ export class OrganizationCardComponent {
   private _confirmationService = inject(ConfirmationService);
   private _companiesService = inject(CompanyHttpService);
   private _feedbackService = inject(FeedbackService);
-  private _router = inject(Router);
 
   @Input() company!: Company;
   @Output() refreshCompaniesEvent: EventEmitter<unknown> = new EventEmitter()
