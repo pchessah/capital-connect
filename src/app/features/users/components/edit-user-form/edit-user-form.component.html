@@ -1,3 +1,5 @@
+<ng-container *ngIf="updateUser$ | async"></ng-container>
+
 <ng-container *ngIf="user">
   <form [formGroup]="editUserForm" class="user__auth__form">
     <div class="flex gap-4 flex-col md:flex-row w-full">
@@ -9,7 +11,7 @@
           <span *ngIf="!isValid('firstName')" class="error-text">First Name is required</span>
         </ng-container>
       </div>
-      <div class="input__wrapper">
+      <div class="input__wrapper w-full">
         <label class="input__label">Last Name</label>
         <input [ngClass]="{'input-error' : isTouchedOrDirty('lastName') && !isValid('lastName') }"
           formControlName="lastName" type="text" name="last__name" class="input__field" placeholder="Enter last name" />
@@ -19,27 +21,20 @@
       </div>
     </div>
     <div class="input__wrapper">
-      <label class="input__label">Roles</label>
-      <input [ngClass]="{'input-error' : isTouchedOrDirty('roles') && !isValid('roles') }" formControlName="roles"
-        type="text" name="roles" class="input__field" placeholder="Enter roles" />
+      <label class="input__label">Role</label>
+      <select formControlName="roles" class="input__field">
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
       <ng-container *ngIf="isTouchedOrDirty('roles')">
-        <span *ngIf="!isValid('roles')" class="error-text">Roles are required</span>
+        <span *ngIf="!isValid('roles')" class="error-text">Role is required</span>
       </ng-container>
     </div>
-    <div class="input__wrapper">
-      <label class="input__label">Email Verified</label>
-      <div class="radio__buttons">
-        <div class="radio__button">
-          <input type="radio" formControlName="isEmailVerified" [value]="true" />
-          <label>Yes</label>
-        </div>
-        <div class="radio__button">
-          <input type="radio" formControlName="isEmailVerified" [value]="false" />
-          <label>No</label>
-        </div>
-      </div>
+
+    <div class="btn-container">
+      <button type="button" (click)="cancelEdit()" class="btn btn-secondary">Cancel</button>
+      <button [ngClass]="{'disabled-btn': editUserForm.invalid }"
+        [disabled]="editUserForm.invalid" (click)="submitForm()" class="btn btn-primary">Save Changes</button>
+
     </div>
-    <button [ngClass]="{'disabled-btn': editUserForm.invalid }"
-      [disabled]="editUserForm.invalid" (click)="submitForm()" class="btn btn-primary">Save Changes</button>
   </form>
 </ng-container>

@@ -1,3 +1,6 @@
+<ng-container *ngIf="users$ | async"></ng-container>
+<ng-container *ngIf="delete$ |async"></ng-container>
+
 <app-admin-ui-container [title]="'Users'">
   <div class="mat-elevation-z8">
     <div class="table-header">
@@ -23,7 +26,7 @@
           <td>
             <button pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="editUser(user)" pTooltip="Edit" tooltipPosition="top"></button>
             <button pButton type="button" icon="pi pi-trash" class="p-button-text" (click)="deleteUser(user)" pTooltip="Delete" tooltipPosition="top"></button>
-            <button pButton type="button" icon="pi pi-eye" class="p-button-text" (click)="viewUser(user)" pTooltip="View" tooltipPosition="top"></button>
+            <!-- <button pButton type="button" icon="pi pi-eye" class="p-button-text" (click)="viewUser(user)" pTooltip="View" tooltipPosition="top"></button> -->
           </td>
         </tr>
       </ng-template>
