@@ -1,20 +1,22 @@
-<!-- <ng-container *ngIf="investorProfiles$ | async">
-  {{investorProfiles}}
-</ng-container> -->
-<!--<ng-container *ngIf="transactionStatus$ | async"></ng-container> -->
+<ng-container *ngIf="investorProfiles$ | async"></ng-container>
+<ng-container *ngIf="investorProfile$ | async"></ng-container>
+<ng-container *ngIf="updateInvestorProfile$ | async"></ng-container>
+<ng-container *ngIf="createInvestorProfile$  | async"></ng-container>
+<ng-container *ngIf=" deleteInvestorProfile$  | async"></ng-container>
+
 
 <div class="main">
   <div class="navbar">
     <app-navbar on_dashboard="true"></app-navbar>
   </div>
 
-
-
+  <h2 class="text-end">
+  <button (click)="createProfile()" class="btn btn-secondary">Create Investor Profile </button> 
+  </h2>
 
   <main>
     <div class="left flex flex-col gap-12">
       <div class="table-parent flex flex-col gap-3 top-instance">
-        <!-- <h2>My Bookings</h2> -->
         <table class="table">
           <thead >
             <tr> 
@@ -36,20 +38,9 @@
               <td>
                 <div class="p-[50px]">
                   <button (click)="viewProfile(1)" class="btn btn-secondary">View </button> 
-                  <button class="btn btn-danger">Delete</button></div>
+                  <button class="btn btn-danger" (click)="deleteProfile(1)">Delete</button></div>
               </td>
             </tr>
-
-<!-- 
-            <tr >
-              <td>OrganizationName</td>
-              <td>emailAddress</td>
-              <td>maximumFunding</td>
-              <td>minimumFunding</td>  
-              <td>investorType</td>
-              <td><button class="btn btn-secondary">View </button>  <button class="btn btn-danger">Delete</button></td>
-            </tr> -->
-
           </tbody>
         </table>
         <!-- <pagination-controls (pageChange)="pageChange($event)"></pagination-controls> -->
@@ -66,109 +57,377 @@
 
 
 
-
-<div *ngIf="visible && investorProfile" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
-  <div class="bg-white p-6 rounded shadow-lg w-1/3">
-    <h2 class="text-xl font-bold mb-4">Investor Profile</h2>
-    <p class="mb-4">View The Full Investor Profile Details</p>
-    <div *ngIf="!editMode">
-      <p><strong>User ID:</strong> {{ investorProfile.userId }}</p>
-      <p><strong>Organization Name:</strong> {{ investorProfile.organizationName }}</p>
-      <p><strong>Countries of Investment Focus:</strong> {{ investorProfile.countriesOfInvestmentFocus.join(', ') }}</p>
-      <p><strong>Head Office Location:</strong> {{ investorProfile.headOfficeLocation }}</p>
-      <p><strong>Email Address:</strong> {{ investorProfile.emailAddress }}</p>
-      <p><strong>Contact Person:</strong> {{ investorProfile.contactPerson }}</p>
-      <p><strong>Use of Funds:</strong> {{ investorProfile.useOfFunds.join(', ') }}</p>
-      <p><strong>Maximum Funding:</strong> {{ investorProfile.maximumFunding }}</p>
-      <p><strong>Minimum Funding:</strong> {{ investorProfile.minimumFunding }}</p>
-      <p><strong>Sectors of Investment:</strong> {{ investorProfile.sectorsOfInvestment.join(', ') }}</p>
-      <p><strong>Business Growth Stages:</strong> {{ investorProfile.businessGrowthStages.join(', ') }}</p>
-      <p><strong>Investor Type:</strong> {{ investorProfile.investorType }}</p>
-      <p><strong>Investment Structures:</strong> {{ investorProfile.investmentStructures.join(', ') }}</p>
-      <p><strong>ESG Focus Areas:</strong> {{ investorProfile.esgFocusAreas.join(', ') }}</p>
-      <p><strong>Registration Structures:</strong> {{ investorProfile.registrationStructures.join(', ') }}</p>
-      <button class="bg-blue-500 text-white px-4 py-2 rounded mt-4" (click)="toggleEditMode()">Edit</button>
+<app-modal [visible]="visible" title="Investor Profile" helperText="View The Full Investor Profile Details">
+<div *ngIf="investorProfile" class="">
+  <div class="">
+    <div *ngIf="!editMode" class="space-y-4">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="label">
+          <strong>Organization Name:</strong>
+          <p>{{ investorProfile.organizationName }}</p>
+        </div>
+        <div class="label">
+          <strong>Countries of Investment Focus:</strong>
+          <p>{{ investorProfile.countriesOfInvestmentFocus.join(', ') }}</p>
+        </div>
+        <div class="label">
+          <strong>Head Office Location:</strong>
+          <p>{{ investorProfile.headOfficeLocation }}</p>
+        </div>
+        <div class="label">
+          <strong>Email Address:</strong>
+          <p>{{ investorProfile.emailAddress }}</p>
+        </div>
+        <div class="label">
+          <strong>Contact Person:</strong>
+          <p>{{ investorProfile.contactPerson }}</p>
+        </div>
+        <div class="label">
+          <strong>Use of Funds:</strong>
+          <p>{{ investorProfile.useOfFunds.join(', ') }}</p>
+        </div>
+        <div class="label">
+          <strong>Maximum Funding:</strong>
+          <p>{{ investorProfile.maximumFunding }}</p>
+        </div>
+        <div class="label">
+          <strong>Minimum Funding:</strong>
+          <p>{{ investorProfile.minimumFunding }}</p>
+        </div>
+        <div class="label">
+          <strong>Sectors of Investment:</strong>
+          <p>{{ investorProfile.sectorsOfInvestment.join(', ') }}</p>
+        </div>
+        <div class="label">
+          <strong>Business Growth Stages:</strong>
+          <p>{{ investorProfile.businessGrowthStages.join(', ') }}</p>
+        </div>
+        <div class="label">
+          <strong>Investor Type:</strong>
+          <p>{{ investorProfile.investorType }}</p>
+        </div>
+        <div class="label">
+          <strong>Investment Structures:</strong>
+          <p>{{ investorProfile.investmentStructures.join(', ') }}</p>
+        </div>
+        <div class="label">
+          <strong>ESG Focus Areas:</strong>
+          <p>{{ investorProfile.esgFocusAreas.join(', ') }}</p>
+        </div>
+        <div class="label">
+          <strong>Registration Structures:</strong>
+          <p>{{ investorProfile.registrationStructures.join(', ') }}</p>
+        </div>
+      </div>
+    
+      <button class="bg-blue-500 text-white px-4 py-2 rounded mt-4 btn" (click)="toggleEditMode()">Edit</button>
     </div>
-    <div *ngIf="editMode" class="space-y-4">
-      <label>
-        <strong>User ID:</strong>
-        <input [(ngModel)]="investorProfile.userId" class="w-full p-2 border rounded">
-      </label>
-      <label>
+    
+
+
+    <div *ngIf="editMode" class="grid grid-cols-1 md:grid-cols-2 gap-4 px-5">
+      <label class="input__label">
         <strong>Organization Name:</strong>
         <input [(ngModel)]="investorProfile.organizationName" class="w-full p-2 border rounded">
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Countries of Investment Focus:</strong>
-        <select [(ngModel)]="investorProfile.countriesOfInvestmentFocus" multiple class="w-full p-2 border rounded">
-          <option *ngFor="let country of ['Kenya', 'Namibia', 'Sudan']" [value]="country">{{ country }}</option>
-        </select>
+        <div class="form__col">
+          <p-multiSelect 
+            [(ngModel)]="investorProfile.countriesOfInvestmentFocus"
+            [options]="countries"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Head Office Location:</strong>
         <input [(ngModel)]="investorProfile.headOfficeLocation" class="w-full p-2 border rounded">
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Email Address:</strong>
         <input [(ngModel)]="investorProfile.emailAddress" class="w-full p-2 border rounded">
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Contact Person:</strong>
         <input [(ngModel)]="investorProfile.contactPerson" class="w-full p-2 border rounded">
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Use of Funds:</strong>
-        <select [(ngModel)]="investorProfile.useOfFunds" multiple class="w-full p-2 border rounded">
-          <option *ngFor="let use of ['Accounting', 'Finance', 'Sales', 'Tech', 'Customer Service']" [value]="use">{{ use }}</option>
-        </select>
+        <div class="form__col">
+          <p-multiSelect 
+            [(ngModel)]="investorProfile.useOfFunds"
+            [options]="useOfFunds"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Maximum Funding:</strong>
         <input [(ngModel)]="investorProfile.maximumFunding" type="number" class="w-full p-2 border rounded">
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Minimum Funding:</strong>
         <input [(ngModel)]="investorProfile.minimumFunding" type="number" class="w-full p-2 border rounded">
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Sectors of Investment:</strong>
-        <select [(ngModel)]="investorProfile.sectorsOfInvestment" multiple class="w-full p-2 border rounded">
-          <option *ngFor="let sector of ['Agriculture', 'Engineering', 'Health']" [value]="sector">{{ sector }}</option>
-        </select>
+        <div class="form__col">
+          <p-multiSelect 
+            [(ngModel)]="investorProfile.sectorsOfInvestment"
+            [options]="sectorsOfInvestment"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Business Growth Stages:</strong>
-        <select [(ngModel)]="investorProfile.businessGrowthStages" multiple class="w-full p-2 border rounded">
-          <option *ngFor="let stage of ['Beginner', 'Amateur', 'Experienced']" [value]="stage">{{ stage }}</option>
-        </select>
+        <div class="form__col">
+          <p-multiSelect 
+            [(ngModel)]="investorProfile.businessGrowthStages"
+            [options]="businessGrowthStages"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Investor Type:</strong>
         <input [(ngModel)]="investorProfile.investorType" class="w-full p-2 border rounded">
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Investment Structures:</strong>
-        <select [(ngModel)]="investorProfile.investmentStructures" multiple class="w-full p-2 border rounded">
-          <option *ngFor="let structure of ['Structure 1', 'Structure 2']" [value]="structure">{{ structure }}</option>
-        </select>
+        <div class="form__col">
+          <p-multiSelect 
+            [(ngModel)]="investorProfile.investmentStructures"
+            [options]="investmentStructures"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>ESG Focus Areas:</strong>
-        <select [(ngModel)]="investorProfile.esgFocusAreas" multiple class="w-full p-2 border rounded">
-          <option *ngFor="let area of ['Test', 'Focus', 'Area']" [value]="area">{{ area }}</option>
-        </select>
+        <div class="form__col">
+          <p-multiSelect 
+            [(ngModel)]="investorProfile.esgFocusAreas"
+            [options]="esgFocusAreas"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
       </label>
-      <label>
+    
+      <label class="input__label">
         <strong>Registration Structures:</strong>
-        <select [(ngModel)]="investorProfile.registrationStructures" multiple class="w-full p-2 border rounded">
-          <option *ngFor="let structure of ['Test', 'Focus', 'Area']" [value]="structure">{{ structure }}</option>
-        </select>
+        <div class="form__col">
+          <p-multiSelect 
+            [(ngModel)]="investorProfile.registrationStructures"
+            [options]="registrationStructures"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
       </label>
-      <div class="flex justify-end space-x-2">
-        <!-- <button class="bg-green-500 text-white px-4 py-2 rounded" (click)="saveProfile()">Save</button> -->
-        <button class="bg-gray-500 text-white px-4 py-2 rounded" (click)="toggleEditMode()">Cancel</button>
+    
+      <div class="md:col-span-2 flex justify-end space-x-2">
+        <button class="btn btn-secondary" (click)="updateProfile(1)">Update</button>
+        <button class="btn btn-danger" (click)="toggleEditMode()">Cancel</button>
+      </div>
+    </div>
+    
+    
+  </div>
+</div>
+</app-modal>
+
+
+<!-- Create Investor Profile Modal -->
+<app-modal [visible]="create_visible" title="Create New Investor Profile" helperText="Add Investor Details Here">
+  <div class="">
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 px-5">
+      <label class="input__label">
+        <strong>Organization Name:</strong>
+        <input formControlName="organizationName" class="w-full p-2 border rounded">
+      </label>
+    
+      <label class="input__label">
+        <strong>Countries of Investment Focus:</strong>
+        <div class="form__col">
+          <p-multiSelect 
+            formControlName="countriesOfInvestmentFocus"
+            [options]="countries"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
+      </label>
+    
+      <label class="input__label">
+        <strong>Head Office Location:</strong>
+        <input formControlName="headOfficeLocation" class="w-full p-2 border rounded">
+      </label>
+    
+      <label class="input__label">
+        <strong>Email Address:</strong>
+        <input formControlName="emailAddress" class="w-full p-2 border rounded">
+      </label>
+    
+      <label class="input__label">
+        <strong>Contact Person:</strong>
+        <input formControlName="contactPerson" class="w-full p-2 border rounded">
+      </label>
+    
+      <label class="input__label">
+        <strong>Use of Funds:</strong>
+        <div class="form__col">
+          <p-multiSelect 
+            formControlName="useOfFunds"
+            [options]="useOfFunds"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
+      </label>
+    
+      <label class="input__label">
+        <strong>Maximum Funding:</strong>
+        <input formControlName="maximumFunding" type="number" class="w-full p-2 border rounded">
+      </label>
+    
+      <label class="input__label">
+        <strong>Minimum Funding:</strong>
+        <input formControlName="minimumFunding" type="number" class="w-full p-2 border rounded">
+      </label>
+    
+      <label class="input__label">
+        <strong>Sectors of Investment:</strong>
+        <div class="form__col">
+          <p-multiSelect 
+            formControlName="sectorsOfInvestment"
+            [options]="sectorsOfInvestment"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
+      </label>
+    
+      <label class="input__label">
+        <strong>Business Growth Stages:</strong>
+        <div class="form__col">
+          <p-multiSelect 
+            formControlName="businessGrowthStages"
+            [options]="businessGrowthStages"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
+      </label>
+    
+      <label class="input__label">
+        <strong>Investor Type:</strong>
+        <input formControlName="investorType" class="w-full p-2 border rounded">
+      </label>
+    
+      <label class="input__label">
+        <strong>Investment Structures:</strong>
+        <div class="form__col">
+          <p-multiSelect 
+            formControlName="investmentStructures"
+            [options]="investmentStructures"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
+      </label>
+    
+      <label class="input__label">
+        <strong>ESG Focus Areas:</strong>
+        <div class="form__col">
+          <p-multiSelect 
+            formControlName="esgFocusAreas"
+            [options]="esgFocusAreas"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
+      </label>
+    
+      <label class="input__label">
+        <strong>Registration Structures:</strong>
+        <div class="form__col">
+          <p-multiSelect 
+            formControlName="registrationStructures"
+            [options]="registrationStructures"
+            optionLabel="text"
+            optionValue="id"
+            class="input__field"
+            styleClass="w-full gap-4"
+            placeholder="Select option">
+          </p-multiSelect>
+        </div>
+      </label>
+    
+      <div class="md:col-span-2 flex justify-end space-x-2">
+        <button class="btn btn-secondary" (click)="saveProfile()">Save Investor Profile</button>
+        <button class="btn btn-danger" (click)="toggleEditMode()">Cancel</button>
       </div>
     </div>
   </div>
-</div>
+</app-modal>
 

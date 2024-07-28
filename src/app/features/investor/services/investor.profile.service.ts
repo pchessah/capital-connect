@@ -36,7 +36,7 @@ export class InvestorProfileDetails extends BaseHttpService {
   }
 
   getInvestorProfileById(id: number): Observable<InvestorProfile> {
-    const url = `${BASE_URL}/investor-profiles/${id}`;
+    const url = `${BASE_URL}/investor-profiles`;
     return this.readById(url, id, this.headers) as Observable<InvestorProfile>;
   }
 
@@ -46,7 +46,7 @@ export class InvestorProfileDetails extends BaseHttpService {
   }
 
   deleteInvestorProfileById(id: number): Observable<void> {
-    const url = `${BASE_URL}/investor-profiles/${id}`;
+    const url = `${BASE_URL}/investor-profiles`;
     return this.delete(url, id, this.headers) as Observable<void>;
   }
 }
