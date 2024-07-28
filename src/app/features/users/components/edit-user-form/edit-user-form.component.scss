@@ -1,0 +1,38 @@
+@import '../../../../styles/main.scss';
+
+.container {
+  color: $primary-color;
+}
+
+.check {
+  font-size: 12px;
+  margin-top: 5px;
+  color: $text-muted;
+}
+
+.account-type-selector {
+  background: none;
+}
+
+form {
+  max-height: 40rem;
+  overflow-y: auto;
+  padding-right: 2px;
+  padding-left: 2px;
+}
+
+.radio__buttons {
+  gap: 1rem;
+  display: flex;
+  align-items: center;
+  padding-top: .5rem;
+  .radio__button {
+    gap: .3rem;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.accept-text {
+  font-size: 12px;
+}

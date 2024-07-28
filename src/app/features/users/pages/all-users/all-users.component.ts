@@ -1,9 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { AfterViewInit, Component, inject, ViewChild } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { AdminUiContainerComponent } from '../../../admin/components/admin-ui-container/admin-ui-container.component';
-import { UsersHttpService } from '../../services/users-http.service';
-import { User } from '../../models';
 import { Observable, tap } from 'rxjs';
 import { InputTextModule } from 'primeng/inputtext';
 import { TooltipModule } from 'primeng/tooltip';
@@ -12,6 +9,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SharedModule } from '../../../../shared';
+import { AdminUiContainerComponent } from '../../../admin/components/admin-ui-container/admin-ui-container.component';
+import { User } from '../../models';
+import { UsersHttpService } from '../../services/users-http.service';
 
 @Component({
   selector: 'app-all-users',
@@ -37,7 +37,6 @@ export class AllUsersComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor(private userService: UsersHttpService) { }
   ngAfterViewInit(): void {
     this.users$ = this._usersService.getAllUsers().pipe(
       tap(users => {

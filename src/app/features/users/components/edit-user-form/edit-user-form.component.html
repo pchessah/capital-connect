@@ -1,0 +1,45 @@
+<ng-container *ngIf="user">
+  <form [formGroup]="editUserForm" class="user__auth__form">
+    <div class="flex gap-4 flex-col md:flex-row w-full">
+      <div class="input__wrapper w-full">
+        <label class="input__label">First Name</label>
+        <input [ngClass]="{'input-error' : isTouchedOrDirty('firstName') && !isValid('firstName') }"
+          formControlName="firstName" type="text" name="first__name" class="input__field" placeholder="Enter first name" />
+        <ng-container *ngIf="isTouchedOrDirty('firstName')">
+          <span *ngIf="!isValid('firstName')" class="error-text">First Name is required</span>
+        </ng-container>
+      </div>
+      <div class="input__wrapper">
+        <label class="input__label">Last Name</label>
+        <input [ngClass]="{'input-error' : isTouchedOrDirty('lastName') && !isValid('lastName') }"
+          formControlName="lastName" type="text" name="last__name" class="input__field" placeholder="Enter last name" />
+        <ng-container *ngIf="isTouchedOrDirty('lastName')">
+          <span *ngIf="!isValid('lastName')" class="error-text">Last Name is required</span>
+        </ng-container>
+      </div>
+    </div>
+    <div class="input__wrapper">
+      <label class="input__label">Roles</label>
+      <input [ngClass]="{'input-error' : isTouchedOrDirty('roles') && !isValid('roles') }" formControlName="roles"
+        type="text" name="roles" class="input__field" placeholder="Enter roles" />
+      <ng-container *ngIf="isTouchedOrDirty('roles')">
+        <span *ngIf="!isValid('roles')" class="error-text">Roles are required</span>
+      </ng-container>
+    </div>
+    <div class="input__wrapper">
+      <label class="input__label">Email Verified</label>
+      <div class="radio__buttons">
+        <div class="radio__button">
+          <input type="radio" formControlName="isEmailVerified" [value]="true" />
+          <label>Yes</label>
+        </div>
+        <div class="radio__button">
+          <input type="radio" formControlName="isEmailVerified" [value]="false" />
+          <label>No</label>
+        </div>
+      </div>
+    </div>
+    <button [ngClass]="{'disabled-btn': editUserForm.invalid }"
+      [disabled]="editUserForm.invalid" (click)="submitForm()" class="btn btn-primary">Save Changes</button>
+  </form>
+</ng-container>
