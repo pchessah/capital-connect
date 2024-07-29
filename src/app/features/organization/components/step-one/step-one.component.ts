@@ -25,8 +25,6 @@ export class StepOneComponent implements OnChanges {
   private _orgStateService = inject(OrganizationOnboardService);
   countries : Country[] = []
 
-
-  countries : Country[] = []
   @Input() companyToBeEdited!: CompanyResponse
 
   sectors$: Observable<Sector[]> = this._orgStateService.fetchSectors$.pipe(tap(sectors => {
