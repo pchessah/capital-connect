@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { catchError, EMPTY, filter, Observable, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { StepOneComponent } from '../../components/step-one/step-one.component';
@@ -21,6 +21,7 @@ export class SetupComponent implements OnInit {
   private _organizationOnboardService = inject(OrganizationOnboardService);
   private _router = inject(Router);
   private _activateRoute = inject(ActivatedRoute);
+  private _cd = inject(ChangeDetectorRef);
 
   submitCompanyInfo$ = new Observable();
   companyToBeEdited$ = new Observable();
@@ -41,10 +42,12 @@ export class SetupComponent implements OnInit {
       this.companyToBeEdited$ = this._organizationOnboardService.getCompanyToBeEdited(Number(this.editId)).pipe(tap(company => {
         this._organizationOnboardService.resetCompanyInput()
         this.companyToBeEdited = company;
+        this._cd.detectChanges()
       }))
     } else {
       this.companyOfUser$ = this._organizationOnboardService.getCompanyOfUser().pipe(filter(() => !this.isEditMode), tap(company => {
         if (company && company.id) {
+          this._cd.detectChanges()
           this.goToBusinessFinancials();
         }
       }));
@@ -92,6 +95,5 @@ export class SetupComponent implements OnInit {
 
   ngOnDestroy(): void {
     this._organizationOnboardService.resetCompanyInput()
-    
   }
 }
