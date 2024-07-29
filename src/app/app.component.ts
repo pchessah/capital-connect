@@ -1,10 +1,10 @@
-import { ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { distinctUntilChanged, tap } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs';
 import { SharedModule } from './shared';
-import { } from './core/components/loading/loading.component';
-import { FeedbackNotificationComponent, LoadingService, LoadingComponent } from './core';
+import { LoadingComponent } from './core/components/loading/loading.component';
+import { FeedbackNotificationComponent, LoadingService } from './core';
 
 @Component({
   selector: 'app-root',
@@ -13,16 +13,26 @@ import { FeedbackNotificationComponent, LoadingService, LoadingComponent } from 
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
 
   private _loadingService = inject(LoadingService);
   private _cd = inject(ChangeDetectorRef);
 
-  loading$ = this._loadingService.loading$.pipe(distinctUntilChanged(), tap(res => {
-    this.isLoading = res;
-    this._cd.detectChanges();
-  }))
-
   isLoading = true;
+
+  ngOnInit(): void {
+    this._trackLoadingStatusSubscription();
+  }
+
+  private _trackLoadingStatusSubscription() {
+    return this._loadingService.loading$.pipe(distinctUntilChanged()).subscribe(res => {
+      this.isLoading = res;
+      this._cd.detectChanges();
+    })
+  }
+
+  ngOnDestroy(): void {
+    this._trackLoadingStatusSubscription().unsubscribe()
+  }
 
 }
