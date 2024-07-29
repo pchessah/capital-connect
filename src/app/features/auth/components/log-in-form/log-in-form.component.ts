@@ -57,6 +57,7 @@ export class LogInFormComponent {
         case USER_ROLES.USER:
           return this._organizationService.getCompanyOfUser().pipe(
             switchMap(company => {
+              this._loadingService.setLoading(true);
               if (company) {
                 return this._dynamicRoutingService.getUserSubmissions()
               } else {

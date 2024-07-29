@@ -17,6 +17,11 @@ const routes: Routes = [
     loadComponent: () => import('../../pages/organization-list/organization-list.component').then(c => c.OrganizationListComponent),
     canActivate: [isAdminCanActivateGuard],
     canActivateChild: [isAdminCanActivateChildGuard]
+  },   {
+    path: ':id',
+    loadComponent: () => import('../../pages/single-organization/single-organization.component').then(c => c.SingleOrganizationComponent),
+    canActivate: [isAdminCanActivateGuard],
+    canActivateChild: [isAdminCanActivateChildGuard]
   }
 ];
 

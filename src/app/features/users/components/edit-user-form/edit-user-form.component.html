@@ -1,0 +1,40 @@
+<ng-container *ngIf="updateUser$ | async"></ng-container>
+
+<ng-container *ngIf="user">
+  <form [formGroup]="editUserForm" class="user__auth__form">
+    <div class="flex gap-4 flex-col md:flex-row w-full">
+      <div class="input__wrapper w-full">
+        <label class="input__label">First Name</label>
+        <input [ngClass]="{'input-error' : isTouchedOrDirty('firstName') && !isValid('firstName') }"
+          formControlName="firstName" type="text" name="first__name" class="input__field" placeholder="Enter first name" />
+        <ng-container *ngIf="isTouchedOrDirty('firstName')">
+          <span *ngIf="!isValid('firstName')" class="error-text">First Name is required</span>
+        </ng-container>
+      </div>
+      <div class="input__wrapper w-full">
+        <label class="input__label">Last Name</label>
+        <input [ngClass]="{'input-error' : isTouchedOrDirty('lastName') && !isValid('lastName') }"
+          formControlName="lastName" type="text" name="last__name" class="input__field" placeholder="Enter last name" />
+        <ng-container *ngIf="isTouchedOrDirty('lastName')">
+          <span *ngIf="!isValid('lastName')" class="error-text">Last Name is required</span>
+        </ng-container>
+      </div>
+    </div>
+    <div class="input__wrapper">
+      <label class="input__label">Role</label>
+      <select formControlName="roles" class="input__field">
+        <option *ngFor="let role of roles" [value]="role">{{ role }}</option>
+      </select>
+      <ng-container *ngIf="isTouchedOrDirty('roles')">
+        <span *ngIf="!isValid('roles')" class="error-text">Role is required</span>
+      </ng-container>
+    </div>
+
+    <div class="btn-container">
+      <button type="button" (click)="cancelEdit()" class="btn btn-secondary">Cancel</button>
+      <button [ngClass]="{'disabled-btn': editUserForm.invalid }"
+        [disabled]="editUserForm.invalid" (click)="submitForm()" class="btn btn-primary">Save Changes</button>
+
+    </div>
+  </form>
+</ng-container>

@@ -21,13 +21,13 @@
 .message.info {
   background-color: $info-color-alt;
   outline-color: $info-color;
-  border-left-color: $secondary-color ;
+  border-left-color: $info-color ;
 }
 
 .message.warn {
   background-color: $warning-color-alt;
   outline-color: $warning-color;
-  border-left-color:$info-color;
+  border-left-color:$warning-color;
 }
 
 .message.error {

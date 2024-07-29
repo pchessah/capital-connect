@@ -1,4 +1,4 @@
-<app-ui title="Sectors">
+<app-admin-ui-container [title]="'Sectors'">
   <div class="btn-grp">
     <a routerLink="/dashboard" class="btn btn-success"><mat-icon>arrow_left</mat-icon> Back</a>
     <a routerLink="/sectors/sector" class="btn btn-primary">Add Sector <mat-icon>add</mat-icon></a>
@@ -7,4 +7,4 @@
     <app-sector-card *ngFor="let sector of sectors" (refreshSectionsEvent)="reFetchSections()" [name]="sector.name"
       [id]="sector.id" />
   </div>
-</app-ui>
+</app-admin-ui-container>

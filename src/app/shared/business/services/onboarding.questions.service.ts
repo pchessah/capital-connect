@@ -44,7 +44,23 @@ export const INVESTOR_ELIGIBILITY_SUBSECTION_IDS = {
     STEP_THREE: 137,
   },
 
-  STARTUP: {
+  STARTUP_POST_REVENUE: {
+    ID: 1,
+    LANDING: 15,
+    STEP_ONE: 236,
+    STEP_TWO: 237,
+    STEP_THREE: 9,
+  },
+
+  STARTUP_PRE_REVENUE: {
+    ID: 1,
+    LANDING: 15,
+    STEP_ONE: 232,
+    STEP_TWO: 235,
+    STEP_THREE: 9,
+  },
+
+  STARTUP_DEFAULT: {
     ID: 1,
     LANDING: 15,
     STEP_ONE: 3,
@@ -87,11 +103,11 @@ export const getInvestorEligibilitySubsectionIds = (companyStage: GrowthStage) =
     case GrowthStage.LiquidationTurnAround:
       return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.LIQUIDATION_TURNAROUND
     case GrowthStage.SeedStartUpIdea:
-      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP
+      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP_PRE_REVENUE
     case GrowthStage.StartUpPostRevenues:
-      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP
+      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP_POST_REVENUE
     default:
-      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP
+      return INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STARTUP_DEFAULT
   }
 }
 
