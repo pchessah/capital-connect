@@ -1,0 +1,16 @@
+<div class="card__item">
+  <div class="card__item__header">
+    <ng-content select="[header]"></ng-content>
+  </div>
+
+  <div class="card__item__body">
+    <div class="card__item__details">
+      <ng-content select="[details]"></ng-content>
+    </div>
+
+    <div class="card__item__footer button-group">
+      <ng-content select="[footer]"></ng-content>
+    </div>
+  </div>
+</div>
+
