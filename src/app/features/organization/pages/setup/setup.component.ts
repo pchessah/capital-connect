@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, Location } from '@angular/common';
 import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { catchError, EMPTY, filter, Observable, tap } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -21,6 +21,7 @@ export class SetupComponent implements OnInit {
   private _organizationOnboardService = inject(OrganizationOnboardService);
   private _router = inject(Router);
   private _activateRoute = inject(ActivatedRoute);
+  private _location = inject(Location);
   private _cd = inject(ChangeDetectorRef);
 
   submitCompanyInfo$ = new Observable();
@@ -90,7 +91,7 @@ export class SetupComponent implements OnInit {
 
   cancel() {
     this._organizationOnboardService.resetCompanyInput()
-    this.isEditMode ? this._router.navigateByUrl('/organization/list') : this._router.navigateByUrl('/')
+    this.isEditMode ? this._location.back() : this._router.navigateByUrl('/')
   }
 
   ngOnDestroy(): void {
