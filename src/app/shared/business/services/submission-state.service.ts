@@ -7,6 +7,7 @@ import { LoadingService } from '../../../core';
 import { getInvestorEligibilitySubsectionIds } from './onboarding.questions.service';
 import { CompanyStateService } from '../../../features/organization/services/company-state.service';
 import { INVESTOR_PREPAREDNESS_SUBSECTION_IDS } from './onboarding.questions.service';
+import {BUSINESS_FINANCIALS_SUBSECTION_IDS } from './onboarding.questions.service';
 
 @Injectable({ providedIn: 'root' })
 export class SubMissionStateService {
@@ -59,6 +60,27 @@ export class SubMissionStateService {
     const userId = this._currentUserId && this._currentUserId > 0 ? this._currentUserId : Number(sessionStorage.getItem('userId'));
     if (userId) {
       return this._submissionService.fetchSubmissionsByUserPerSection(userId, INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID).pipe(tap(res => {
+        this.setCurrentUserSubmission(res);
+      }));
+    }
+    return EMPTY;
+  }
+
+
+  getEsgSubmissionsPerSection() {
+    const userId = this._currentUserId && this._currentUserId > 0 ? this._currentUserId : Number(sessionStorage.getItem('userId'));
+    if (userId) {
+      return this._submissionService.fetchSubmissionsByUserPerSection(userId, INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID).pipe(tap(res => {
+        this.setCurrentUserSubmission(res);
+      }));
+    }
+    return EMPTY;
+  }
+
+  getFactSheetSubmissionsPerSection() {
+    const userId = this._currentUserId && this._currentUserId > 0 ? this._currentUserId : Number(sessionStorage.getItem('userId'));
+    if (userId) {
+      return this._submissionService.fetchSubmissionsByUserPerSection(userId, BUSINESS_FINANCIALS_SUBSECTION_IDS.ID).pipe(tap(res => {
         this.setCurrentUserSubmission(res);
       }));
     }

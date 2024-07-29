@@ -31,6 +31,7 @@ import { RemoveQuotesPipe } from '../../../../../shared/pipes/remove-quotes.pipe
 export class OverviewComponent {
   @ViewChild('content', { static: false }) content!: ElementRef;
   visible = false;
+  factSheetVisible = false;
   investorsDiagVisible = false;
   matchedInvestors: MatchedInvestor[] = [];
   investorEligibilityScore: string = '0';
@@ -39,6 +40,8 @@ export class OverviewComponent {
   generalSummary!: GeneralSummary;
 
   preparednessAnswers: UserSubmissionResponse[] = [];
+  factSheetAnswers: UserSubmissionResponse[] = [];
+
   eligibilityAnswers: UserSubmissionResponse[] = [];
 
 
@@ -76,6 +79,15 @@ export class OverviewComponent {
   }))
 
 
+  esgSubmissions$ = this._submissionStateService.getEsgSubmissionsPerSection().pipe(tap(submissions => {
+    this.preparednessAnswers = submissions
+  }))
+
+  factSheetSubmissions$ = this._submissionStateService.getFactSheetSubmissionsPerSection().pipe(tap(submissions => {
+    this.factSheetAnswers = submissions
+  }))
+
+
   preparednessScore = parseFloat(this.investorPreparednessScore); 
   investorPreparednessGeneralSummary$ = this.scoring$.pipe(
     tap(scores => {
@@ -106,6 +118,12 @@ export class OverviewComponent {
       this.currentModal = "preparedness"
     }
     this.visible = !this.visible;
+  }
+
+  setDialog(dialog:string){
+    if(dialog==="factSheet"){
+      this.factSheetVisible = !this.factSheetVisible;
+    }
   }
 
   showMatchedInvestors() {
