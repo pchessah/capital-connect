@@ -43,15 +43,16 @@ export class BookingComponent {
     this.message$ = this._feedbackService.message$;
   }
 
-
-
-
-  constructor(private bookingService: BookingService) { }
-
-  bookings$ = this._bookingService.getBookings(8, 10).pipe(tap(res => {
-    this.bookings = res
-    this.totalItems = res.length;
-  }))
+  bookings$ = this._bookingService.getBookings(8, 10).pipe(
+    tap(res => {
+      this.bookings = res;
+      this.totalItems = res.length;
+    }),
+    catchError((error: any) => {
+      this._feedbackService.error('Error Fetching The Bookings.', error);
+      return of([]);
+    })
+  );
 
 
   pageChange(page: number): void {
@@ -59,18 +60,13 @@ export class BookingComponent {
     this.bookings$ = this._bookingService.getBookings(this.currentPage, this.itemsPerPage).pipe(
       tap(res => {
         this.bookings = res;
-        this.totalItems = res.length; // Update totalItems if necessary
+        this.totalItems = res.length; 
       })
     );
   }
 
   onPageChange(page: number) {
     this.currentPage = page;
-  }
-
-  checkStatus1(orderTrackingId: string) {
-    // Implement the status check logic here
-    console.log('Checking status for:', orderTrackingId);
   }
 
   checkStatus(orderTrackingId: string) {
@@ -85,15 +81,12 @@ export class BookingComponent {
         }
       }),
       catchError((error: any) => {
-        this._feedbackService.error('Error checking payment status.', 'Payment Status');
+        this._feedbackService.error('Error checking payment status.', error);
         return of(null);
       }),
     );
   }
 
-  addNewBooking() {
-    // Implement the logic to navigate to the page for adding a new booking
-  }
 
   toggleNewBookingForm(): void {
     this.showNewBookingForm = !this.showNewBookingForm;
@@ -103,7 +96,4 @@ export class BookingComponent {
     this.bookings.push(newBooking);
     this.pageChange(this.currentPage);
   }
-
-
-
 }
