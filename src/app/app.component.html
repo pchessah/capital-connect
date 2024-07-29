@@ -1,5 +1,8 @@
+<ng-container *ngIf="loading$ | async"></ng-container>
+
 <app-feedback-notification />
 @if (isLoading) {
 <app-loading />
 }
+
 <router-outlet />
