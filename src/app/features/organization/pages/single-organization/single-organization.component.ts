@@ -44,7 +44,6 @@ export class SingleOrganizationComponent {
   private _companiesService = inject(CompanyHttpService);
   private _companyId = Number(this._activateRoute.snapshot.paramMap.get('id'));
   
-
   company$: Observable<CompanyResponse> = this._companiesService.getSingleCompany(this._companyId).pipe(tap(c=> this.company = c))
   company!: CompanyResponse;
   activeTab: 'ownerInfo' | 'companyInfo'  = 'companyInfo';
@@ -52,8 +51,5 @@ export class SingleOrganizationComponent {
   setActiveTab(tab: 'ownerInfo' | 'companyInfo' ) {
     this.activeTab = tab;
   }
-
-
-
 
 }
