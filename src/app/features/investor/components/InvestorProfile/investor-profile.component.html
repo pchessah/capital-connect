@@ -7,20 +7,17 @@
 
 <div class="main">
   <div class="navbar">
-    <app-navbar on_dashboard="true"></app-navbar>
+    <app-navbar onDashboard="false"></app-navbar>
   </div>
-
 
 
 
   <main>
+ 
+    <div class="left__col">
 
+    <h2 class="">Investor Profiles</h2>
 
-    <div class="left__col text-end mt-5">
-      <button (click)="createProfile()" class="btn btn-secondary">Create Investor Profile </button> 
-  </div>
-  
-    <div class="left flex flex-col gap-12">
       <div class="table-parent flex flex-col gap-3 top-instance">
         <table class="table">
           <thead >
@@ -52,6 +49,10 @@
         </table>
         <!-- <pagination-controls (pageChange)="pageChange($event)"></pagination-controls> -->
       </div>
+    </div>
+
+    <div class="right__col">
+      <button (click)="createProfile()" class="btn btn-secondary">Create Investor Profile </button> 
     </div>
 
   </main>

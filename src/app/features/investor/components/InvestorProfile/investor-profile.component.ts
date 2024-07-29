@@ -13,7 +13,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angula
 import { FeedbackService } from '../../../../core';
 import { ConfirmationDialogComponent } from '../../../../core/components/confirmation-dialog/confirmation-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
+
 
 
 
@@ -21,8 +21,7 @@ import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/materia
   selector: 'app-investor-profile',
   standalone: true,
   imports: [CommonModule, FormsModule, NavbarComponent,
-    MatDialogModule,
-    ReactiveFormsModule, DropdownModule, MultiSelectModule, ModalComponent, ConfirmationDialogComponent],
+    ReactiveFormsModule, DropdownModule, MultiSelectModule, ModalComponent],
   templateUrl: './investor-profile.component.html',
   styleUrls: ['./investor-profile.component.scss']
 })
