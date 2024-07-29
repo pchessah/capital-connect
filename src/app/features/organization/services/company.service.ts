@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { BASE_URL, BaseHttpService } from '../../../core';
 import { HttpClient } from '@angular/common/http';
-import { Company, CompanyInput, CompanyResponse } from '../interfaces';
+import { BASE_URL, BaseHttpService } from '../../../core';
 import { Observable } from 'rxjs';
+import { Company, CompanyInput, CompanyResponse } from '../interfaces';
 
 @Injectable({providedIn: 'root'})
 export class CompanyHttpService extends BaseHttpService {
@@ -28,6 +28,10 @@ export class CompanyHttpService extends BaseHttpService {
 
   updateCompany(companyId: number, company: Company) {
     return this.updatePatch(`${BASE_URL}/company`, companyId, company) as Observable<CompanyResponse>
+  }
+
+  deleteCompany(companyId: number) {
+    return this.delete(`${BASE_URL}/company`, companyId) as Observable<unknown>
   }
 
 }

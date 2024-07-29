@@ -1,0 +1,56 @@
+<ng-container *ngIf="bookings$ | async"></ng-container>
+<ng-container *ngIf="transactionStatus$ | async"></ng-container>
+
+<div class="main">
+  <div class="navbar">
+    <app-navbar onDashboard="true"></app-navbar>
+  </div>
+
+  <main>
+    <div class="left flex flex-col gap-12">
+
+      <div class="flex flex-col gap-3 top-instance">
+      <h2 class="text-center"><strong>My Bookings</strong></h2>
+
+        <div class="table-parent">
+          <table class="table">
+            <thead >
+              <tr> 
+                <th>Booking Id</th>
+                <th>Event ID</th>
+                <th>Created At</th>
+                <th>Amount</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let booking of bookings | paginate: { itemsPerPage: itemsPerPage, currentPage: currentPage }">
+                <td>{{ booking.id }}</td>
+                <td>{{ booking.calendlyEventId }}</td>
+                <td>{{ booking.createdAt | date }}</td>
+                <ng-container *ngFor="let payment of booking.payments">
+                  <td>{{ payment.currency }} {{ payment.amount }}</td>
+                  <td>{{ payment.status }}</td>
+                  <td>
+                    <button *ngIf="payment.status === 'initiated'" class="btn" (click)="checkStatus(payment.orderTrackingId)">Check Status</button>
+                  </td>
+                </ng-container>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+    
+        <pagination-controls (pageChange)="pageChange($event)"></pagination-controls>
+      </div>
+    </div>
+    <!-- <div class="right__col hidden">
+      <button (click)="toggleNewBookingForm()" class="btn">Add New Booking</button>
+      <div *ngIf="showNewBookingForm">
+        <app-new-booking (bookingCreated)="onBookingCreated($event)"></app-new-booking>
+      </div>
+    </div> -->
+  </main>
+</div>

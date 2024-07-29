@@ -13,8 +13,10 @@ import { MainComponent } from "../../components/my-business/main/main.component"
   styleUrl: './my-business.component.scss'
 })
 export class MyBusinessComponent {
-  links = [
-    { label: 'Dashboard', href: '/business', exact: true, icon: 'grid_view' },
-    { label: 'My business', href: '/business/my-business', exact: false, icon: 'business_center' }
+  links =[
+    {label: 'Dashboard', href: '/business', exact: true, icon: 'grid_view'},
+    {label: 'My business', href: '/business/my-business', exact: false, icon: 'business_center'},
+    {label: 'My Bookings', href: '/business/my-bookings', exact: false, icon: 'event'}
+
   ]
 }

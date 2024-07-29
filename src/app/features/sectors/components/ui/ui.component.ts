@@ -11,6 +11,7 @@ import { Router } from '@angular/router';
 })
 export class UiComponent {
  @Input() title:string | undefined;
+ @Input() showLogo = true
 
  private _router = inject(Router);
 

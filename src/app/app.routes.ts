@@ -68,6 +68,13 @@ export const routes: Routes = [
   },
 
   {
+    path: 'users',
+    loadChildren: () => import('./features/users/modules/users.routes').then(m => m.UserssRoutingModule),
+    canActivate: [isLoggedInCanActivateGuard, isAdminCanActivateGuard],
+    canActivateChild: [isLoggedInCanActivateChildGuard, isAdminCanActivateChildGuard]
+  },
+
+  {
     path: 'dashboard',
     loadChildren: () => import('./features/admin/admin.routing.module').then(m => m.AdminRoutingModule),
     canActivate: [isLoggedInCanActivateGuard, isAdminCanActivateGuard],

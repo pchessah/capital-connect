@@ -1,11 +1,12 @@
 import { Component, inject } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from "@angular/forms";
+import { RouterLink } from '@angular/router';
 import { SharedModule } from "../../../../shared";
 import { UiComponent } from "../../components/ui/ui.component";
-import {RouterLink} from '@angular/router';
 import { QuestionsService } from '../../services/questions/questions.service';
-import { CommonModule } from '@angular/common';
-import {ReactiveFormsModule} from "@angular/forms";
-import {SectionCardComponent} from "../../components/section-card/section-card.component";
+import { SectionCardComponent } from "../../components/section-card/section-card.component";
+import { AdminUiContainerComponent } from "../../../admin/components/admin-ui-container/admin-ui-container.component";
 
 
 @Component({
@@ -17,7 +18,8 @@ import {SectionCardComponent} from "../../components/section-card/section-card.c
     UiComponent,
     ReactiveFormsModule,
     SectionCardComponent,
-    RouterLink
+    RouterLink,
+    AdminUiContainerComponent
   ],
   templateUrl: './saved-response.component.html',
   styleUrl: './saved-response.component.scss'
@@ -28,7 +30,7 @@ export class SavedResponseComponent {
 
   sections$ = this._questionService.getAllSections()
 
-  reFetchSections(){
+  reFetchSections() {
     this.sections$ = this._questionService.getAllSections();
   }
 }

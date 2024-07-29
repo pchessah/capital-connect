@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { booleanAttribute, Component, inject, Input } from '@angular/core';
-import { SharedModule } from "../../../shared";
+import { RouterModule } from '@angular/router';
 import { Observable } from 'rxjs';
+import { SharedModule } from "../../../shared";
 import { AuthStateService } from '../../../features/auth/services/auth-state.service';
 import { CompanyStateService } from '../../../features/organization/services/company-state.service';
-import { RouterModule } from '@angular/router';
-
 
 @Component({
   selector: 'app-navbar',
@@ -23,15 +22,15 @@ export class NavbarComponent {
 
   logOut$ = new Observable<boolean>();
 
-  @Input({ transform: booleanAttribute }) on_dashboard: boolean = false;
-  
-  drawer_showing = false;
-  toggleDrawer() { 
-    this.drawer_showing = !this.drawer_showing; 
+  @Input({ transform: booleanAttribute }) onDashboard: boolean = false;
+  @Input() isAdmin = false;
+
+  drawerShowing = false;
+  toggleDrawer() {
+    this.drawerShowing = !this.drawerShowing;
   }
 
   logOut() {
     this.logOut$ = this._authService.logout()
-
   }
 }
