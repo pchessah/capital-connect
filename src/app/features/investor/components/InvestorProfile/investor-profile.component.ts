@@ -11,6 +11,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
 import { FeedbackService } from '../../../../core';
+import { ConfirmationDialogComponent } from '../../../../core/components/confirmation-dialog/confirmation-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -18,7 +21,8 @@ import { FeedbackService } from '../../../../core';
   selector: 'app-investor-profile',
   standalone: true,
   imports: [CommonModule, FormsModule, NavbarComponent,
-    ReactiveFormsModule, DropdownModule, MultiSelectModule, ModalComponent],
+    MatDialogModule,
+    ReactiveFormsModule, DropdownModule, MultiSelectModule, ModalComponent, ConfirmationDialogComponent],
   templateUrl: './investor-profile.component.html',
   styleUrls: ['./investor-profile.component.scss']
 })
@@ -32,6 +36,11 @@ export class InvestorProfileComponent {
   updateInvestorProfile$ = new Observable<unknown>();
   createInvestorProfile$ = new Observable<unknown>();
   deleteInvestorProfile$ = new Observable<unknown>();
+
+
+  constructor(
+    private dialog: MatDialog
+  ) {}
 
   investorProfiles: InvestorProfile[] = [];
   investorProfile: InvestorProfile | null = {
@@ -152,6 +161,18 @@ export class InvestorProfileComponent {
   }
 
 
+  openConfirmationDialog(userId: number): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: { message: 'Are you sure you want to delete this profile?' }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteProfile(userId);
+      }
+    });
+  }
+
 
   deleteProfile(userId: number) {
     this.deleteInvestorProfile$ = this._investorProfileService.deleteInvestorProfileById(userId).pipe()
@@ -162,11 +183,14 @@ export class InvestorProfileComponent {
   }
 
   cancel() {
-    this.visible = false;
+    this.visible = !this.visible;
     this.newProfile = {} as InvestorProfile;
   }
 
-
+  cancelCreate() {
+    this.create_visible = !this.create_visible
+  }
+  
   toggleEditMode() {
     this.editMode = !this.editMode;
   }
@@ -179,7 +203,7 @@ export class InvestorProfileComponent {
   }
 
   createProfile() {
-    this.create_visible = true
+    this.create_visible = !this.create_visible
   }
 
 

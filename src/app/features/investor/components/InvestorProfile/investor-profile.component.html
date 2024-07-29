@@ -15,6 +15,7 @@
 
   <main>
 
+
     <div class="left__col text-end mt-5">
       <button (click)="createProfile()" class="btn btn-secondary">Create Investor Profile </button> 
   </div>
@@ -42,7 +43,9 @@
               <td>
                 <div class="p-[50px]">
                   <button (click)="viewProfile(1)" class="btn btn-secondary">View </button> 
-                  <button class="btn btn-danger" (click)="deleteProfile(1)">Delete</button></div>
+                  <!-- <button class="btn btn-danger" (click)="deleteProfile(1)">Delete</button> -->
+                  <button class="btn btn-danger" (click)="openConfirmationDialog(1)">Delete</button>
+                  </div>
               </td>
             </tr>
           </tbody>
@@ -424,7 +427,7 @@
     
       <div class="md:col-span-2 flex justify-end space-x-2">
         <button class="btn btn-secondary" (click)="saveProfile()">Save Investor Profile</button>
-        <button class="btn btn-danger" (click)="toggleEditMode()">Cancel</button>
+        <button class="btn btn-danger" (click)="cancelCreate()">Cancel</button>
       </div>
     </div>
   </div>
