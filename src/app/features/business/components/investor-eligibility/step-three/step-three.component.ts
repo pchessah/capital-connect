@@ -26,7 +26,7 @@ export class StepThreeComponent {
   private _pageService = inject(BusinessPageService);
   private _submissionService = inject(SubmissionService);
   formGroup: FormGroup =this._formBuilder.group({})
-  field_type =QuestionType;
+  fieldType =QuestionType;
   private _submissionStateService = inject(SubMissionStateService)
 
   submission$ =new Observable<unknown>();

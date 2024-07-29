@@ -14,15 +14,18 @@
 .feedback-dialog.info {
   background-color: $info-color-alt;
 }
+
 .feedback-dialog.success {
   background-color: $secondary-color;
   .title, .message {
     color: $white !important;
   }
 }
+
 .feedback-dialog.warning {
   background-color:$warning-color-alt;
 }
+
 .feedback-dialog.error {
   background-color:$danger-color-alt;
 }

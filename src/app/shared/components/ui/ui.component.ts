@@ -15,6 +15,8 @@ export class UiSharedComponent {
 
   private _router = inject(Router);
 
+  @Input() showLogo = true
+
   goToHome() {
     this._router.navigateByUrl('/')
   }

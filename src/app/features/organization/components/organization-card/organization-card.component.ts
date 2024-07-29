@@ -33,10 +33,12 @@ export class OrganizationCardComponent {
           return this._companiesService.deleteCompany(this.company.id)
         }
         return EMPTY
-      }), tap(res => {
+      }), tap(() => {
         this.refreshCompaniesEvent.emit();
         this._feedbackService.success('Company deleted successfully')
       }))
   }
+
+
 
 }

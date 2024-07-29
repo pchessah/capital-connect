@@ -15,8 +15,8 @@ import { tap } from 'rxjs';
   imports: [CommonModule, ProgressBarComponent, StepOneComponent, StepTwoComponent, StepThreeComponent],
 })
 export class StepsComponent {
-  current_step =1;
-  constructor(private businessPageService: BusinessPageService) {}
+  current_step = 1;
+  constructor(private businessPageService: BusinessPageService) { }
 
   currentStep$ = this.businessPageService.current_step$.pipe(tap(step => {
     this.current_step = step;

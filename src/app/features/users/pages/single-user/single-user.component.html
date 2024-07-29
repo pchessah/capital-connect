@@ -1,0 +1,6 @@
+<ng-container *ngIf="user$ | async as user">
+  <app-admin-ui-container [title]="'Edit '+ user.username">
+    <app-edit-user-form [user]="user"></app-edit-user-form>
+  </app-admin-ui-container>
+</ng-container>
+

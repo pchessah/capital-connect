@@ -1,6 +1,7 @@
 <ng-container *ngIf="stepOneForm$ | async"></ng-container>
 <ng-container *ngIf="company$ | async"></ng-container>
 <ng-container *ngIf="subsectors$ | async"></ng-container>
+<ng-container *ngIf="countries$ | async"></ng-container>
 
 <form [formGroup]="stepOneForm" class="form__grid">
   <div class="input__wrapper">
@@ -12,7 +13,7 @@
     <label class="input__label">What is your business country of operation?<sup>*</sup></label>
     <select formControlName="country" class="input__field">
       @for (country of countries; track $index) {
-      <option [value]="country" [selected]="userCompany.country ==country">{{ country }}</option>
+      <option [value]="country.name" [selected]="userCompany.country ==country.name ">{{ country.name }}</option>
       }
     </select>
   </div>

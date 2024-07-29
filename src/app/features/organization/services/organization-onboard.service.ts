@@ -8,7 +8,7 @@ import { Company, CompanyInput, GrowthStage, RegistrationStructure } from '../in
 import { CompanyHttpService } from './company.service';
 import { CompanyStateService } from './company-state.service';
 
-@Injectable({providedIn: 'root'})
+@Injectable({ providedIn: 'root' })
 export class OrganizationOnboardService {
 
   private _feedbackService = inject(FeedbackService);
@@ -38,7 +38,7 @@ export class OrganizationOnboardService {
     businessSubsector: '',
     productsAndServices: '',
     registrationStructure: RegistrationStructure.CoOperative,
-    yearsOfOperation:   "0 - 10" ,
+    yearsOfOperation: "0 - 10",
     growthStage: GrowthStage.SeedStartUpIdea,
     numberOfEmployees: '1-10 employees',
     fullTimeBusiness: false
@@ -71,15 +71,16 @@ export class OrganizationOnboardService {
       fullTimeBusiness: false
     });
   }
-  
+
 
   submitCompanyInfo(isEditMode: boolean, editId = 0) {
 
-    const valToEdit = {...this.companyInput, id: editId}
-    const res$ = isEditMode && editId ? this._companyService.updateCompany(editId, valToEdit as Company) :  this._companyService.createCompany(this.companyInput)
+    const valToEdit = { ...this.companyInput, id: editId }
+    //TODO: @pchessah Needs rework to check for image during updating
+    const res$ = isEditMode && editId ? this._companyService.updateCompany(editId, valToEdit as Company) : this._companyService.createCompany(this.companyInput)
     return res$.pipe(
       switchMap(() => {
-        if(this.companyLogoToUpload()){
+        if (this.companyLogoToUpload()) {
           const file = this.companyLogoToUpload()
           return this._uploadService.uploadFile(file)
         }
@@ -87,13 +88,13 @@ export class OrganizationOnboardService {
       }),
       tap(() => {
         this.resetCompanyInput()
-      this._feedbackService.success(isEditMode ? 'Company updated Successfully.': 'Company created successfully.')
-    }))
+        this._feedbackService.success(isEditMode ? 'Company updated Successfully.' : 'Company created successfully.')
+      }))
   }
 
-  getCompanyOfUser(){
-    const currentUserId = this._authStateService.currentUserId()  && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId()  : Number(sessionStorage.getItem('userId'));
-    return this._companyService.getCompanyOfUser(currentUserId).pipe(tap(company =>{
+  getCompanyOfUser() {
+    const currentUserId = this._authStateService.currentUserId() && this._authStateService.currentUserId() > 0 ? this._authStateService.currentUserId() : Number(sessionStorage.getItem('userId'));
+    return this._companyService.getCompanyOfUser(currentUserId).pipe(tap(company => {
       this._companyInput.set(company);
       this._companyStateService.setCompany(company);
     }))

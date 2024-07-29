@@ -1,4 +1,5 @@
-import { User } from "../../auth/interfaces/auth.interface";
+import { User } from "../../users/models";
+
 
 export enum RegistrationStructure {
   CoOperative = "Co-operative",
