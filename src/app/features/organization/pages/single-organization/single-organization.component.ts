@@ -1,51 +1,55 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { EMPTY, Observable, switchMap, tap } from 'rxjs';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { Observable, tap } from 'rxjs';
 import { CompanyHttpService } from '../../services/company.service';
 import { CompanyResponse } from '../../interfaces';
 import { SharedModule } from '../../../../shared';
+import { TabViewModule } from 'primeng/tabview';
 import { AdminUiContainerComponent } from "../../../admin/components/admin-ui-container/admin-ui-container.component";
-import { ConfirmationService, FeedbackService } from '../../../../core';
+import { OrganizationInfoContainerComponent } from "../../components/organization-info-container/organization-info-container.component";
+import { OrganizationInfoComponent } from "../../components/organization-info/organization-info.component";
+import { OrganizationOwnerInfoComponent } from "../../components/organization-owner-info/organization-owner-info.component";
 
 @Component({
   selector: 'app-single-organization',
   standalone: true,
-  imports: [CommonModule, SharedModule, AdminUiContainerComponent],
+  imports: [CommonModule, TabViewModule, SharedModule, AdminUiContainerComponent, OrganizationInfoContainerComponent, OrganizationInfoComponent, OrganizationOwnerInfoComponent],
   templateUrl: './single-organization.component.html',
-  styleUrl: './single-organization.component.scss'
+  styleUrl: './single-organization.component.scss',
+  animations: [
+    trigger('tabChange', [
+      state('companyInfo', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      state('ownerInfo', style({
+        opacity: 1,
+        transform: 'translateX(0)'
+      })),
+      transition('* => *', [
+        style({
+          opacity: 0,
+          transform: 'translateX(-100%)'
+        }),
+        animate('0.6s ease-in-out')
+      ])
+    ])
+  ]
 })
 export class SingleOrganizationComponent {
 
   private _activateRoute = inject(ActivatedRoute);
   private _companiesService = inject(CompanyHttpService);
   private _companyId = Number(this._activateRoute.snapshot.paramMap.get('id'));
-  private _confirmationService = inject(ConfirmationService);
-  private _feedbackService = inject(FeedbackService);
-  private _router = inject(Router);
   
-  delete$ = new Observable<unknown>();
-
   company$: Observable<CompanyResponse> = this._companiesService.getSingleCompany(this._companyId).pipe(tap(c=> this.company = c))
   company!: CompanyResponse;
+  activeTab: 'ownerInfo' | 'companyInfo'  = 'companyInfo';
 
-  deleteCompany() {
-    this.delete$ =
-      this._confirmationService.confirm(`Are you sure you want to delete the company ${this.company.name}?`)
-      .pipe(switchMap(res => {
-        if (res) {
-          return this._companiesService.deleteCompany(this._companyId)
-        }
-        return EMPTY
-      }), tap(() => {
-        this._feedbackService.success('Company deleted successfully')
-        this._router.navigateByUrl('/')
-      }))
+  setActiveTab(tab: 'ownerInfo' | 'companyInfo' ) {
+    this.activeTab = tab;
   }
-
-  editCompany(){
-    this._router.navigateByUrl(`/organization/setup/${this.company.id}`)
-  }
-
 
 }

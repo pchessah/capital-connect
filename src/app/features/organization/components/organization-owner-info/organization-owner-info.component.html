@@ -1,0 +1,47 @@
+<ng-container *ngIf="delete$ | async"></ng-container>
+
+<app-organization-info-container>
+  <div header>
+    @if (user.roles.includes('admin')) {
+      <img src="path/to/admin-logo.png" alt="Admin Logo">
+    }
+  </div>
+
+  <div class="card__item__details" details>
+    <div>
+      <label>Username:</label>
+      <p>{{ user.username }}</p>
+    </div>
+    <div>
+      <label>First Name:</label>
+      <p>{{ user.firstName }}</p>
+    </div>
+    <div>
+      <label>Last Name:</label>
+      <p>{{ user.lastName }}</p>
+    </div>
+    <div>
+      <label>Role:</label>
+      <p>{{ user.roles }}</p>
+    </div>
+    <div>
+      <label>Email Verified:</label>
+      <p>{{ user.isEmailVerified ? 'Yes' : 'No' }}</p>
+    </div>
+  </div>
+
+  <div class="button-group" footer>
+    <button (click)="editUser()" class="btn btn-edit" pTooltip="Edit">
+      <i class="pi pi-pencil"></i>
+      <span class="btn-text">Edit</span>
+    </button>
+    <button (click)="deleteUser()" class="btn btn-delete" pTooltip="Delete">
+      <i class="pi pi-trash"></i>
+      <span class="btn-text">Delete</span>
+    </button>
+    <button class="btn btn-view-details" pTooltip="View Company Details">
+      <i class="pi pi-eye"></i>
+      <span class="btn-text">View Company Details</span>
+    </button>
+  </div>
+</app-organization-info-container>
