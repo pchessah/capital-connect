@@ -1,14 +1,14 @@
 <ng-container *ngIf="logOut$ | async"></ng-container>
 
-<header class="header" [ngClass]="{ on__dashboard: on_dashboard}">
+<header class="header" [ngClass]="{ on__dashboard: onDashboard}">
   <img src="assets/img/logo.png" alt="logo" class="logo" />
-  <button class="menu__button" (click)="toggleDrawer()" *ngIf="!drawer_showing"><mat-icon>menu</mat-icon></button>
-  <div class="nav__content" [class.drawer]="drawer_showing">
+  <button class="menu__button" (click)="toggleDrawer()" *ngIf="!drawerShowing"><mat-icon>menu</mat-icon></button>
+  <div class="nav__content" [class.drawer]="drawerShowing">
     <div class="drawer__header">
       @if (!isAdmin) {
       <strong>{{businessName}}</strong>
       }
-      <button class="menu__button" (click)="toggleDrawer()" *ngIf="drawer_showing"><mat-icon>close</mat-icon></button>
+      <button class="menu__button" (click)="toggleDrawer()" *ngIf="drawerShowing"><mat-icon>close</mat-icon></button>
     </div>
 
     <nav class="navbar" [ngStyle]="{'justify-content' : !isAdmin ? 'space-between' : 'end'}">
@@ -48,7 +48,9 @@
             class="avatar" alt="profile" />
           <div class="selection">
             <span class="title">My Profile</span>
+            @if(!isAdmin) {
             <span class="plan">Free Plan</span>
+            }
           </div>
         </li>
       </ul>

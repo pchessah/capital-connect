@@ -22,12 +22,12 @@ export class NavbarComponent {
 
   logOut$ = new Observable<boolean>();
 
-  @Input({ transform: booleanAttribute }) on_dashboard: boolean = false;
+  @Input({ transform: booleanAttribute }) onDashboard: boolean = false;
   @Input() isAdmin = false;
 
-  drawer_showing = false;
+  drawerShowing = false;
   toggleDrawer() {
-    this.drawer_showing = !this.drawer_showing;
+    this.drawerShowing = !this.drawerShowing;
   }
 
   logOut() {
