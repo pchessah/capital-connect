@@ -96,3 +96,23 @@
 tr {
   height: 3rem !important;
 }
+
+@include when-screen-is-atleast(large){
+  ::ng-deep main{
+    .grid__area {
+      width: 95% !important;
+    }
+  }
+}
+
+.header-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+td{
+  text-align: center;
+}
+
+

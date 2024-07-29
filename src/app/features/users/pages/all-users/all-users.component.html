@@ -8,12 +8,17 @@
         <input type="text" pInputText placeholder="Search users..." (input)="applyFilter($event)">
       </span>
     </div>
-    <p-table #dt [value]="users" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]" [globalFilterFields]="['firstName', 'lastName', 'roles']">
+    <p-table #dt [value]="users" [paginator]="true" [rows]="10" [rowsPerPageOptions]="[10, 20, 30]"
+      [globalFilterFields]="['firstName', 'lastName', 'roles']">
       <ng-template pTemplate="header">
         <tr>
           <th *ngFor="let col of cols" [pSortableColumn]="col.field">
-            {{col.header}}
-            <p-sortIcon [field]="col.field"></p-sortIcon>
+            <span class="header-container">
+              <span class="header-text">
+                {{col.header}}
+              </span>
+              <p-sortIcon [field]="col.field"></p-sortIcon>
+            </span>
           </th>
         </tr>
       </ng-template>
@@ -24,9 +29,12 @@
           <td>{{user.roles}}</td>
           <td>{{user.isEmailVerified ? 'Yes' : 'No'}}</td>
           <td>
-            <button pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="editUser(user)" pTooltip="Edit" tooltipPosition="top"></button>
-            <button pButton type="button" icon="pi pi-trash" class="p-button-text" (click)="deleteUser(user)" pTooltip="Delete" tooltipPosition="top"></button>
-            <button pButton type="button" icon="pi pi-building" class="p-button-text" (click)="viewUser(user)" pTooltip="View Company" tooltipPosition="top"></button>
+            <button pButton type="button" icon="pi pi-pencil" class="p-button-text" (click)="editUser(user)"
+              pTooltip="Edit" tooltipPosition="top"></button>
+            <button pButton type="button" icon="pi pi-trash" class="p-button-text" (click)="deleteUser(user)"
+              pTooltip="Delete" tooltipPosition="top"></button>
+            <button pButton type="button" icon="pi pi-building" class="p-button-text" (click)="viewUser(user)"
+              pTooltip="View Company" tooltipPosition="top"></button>
           </td>
         </tr>
       </ng-template>
