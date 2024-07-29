@@ -10,11 +10,15 @@
     <app-navbar on_dashboard="true"></app-navbar>
   </div>
 
-  <h2 class="text-end">
-  <button (click)="createProfile()" class="btn btn-secondary">Create Investor Profile </button> 
-  </h2>
+
+
 
   <main>
+
+    <div class="left__col text-end mt-5">
+      <button (click)="createProfile()" class="btn btn-secondary">Create Investor Profile </button> 
+  </div>
+  
     <div class="left flex flex-col gap-12">
       <div class="table-parent flex flex-col gap-3 top-instance">
         <table class="table">
@@ -46,12 +50,7 @@
         <!-- <pagination-controls (pageChange)="pageChange($event)"></pagination-controls> -->
       </div>
     </div>
-    <!-- <div class="right__col hidden">
-      <button (click)="toggleNewBookingForm()" class="btn">Add New Booking</button>
-      <div *ngIf="showNewBookingForm">
-        <app-new-booking (bookingCreated)="onBookingCreated($event)"></app-new-booking>
-      </div>
-    </div> -->
+
   </main>
 </div>
 
