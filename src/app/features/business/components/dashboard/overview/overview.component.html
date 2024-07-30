@@ -24,7 +24,7 @@
   </app-card>
 
   <app-card 
-    [detail]="{title: 'Business Fact Sheet', value: '0', featured: false, period: '0 Past Months'}"
+    [detail]="{title: 'Business Information', value: '0', featured: false, period: '0 Past Months'}"
     (click)="setDialog('factSheet')">
     <app-photo-collage></app-photo-collage>
   </app-card>
@@ -170,10 +170,10 @@
 <!-- Business fact Report -->
 <app-modal [visible]="factSheetVisible">
 
-  <div #content>
+  <div #business_content>
     <img src="../../../../../../assets/img/logo.png" alt="logo" />
     <section class="brand-details">
-      <h2>Business Fact Sheet Report</h2>
+      <h2>Business Information Report</h2>
       <h3>{{ currentCompany.name }}</h3>
       <p>Country - {{ currentCompany.country }}</p>
       <p>Sector - {{ currentCompany.businessSector }}</p>
@@ -230,8 +230,8 @@
     </ul>
     <div class="call-to-action flex gap-8 items-center">
       <a href="mailto: services@capitalconnect.africa">Contact your account manager</a>
-      <a href="javascript:void(0);" (click)="generatePDF()">Download Report</a>
-      <a href="mailto:?subject=Investor%20Ready%20Report&body=Attached%20is%20the%20Investor%20Ready%20Report%20you%20requested.%0D%0A%0D%0AKind%20regards,%0D%0A%0D%0A{{currentCompany.name}}"
+      <a href="javascript:void(0);" (click)="generateBusinessInformationReport()">Download Report</a>
+      <a href="mailto:?subject=Business%20Information%20Report&body=Attached%20is%20the%20Business%20Information%20Report%20you%20requested.%0D%0A%0D%0AKind%20regards,%0D%0A%0D%0A{{currentCompany.name}}"
         target="_blank">Email Report</a>
 
     </div>

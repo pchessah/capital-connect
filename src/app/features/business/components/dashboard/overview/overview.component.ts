@@ -30,6 +30,8 @@ import { RemoveQuotesPipe } from '../../../../../shared/pipes/remove-quotes.pipe
 })
 export class OverviewComponent {
   @ViewChild('content', { static: false }) content!: ElementRef;
+  @ViewChild('business_content', { static: false }) business_content!: ElementRef;
+
   visible = false;
   factSheetVisible = false;
   investorsDiagVisible = false;
@@ -139,6 +141,17 @@ export class OverviewComponent {
       }else if(this.currentModal === 'preparedness'){
         reportName = "InvestorPreparednessReport"
       }
+      this._pdfService.generatePDF(contentElement, reportName);
+    } else {
+      console.error('Content element is null or undefined.');
+    }
+  }
+
+  generateBusinessInformationReport(){
+    if (this.business_content && this.business_content.nativeElement) {
+      const contentElement = this.business_content.nativeElement;
+      var reportName:string = '';
+      reportName = "BusinessInformationReport"
       this._pdfService.generatePDF(contentElement, reportName);
     } else {
       console.error('Content element is null or undefined.');
