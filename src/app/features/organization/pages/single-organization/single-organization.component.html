@@ -1,71 +1,21 @@
-<ng-container *ngIf="delete$ | async"></ng-container>
-
 <ng-container *ngIf="company$ | async as company">
   <app-admin-ui-container [title]="company.name">
-    <div class="card__item">
-      <div class="card__item__header">
-        <img [src]="company?.companyLogo?.path" alt="Company Logo">
-      </div>
-      <div class="card__item__body">
-        <div class="card__item__details">
-          <div>
-            <label>Country:</label>
-            <p>{{ company.country }}</p>
-          </div>
-          <div>
-            <label>Sector:</label>
-            <p>{{ company.businessSector }}</p>
-          </div>
-          <div>
-            <label>Subsector:</label>
-            <p>{{ company.businessSubsector }}</p>
-          </div>
-          <div>
-            <label>Products & Services:</label>
-            <p>{{ company.productsAndServices }}</p>
-          </div>
-          <div>
-            <label>Structure:</label>
-            <p>{{ company.registrationStructure }}</p>
-          </div>
-          <div>
-            <label>Years of Operation:</label>
-            <p>{{ company.yearsOfOperation }}</p>
-          </div>
-          <div>
-            <label>Growth Stage:</label>
-            <p>{{ company.growthStage }}</p>
-          </div>
-          <div>
-            <label>Employees:</label>
-            <p>{{ company.numberOfEmployees }}</p>
-          </div>
-          <div>
-            <label>Full-time Business:</label>
-            <p>{{ company.fullTimeBusiness ? 'Yes' : 'No' }}</p>
-          </div>
+    <div class="tab-view">
+      <div class="tab-headers">
+        <div class="tab-header" [class.active]="activeTab === 'companyInfo'" (click)="setActiveTab('companyInfo')">
+          Company Information
         </div>
-        <div class="button-group">
-          <button (click)="editCompany()" class="btn btn-edit" pTooltip="Edit">
-            <i class="pi pi-pencil"></i>
-            <span class="btn-text">Edit</span>
-          </button>
-          <button (click)="deleteCompany()" class="btn btn-delete" pTooltip="Delete">
-            <i class="pi pi-trash"></i>
-            <span class="btn-text">Delete</span>
-          </button>
-          <button class="btn btn-view-owner" pTooltip="View Company Owner">
-            <i class="pi pi-eye"></i>
-            <span class="btn-text">View Owner</span>
-          </button>
+        <div class="tab-header" [class.active]="activeTab === 'ownerInfo'" (click)="setActiveTab('ownerInfo')">
+          Owner Information
         </div>
       </div>
-      <div class="card__item__user">
-        <div class="user__info">
-          <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALAAAACUCAMAAAAEVFNMAAAAMFBMVEXk5ueutLfp6uu+w8WrsbTHy821ur3h4+SorrLKztC5vsHe4OLr7e7b3t/S1dfV2Nr5rpp2AAAEJklEQVR4nO2c25KkIAxAJVxFkf//20Xty3Q72w0EE6bK8zbzdCoVQ4DQw3BxcXFxcXFxcXFxcXFx8cexCW6HLGCY4jJquaLHJU7pP/0CELT0Qj0RRo4TdOoMgzZCKPFK+tssXYZ50u5d9o5T48St9wZYfYjti7IYuRVfmBfzSXdLDR9mbs0n8pvuFmXNrXknfA3vzdj3kckx0zelhQkdlIuYq7sp8xtHV+CbjCO3b0l8NwKrbyjVTXnM6Wuzv7efxnxpPGfV33f46jEsZR/cg4UpxlOdblqlmXr7qoTYjHmSorxCPI1ZQlwd4CQsGbI4VH5xuzH98gG+PsAJ+hBPKF9hqDtN0ChfochrsUcKS+JCEXG+CWLhEZfCqaOgbYwtogjvKEkrbJC+yZh01z9hVo0dR+lbupP7VZh0sdPYFE4pMRJWYpBoXyE0pTBy2digbCfmBr7CUwrjUzj1P5fw2cJ0vn8wwg18ST86wLcSxMK4Dd0O6bbury3NQ+2p2g9oO3jUocRNmHSPZNG+wpE28Bbf/VAWiaHBV+do73JhwQbYER/9oHeh1Ifa2D0H+Zk2LMgkJr9gBJwv7THKJowKMf3hZQIVYY6LL0Q/QXwSeMNW95jKc/hiFg+mGYTa4xSme8XVuConmBJiEy4f71iFJ8YxmoqmzZFujQ4UXx3wJfAOFBpz+yaKqrGj7yEOlFwo9eC73uJmGqteRlzTkpejrExkHwu8AUF+b4Sc5Ky/Bxb1LcjcM4xvrAPw/3VWyuj+JvdhGv2vykr5patseGKDVm+T+8oJzTse+hkAu2wHAEasBxdGjnbuM7hPIBlOIcYY7DD3l7kHIDHfga6Fk5wNcX2H5L1JeO+350hh6Ex7FZ3Cor1wK+r1m9v+lXI5hsn28MIHIAVVrq4fFw6lVmu9BF7n9XWXN+LrIvewFsbIOLC9mDlW3Sxt5xf64VYYohYVtjtOySVQfolzWoWzOsr/hzllNJkyTPL4zq/CWXiaI8zgq1PhHSdOz2aIMrcmZKH8aE8MM1jZIBdejZU5LzGsbhrdh7M5qVuOraP7MHYn5EUqDSfpbsrNCwacFt67cuM5QY0fN/iCa/j8EqYWEzPfUM3eVEE4OR0eyo3SAntJW2Dc4qwQ0OP5Jcb464+Z0reBMWl8WxhT+yKN8YMyNcb1E4OAfNFVa6xrd6kNhtPqjGtXkDPbnc9UnXeSF4gndR+eZfOtm3xtMtNcTfkYXvUz9kYUJ0WD92coSitF9u3macKFo461vxPQDrcUBZivpD0oeuaBnFNsQtFsW4MHiXgKQtzkuRwalV+LubqeN7KXO5Y2+Eh+R1E6eHQWJrdpa/DmoQ25q11gXpbvqMwRIfR4eyuyf9Khg2VuJ7ef4G58nuQJW6k6IbONt/sPmXZA7m8MQjfk+fbNP0nUOaYuq8XQAAAAAElFTkSuQmCC" alt="User Profile Picture">
-          <h3>{{ company?.user?.firstName }} {{ company?.user?.lastName }}</h3>
-          <p><strong>Username:</strong> {{ company?.user?.username }}</p>
-          <p><strong>Email Verified:</strong> {{ company?.user?.isEmailVerified ? 'Yes' : 'No' }}</p>
+
+      <div class="tab-content" [@tabChange]="activeTab">
+        <div *ngIf="activeTab === 'companyInfo'">
+          <app-organization-info [company]="company"></app-organization-info>
+        </div>
+        <div *ngIf="activeTab === 'ownerInfo'">
+          <app-organization-owner-info [user]="company.user"></app-organization-owner-info>
         </div>
       </div>
     </div>

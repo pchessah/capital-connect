@@ -1,4 +1,4 @@
-@import '../../../../styles/main.scss';
+@import "../../../../styles/main.scss";
 
 .container {
   color: $primary-color;
@@ -97,8 +97,8 @@ tr {
   height: 3rem !important;
 }
 
-@include when-screen-is-atleast(large){
-  ::ng-deep main{
+@include when-screen-is-atleast(large) {
+  ::ng-deep main {
     .grid__area {
       width: 95% !important;
     }
@@ -111,8 +111,6 @@ tr {
   align-items: center;
 }
 
-td{
+td {
   text-align: center;
 }
-
-
