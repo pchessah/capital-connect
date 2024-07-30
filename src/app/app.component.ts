@@ -1,6 +1,7 @@
 import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
+import { distinctUntilChanged } from 'rxjs';
 import { SharedModule } from './shared';
 import { LoadingComponent } from './core/components/loading/loading.component';
 import { FeedbackNotificationComponent, LoadingService } from './core';
@@ -16,23 +17,22 @@ export class AppComponent implements OnInit, OnDestroy {
 
   private _loadingService = inject(LoadingService);
   private _cd = inject(ChangeDetectorRef);
-  
+
   isLoading = true;
 
   ngOnInit(): void {
     this._trackLoadingStatusSubscription();
   }
 
-  private _trackLoadingStatusSubscription = () => this._loadingService.loading$.subscribe(res => {
-    this.isLoading = res;
-    this._cd.detectChanges();
-  })
+  private _trackLoadingStatusSubscription() {
+    return this._loadingService.loading$.pipe(distinctUntilChanged()).subscribe(res => {
+      this.isLoading = res;
+      this._cd.detectChanges();
+    })
+  }
 
   ngOnDestroy(): void {
     this._trackLoadingStatusSubscription().unsubscribe()
   }
-
-
-
 
 }

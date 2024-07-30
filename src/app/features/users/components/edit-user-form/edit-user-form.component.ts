@@ -57,9 +57,9 @@ export class EditUserFormComponent {
 
   submitForm() {
     if (this.editUserForm.valid) {
-      const updatedUser = { ...this.user, ...this.editUserForm.value };
+      const updatedUser = { ...this.editUserForm.value };
       this.updateUser$ =
-        this._userService.updateUserByAdmin(updatedUser).pipe(tap(res => {
+        this._userService.updateUserByAdmin(updatedUser, this.user.id).pipe(tap(() => {
           this._router.navigateByUrl('/users');
         }))
     }
