@@ -14,7 +14,7 @@ export class FormsLayoutComponent {
   current_page =2;
 
   @Input() progress_steps =[
-    {name: 'Business Financials',},
+    {name: 'Business Information',},
     {name: 'Investor Eligibility'},
     {name: 'Investor Preparedness'},
 ];

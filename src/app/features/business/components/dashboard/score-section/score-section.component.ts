@@ -13,7 +13,7 @@ import {SCORE_TYPE} from "../../../interfaces/score.type";
 })
 export class ScoreSectionComponent {
   processes: SCORE_TYPE[] =[
-    {process: 'Business Financials', completed: false},
+    {process: 'Business Information', completed: false},
     {process: 'Investor Eligibility', completed: false},
     {process: 'Investor Preparedness', completed: false},
   ]

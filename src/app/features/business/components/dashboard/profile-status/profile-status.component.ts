@@ -16,7 +16,7 @@ export class ProfileStatusComponent {
   currentStep:number = 2;
   STATUS = STEP_STATUS;
   steps: STEP_TYPE[] =[
-    {title: 'Business Financials', status: STEP_STATUS.COMPLETE},
+    {title: 'Business Information', status: STEP_STATUS.COMPLETE},
     {title: 'Investor Eligibility', status: STEP_STATUS.INCOMPLETE},
     {title: 'Investor Preparedness', status: STEP_STATUS.INCOMPLETE},
   ]

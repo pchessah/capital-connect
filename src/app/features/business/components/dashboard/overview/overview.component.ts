@@ -30,7 +30,10 @@ import { RemoveQuotesPipe } from '../../../../../shared/pipes/remove-quotes.pipe
 })
 export class OverviewComponent {
   @ViewChild('content', { static: false }) content!: ElementRef;
+  @ViewChild('business_content', { static: false }) business_content!: ElementRef;
+
   visible = false;
+  factSheetVisible = false;
   investorsDiagVisible = false;
   matchedInvestors: MatchedInvestor[] = [];
   investorEligibilityScore: string = '0';
@@ -39,6 +42,8 @@ export class OverviewComponent {
   generalSummary!: GeneralSummary;
 
   preparednessAnswers: UserSubmissionResponse[] = [];
+  factSheetAnswers: UserSubmissionResponse[] = [];
+
   eligibilityAnswers: UserSubmissionResponse[] = [];
 
 
@@ -76,6 +81,15 @@ export class OverviewComponent {
   }))
 
 
+  esgSubmissions$ = this._submissionStateService.getEsgSubmissionsPerSection().pipe(tap(submissions => {
+    this.preparednessAnswers = submissions
+  }))
+
+  factSheetSubmissions$ = this._submissionStateService.getFactSheetSubmissionsPerSection().pipe(tap(submissions => {
+    this.factSheetAnswers = submissions
+  }))
+
+
   preparednessScore = parseFloat(this.investorPreparednessScore); 
   investorPreparednessGeneralSummary$ = this.scoring$.pipe(
     tap(scores => {
@@ -108,6 +122,12 @@ export class OverviewComponent {
     this.visible = !this.visible;
   }
 
+  setDialog(dialog:string){
+    if(dialog==="factSheet"){
+      this.factSheetVisible = !this.factSheetVisible;
+    }
+  }
+
   showMatchedInvestors() {
     this.investorsDiagVisible = !this.investorsDiagVisible;
   }
@@ -121,6 +141,17 @@ export class OverviewComponent {
       }else if(this.currentModal === 'preparedness'){
         reportName = "InvestorPreparednessReport"
       }
+      this._pdfService.generatePDF(contentElement, reportName);
+    } else {
+      console.error('Content element is null or undefined.');
+    }
+  }
+
+  generateBusinessInformationReport(){
+    if (this.business_content && this.business_content.nativeElement) {
+      const contentElement = this.business_content.nativeElement;
+      var reportName:string = '';
+      reportName = "BusinessInformationReport"
       this._pdfService.generatePDF(contentElement, reportName);
     } else {
       console.error('Content element is null or undefined.');

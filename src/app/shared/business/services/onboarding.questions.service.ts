@@ -93,6 +93,13 @@ export const BUSINESS_FINANCIALS_SUBSECTION_IDS = {
   STEP_THREE: 13,
 }
 
+export const IMPACT_ASSESMENT_SUBSECTION_IDS = {
+  ID: 166,
+  STEP_ONE: 138,
+  STEP_TWO: 139,
+  STEP_THREE: 140,
+}
+
 export const getInvestorEligibilitySubsectionIds = (companyStage: GrowthStage) => {
   switch (companyStage) {
     case GrowthStage.Established:
