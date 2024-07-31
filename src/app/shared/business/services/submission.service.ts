@@ -1,8 +1,8 @@
 import { inject, Injectable } from '@angular/core';
-import { BASE_URL, BaseHttpService, FeedbackService } from '../../../core';
 import { HttpClient } from '@angular/common/http';
-import { Submission, SubmissionResponse, UserSubmissionResponse } from '../../interfaces/submission.interface';
 import { map, Observable } from 'rxjs';
+import { BASE_URL, BaseHttpService, FeedbackService } from '../../../core';
+import { Submission, SubmissionResponse, UserSubmissionResponse } from '../../interfaces/submission.interface';
 import { AuthStateService } from '../../../features/auth/services/auth-state.service';
 
 @Injectable({ providedIn: 'root' })
@@ -21,7 +21,6 @@ export class SubmissionService extends BaseHttpService {
     return this.create(`${BASE_URL}/submissions`, submission).pipe((map(res => {
       this._feedBackService.success('Submitted Successfully')
       return res
-
     }))) as Observable<SubmissionResponse>;
 
   }
@@ -43,7 +42,6 @@ export class SubmissionService extends BaseHttpService {
   fetchSubmissionsByUser(userId: number): Observable<UserSubmissionResponse[]> {
     return this.readById(`${BASE_URL}/submissions/user`, userId).pipe((map(res => {
       return res
-
     }))) as Observable<UserSubmissionResponse[]>;
   }
 

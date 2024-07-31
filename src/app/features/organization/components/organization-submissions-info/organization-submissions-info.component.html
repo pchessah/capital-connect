@@ -1,0 +1,80 @@
+<ng-container *ngIf="submissions$ | async"></ng-container>
+<ng-container *ngIf="investorEligilityResponses$ | async"></ng-container>
+<ng-container *ngIf="investorPreparednessResponses$ | async"></ng-container>
+
+<div details class="tab-view">
+  <div class="tab-headers">
+    <div class="tab-header" [class.active]="activeTab === 'investorEligibility'" (click)="setActiveTab('investorEligibility')">
+      Investor Eligibility Responses
+    </div>
+    <div class="tab-header" [class.active]="activeTab === 'businessResponses'" (click)="setActiveTab('businessResponses')">
+      Business Responses
+    </div>
+    <div class="tab-header" [class.active]="activeTab === 'investorPreparedness'" (click)="setActiveTab('investorPreparedness')">
+      Investor Preparedness Responses
+    </div>
+  </div>
+
+  <div class="tab-content">
+    <div *ngIf="activeTab === 'investorEligibility'">
+      <ng-container *ngIf="investorEligibilityResponses && investorEligibilityResponses.length; else noResponses">
+        <ul>
+          <li *ngFor="let response of investorEligibilityResponses">
+            <div class="card__item__details">
+              <div>
+                <label>Question:</label>
+                <p>{{ response.question.text }}</p>
+              </div>
+              <div>
+                <label>Answer:</label>
+                <p>{{ response.answer.text }}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+    </div>
+
+    <div *ngIf="activeTab === 'businessResponses'">
+      <ng-container *ngIf="businessResponses && businessResponses.length; else noResponses">
+        <ul>
+          <li *ngFor="let response of businessResponses">
+            <div class="card__item__details">
+              <div>
+                <label>Question:</label>
+                <p>{{ response.question.text }}</p>
+              </div>
+              <div>
+                <label>Answer:</label>
+                <p>{{ response.answer.text }}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+    </div>
+
+    <div *ngIf="activeTab === 'investorPreparedness'">
+      <ng-container *ngIf="investorPreparednessResponses && investorPreparednessResponses.length; else noResponses">
+        <ul>
+          <li *ngFor="let response of investorPreparednessResponses">
+            <div class="card__item__details">
+              <div>
+                <label>Question:</label>
+                <p>{{ response.question.text }}</p>
+              </div>
+              <div>
+                <label>Answer:</label>
+                <p>{{ response.answer.text }}</p>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </ng-container>
+    </div>
+
+    <ng-template #noResponses>
+      <div class="no-responses">No responses available.</div>
+    </ng-template>
+  </div>
+</div>
