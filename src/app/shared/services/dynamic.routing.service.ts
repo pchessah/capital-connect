@@ -4,7 +4,7 @@ import { combineLatest } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
 import { SubMissionStateService } from "../business/services/submission-state.service";
 import {
-  BUSINESS_FINANCIALS_SUBSECTION_IDS,
+  BUSINESS_INFORMATION_SUBSECTION_IDS,
   getInvestorEligibilitySubsectionIds,
   INVESTOR_ONBOARDING_SUBSECTION_IDS,
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS,
@@ -36,7 +36,7 @@ export class DynamicRoutingService {
     const INVESTOR_ELIGIBILITY_SUBSECTION_IDS = getInvestorEligibilitySubsectionIds(companyGrowthStage);
 
     const userSubmissions$ = this._submissionStateService.getUserSubmissions();
-    const questionsOfBusinessFinancials$ = this._questionService.getSectionQuestions(BUSINESS_FINANCIALS_SUBSECTION_IDS.ID);
+    const questionsOfBusinessFinancials$ = this._questionService.getSectionQuestions(BUSINESS_INFORMATION_SUBSECTION_IDS.ID);
     const questionsOfInvestorEligibilty$ = this._questionService.getSectionQuestions(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ID);
     const questionsOfInvestorPreparedness$ = this._questionService.getSectionQuestions(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID);
 
@@ -60,18 +60,18 @@ export class DynamicRoutingService {
 
               if (missingBusinessFinancialSubsectionIds.length > 0) {
                 const url = '/business/financials'
-                if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.LANDING)) {
+                if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.LANDING)) {
 
                   this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
-                } else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_ONE)) {
+                } else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_ONE)) {
 
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
                 }
-                else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_TWO)) {
+                else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_TWO)) {
 
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
                 }
-                else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_THREE)) {
+                else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_THREE)) {
 
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
