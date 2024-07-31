@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { FeedbackService } from "../../../../../core";
 import { BusinessPageService } from "../../../services/business-page/business.page.service";
 import {BusinessOnboardingScoringService} from "../../../../../shared/services/business.onboarding.scoring.service";
-import {BUSINESS_FINANCIALS_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
+import {BUSINESS_INFORMATION_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-success-screen',
@@ -24,7 +24,7 @@ export class SuccessScreenComponent {
 
   score$ = new Observable();
   calculateScore() {
-    this.score$ = this._scoringService.getSectionScore(BUSINESS_FINANCIALS_SUBSECTION_IDS.ID).pipe(tap(res => {
+    this.score$ = this._scoringService.getSectionScore(BUSINESS_INFORMATION_SUBSECTION_IDS.ID).pipe(tap(res => {
       this._feedBackService.info(`Your Score is: ${res}%`, `Your Eligibility Score`)
     }));
 

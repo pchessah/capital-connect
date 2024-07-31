@@ -2,7 +2,7 @@
 
 <app-organization-info-container>
   <div header>
-    @if (user.roles.includes('admin')) {
+    @if (owner.roles.includes('admin')) {
       <img src="path/to/admin-logo.png" alt="Admin Logo">
     }
   </div>
@@ -10,23 +10,23 @@
   <div class="card__item__details" details>
     <div>
       <label>Username:</label>
-      <p>{{ user.username }}</p>
+      <p>{{ owner.username }}</p>
     </div>
     <div>
       <label>First Name:</label>
-      <p>{{ user.firstName }}</p>
+      <p>{{ owner.firstName }}</p>
     </div>
     <div>
       <label>Last Name:</label>
-      <p>{{ user.lastName }}</p>
+      <p>{{ owner.lastName }}</p>
     </div>
     <div>
       <label>Role:</label>
-      <p>{{ user.roles }}</p>
+      <p>{{ owner.roles }}</p>
     </div>
     <div>
       <label>Email Verified:</label>
-      <p>{{ user.isEmailVerified ? 'Yes' : 'No' }}</p>
+      <p>{{ owner.isEmailVerified ? 'Yes' : 'No' }}</p>
     </div>
   </div>
 

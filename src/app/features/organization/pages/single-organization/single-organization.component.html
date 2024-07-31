@@ -8,6 +8,10 @@
         <div class="tab-header" [class.active]="activeTab === 'ownerInfo'" (click)="setActiveTab('ownerInfo')">
           Owner Information
         </div>
+        <div class="tab-header" [class.active]="activeTab === 'submissionInfo'"
+          (click)="setActiveTab('submissionInfo')">
+          Organization Submissions
+        </div>
       </div>
 
       <div class="tab-content" [@tabChange]="activeTab">
@@ -15,7 +19,11 @@
           <app-organization-info [company]="company"></app-organization-info>
         </div>
         <div *ngIf="activeTab === 'ownerInfo'">
-          <app-organization-owner-info [user]="company.user"></app-organization-owner-info>
+          <app-organization-owner-info [owner]="company.user"></app-organization-owner-info>
+        </div>
+
+        <div *ngIf="activeTab === 'submissionInfo'">
+          <app-organization-submissions-info [company]="company"></app-organization-submissions-info>
         </div>
       </div>
     </div>

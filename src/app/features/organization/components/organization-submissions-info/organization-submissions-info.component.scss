@@ -1,0 +1,103 @@
+/* organization-submissions-info.component.scss */
+
+/* General styles for the component */
+:host {
+  display: block;
+  margin: 1em 0;
+}
+
+.tab-view {
+  margin-top: 1em;
+  gap: 1rem;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: auto;
+  background-color: #fff;
+  border-radius: 1rem;
+  transform: translateY(-0.5rem);
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s;
+}
+
+.tab-headers {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1em;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.tab-header {
+  flex: 1;
+  padding: 0.75em 1em;
+  border: 1px solid #007ad9;
+  border-radius: 4px;
+  background-color: transparent;
+  color: #007ad9;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s, color 0.3s;
+  text-align: center;
+}
+
+.tab-header:hover, .tab-header.active {
+  background-color: #007ad9;
+  color: #fff;
+}
+
+.tab-content {
+  max-height: 40vh;
+  overflow-y: auto;
+  width: 100%;
+  text-align: left;
+}
+
+/* Styles for the list of responses */
+ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Styles for individual list items */
+li {
+  padding: 1em;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Styles for the question and answer */
+.card__item__details {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+  width: 100%;
+
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  div {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+
+    label {
+      font-weight: bold;
+      margin-bottom: 0.25rem;
+    }
+
+    p {
+      margin: 0.25rem 0;
+      color: #555;
+    }
+  }
+}
+
+.no-responses {
+  padding: 2rem;
+  text-align: left;
+  color: #777;
+  font-size: 1.2em;
+}

@@ -15,7 +15,7 @@ export class OrganizationOwnerInfoComponent {
 
   delete$ = new Observable();
 
-  @Input({required: true}) user!: User
+  @Input({required: true}) owner!: User
 
   editUser(){
     // TODO: Implement edit user functionality

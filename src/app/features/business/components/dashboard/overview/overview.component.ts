@@ -1,8 +1,8 @@
-import { Component, inject , ViewChild, ElementRef} from '@angular/core';
+import { Component, inject, ViewChild, ElementRef } from '@angular/core';
 import { OverviewSectionComponent } from "../../../../../shared/components/overview-section/overview-section.component";
 import { CardComponent } from "../../../../../shared/components/card/card.component";
 import { PhotoCollageComponent } from "../photo-collage/photo-collage.component";
-import { tap,switchMap  } from "rxjs";
+import { tap, switchMap } from "rxjs";
 import { CommonModule } from "@angular/common";
 import { ModalComponent } from "../../../../../shared/components/modal/modal.component";
 import { CompanyStateService } from "../../../../organization/services/company-state.service";
@@ -49,10 +49,9 @@ export class OverviewComponent {
 
   InvestorPreparednessgeneralSummary: GeneralSummary | undefined;
   InvestorEligibilitygeneralSummary: GeneralSummary | undefined;
-  
+
 
   currentModal: 'eligibility' | 'preparedness' = 'eligibility';
-  
 
 
   private _companyService = inject(CompanyStateService);
@@ -69,7 +68,7 @@ export class OverviewComponent {
 
   scoring$ = this._scoringService.getOnboardingScores().pipe(tap(scores => {
     this.investorEligibilityScore = scores.investorEligibility;
-    this.investorPreparednessScore = scores.investorPreparedness;    
+    this.investorPreparednessScore = scores.investorPreparedness;
   }))
 
   submissions$ = this._submissionStateService.getUserSubmissionsPerSection().pipe(tap(submissions => {
@@ -90,7 +89,8 @@ export class OverviewComponent {
   }))
 
 
-  preparednessScore = parseFloat(this.investorPreparednessScore); 
+  preparednessScore = parseFloat(this.investorPreparednessScore);
+
   investorPreparednessGeneralSummary$ = this.scoring$.pipe(
     tap(scores => {
       this.preparednessScore = parseFloat(scores.investorPreparedness);
@@ -101,7 +101,8 @@ export class OverviewComponent {
     })
   );
 
-  eligibilityScore = parseFloat(this.investorEligibilityScore); 
+  eligibilityScore = parseFloat(this.investorEligibilityScore);
+
   investorEligibilityGeneralSummary$ = this.scoring$.pipe(
     tap(scores => {
       this.eligibilityScore = parseFloat(scores.investorEligibility);
@@ -113,17 +114,17 @@ export class OverviewComponent {
   );
 
 
-  showDialog(reportType : string) {
-    if(reportType === this.investorEligibilityScore){
+  showDialog(reportType: string) {
+    if (reportType === this.investorEligibilityScore) {
       this.currentModal = "eligibility"
-    }else if(reportType === this.investorPreparednessScore){
+    } else if (reportType === this.investorPreparednessScore) {
       this.currentModal = "preparedness"
     }
     this.visible = !this.visible;
   }
 
-  setDialog(dialog:string){
-    if(dialog==="factSheet"){
+  setDialog(dialog: string) {
+    if (dialog === "factSheet") {
       this.factSheetVisible = !this.factSheetVisible;
     }
   }
@@ -135,10 +136,10 @@ export class OverviewComponent {
   generatePDF() {
     if (this.content && this.content.nativeElement) {
       const contentElement = this.content.nativeElement;
-      var reportName:string = '';
-      if(this.currentModal === 'eligibility'){
-          reportName = "InvestorEligibilityReport"
-      }else if(this.currentModal === 'preparedness'){
+      var reportName: string = '';
+      if (this.currentModal === 'eligibility') {
+        reportName = "InvestorEligibilityReport"
+      } else if (this.currentModal === 'preparedness') {
         reportName = "InvestorPreparednessReport"
       }
       this._pdfService.generatePDF(contentElement, reportName);
@@ -147,10 +148,10 @@ export class OverviewComponent {
     }
   }
 
-  generateBusinessInformationReport(){
+  generateBusinessInformationReport() {
     if (this.business_content && this.business_content.nativeElement) {
       const contentElement = this.business_content.nativeElement;
-      var reportName:string = '';
+      var reportName: string = '';
       reportName = "BusinessInformationReport"
       this._pdfService.generatePDF(contentElement, reportName);
     } else {
