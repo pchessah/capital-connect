@@ -1,4 +1,6 @@
-<ng-container *ngIf="delete$ | async"></ng-container>
+<ng-container *ngIf="submissions$ | async"></ng-container>
+<ng-container *ngIf="investorEligilityResponses$ | async"></ng-container>
+<ng-container *ngIf="investorPreparednessResponses$  | async"></ng-container>
 
 <app-organization-info-container>
   <div header>
@@ -31,7 +33,7 @@
   </div>
 
   <div class="button-group" footer>
-    <button (click)="editUser()" class="btn btn-edit" pTooltip="Edit">
+    <!-- <button (click)="editUser()" class="btn btn-edit" pTooltip="Edit">
       <i class="pi pi-pencil"></i>
       <span class="btn-text">Edit</span>
     </button>
@@ -42,6 +44,7 @@
     <button class="btn btn-view-details" pTooltip="View Company Details">
       <i class="pi pi-eye"></i>
       <span class="btn-text">View Company Details</span>
-    </button>
+    </button> -->
   </div>
 </app-organization-info-container>
+

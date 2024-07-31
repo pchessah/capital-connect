@@ -3,7 +3,7 @@ import { BusinessAndInvestorMatchingService } from "../business/services/busines
 import { map } from "rxjs";
 import { AuthStateService } from "../../features/auth/services/auth-state.service";
 import {
-  BUSINESS_FINANCIALS_SUBSECTION_IDS, getInvestorEligibilitySubsectionIds,
+  BUSINESS_INFORMATION_SUBSECTION_IDS, getInvestorEligibilitySubsectionIds,
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS
 } from "../business/services/onboarding.questions.service";
 import { CompanyStateService } from "../../features/organization/services/company-state.service";
@@ -21,7 +21,7 @@ export class BusinessOnboardingScoringService {
   getOnboardingScores() {
     const INVESTOR_ELIGIBILITY = getInvestorEligibilitySubsectionIds(this._companyService.currentCompany.growthStage);
     return this._scoringService.getOnboardingScores(this._userId).pipe(map(scores => {
-      const businessFinancialsKeys = [...Object.values(BUSINESS_FINANCIALS_SUBSECTION_IDS)].filter(key => key !== BUSINESS_FINANCIALS_SUBSECTION_IDS.ID);
+      const businessFinancialsKeys = [...Object.values(BUSINESS_INFORMATION_SUBSECTION_IDS)].filter(key => key !== BUSINESS_INFORMATION_SUBSECTION_IDS.ID);
       const investorEligibilityKeys = [...Object.values(INVESTOR_ELIGIBILITY)].filter(key => key !== INVESTOR_ELIGIBILITY.ID);
       const investorPreparednessKeys = [...Object.values(INVESTOR_PREPAREDNESS_SUBSECTION_IDS)].filter(key => key !== INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID);
       const businessFinancialScore = scores.filter((score) => businessFinancialsKeys.indexOf(score.subSectionId ?? -1) > -1).map(score => score.percentageScore)

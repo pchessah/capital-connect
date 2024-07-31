@@ -8,7 +8,7 @@ import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/
 import {Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
 import {BusinessPageService} from "../../../services/business-page/business.page.service";
 import {Router, RouterLink} from "@angular/router";
-import {BUSINESS_FINANCIALS_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
+import {BUSINESS_INFORMATION_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
 import {DropdownModule} from "primeng/dropdown";
 import {MultiSelectModule} from "primeng/multiselect";
 
@@ -32,7 +32,7 @@ export class StepThreeComponent {
   private _submissionStateService = inject(SubMissionStateService)
 
   submission$ =new Observable<unknown>()
-  questions$ =  this._questionService.getQuestionsOfSubSection(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_THREE).pipe(tap(questions => {
+  questions$ =  this._questionService.getQuestionsOfSubSection(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_THREE).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))

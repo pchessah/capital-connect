@@ -10,7 +10,7 @@ import { BusinessPageService } from '../../../services/business-page/business.pa
 import { QuestionsService } from '../../../../questions/services/questions/questions.service';
 import { Question, QuestionType } from '../../../../questions/interfaces';
 import { Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse } from '../../../../../shared';
-import { BUSINESS_FINANCIALS_SUBSECTION_IDS } from "../../../../../shared/business/services/onboarding.questions.service";
+import { BUSINESS_INFORMATION_SUBSECTION_IDS } from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-index',
@@ -30,7 +30,7 @@ export class IndexComponent {
   fieldType = QuestionType
   formGroup: FormGroup = this._formBuilder.group({});
 
-  questions$ = this._questionService.getQuestionsOfSubSection(BUSINESS_FINANCIALS_SUBSECTION_IDS.LANDING).pipe(
+  questions$ = this._questionService.getQuestionsOfSubSection(BUSINESS_INFORMATION_SUBSECTION_IDS.LANDING).pipe(
     tap(questions => {
       this.questions = questions;
       this._createFormControls();
