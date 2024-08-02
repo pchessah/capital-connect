@@ -74,4 +74,10 @@ export class InvestorScreensService extends BaseHttpService{
     return this.read(`${BASE_URL}/stages`, this.headers) as unknown as Observable<BusinessGrowthStageOptions[]>;
   }
 
+  //get Investor Profile By Id
+  getInvestorProfileById(): Observable<InvestorProfile>{
+    const userId = sessionStorage.getItem('userId')
+    const id = Number(userId)
+    return this.read(`${BASE_URL}/investor-profiles/${id}`,this.headers) as unknown as Observable<InvestorProfile>;
+  }
 }

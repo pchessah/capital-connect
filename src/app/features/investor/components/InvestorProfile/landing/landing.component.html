@@ -6,8 +6,8 @@
 <ng-container *ngIf="businessGrowthStageOptions$ | async"></ng-container>
 <ng-container *ngIf="investmentStructureOptions$ | async"></ng-container>
 <ng-container *ngIf="sectors$ | async"></ng-container>
-
-
+<ng-container *ngIf="subSectors$ | async"></ng-container>
+<ng-container *ngIf="investorProfile$ | async"></ng-container>
 
 
 
@@ -20,51 +20,38 @@
             <div class="steps__bar">
               <p>Step {{current_details}} of 3</p>
               <ul class="indicators">
-                <li *ngFor="let step of [1,2,3]; let i = index" [class.active]="(i + 1) <= 1"></li>
+                <li *ngFor="let step of cur_det; let i = index" [class.active]="(i + 1) <= current_details"></li>
               </ul>
             </div>
             <strong>Investor Profile</strong>
           </div>
 
           <div class="w-full">
-
             <div *ngIf="current_details==1" class="section1">
               <div class="input__wrapper w-full">
                 <label class="input__label">Head Office Location<sup>*</sup></label>
-                <a [title]="">Why do we ask this?</a>  
+                <a [title]="">Why do we ask this?</a>
 
-                <p-dropdown
-                  [options]="countryOptions"
-                  optionLabel="name"
-                  optionValue="name"
-                  class ="input__field"
-                  styleClass ="w-full gap-4"
-                  formControlName="headOfficeLocation"
-                  placeholder="Select option" />
+                <p-dropdown [options]="countryOptions" optionLabel="name" optionValue="name" class="input__field"
+                  styleClass="w-full gap-4" formControlName="headOfficeLocation" placeholder="Select option" />
               </div>
 
 
               <div class="input__wrapper">
                 <label class="input__label">Countries of Investment Focus<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
-                <p-multiSelect 
-                class ="input__field"  styleClass ="w-full gap-4"
-                formControlName="countriesOfInvestmentFocus" [options]="countryOptions"
-                  optionLabel="name" placeholder="Select countries"></p-multiSelect>
+                <a [title]="">Why do we ask this?</a>
+                <p-multiSelect class="input__field" styleClass="w-full gap-4"
+                  formControlName="countriesOfInvestmentFocus" [options]="countryOptions" optionLabel="name"
+                  placeholder="Select countries"></p-multiSelect>
               </div>
 
-
-              <!-- Organization Name -->
               <div class="input__wrapper">
                 <label class="input__label">Organization Name<sup>*</sup></label>
-                <a [title]="">Why do we ask this?</a>          
+                <a [title]="">Why do we ask this?</a>
                 <input class="input__field" formControlName="organizationName" type="text"
                   placeholder="Enter organization name" />
               </div>
 
-
-              <!-- Fund Description -->
-         
               <div class="input__wrapper">
                 <label class="input__label">Fund Description<sup>*</sup></label>
                 <a [title]="">Why do we ask this?</a>
@@ -72,175 +59,152 @@
                   rows="1"></textarea>
               </div>
 
-                <!-- URL -->
-                <div class="input__wrapper">
-                  <label class="input__label">Website URL<sup>*</sup></label>
-                  <a [title]="" >Why do we ask this?</a>
-                  <input class="input__field" formControlName="url" type="url" placeholder="Enter website URL" />
-                </div>
-            
+              <div class="input__wrapper">
+                <label class="input__label">Website URL<sup>*</sup></label>
+                <a [title]="">Why do we ask this?</a>
+                <input class="input__field" formControlName="url" type="url" placeholder="Enter website URL" />
+              </div>
 
-
-
+              <div class="input__wrapper">
+                <label class="input__label">Email Address<sup>*</sup></label>
+                <a [title]="">Why do we ask this?</a>
+                <input class="input__field" formControlName="emailAddress" type="email" placeholder="Enter Email Addres" />
+              </div>
             </div>
 
 
 
-            <div *ngIf="current_details==2"  class="section2">
-
-            
-              <!-- Available Funding -->
+            <div *ngIf="current_details==2" class="section2">
               <div class="input__wrapper">
                 <label class="input__label">Available Funding<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
+                <a [title]="">Why do we ask this?</a>
                 <input class="input__field" formControlName="availableFunding" type="number"
                   placeholder="Enter available funding" />
               </div>
 
 
-              <!-- Different Funding Vehicles -->
+
               <div class="input__wrapper">
                 <label class="input__label">Different Funding Vehicles<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
-                <input class="input__field" 
-                formControlName="differentFundingVehicles"
-                type="text"
-                placeholder="Enter a funding vehicle" />
+                <a [title]="">Why do we ask this?</a>
+                <input class="input__field" formControlName="differentFundingVehicles" type="text"
+                  placeholder="Enter a funding vehicle" />
               </div>
 
-              <!-- Minimum Funding -->
               <div class="input__wrapper">
                 <label class="input__label">Minimum Funding<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
+                <a [title]="">Why do we ask this?</a>
                 <input class="input__field" formControlName="minimumFunding" type="number"
                   placeholder="Enter minimum funding" />
               </div>
 
-              <!-- Maximum Funding -->
               <div class="input__wrapper">
                 <label class="input__label">Maximum Funding<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
+                <a [title]="">Why do we ask this?</a>
                 <input class="input__field" formControlName="maximumFunding" type="number"
                   placeholder="Enter maximum funding" />
               </div>
 
+
+              
               <div class="input__wrapper">
                 <label class="input__label">Sectors Of Investment<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
-                <p-multiSelect
-                  class ="input__field"
-                  styleClass ="w-full gap-4"
-                  formControlName="sectors" [options]="sectors"
-                  optionLabel="name"
-                  optionValue="id"
-                  placeholder="Select Sectors Of Investment"></p-multiSelect>
-
+                <a [title]="">Why do we ask this?</a>
+                <div class="pills-container">
+                  <ng-container *ngFor="let sector of sectors">
+                    <div 
+                      class="pill"
+                      [class.active]="isSectorSelected(sector.id)"
+                      (click)="toggleSectorSelection(sector.id)">
+                      {{ sector.name }}
+                    </div>
+                  </ng-container>
+                </div>
               </div>
+              
+              <div class="input__wrapper">
+                <label class="input__label">Sub Sectors Of Investment<sup>*</sup></label>
+                <a [title]="">Why do we ask this?</a>
+                <div class="pills-container">
+                  <ng-container *ngFor="let subSector of subSectors">
+                    <div 
+                      class="pill"
+                      [class.active]="isSubSectorSelected(subSector.id)"
+                      (click)="toggleSubSectorSelection(subSector.id)">
+                      {{ subSector.name }}
+                    </div>
+                  </ng-container>
+                </div>
+              </div>
+              
+
 
             </div>
 
 
-            <div *ngIf="current_details==3"  class="section3">
-                <!-- Countries of Investment Focus -->
-         
-
-              <!-- Use of Funds -->
+            <div *ngIf="current_details==3" class="section3">
               <div class="input__wrapper">
                 <label class="input__label">Use of Funds<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
-                <p-multiSelect
-                  class ="input__field"
-                  styleClass ="w-full gap-4"
-                  formControlName="useOfFunds" [options]="useOfFundsOptions" optionLabel="title"
-                  optionValue="title"
+                <a [title]="">Why do we ask this?</a>
+                <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="useOfFunds"
+                  [options]="useOfFundsOptions" optionLabel="title" optionValue="title"
                   placeholder="Select use of funds"></p-multiSelect>
               </div>
-        
-              <!-- Business Growth Stages -->
+
               <div class="input__wrapper">
                 <label class="input__label">Business Growth Stages<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
-                <p-multiSelect 
-                class ="input__field"
-                styleClass ="w-full gap-4"
-                formControlName="businessGrowthStages" [options]="businessGrowthStageOptions"
-                optionValue="title"
-                  optionLabel="title" placeholder="Select business growth stages"></p-multiSelect>
+                <a [title]="">Why do we ask this?</a>
+                <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="businessGrowthStages"
+                  [options]="businessGrowthStageOptions" optionValue="title" optionLabel="title"
+                  placeholder="Select business growth stages"></p-multiSelect>
               </div>
 
-              <!-- Investor Type -->
               <div class="input__wrapper">
                 <label class="input__label">Investor Type<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
-
-                <input class="input__field" formControlName="investorType" type="email"
-                placeholder="Investor Type" />
+                <a [title]="">Why do we ask this?</a>
+                <input class="input__field" formControlName="investorType" type="email" placeholder="Investor Type" />
               </div>
 
-              <!-- Investment Structures -->
               <div class="input__wrapper">
                 <label class="input__label">Investment Structures<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
-                <p-multiSelect
-                class ="input__field"
-                styleClass ="w-full gap-4"
-                formControlName="investmentStructures" [options]="investmentStructureOptions"
-                optionValue="title"
-                  optionLabel="title" placeholder="Select investment structures"></p-multiSelect>
+                <a [title]="">Why do we ask this?</a>
+                <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="investmentStructures"
+                  [options]="investmentStructureOptions" optionValue="title" optionLabel="title"
+                  placeholder="Select investment structures"></p-multiSelect>
               </div>
 
-              <!-- ESG Focus Areas -->
               <div class="input__wrapper">
                 <label class="input__label">ESG Focus Areas<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
-                <p-multiSelect 
-                class ="input__field"
-                styleClass ="w-full gap-4"
-                formControlName="esgFocusAreas" [options]="esgFocusAreaOptions" optionLabel="title"
-                optionValue="title"
+                <a [title]="">Why do we ask this?</a>
+                <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="esgFocusAreas"
+                  [options]="esgFocusAreaOptions" optionLabel="title" optionValue="title"
                   placeholder="Select ESG focus areas"></p-multiSelect>
               </div>
 
-              <!-- Registration Structures -->
               <div class="input__wrapper">
                 <label class="input__label">Registration Structures<sup>*</sup></label>
-                <a [title]="" >Why do we ask this?</a>
-                <p-multiSelect
-                class ="input__field"
-                styleClass ="w-full gap-4"                
-                formControlName="registrationStructures" [options]="registrationStructureOptions"
-                optionValue="title"
-                  optionLabel="title" placeholder="Select registration structures"></p-multiSelect>
+                <a [title]="">Why do we ask this?</a>
+                <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="registrationStructures"
+                  [options]="registrationStructureOptions" optionValue="title" optionLabel="title"
+                  placeholder="Select registration structures"></p-multiSelect>
               </div>
-
             </div>
-
           </div>
-
-
         </div>
 
 
         <div class=" flex justify-end space-x-4 mt-6">
- 
           <div class="cta__group">
-            <button class="btn btn-primary outline" type="button" 
-            [disabled]="current_details==1"
-            (click)="setPrevDetails()">Back</button>
+            <button class="btn btn-primary outline" type="button" [disabled]="current_details==1"
+              (click)="setPrevDetails()">Back</button>
           </div>
-
-          <div *ngIf="current_details!=3" >
-            <button class="btn btn-primary" type="button" (click)="setNextDetails()" >Next</button>
+          <div *ngIf="current_details!=3">
+            <button class="btn btn-primary" type="button" (click)="setNextDetails()">Next</button>
           </div>
-  
-
-          <button type="submit" *ngIf="current_details==3"  [disabled]="!formGroup.valid" class="btn"
+          <button type="submit" *ngIf="current_details==3" [disabled]="!formGroup.valid" class="btn"
             [ngClass]="{'disabled-btn': !formGroup.valid}">Submit</button>
         </div>
-
       </form>
     </ng-container>
-
-
   </div>
 </div>

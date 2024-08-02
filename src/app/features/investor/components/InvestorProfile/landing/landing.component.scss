@@ -1,1 +1,31 @@
 @import '../../../../business/styles/business.components.steps.scss';
+.input__wrapper {
+    margin-bottom: 1rem;
+  }
+  
+  .pills-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    color: $white;
+
+  }
+  
+  .pill {
+    padding: 8px 12px;
+    border-radius: 50px;
+    background-color:$primary-color;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .pill.active {
+    background-color: $success-color;
+    color: $white;
+  }
+  
+  .pill:hover {
+    background-color:$success-color;
+    color: $white;
+  }
+  

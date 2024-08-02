@@ -15,7 +15,7 @@ import { FeedbackService } from '../../../../../core';
 import { CountriesService } from '../../../../../shared/services/countries.service';
 import { Country } from '../../../../../shared/interfaces/countries';
 import { SectorsService } from '../../../../sectors/services/sectors/sectors.service';
-import { Sector } from '../../../../../shared/interfaces/Investor';
+import { Sector,SubSector } from '../../../../../shared/interfaces/Investor';
 import { Router } from '@angular/router';
 
 
@@ -35,7 +35,8 @@ export class LandingComponent implements OnInit {
   private _sectorService = inject(SectorsService)
   private _router = inject(Router)
 
-  current_details: number = 1
+  current_details: number = 2
+  cur_det : number[] = [1,2,3]
   submit$ = new Observable<unknown>()
   esgFocusAreaOptions: EsgFocusAreaOptions[] = []
   countryOptions: Country[] = []
@@ -47,6 +48,12 @@ export class LandingComponent implements OnInit {
   userEmail: string = ''
   userId: number = 0
   sectors: Sector[] = []
+  subSectors: SubSector[] = []
+
+  selectedSectors: number[] = [];
+  selectedSubSectors: number[] = [];
+
+  sectorId: number = 0
 
   message: { title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null = null;
 
@@ -68,6 +75,7 @@ export class LandingComponent implements OnInit {
       this.userId = id
     }
 
+
     this.message$ = this._feedbackService.message$;
 
 
@@ -76,7 +84,7 @@ export class LandingComponent implements OnInit {
       headOfficeLocation: ['', Validators.required],
       organizationName: ['', Validators.required],
       fundDescription: ['', Validators.required],
-      emailAddress: this.userEmail,
+      emailAddress: ['',Validators.required],
       url: ['', Validators.required],
       availableFunding: [null, Validators.required],
       differentFundingVehicles: ['', Validators.required],
@@ -89,8 +97,9 @@ export class LandingComponent implements OnInit {
       investmentStructures: [[], Validators.required],
       esgFocusAreas: [[], Validators.required],
       registrationStructures: [[], Validators.required],
-      sectors: [[], Validators.required],
-      subSectors: this._formBuilder.array([]),
+      sectors: this.selectedSectors,
+      subSectors: this.selectedSubSectors,
+
     });
 
   }
@@ -98,9 +107,11 @@ export class LandingComponent implements OnInit {
 
 
   onSubmit(): void {
+    this.formGroup.value.sectors = this.selectedSectors
+    this.formGroup.value.subSectors = this.selectedSubSectors
+
     if (this.formGroup.valid) {
       const formData = this.formGroup.value;
-
       this.submit$ = this._screenService.createInvestorProfile(formData).pipe(
         tap(res => {
           this._router.navigate(['/investor']);
@@ -120,14 +131,47 @@ export class LandingComponent implements OnInit {
 
   setNextDetails() {
     this.current_details = this.current_details + 1
-
   }
 
   setPrevDetails() {
     if (this.current_details != 1) {
       this.current_details = this.current_details - 1
-
     }
+  }
+
+  toggleSectorSelection(sectorId: number): void {
+    const index = this.selectedSectors.indexOf(sectorId);
+    if (index > -1) {
+      this.selectedSectors.splice(index, 1);
+    } else {
+      this.selectedSectors.push(sectorId);
+      console.log("The sectors are ", this.selectedSectors)
+      this.loadSubSectors(sectorId); // Load sub-sectors for the newly selected sector
+    }
+  }
+
+  toggleSubSectorSelection(subSectorId: number): void {
+    const index = this.selectedSubSectors.indexOf(subSectorId);
+    if (index > -1) {
+      this.selectedSubSectors.splice(index, 1);
+    } else {
+      this.selectedSubSectors.push(subSectorId);
+    }
+  }
+
+  isSectorSelected(sectorId: number): boolean {
+    return this.selectedSectors.includes(sectorId);
+  }
+
+  isSubSectorSelected(subSectorId: number): boolean {
+    return this.selectedSubSectors.includes(subSectorId);
+  }
+
+
+  loadSubSectors(sectorId: number): void {
+    this.subSectors$ = this._sectorService.getSubSectorOfaSector(sectorId).pipe(tap(subSectors => {
+      this.subSectors = subSectors
+    }))
   }
 
 
@@ -164,8 +208,12 @@ export class LandingComponent implements OnInit {
     this.sectors = sectors
   }))
 
-  subSectors$ = this._sectorService.getAllSectors().pipe(tap(sectors => {
-    this.sectors = sectors
+  subSectors$ = this._sectorService.getSubSectorOfaSector(this.sectorId).pipe(tap(sectors => {
+    this.subSectors = sectors
+  }))
+
+  investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile =>{
+    alert(investorProfile)
   }))
 
   // investorTypeOptions = [
