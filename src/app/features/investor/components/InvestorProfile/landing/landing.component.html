@@ -26,10 +26,10 @@
             <strong>Investor Profile</strong>
           </div>
 
-          <div class="">
+          <div class="w-full">
 
             <div *ngIf="current_details==1" class="section1">
-              <div class="input__wrapper">
+              <div class="input__wrapper w-full">
                 <label class="input__label">Head Office Location<sup>*</sup></label>
                 <a [title]="">Why do we ask this?</a>  
 
@@ -233,13 +233,9 @@
             <button class="btn btn-primary" type="button" (click)="setNextDetails()" >Next</button>
           </div>
   
-<!-- 
+
           <button type="submit" *ngIf="current_details==3"  [disabled]="!formGroup.valid" class="btn"
-            [ngClass]="{'disabled-btn': !formGroup.valid}">Submit</button> -->
-
-
-            <button type="submit" *ngIf="current_details==3" class="btn"
-            >Submit</button>
+            [ngClass]="{'disabled-btn': !formGroup.valid}">Submit</button>
         </div>
 
       </form>

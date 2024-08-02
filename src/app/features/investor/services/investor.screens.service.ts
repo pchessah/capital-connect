@@ -42,9 +42,9 @@ export class InvestorScreensService extends BaseHttpService{
 
 
   //Apis
-  createInvestorProfile(request: InvestorProfile): Observable<InvestorProfile>{
+  createInvestorProfile(request: InvestorProfile): Observable<unknown>{
     const url = `${BASE_URL}/investor-profiles`;
-    return this.create(url, request, this.headers) as Observable<InvestorProfile>;
+    return this.create(url, request, this.headers) as Observable<unknown>;
   }
 
   //  Get Registration structures prod

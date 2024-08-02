@@ -4,9 +4,9 @@ import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { Investor,RegistrationStructure, InvestorProfile,ContactPerson,
-  EsgFocusAreaOptions,InvestmentStructureOptions,InvestorTypeOptions,BusinessGrowthStageOptions, UseOfFundsOptions
- } from '../../../../../shared/interfaces/Investor';
+import {
+  RegistrationStructure, EsgFocusAreaOptions, InvestmentStructureOptions, InvestorTypeOptions, BusinessGrowthStageOptions, UseOfFundsOptions
+} from '../../../../../shared/interfaces/Investor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { catchError, Observable, tap } from 'rxjs';
 import { InvestorScreensService } from '../../../services/investor.screens.service';
@@ -14,9 +14,9 @@ import { of } from 'rxjs';
 import { FeedbackService } from '../../../../../core';
 import { CountriesService } from '../../../../../shared/services/countries.service';
 import { Country } from '../../../../../shared/interfaces/countries';
-import { AuthStateService } from '../../../../auth/services/auth-state.service';
 import { SectorsService } from '../../../../sectors/services/sectors/sectors.service';
 import { Sector } from '../../../../../shared/interfaces/Investor';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -33,19 +33,22 @@ export class LandingComponent implements OnInit {
   private _screenService = inject(InvestorScreensService)
   private _countries = inject(CountriesService)
   private _sectorService = inject(SectorsService)
+  private _router = inject(Router)
 
-  current_details:number  = 1
+  current_details: number = 1
   submit$ = new Observable<unknown>()
   esgFocusAreaOptions: EsgFocusAreaOptions[] = []
-  countryOptions : Country[] = []
+  countryOptions: Country[] = []
   investmentStructureOptions: InvestmentStructureOptions[] = []
   registrationStructureOptions: RegistrationStructure[] = []
-  investorTypeOptions : InvestorTypeOptions[] = []
+  investorTypeOptions: InvestorTypeOptions[] = []
   businessGrowthStageOptions: BusinessGrowthStageOptions[] = []
   useOfFundsOptions: UseOfFundsOptions[] = []
-  userEmail : string = ''
+  userEmail: string = ''
   userId: number = 0
-  sectors : Sector[] = []
+  sectors: Sector[] = []
+
+  message: { title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null = null;
 
   formGroup!: FormGroup;
   message$ = new Observable<{ title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null>;
@@ -60,7 +63,7 @@ export class LandingComponent implements OnInit {
       this.userEmail = userProfile.username
     }
 
-    if ( userId){
+    if (userId) {
       const id = Number(userId)
       this.userId = id
     }
@@ -95,14 +98,15 @@ export class LandingComponent implements OnInit {
 
 
   onSubmit(): void {
-    const selectedSectorIds = this.formGroup.value; 
-    console.log(selectedSectorIds)
     if (this.formGroup.valid) {
       const formData = this.formGroup.value;
 
       this.submit$ = this._screenService.createInvestorProfile(formData).pipe(
+        tap(res => {
+          this._router.navigate(['/investor']);
+        }),
         catchError((error: any) => {
-          this._feedbackService.error('Error Adding Investor Profile.', error.message);
+          this._feedbackService.error('Error Adding Investor Profile.', error);
           return of(null);
         }),
       )
@@ -114,60 +118,60 @@ export class LandingComponent implements OnInit {
 
 
 
-  setNextDetails(){
-    this.current_details = this.current_details+1
+  setNextDetails() {
+    this.current_details = this.current_details + 1
 
   }
 
-  setPrevDetails(){
-    if(this.current_details !=1){
-      this.current_details = this.current_details-1
+  setPrevDetails() {
+    if (this.current_details != 1) {
+      this.current_details = this.current_details - 1
 
     }
   }
 
 
-    countries$ = this._countries.getCountries().pipe(tap(countries => {
-      this.countryOptions = countries
-    }))
+  countries$ = this._countries.getCountries().pipe(tap(countries => {
+    this.countryOptions = countries
+  }))
 
-    registrationStructureOptions$ = this._screenService.getRegistrationStructures().pipe(tap( registrationStructureOptions=>{
-      this.registrationStructureOptions =  registrationStructureOptions
-    }))    
-
-
-    useOfFundsOptions$ = this._screenService.getUseOfFunds().pipe(tap(useOfFunds=>{
-      this.useOfFundsOptions = useOfFunds
-    }))
+  registrationStructureOptions$ = this._screenService.getRegistrationStructures().pipe(tap(registrationStructureOptions => {
+    this.registrationStructureOptions = registrationStructureOptions
+  }))
 
 
-    businessGrowthStageOptions$ = this._screenService.getStages().pipe(tap(stages=>{
-      this.businessGrowthStageOptions = stages
-    }))
+  useOfFundsOptions$ = this._screenService.getUseOfFunds().pipe(tap(useOfFunds => {
+    this.useOfFundsOptions = useOfFunds
+  }))
 
 
-    
-    investmentStructureOptions$ = this._screenService.getInvestmentStructures().pipe(tap(structures=>{
-      this.investmentStructureOptions = structures
-    }))
+  businessGrowthStageOptions$ = this._screenService.getStages().pipe(tap(stages => {
+    this.businessGrowthStageOptions = stages
+  }))
 
 
-    esgFocusAreaOptions$ = this._screenService.getEsgFocusAreas().pipe(tap(structures=>{
-      this.esgFocusAreaOptions = structures
-    }))
 
-    sectors$ = this._sectorService.getAllSectors().pipe(tap(sectors=>{
-      this.sectors = sectors
-    }))
+  investmentStructureOptions$ = this._screenService.getInvestmentStructures().pipe(tap(structures => {
+    this.investmentStructureOptions = structures
+  }))
 
-    subSectors$ = this._sectorService.getAllSectors().pipe(tap(sectors=>{
-      this.sectors = sectors
-    }))
-    
-    // investorTypeOptions = [
-    //   { name: 'Private equity', value: 'Private equity' },
-    //   { name: 'Venture capital', value: 'Venture capital' }
-    // ];
-  
+
+  esgFocusAreaOptions$ = this._screenService.getEsgFocusAreas().pipe(tap(structures => {
+    this.esgFocusAreaOptions = structures
+  }))
+
+  sectors$ = this._sectorService.getAllSectors().pipe(tap(sectors => {
+    this.sectors = sectors
+  }))
+
+  subSectors$ = this._sectorService.getAllSectors().pipe(tap(sectors => {
+    this.sectors = sectors
+  }))
+
+  // investorTypeOptions = [
+  //   { name: 'Private equity', value: 'Private equity' },
+  //   { name: 'Venture capital', value: 'Venture capital' }
+  // ];
+
 
 }

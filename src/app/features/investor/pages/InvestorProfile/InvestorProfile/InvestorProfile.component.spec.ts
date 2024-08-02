@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OnboardingComponent } from './InvestorProfile.component';
+import { OnboardingComponent } from '../../onboarding/onboarding.component';
 
 describe('OnboardingComponent', () => {
   let component: OnboardingComponent;
