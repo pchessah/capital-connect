@@ -114,7 +114,7 @@ export class LandingComponent implements OnInit {
       const formData = this.formGroup.value;
       this.submit$ = this._screenService.createInvestorProfile(formData).pipe(
         tap(res => {
-          this._router.navigate(['/investor']);
+          this._router.navigate(['/investor/contact-person']);
         }),
         catchError((error: any) => {
           this._feedbackService.error('Error Adding Investor Profile.', error);

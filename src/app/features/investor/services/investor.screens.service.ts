@@ -47,6 +47,13 @@ export class InvestorScreensService extends BaseHttpService{
     return this.create(url, request, this.headers) as Observable<unknown>;
   }
 
+  //Contact Person
+  createContactPerson(request: ContactPerson): Observable<unknown>{
+    const url = `${BASE_URL}/contact-persons`;
+    return this.create(url, request, this.headers) as Observable<unknown>;
+  }
+
+
   //  Get Registration structures prod
   getRegistrationStructures(): Observable<RegistrationStructure[]> {
     return this.read(`${BASE_URL}/registration-structures`, this.headers) as unknown as Observable<RegistrationStructure[]>;

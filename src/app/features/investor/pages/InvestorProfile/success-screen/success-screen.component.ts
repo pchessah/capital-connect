@@ -1,20 +1,88 @@
-import { Component, inject } from '@angular/core';
-import { AuthStateService } from "../../../../auth/services/auth-state.service";
-import { CommonModule } from "@angular/common";
-import { Router } from "@angular/router";
+import { Component, inject, OnInit } from '@angular/core';
+import { AuthStateService } from '../../../../auth/services/auth-state.service';
+import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { LayoutComponent } from '../../../../../shared/business/layout/layout.component';
+import { FormsLayoutComponent } from '../../../../../shared/business/components/forms-layout/forms-layout.component';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
+import { catchError, Observable, tap } from 'rxjs';
+import { InvestorScreensService } from '../../../services/investor.screens.service';
+import { FeedbackService } from '../../../../../core';
+import { of } from 'rxjs';
+
+
 @Component({
   selector: 'app-success-screen',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LayoutComponent, FormsLayoutComponent,
+    ReactiveFormsModule
+  ],
   templateUrl: './success-screen.component.html',
-  styleUrl: './success-screen.component.scss'
+  styleUrls: ['./success-screen.component.scss']
 })
-export class SuccessScreenComponent {
+export class SuccessScreenComponent implements OnInit {
 
   private _router = inject(Router);
   private _authStateService = inject(AuthStateService);
+  private _formBuilder = inject(FormBuilder);
+  private _screenService = inject(InvestorScreensService)
+  private _feedbackService = inject(FeedbackService)
 
-  goDashboard() {
+
+  userId: number = 0
+  submit$ = new Observable<unknown>()
+  message$ = new Observable<{ title: string, message: string, type: 'info' | 'success' | 'warning' | 'error' } | null>;
+
+  formGroup!: FormGroup;
+
+  ngOnInit(): void {
+    const userProfileStr = sessionStorage.getItem('userProfile');
+    const userId = sessionStorage.getItem('userId')
+    this.message$ = this._feedbackService.message$;
+
+    if (userId) {
+      const id = Number(userId)
+      this.userId = id
+    }
+    this.formGroup = this._formBuilder.group({
+      firstName: ['', Validators.required],
+      lastName: ['', Validators.required],
+      designation: ['', Validators.required],
+      emailAddress: ['', [Validators.required, Validators.email]],
+      phoneNumber: ['', Validators.required],
+      primaryContact: [false],
+      investorProfileId: this.userId
+    });
+  }
+
+  investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile =>{
+    alert(investorProfile)
+  }))
+
+
+  // Submit the form
+  onSubmit(): void {
+    this.formGroup.value.phoneNumber = "+254771114712"
+
+    if (this.formGroup.valid) {
+      const formData = this.formGroup.value;
+
+      this.submit$ = this._screenService.createContactPerson(formData).pipe(
+        tap(res => {
+          this.formGroup.reset();
+        }),
+        catchError((error: any) => {
+          this._feedbackService.error('Error Creating A Contact Person.', error);
+          return of(null);
+        }),
+      )
+    }
+  }
+
+
+  // Navigate to the dashboard
+  goDashboard(): void {
     this._router.navigateByUrl('/investor');
   }
 }
