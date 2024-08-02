@@ -9,7 +9,7 @@ import { QuestionsService } from "../../../../questions/services/questions/quest
 import { Question, QuestionType } from "../../../../questions/interfaces";
 import { BusinessPageService } from "../../../services/business-page/business.page.service";
 import { Submission, SubmissionService, SubMissionStateService } from "../../../../../shared";
-import { BUSINESS_FINANCIALS_SUBSECTION_IDS } from "../../../../../shared/business/services/onboarding.questions.service";
+import { BUSINESS_INFORMATION_SUBSECTION_IDS } from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-step-two',
@@ -32,7 +32,7 @@ export class StepTwoComponent {
   
   submission$ = new Observable<unknown>()
 
-  questions$ = this._questionService.getQuestionsOfSubSection(BUSINESS_FINANCIALS_SUBSECTION_IDS.STEP_TWO).pipe(tap(questions => {
+  questions$ = this._questionService.getQuestionsOfSubSection(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_TWO).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))

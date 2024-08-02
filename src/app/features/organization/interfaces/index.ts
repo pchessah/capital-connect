@@ -64,3 +64,5 @@ export enum NumberOfEmployees {
   FiveThousandOneToTenThousand = "5001-10,000 employees",
   TenThousandPlus = "10,001+ employees"
 }
+
+export type CompanyDashBoardData  = 'ownerInfo' | 'companyInfo'  | 'submissionInfo'
