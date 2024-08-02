@@ -8,6 +8,7 @@ import { getInvestorEligibilitySubsectionIds } from './onboarding.questions.serv
 import { CompanyStateService } from '../../../features/organization/services/company-state.service';
 import { INVESTOR_PREPAREDNESS_SUBSECTION_IDS } from './onboarding.questions.service';
 import {BUSINESS_INFORMATION_SUBSECTION_IDS } from './onboarding.questions.service';
+import { IMPACT_ASSESMENT_SUBSECTION_IDS } from './onboarding.questions.service';
 
 @Injectable({ providedIn: 'root' })
 export class SubMissionStateService {
@@ -70,7 +71,7 @@ export class SubMissionStateService {
   getEsgSubmissionsPerSection() {
     const userId = this._currentUserId && this._currentUserId > 0 ? this._currentUserId : Number(sessionStorage.getItem('userId'));
     if (userId) {
-      return this._submissionService.fetchSubmissionsByUserPerSection(userId, INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID).pipe(tap(res => {
+      return this._submissionService.fetchSubmissionsByUserPerSection(userId, IMPACT_ASSESMENT_SUBSECTION_IDS.ID).pipe(tap(res => {
         this.setCurrentUserSubmission(res);
       }));
     }
