@@ -47,6 +47,12 @@ export class InvestorScreensService extends BaseHttpService{
     return this.create(url, request, this.headers) as Observable<unknown>;
   }
 
+  // PUT http://localhost:3000/investor-profiles/1
+  updateInvestorProfile(request: InvestorProfile,id:number): Observable<unknown>{
+    const url = `${BASE_URL}/investor-profiles`;
+    return this.update(url,id, request, this.headers) as Observable<unknown>;
+  }
+
   //Contact Person
   createContactPerson(request: ContactPerson): Observable<unknown>{
     const url = `${BASE_URL}/contact-persons`;
@@ -81,10 +87,15 @@ export class InvestorScreensService extends BaseHttpService{
     return this.read(`${BASE_URL}/stages`, this.headers) as unknown as Observable<BusinessGrowthStageOptions[]>;
   }
 
+  //Get Investor Types
+  getInvestorTypes(): Observable<InvestorTypeOptions[]> {
+    return this.read(`${BASE_URL}/investor-types`, this.headers) as unknown as Observable<InvestorTypeOptions[]>;
+  }
+
   //get Investor Profile By Id
   getInvestorProfileById(): Observable<InvestorProfile>{
     const userId = sessionStorage.getItem('userId')
     const id = Number(userId)
-    return this.read(`${BASE_URL}/investor-profiles/${id}`,this.headers) as unknown as Observable<InvestorProfile>;
+    return this.read(`${BASE_URL}/investor-profiles/by-user/${id}`,this.headers) as unknown as Observable<InvestorProfile>;
   }
 }

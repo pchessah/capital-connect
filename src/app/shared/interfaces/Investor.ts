@@ -75,6 +75,7 @@ export interface EsgFocusAreaOptions {
 
 
 export interface InvestorProfile {
+    id: any;
     userId: number;
     headOfficeLocation: string;
     organizationName: string;

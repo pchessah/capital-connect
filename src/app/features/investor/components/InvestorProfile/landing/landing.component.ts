@@ -1,11 +1,12 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import {
-  RegistrationStructure, EsgFocusAreaOptions, InvestmentStructureOptions, InvestorTypeOptions, BusinessGrowthStageOptions, UseOfFundsOptions
+  RegistrationStructure, EsgFocusAreaOptions, InvestmentStructureOptions, InvestorTypeOptions, BusinessGrowthStageOptions, UseOfFundsOptions,
+  InvestorProfile
 } from '../../../../../shared/interfaces/Investor';
 import { ReactiveFormsModule } from '@angular/forms';
 import { catchError, Observable, tap } from 'rxjs';
@@ -15,7 +16,7 @@ import { FeedbackService } from '../../../../../core';
 import { CountriesService } from '../../../../../shared/services/countries.service';
 import { Country } from '../../../../../shared/interfaces/countries';
 import { SectorsService } from '../../../../sectors/services/sectors/sectors.service';
-import { Sector,SubSector } from '../../../../../shared/interfaces/Investor';
+import { Sector, SubSector } from '../../../../../shared/interfaces/Investor';
 import { Router } from '@angular/router';
 
 
@@ -35,8 +36,8 @@ export class LandingComponent implements OnInit {
   private _sectorService = inject(SectorsService)
   private _router = inject(Router)
 
-  current_details: number = 2
-  cur_det : number[] = [1,2,3]
+  current_details: number = 1
+  cur_det: number[] = [1, 2, 3]
   submit$ = new Observable<unknown>()
   esgFocusAreaOptions: EsgFocusAreaOptions[] = []
   countryOptions: Country[] = []
@@ -49,9 +50,14 @@ export class LandingComponent implements OnInit {
   userId: number = 0
   sectors: Sector[] = []
   subSectors: SubSector[] = []
+  all_subsectors: SubSector[] = []
+  investorProfile: InvestorProfile = {} as InvestorProfile;
+
 
   selectedSectors: number[] = [];
   selectedSubSectors: number[] = [];
+  sectorSubSectorsMap: { [sectorId: number]: number[] } = {};
+
 
   sectorId: number = 0
 
@@ -62,14 +68,7 @@ export class LandingComponent implements OnInit {
 
 
   ngOnInit(): void {
-    const userProfileStr = sessionStorage.getItem('userProfile');
     const userId = sessionStorage.getItem('userId')
-
-    if (userProfileStr) {
-      const userProfile = JSON.parse(userProfileStr);
-      this.userEmail = userProfile.username
-    }
-
     if (userId) {
       const id = Number(userId)
       this.userId = id
@@ -84,7 +83,7 @@ export class LandingComponent implements OnInit {
       headOfficeLocation: ['', Validators.required],
       organizationName: ['', Validators.required],
       fundDescription: ['', Validators.required],
-      emailAddress: ['',Validators.required],
+      emailAddress: ['', Validators.required],
       url: ['', Validators.required],
       availableFunding: [null, Validators.required],
       differentFundingVehicles: ['', Validators.required],
@@ -92,6 +91,7 @@ export class LandingComponent implements OnInit {
       useOfFunds: [[], Validators.required],
       minimumFunding: ['', Validators.required],
       maximumFunding: ['', Validators.required],
+      noMaximumFunding:[false],
       businessGrowthStages: [[], Validators.required],
       investorType: ['', Validators.required],
       investmentStructures: [[], Validators.required],
@@ -102,30 +102,95 @@ export class LandingComponent implements OnInit {
 
     });
 
+    this.investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile => {
+      this.investorProfile = investorProfile
+      this.patchForm(investorProfile);
+    }))
+
+
   }
 
 
 
-  onSubmit(): void {
-    this.formGroup.value.sectors = this.selectedSectors
-    this.formGroup.value.subSectors = this.selectedSubSectors
+  patchForm(investorProfile: InvestorProfile): void {
+    this.selectedSubSectors = investorProfile.subSectors.map(sector => sector.id)
+    this.selectedSectors = investorProfile.sectors.map(sector => sector.id)
 
-    if (this.formGroup.valid) {
-      const formData = this.formGroup.value;
-      this.submit$ = this._screenService.createInvestorProfile(formData).pipe(
-        tap(res => {
-          this._router.navigate(['/investor/contact-person']);
-        }),
-        catchError((error: any) => {
-          this._feedbackService.error('Error Adding Investor Profile.', error);
-          return of(null);
-        }),
-      )
+    this.formGroup.patchValue({
+      id: investorProfile.id,
+      headOfficeLocation: investorProfile.headOfficeLocation,
+      organizationName: investorProfile.organizationName,
+      fundDescription: investorProfile.fundDescription,
+      emailAddress: investorProfile.emailAddress,
+      url: investorProfile.url,
+      availableFunding: investorProfile.availableFunding,
+      differentFundingVehicles: investorProfile.differentFundingVehicles,
+      minimumFunding : investorProfile.minimumFunding,
+      maximumFunding: investorProfile.maximumFunding,
+      noMaximumFunding: investorProfile.noMaximumFunding,
 
+      investorType: investorProfile.investorType,
+      countriesOfInvestmentFocus: investorProfile.countriesOfInvestmentFocus.map(item => JSON.parse(item)),
+      useOfFunds: investorProfile.useOfFunds.map(item => JSON.parse(item)),
+      businessGrowthStages: investorProfile.businessGrowthStages.map(item => JSON.parse(item)),
+      investmentStructures: investorProfile.investmentStructures.map(item => JSON.parse(item)),
+      esgFocusAreas: investorProfile.esgFocusAreas.map(item => JSON.parse(item)),
+      registrationStructures: investorProfile.registrationStructures.map(item => JSON.parse(item)),
+    });
+
+
+    if (investorProfile.investor) {
+      this.formGroup.get('investor')?.patchValue(investorProfile.investor);
     }
   }
 
 
+  onSubmit(): void {
+    this.formGroup.value.countriesOfInvestmentFocus =   this.formGroup.value.countriesOfInvestmentFocus['name']
+    this.formGroup.value.useOfFunds =   this.formGroup.value.useOfFunds['title']
+    this.formGroup.value.businessGrowthStages  =     this.formGroup.value.businessGrowthStages['title']
+    this.formGroup.value.investmentStructures  =     this.formGroup.value.investmentStructures['title']
+    this.formGroup.value.esgFocusAreas    =   this.formGroup.value.esgFocusAreas['title']
+    this.formGroup.value.registrationStructures   =     this.formGroup.value.registrationStructures['title']
+    this.formGroup.value.registrationStructures   =     this.formGroup.value.registrationStructures['title']
+
+    this.formGroup.value.sectors = this.selectedSectors
+    this.formGroup.value.subSectors = this.selectedSubSectors
+
+
+    if (this.investorProfile) {
+      this.formGroup.value.minimumFunding =  Number(this.formGroup.value.minimumFunding)
+      this.formGroup.value.maximumFunding =  Number(this.formGroup.value.maximumFunding)
+      if (this.formGroup.valid) {
+        const formData = this.formGroup.value;
+        this.submit$ = this._screenService.updateInvestorProfile(formData,this.investorProfile.id).pipe(
+          tap(res => {
+            this._router.navigate(['/investor/contact-person']);
+          }),
+          catchError((error: any) => {
+            this._feedbackService.error('Error Updating Investor Profile.', error);
+            return of(null);
+          }),
+        )
+
+      }
+    } 
+    else {
+      if (this.formGroup.valid) {
+        const formData = this.formGroup.value;
+        this.submit$ = this._screenService.createInvestorProfile(formData).pipe(
+          tap(res => {
+            this._router.navigate(['/investor/contact-person']);
+          }),
+          catchError((error: any) => {
+            this._feedbackService.error('Error Adding Investor Profile.', error);
+            return of(null);
+          }),
+        )
+
+      }
+    }
+  }
 
 
 
@@ -143,12 +208,65 @@ export class LandingComponent implements OnInit {
     const index = this.selectedSectors.indexOf(sectorId);
     if (index > -1) {
       this.selectedSectors.splice(index, 1);
+      const associatedSubSectorIds = this.sectorSubSectorsMap[sectorId] || [];
+      this.selectedSubSectors = this.selectedSubSectors.filter(subSectorId => !associatedSubSectorIds.includes(subSectorId));
+      delete this.sectorSubSectorsMap[sectorId];
     } else {
       this.selectedSectors.push(sectorId);
-      console.log("The sectors are ", this.selectedSectors)
-      this.loadSubSectors(sectorId); // Load sub-sectors for the newly selected sector
+      this.loadSubSectors(sectorId);
     }
   }
+
+
+  removeAssociatedSubSectors(sectorId: number): void {
+    const subSectorIdsToRemove = this.sectorSubSectorsMap[sectorId] || [];
+    this.selectedSubSectors = this.selectedSubSectors.filter(id => !subSectorIdsToRemove.includes(id));
+    delete this.sectorSubSectorsMap[sectorId];
+  }
+
+
+
+  getSubSectorNameById(id: number): string | undefined {
+    const subSector = this.all_subsectors.find(sub => sub.id === id);
+    return subSector ? subSector.name : undefined;
+  }
+
+
+
+
+
+  removeSector(sectorId: number, event: MouseEvent): void {
+    event.stopPropagation();
+    this.toggleSectorSelection(sectorId);
+  }
+
+  getSubSectorName(subSectorId: number): string {
+    const subSector = this.subSectors.find(s => s.id === subSectorId);
+    return subSector ? subSector.name : '';
+  }
+
+  removeSubSectorsForSector(sectorId: number): void {
+    this.subSectors.forEach(subSector => {
+      if (subSector.id === sectorId) {
+        const index = this.selectedSubSectors.indexOf(subSector.id);
+        if (index > -1) {
+          this.selectedSubSectors.splice(index, 1);
+        }
+      }
+    });
+  }
+
+  getSelectedSubSectorNames(): string[] {
+    return this.selectedSubSectors
+      .map(id => this.subSectors.find(subSector => subSector.id === id)?.name)
+      .filter(name => name !== undefined) as string[];
+  }
+
+  removeSubSector(subSectorId: number, event: MouseEvent): void {
+    event.stopPropagation();
+    this.toggleSubSectorSelection(subSectorId);
+  }
+
 
   toggleSubSectorSelection(subSectorId: number): void {
     const index = this.selectedSubSectors.indexOf(subSectorId);
@@ -157,6 +275,15 @@ export class LandingComponent implements OnInit {
     } else {
       this.selectedSubSectors.push(subSectorId);
     }
+  }
+
+  onSectorChange(selectedSectorId: number): void {
+    this.updateSelectedSubSectorsForSector(selectedSectorId);
+  }
+
+  updateSelectedSubSectorsForSector(sectorId: number): void {
+    const associatedSubSectors = this.sectorSubSectorsMap[sectorId] || [];
+    this.selectedSubSectors = associatedSubSectors;
   }
 
   isSectorSelected(sectorId: number): boolean {
@@ -171,6 +298,8 @@ export class LandingComponent implements OnInit {
   loadSubSectors(sectorId: number): void {
     this.subSectors$ = this._sectorService.getSubSectorOfaSector(sectorId).pipe(tap(subSectors => {
       this.subSectors = subSectors
+      this.all_subsectors = [...this.all_subsectors, ...subSectors];
+      this.sectorSubSectorsMap[sectorId] = subSectors.map(subSector => subSector.id);
     }))
   }
 
@@ -212,14 +341,12 @@ export class LandingComponent implements OnInit {
     this.subSectors = sectors
   }))
 
-  investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile =>{
-    alert(investorProfile)
+  investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile => {
+    this.investorProfile = investorProfile
   }))
 
-  // investorTypeOptions = [
-  //   { name: 'Private equity', value: 'Private equity' },
-  //   { name: 'Venture capital', value: 'Venture capital' }
-  // ];
-
+  investorTypeOptions$ = this._screenService.getInvestorTypes().pipe(tap(investorTypes => {
+    this.investorTypeOptions = investorTypes
+  }))
 
 }

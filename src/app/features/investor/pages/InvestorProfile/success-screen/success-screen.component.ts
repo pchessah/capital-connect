@@ -10,6 +10,7 @@ import { catchError, Observable, tap } from 'rxjs';
 import { InvestorScreensService } from '../../../services/investor.screens.service';
 import { FeedbackService } from '../../../../../core';
 import { of } from 'rxjs';
+import { InvestorProfile } from '../../../../../shared/interfaces/Investor';
 
 
 @Component({
@@ -28,6 +29,8 @@ export class SuccessScreenComponent implements OnInit {
   private _formBuilder = inject(FormBuilder);
   private _screenService = inject(InvestorScreensService)
   private _feedbackService = inject(FeedbackService)
+  investorProfile: InvestorProfile = {} as InvestorProfile;
+
 
 
   userId: number = 0
@@ -37,14 +40,8 @@ export class SuccessScreenComponent implements OnInit {
   formGroup!: FormGroup;
 
   ngOnInit(): void {
-    const userProfileStr = sessionStorage.getItem('userProfile');
-    const userId = sessionStorage.getItem('userId')
     this.message$ = this._feedbackService.message$;
 
-    if (userId) {
-      const id = Number(userId)
-      this.userId = id
-    }
     this.formGroup = this._formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
@@ -52,17 +49,18 @@ export class SuccessScreenComponent implements OnInit {
       emailAddress: ['', [Validators.required, Validators.email]],
       phoneNumber: ['', Validators.required],
       primaryContact: [false],
-      investorProfileId: this.userId
+      investorProfileId:this.investorProfile.id
     });
   }
 
   investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile =>{
-    alert(investorProfile)
+    this.investorProfile = investorProfile
   }))
 
 
   // Submit the form
   onSubmit(): void {
+    this.formGroup.value.investorProfileId = this.investorProfile.id
     this.formGroup.value.phoneNumber = "+254771114712"
 
     if (this.formGroup.valid) {

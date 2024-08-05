@@ -1,7 +1,7 @@
 import { inject, Injectable } from "@angular/core";
 import { Router } from "@angular/router";
-import { combineLatest } from "rxjs";
-import { map, switchMap } from "rxjs/operators";
+import { combineLatest, of } from "rxjs";
+import { catchError, finalize, map, switchMap, tap } from "rxjs/operators";
 import { SubMissionStateService } from "../business/services/submission-state.service";
 import {
   BUSINESS_INFORMATION_SUBSECTION_IDS,
@@ -13,6 +13,9 @@ import { QuestionsService } from "../../features/questions/services/questions/qu
 import { CompanyStateService } from "../../features/organization/services/company-state.service";
 import { LoadingService } from "../../core";
 import { GrowthStage } from "../../features/organization/interfaces";
+import { InvestorProfile } from "../interfaces/Investor";
+import { InvestorScreensService } from "../../features/investor/services/investor.screens.service";
+
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +27,9 @@ export class DynamicRoutingService {
   private _companyStateService = inject(CompanyStateService)
   private _route = inject(Router)
   private _loadingService = inject(LoadingService)
+  investorProfile: InvestorProfile = {} as InvestorProfile;
+
+  private _screenService = inject(InvestorScreensService)
 
   private _getUniqueNumbers(numbers: number[]): number[] {
     const uniqueNumbersSet = new Set(numbers);
@@ -141,6 +147,8 @@ export class DynamicRoutingService {
     return init$
   }
 
+
+
   getInvestorSubmissions() {
     this._loadingService.setLoading(true)
     const questionsOfInvestorOnboarding$ = this._questionService.getSectionQuestions(INVESTOR_ONBOARDING_SUBSECTION_IDS.ID);
@@ -183,4 +191,31 @@ export class DynamicRoutingService {
   }
 
 
+
+  getInvestorProfile() {
+    this._loadingService.setLoading(true);
+  
+    const investorProfile$ = this._screenService.getInvestorProfileById().pipe(
+      map((investorProfile: InvestorProfile) => {
+        this.investorProfile = investorProfile;
+  
+        if (this.investorProfile) {
+          this._route.navigateByUrl('/investor');
+          return true;
+        } else {
+          this._route.navigateByUrl('/investor/onboarding');
+          return false;
+        }
+      }),
+      catchError((error: any) => {
+        console.error('Error fetching investor profile:', error);
+        this._route.navigateByUrl('/investor/onboarding');
+        return of(false);
+      }),
+      finalize(() => this._loadingService.setLoading(false))
+    );
+  
+    return investorProfile$;
+  }
+  
 }
