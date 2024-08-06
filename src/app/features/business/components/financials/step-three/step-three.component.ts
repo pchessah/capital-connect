@@ -1,16 +1,15 @@
-import {Component, inject} from '@angular/core';
-import {QuestionsService} from "../../../../questions/services/questions/questions.service";
-import {combineLatest, Observable, tap} from "rxjs";
-import {Question, QuestionType} from "../../../../questions/interfaces";
-
-import {CommonModule } from "@angular/common";
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from "@angular/forms";
-import {Submission, SubmissionService, SubMissionStateService, UserSubmissionResponse} from "../../../../../shared";
-import {BusinessPageService} from "../../../services/business-page/business.page.service";
-import {Router, RouterLink} from "@angular/router";
-import {BUSINESS_INFORMATION_SUBSECTION_IDS} from "../../../../../shared/business/services/onboarding.questions.service";
-import {DropdownModule} from "primeng/dropdown";
-import {MultiSelectModule} from "primeng/multiselect";
+import { Component, inject } from '@angular/core';
+import { CommonModule } from "@angular/common";
+import { RouterLink } from "@angular/router";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
+import { Observable, tap } from "rxjs";
+import { QuestionsService } from "../../../../questions/services/questions/questions.service";
+import { Question, QuestionType } from "../../../../questions/interfaces";
+import { Submission, SubmissionService, SubMissionStateService } from "../../../../../shared";
+import { BusinessPageService } from "../../../services/business-page/business.page.service";
+import { BUSINESS_INFORMATION_SUBSECTION_IDS } from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
   selector: 'app-step-three',
@@ -20,32 +19,23 @@ import {MultiSelectModule} from "primeng/multiselect";
   styleUrl: './step-three.component.scss'
 })
 export class StepThreeComponent {
-  questions: Question[] = [];
-  fieldType = QuestionType;
 
-  private _router = inject(Router)
-  private _formBuilder =inject(FormBuilder)
+  private _formBuilder = inject(FormBuilder)
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);
   private _submissionService = inject(SubmissionService);
-  formGroup: FormGroup =this._formBuilder.group({})
-  private _submissionStateService = inject(SubMissionStateService)
+  private _submissionStateService = inject(SubMissionStateService);
 
-  submission$ =new Observable<unknown>()
-  questions$ =  this._questionService.getQuestionsOfSubSection(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_THREE).pipe(tap(questions => {
+  questions: Question[] = [];
+  fieldType = QuestionType;
+  formGroup: FormGroup = this._formBuilder.group({})
+
+  currentEntries$ = this._submissionStateService.currentUserSubmission$;
+  submission$ = new Observable<unknown>()
+  questions$ = this._questionService.getQuestionsOfSubSection(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_THREE).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))
-
-  private _hasMatchingQuestionId(questions: Question[], responses: UserSubmissionResponse[]): boolean {
-
-    const responseQuestionIds = new Set(responses.map(response => response.question.id));
-
-    // Check if any question in the questions array has an id in the responseQuestionIds set
-    return questions.some(question => responseQuestionIds.has(question.id));
-  }
-
-  currentEntries$ = this._submissionStateService.currentUserSubmission$;
 
   private _createFormControls() {
     this.questions.forEach(question => {
@@ -56,14 +46,15 @@ export class StepThreeComponent {
       }
     });
   }
-  setNextStep(){
+
+  setNextStep() {
     this._pageService.setCurrentPage(3);
   }
-  goBack(){
+  goBack() {
     this._pageService.setCurrentStep(2);
   }
 
-  handleSubmit(){
+  handleSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
 
@@ -77,9 +68,9 @@ export class StepThreeComponent {
             text: ''
           });
         });
-      }else if(question.type ==this.fieldType.SHORT_ANSWER){
+      } else if (question.type == this.fieldType.SHORT_ANSWER) {
         const openQuestion = question.answers.find(a => a.text === 'OPEN');
-        const answerId =openQuestion ? openQuestion.id : formValues['question_' + question.id]
+        const answerId = openQuestion ? openQuestion.id : formValues['question_' + question.id]
 
         submissionData.push({
           questionId: question.id,
@@ -95,7 +86,8 @@ export class StepThreeComponent {
         });
       }
     });
-    this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(res => {
+
+    this.submission$ = this._submissionService.createMultipleSubmissions(submissionData).pipe(tap(() => {
       this.setNextStep();
     }));
   }
