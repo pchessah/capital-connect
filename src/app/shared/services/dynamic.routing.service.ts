@@ -6,6 +6,7 @@ import { SubMissionStateService } from "../business/services/submission-state.se
 import {
   BUSINESS_INFORMATION_SUBSECTION_IDS,
   getInvestorEligibilitySubsectionIds,
+  IMPACT_ASSESMENT_SUBSECTION_IDS,
   INVESTOR_ONBOARDING_SUBSECTION_IDS,
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS,
 } from "../business/services/onboarding.questions.service";
@@ -39,6 +40,7 @@ export class DynamicRoutingService {
     const questionsOfBusinessFinancials$ = this._questionService.getSectionQuestions(BUSINESS_INFORMATION_SUBSECTION_IDS.ID);
     const questionsOfInvestorEligibilty$ = this._questionService.getSectionQuestions(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ID);
     const questionsOfInvestorPreparedness$ = this._questionService.getSectionQuestions(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID);
+    const questionsOfImpactAssesement$ = this._questionService.getSectionQuestions(IMPACT_ASSESMENT_SUBSECTION_IDS.ID);
 
 
     const init$ =
