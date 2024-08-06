@@ -31,9 +31,12 @@ import { RemoveQuotesPipe } from '../../../../../shared/pipes/remove-quotes.pipe
 export class OverviewComponent {
   @ViewChild('content', { static: false }) content!: ElementRef;
   @ViewChild('business_content', { static: false }) business_content!: ElementRef;
+  @ViewChild('impact_content', { static: false }) impact_content!: ElementRef;
+
 
   visible = false;
   factSheetVisible = false;
+  impactElementVisible = false;
   investorsDiagVisible = false;
   matchedInvestors: MatchedInvestor[] = [];
   investorEligibilityScore: string = '0';
@@ -43,6 +46,7 @@ export class OverviewComponent {
 
   preparednessAnswers: UserSubmissionResponse[] = [];
   factSheetAnswers: UserSubmissionResponse[] = [];
+  impactElementAnswers : UserSubmissionResponse[] = [];
 
   eligibilityAnswers: UserSubmissionResponse[] = [];
 
@@ -81,7 +85,7 @@ export class OverviewComponent {
 
 
   esgSubmissions$ = this._submissionStateService.getEsgSubmissionsPerSection().pipe(tap(submissions => {
-    this.preparednessAnswers = submissions
+    this.impactElementAnswers = submissions
   }))
 
   factSheetSubmissions$ = this._submissionStateService.getFactSheetSubmissionsPerSection().pipe(tap(submissions => {
@@ -126,6 +130,8 @@ export class OverviewComponent {
   setDialog(dialog: string) {
     if (dialog === "factSheet") {
       this.factSheetVisible = !this.factSheetVisible;
+    }else if(dialog = "impactAssesment"){
+      this.impactElementVisible = !this.impactElementVisible
     }
   }
 
@@ -138,9 +144,9 @@ export class OverviewComponent {
       const contentElement = this.content.nativeElement;
       var reportName: string = '';
       if (this.currentModal === 'eligibility') {
-        reportName = "InvestorEligibilityReport"
+        reportName = "INVESTOR ELIGIBILITY REPORT"
       } else if (this.currentModal === 'preparedness') {
-        reportName = "InvestorPreparednessReport"
+        reportName = "INVESTOR PREPAREDNES REPORT"
       }
       this._pdfService.generatePDF(contentElement, reportName);
     } else {
@@ -152,7 +158,18 @@ export class OverviewComponent {
     if (this.business_content && this.business_content.nativeElement) {
       const contentElement = this.business_content.nativeElement;
       var reportName: string = '';
-      reportName = "BusinessInformationReport"
+      reportName = "BUSINESS INFORMATION REPORT"
+      this._pdfService.generatePDF(contentElement, reportName);
+    } else {
+      console.error('Content element is null or undefined.');
+    }
+  }
+
+  generateImpactElementReport() {
+    if (this.impact_content && this.impact_content.nativeElement) {
+      const contentElement = this.impact_content.nativeElement;
+      var reportName: string = '';
+      reportName = "IMPACT ELEMENT ASSESMENT REPORT"
       this._pdfService.generatePDF(contentElement, reportName);
     } else {
       console.error('Content element is null or undefined.');
