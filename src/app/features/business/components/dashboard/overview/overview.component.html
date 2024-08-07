@@ -9,11 +9,11 @@
 
 
 <app-overview-section>
-  <app-card [detail]="{title: 'Investor Eligibility', value: investorEligibilityScore+' %', featured: true}"
+  <app-card [detail]="{title: 'Investor/Funder Eligibility', value: investorEligibilityScore+' %', featured: true}"
     (click)="showDialog(investorEligibilityScore)">
     <p class="helper__text text__yellow">See suggested actions</p>
   </app-card>
-  <app-card [detail]="{title: 'Investor Preparedness', value: investorPreparednessScore+' %', featured: true}"
+  <app-card [detail]="{title: 'Investor/Funder Preparedness', value: investorPreparednessScore+' %', featured: true}"
     (click)="showDialog(investorPreparednessScore)">
     <p class="helper__text text__yellow">See suggested actions</p>
   </app-card>
@@ -24,14 +24,14 @@
   </app-card>
 
   <app-card 
-    [detail]="{title: 'Business Information', value: '0', featured: false, period: '0 Past Months'}"
+    [detail]="{title: 'Business Fact Sheet', value: '0', featured: false, period: '0 Past Months'}"
     (click)="setDialog('factSheet')">
     <app-photo-collage></app-photo-collage>
   </app-card>
 
 
   <app-card (click)="showMatchedInvestors()"
-    [detail]="{title: 'Matched Investors', value: (matchedInvestors.length).toString(), featured: false, period: '0 Past Months'}"><app-photo-collage /></app-card>
+    [detail]="{title: 'Matched Investors/Funders', value: (matchedInvestors.length).toString(), featured: false, period: '0 Past Months'}"><app-photo-collage /></app-card>
 </app-overview-section>
 
 <app-modal [visible]="visible">
@@ -39,15 +39,15 @@
   <div #content>
     <img src="../../../../../../assets/img/logo.png" alt="logo" />
     <section class="brand-details">
-      <h2>{{currentModal==="eligibility"? "Your Investor Eligibility Report" 
-         :currentModal==="preparedness"?"your Investor Preparedness Report":""}}</h2>
+      <h2>{{currentModal==="eligibility"? "Your Investor/Funder Eligibility Report" 
+         :currentModal==="preparedness"?"your Investor/Funder Preparedness Report":""}}</h2>
       <h3>{{ currentCompany.name }}</h3>
       <p>Country - {{ currentCompany.country }}</p>
       <p>Sector - {{ currentCompany.businessSector }}</p>
     </section>
     <div class="content">
       <section class="score-section">
-        <h3>{{currentModal==="eligibility"? "Your Investor Eligibility" :currentModal==="preparedness"?"Your Investor Preparedness":""}}</h3>
+        <h3>{{currentModal==="eligibility"? "Your Investor/Funder Eligibility" :currentModal==="preparedness"?"Your Investor/Funder Preparedness":""}}</h3>
         <h2>{{currentModal==="eligibility"? investorEligibilityScore
           :currentModal==="preparedness"?investorPreparednessScore:""}}%</h2>
       </section>
@@ -173,7 +173,7 @@
   <div #business_content>
     <img src="../../../../../../assets/img/logo.png" alt="logo" />
     <section class="brand-details">
-      <h2>Business Information Report</h2>
+      <h2>Business Fact Sheet Report</h2>
       <h3>{{ currentCompany.name }}</h3>
       <p>Country - {{ currentCompany.country }}</p>
       <p>Sector - {{ currentCompany.businessSector }}</p>
