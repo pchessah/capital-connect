@@ -6,6 +6,7 @@ import { SubMissionStateService } from "../business/services/submission-state.se
 import {
   BUSINESS_INFORMATION_SUBSECTION_IDS,
   getInvestorEligibilitySubsectionIds,
+  IMPACT_ASSESMENT_SUBSECTION_IDS,
   INVESTOR_ONBOARDING_SUBSECTION_IDS,
   INVESTOR_PREPAREDNESS_SUBSECTION_IDS,
 } from "../business/services/onboarding.questions.service";
@@ -45,6 +46,7 @@ export class DynamicRoutingService {
     const questionsOfBusinessFinancials$ = this._questionService.getSectionQuestions(BUSINESS_INFORMATION_SUBSECTION_IDS.ID);
     const questionsOfInvestorEligibilty$ = this._questionService.getSectionQuestions(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ID);
     const questionsOfInvestorPreparedness$ = this._questionService.getSectionQuestions(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID);
+    const questionsOfImpactAssesement$ = this._questionService.getSectionQuestions(IMPACT_ASSESMENT_SUBSECTION_IDS.ID);
 
 
     const init$ =
@@ -60,35 +62,30 @@ export class DynamicRoutingService {
 
               const missingBusinessFinancialSubsectionIds = questionsOfBusinessFinancials
                 .filter(question => !userSubmissionQuestionIds.includes(question.id))
-                .map(question => question.subSection.id).filter(i => i !== 265);
-
-
+                .map(question => question.subSection.id)
 
               if (missingBusinessFinancialSubsectionIds.length > 0) {
                 const url = '/business/financials'
                 if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.LANDING)) {
-
                   this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
                 } else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_ONE)) {
-
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
                 }
                 else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_TWO)) {
-
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
                 }
                 else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_THREE)) {
-
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
+                }
+                else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_FOUR)) {
+                  this._route.navigateByUrl(url, { state: { data: { page: 2, step: 4 } } })
                 }
                 this._loadingService.setLoading(false)
                 return (false)
               }
 
-
-
               const missingInvestorEligibilitySubsectionIds = questionsOfInvestorEligibilty.filter(question => !userSubmissionQuestionIds.includes(question.id))
-                .map(question => question.subSection.id).filter(i => i !== 265);;
+                .map(question => question.subSection.id)
 
               const step1NotDone = missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS).STEP_ONE)
 
@@ -116,7 +113,7 @@ export class DynamicRoutingService {
               }
 
               const missingInvestorPreparednessSubsectionIds = questionsOfInvestorPreparedness.filter(question => !userSubmissionQuestionIds.includes(question.id))
-                .map(question => question.subSection.id).filter(i => i !== 265);;
+                .map(question => question.subSection.id)
 
               if (missingInvestorPreparednessSubsectionIds.length > 0) {
                 const url = '/business/investor-preparedness'

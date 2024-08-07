@@ -1,38 +1,45 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
-import { MultiSelectModule } from "primeng/multiselect";
-import { DropdownModule } from "primeng/dropdown";
 import { Observable, tap } from "rxjs";
-import { QuestionsService } from "../../../../questions/services/questions/questions.service";
+import { DropdownModule } from "primeng/dropdown";
+import { MultiSelectModule } from "primeng/multiselect";
+import { AuthModule } from "../../../../auth/modules/auth.module";
 import { Question, QuestionType } from "../../../../questions/interfaces";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from "@angular/forms";
+import { QuestionsService } from "../../../../questions/services/questions/questions.service";
 import { BusinessPageService } from "../../../services/business-page/business.page.service";
 import { Submission, SubmissionService, SubMissionStateService } from "../../../../../shared";
-import { BUSINESS_INFORMATION_SUBSECTION_IDS } from "../../../../../shared/business/services/onboarding.questions.service";
+import { IMPACT_ASSESMENT_SUBSECTION_IDS } from "../../../../../shared/business/services/onboarding.questions.service";
 
 @Component({
-  selector: 'app-step-two',
+  selector: 'app-step-one',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink, MultiSelectModule, DropdownModule],
-  templateUrl: './step-two.component.html',
-  styleUrl: './step-two.component.scss'
+  imports: [
+    AuthModule,
+    CommonModule,
+    ReactiveFormsModule,
+    RouterLink,
+    DropdownModule,
+    MultiSelectModule
+  ],
+  templateUrl: './step-one.component.html',
+  styleUrl: './step-one.component.scss'
 })
-export class StepTwoComponent {
-
+export class StepOneComponent {
   private _formBuilder = inject(FormBuilder)
   private _questionService = inject(QuestionsService);
   private _pageService = inject(BusinessPageService);
   private _submissionService = inject(SubmissionService);
   private _submissionStateService = inject(SubMissionStateService);
-  
-  questions: Question[] = [];
-  fieldType = QuestionType;
-  formGroup: FormGroup = this._formBuilder.group({})
-  
-  submission$ = new Observable<unknown>()
 
-  questions$ = this._questionService.getQuestionsOfSubSection(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_TWO).pipe(tap(questions => {
+  formGroup: FormGroup = this._formBuilder.group({})
+  fieldType = QuestionType;
+  questions: Question[] = [];
+
+  submission$ = new Observable<unknown>();
+
+  questions$ = this._questionService.getQuestionsOfSubSection(IMPACT_ASSESMENT_SUBSECTION_IDS.STEP_ONE).pipe(tap(questions => {
     this.questions = questions
     this._createFormControls();
   }))
@@ -49,16 +56,15 @@ export class StepTwoComponent {
     });
   }
   setNextStep() {
-    this._pageService.setCurrentStep(3)
+    this._pageService.setCurrentStep(2)
   }
   goBack() {
-    this._pageService.setCurrentStep(1);
+    this._pageService.setCurrentPage(1);
   }
 
   handleSubmit() {
     const formValues = this.formGroup.value;
     const submissionData: Submission[] = [];
-
     this.questions.forEach(question => {
       if (question.type === this.fieldType.MULTIPLE_CHOICE) {
         const selectedAnswers = formValues['question_' + question.id];

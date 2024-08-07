@@ -18,14 +18,21 @@ import { Country } from '../../../../../shared/interfaces/countries';
 import { SectorsService } from '../../../../sectors/services/sectors/sectors.service';
 import { Sector, SubSector } from '../../../../../shared/interfaces/Investor';
 import { Router } from '@angular/router';
+<<<<<<< HEAD
 import { TooltipDirective } from '../../../../../shared/directives/tooltip.directive';
 import { NumberFormatDirective } from '../../../../../shared/directives/number-format.directive';
+=======
+>>>>>>> staging
 
 
 @Component({
   selector: 'app-landing',
   standalone: true,
+<<<<<<< HEAD
   imports: [CommonModule, DropdownModule, MultiSelectModule, ReactiveFormsModule, TooltipDirective,NumberFormatDirective],
+=======
+  imports: [CommonModule, DropdownModule, MultiSelectModule, ReactiveFormsModule],
+>>>>>>> staging
   templateUrl: './landing.component.html',
   styleUrls: ['./landing.component.scss'],
 })
@@ -54,11 +61,14 @@ export class LandingComponent implements OnInit {
   subSectors: SubSector[] = []
   all_subsectors: SubSector[] = []
   investorProfile: InvestorProfile = {} as InvestorProfile;
+<<<<<<< HEAD
   investorProfileExists = false  
 
   tooltipVisible = false;
   tooltipText = '';
   tooltipStyle = {};
+=======
+>>>>>>> staging
 
 
   selectedSectors: number[] = [];
@@ -112,10 +122,13 @@ export class LandingComponent implements OnInit {
     this.investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile => {
       this.investorProfile = investorProfile
       this.patchForm(investorProfile);
+<<<<<<< HEAD
     }),
     catchError(error => {
       this.investorProfileExists = false; 
       return of(null); 
+=======
+>>>>>>> staging
     }))
 
 
@@ -157,6 +170,7 @@ export class LandingComponent implements OnInit {
 
 
   onSubmit(): void {
+<<<<<<< HEAD
 
     this.formGroup.value.countriesOfInvestmentFocus =this.formGroup.value.countriesOfInvestmentFocus.map((item: { name: string; }) => item.name);    
     this.formGroup.value.useOfFunds =this.formGroup.value.useOfFunds.map((item: { title: string; }) => item.title);
@@ -174,6 +188,21 @@ export class LandingComponent implements OnInit {
 
 
     if (this.investorProfileExists) {
+=======
+    this.formGroup.value.countriesOfInvestmentFocus =   this.formGroup.value.countriesOfInvestmentFocus['name']
+    this.formGroup.value.useOfFunds =   this.formGroup.value.useOfFunds['title']
+    this.formGroup.value.businessGrowthStages  =     this.formGroup.value.businessGrowthStages['title']
+    this.formGroup.value.investmentStructures  =     this.formGroup.value.investmentStructures['title']
+    this.formGroup.value.esgFocusAreas    =   this.formGroup.value.esgFocusAreas['title']
+    this.formGroup.value.registrationStructures   =     this.formGroup.value.registrationStructures['title']
+    this.formGroup.value.registrationStructures   =     this.formGroup.value.registrationStructures['title']
+
+    this.formGroup.value.sectors = this.selectedSectors
+    this.formGroup.value.subSectors = this.selectedSubSectors
+
+
+    if (this.investorProfile) {
+>>>>>>> staging
       this.formGroup.value.minimumFunding =  Number(this.formGroup.value.minimumFunding)
       this.formGroup.value.maximumFunding =  Number(this.formGroup.value.maximumFunding)
       if (this.formGroup.valid) {
@@ -191,8 +220,11 @@ export class LandingComponent implements OnInit {
       }
     } 
     else {
+<<<<<<< HEAD
       console.log('Form Value:', this.formGroup.value);
 
+=======
+>>>>>>> staging
       if (this.formGroup.valid) {
         const formData = this.formGroup.value;
         this.submit$ = this._screenService.createInvestorProfile(formData).pipe(
@@ -360,6 +392,7 @@ export class LandingComponent implements OnInit {
 
   investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile => {
     this.investorProfile = investorProfile
+<<<<<<< HEAD
   }),
   catchError(error => {
     this.investorProfileExists = false; 
@@ -367,11 +400,15 @@ export class LandingComponent implements OnInit {
   })
 
 )
+=======
+  }))
+>>>>>>> staging
 
   investorTypeOptions$ = this._screenService.getInvestorTypes().pipe(tap(investorTypes => {
     this.investorTypeOptions = investorTypes
   }))
 
+<<<<<<< HEAD
 
   showTooltip(event: MouseEvent, description: string): void {
     this.tooltipText = description;
@@ -385,4 +422,6 @@ export class LandingComponent implements OnInit {
   hideTooltip(): void {
     this.tooltipVisible = false;
   }
+=======
+>>>>>>> staging
 }
