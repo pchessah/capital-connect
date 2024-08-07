@@ -32,6 +32,13 @@ export class DynamicRoutingService {
 
   private _screenService = inject(InvestorScreensService)
 
+  
+/**
+ * Returns an array of unique numbers from the given array.
+ *
+ * @param {number[]} numbers - The array of numbers.
+ * @return {number[]} An array of unique numbers.
+ */
   private _getUniqueNumbers(numbers: number[]): number[] {
     const uniqueNumbersSet = new Set(numbers);
     const uniqueNumbersArray = Array.from(uniqueNumbersSet);
@@ -39,45 +46,65 @@ export class DynamicRoutingService {
   }
 
   getUserSubmissions() {
+    //Get the company growth stage to know type of questions we check in the investor eligibility
     const companyGrowthStage = this._companyStateService.currentCompany.growthStage;
+
+    //We get the subsection IDs of the investor elgibility questions based on the company growth stage
     const INVESTOR_ELIGIBILITY_SUBSECTION_IDS = getInvestorEligibilitySubsectionIds(companyGrowthStage);
 
+    //We get all the responses that a company has made
     const userSubmissions$ = this._submissionStateService.getUserSubmissions();
-    const questionsOfBusinessFinancials$ = this._questionService.getSectionQuestions(BUSINESS_INFORMATION_SUBSECTION_IDS.ID);
+
+    //We get all the questions of the business information section
+    const questionsOfBusinessInformation$ = this._questionService.getSectionQuestions(BUSINESS_INFORMATION_SUBSECTION_IDS.ID);
+
+    //We get aget all the questions of investor eligibility section
     const questionsOfInvestorEligibilty$ = this._questionService.getSectionQuestions(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.ID);
+
+    debugger
+
+    //We get all the questions of investor preparedness section
     const questionsOfInvestorPreparedness$ = this._questionService.getSectionQuestions(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.ID);
+
+    //We get all the questions of impact assessment section: //TODO: @pchessah this section has not been added yet.
     const questionsOfImpactAssesement$ = this._questionService.getSectionQuestions(IMPACT_ASSESMENT_SUBSECTION_IDS.ID);
 
-
+    
     const init$ =
       userSubmissions$.pipe(
         switchMap((userSubmissions) => {
           this._loadingService.setLoading(true);
-          return combineLatest([questionsOfBusinessFinancials$, questionsOfInvestorEligibilty$, questionsOfInvestorPreparedness$])
-            .pipe(map(([questionsOfBusinessFinancials, questionsOfInvestorEligibilty, questionsOfInvestorPreparedness]) => {
+          return combineLatest([questionsOfBusinessInformation$, questionsOfInvestorEligibilty$, questionsOfInvestorPreparedness$])
+            .pipe(map(([questionsOfBusinessInformation, questionsOfInvestorEligibilty, questionsOfInvestorPreparedness]) => {
 
 
               const userSubmissionQuestionIds = this._getUniqueNumbers(userSubmissions.map(us => us.question.id));
 
 
-              const missingBusinessFinancialSubsectionIds = questionsOfBusinessFinancials
+              const missingBusinessFinancialSubsectionIds = questionsOfBusinessInformation
                 .filter(question => !userSubmissionQuestionIds.includes(question.id))
                 .map(question => question.subSection.id)
+                debugger
 
               if (missingBusinessFinancialSubsectionIds.length > 0) {
                 const url = '/business/financials'
                 if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.LANDING)) {
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
                 } else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_ONE)) {
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
                 }
                 else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_TWO)) {
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
                 }
                 else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_THREE)) {
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
                 else if (missingBusinessFinancialSubsectionIds.includes(BUSINESS_INFORMATION_SUBSECTION_IDS.STEP_FOUR)) {
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 4 } } })
                 }
                 this._loadingService.setLoading(false)
@@ -87,25 +114,27 @@ export class DynamicRoutingService {
               const missingInvestorEligibilitySubsectionIds = questionsOfInvestorEligibilty.filter(question => !userSubmissionQuestionIds.includes(question.id))
                 .map(question => question.subSection.id)
 
+                debugger
+
               const step1NotDone = missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS).STEP_ONE)
-
+              debugger
               const step2NotDone = missingInvestorEligibilitySubsectionIds.includes((INVESTOR_ELIGIBILITY_SUBSECTION_IDS).STEP_TWO)
-
+              debugger
               if (missingInvestorEligibilitySubsectionIds.length > 0) {
                 const url = '/business/investor-eligibility'
                 if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.LANDING)) {
-
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
                 } else if (step1NotDone) {
-
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
                 }
                 else if (step2NotDone) {
-
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
                 }
                 else if (missingInvestorEligibilitySubsectionIds.includes(INVESTOR_ELIGIBILITY_SUBSECTION_IDS.STEP_THREE)) {
-
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
                 this._loadingService.setLoading(false)
@@ -114,22 +143,22 @@ export class DynamicRoutingService {
 
               const missingInvestorPreparednessSubsectionIds = questionsOfInvestorPreparedness.filter(question => !userSubmissionQuestionIds.includes(question.id))
                 .map(question => question.subSection.id)
-
+                debugger
               if (missingInvestorPreparednessSubsectionIds.length > 0) {
                 const url = '/business/investor-preparedness'
                 if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.LANDING)) {
-
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 1, step: 1 } } })
                 } else if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_ONE)) {
-
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 1 } } })
                 }
                 else if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_TWO)) {
-
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 2 } } })
                 }
                 else if (missingInvestorPreparednessSubsectionIds.includes(INVESTOR_PREPAREDNESS_SUBSECTION_IDS.STEP_THREE)) {
-
+                  debugger
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
                 return (false)
