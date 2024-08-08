@@ -44,6 +44,7 @@
                 <label class="input__label">Countries of Investment Focus<sup>*</sup></label>
                 <a [title]="">Why do we ask this?</a>
                 <p-multiSelect class="input__field" styleClass="w-full gap-4"
+                  optionValue="name"
                   formControlName="countriesOfInvestmentFocus" [options]="countryOptions" optionLabel="name"
                   placeholder="Select countries"></p-multiSelect>
               </div>
@@ -81,27 +82,21 @@
 
 
             <div *ngIf="current_details==2" class="section2">
-              <div class="input__wrapper">
-<<<<<<< HEAD
-                <label class="input__label">Available Funding $<sup>(usd)*</sup></label>
-                <a [title]="">Why do we ask this?</a>
-                <input class="input__field" formControlName="availableFunding" type="text"
-                  placeholder="Enter available funding" appNumberFormat/>
-=======
-                <label class="input__label">Available Funding<sup>*</sup></label>
-                <a [title]="">Why do we ask this?</a>
-                <input class="input__field" formControlName="availableFunding" type="number"
-                  placeholder="Enter available funding" />
->>>>>>> staging
-              </div>
-
-
 
               <div class="input__wrapper">
                 <label class="input__label">Different Funding Vehicles<sup>*</sup></label>
                 <a [title]="">Why do we ask this?</a>
                 <input class="input__field" formControlName="differentFundingVehicles" type="text"
                   placeholder="Enter a funding vehicle" />
+              </div>
+
+
+
+              <div class="input__wrapper">
+                <label class="input__label">Available Funding $<sup>(usd)*</sup></label>
+                <a [title]="">Why do we ask this?</a>
+                <input class="input__field" formControlName="availableFunding" type="text"
+                  placeholder="Enter available funding" appNumberFormat/>
               </div>
 
               <div class="input__wrapper">
@@ -196,6 +191,7 @@
                 <a [title]="">Why do we ask this?</a>
                 <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="useOfFunds"
                   [options]="useOfFundsOptions" optionLabel="title" 
+                  optionValue="title"
                   placeholder="Select use of funds">
                 
                   <ng-template let-option pTemplate="item"><div appTooltip="{{option.description}}">{{option.title}}</div></ng-template>
@@ -208,6 +204,7 @@
                 <a [title]="">Why do we ask this?</a>
                 <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="businessGrowthStages"
                   [options]="businessGrowthStageOptions"  optionLabel="title"
+                  optionValue="title"
                   placeholder="Select business growth stages">
                 
                   <ng-template let-option pTemplate="item"><div appTooltip="{{option.description}}">{{option.title}}</div></ng-template>
@@ -218,12 +215,10 @@
               <div class="input__wrapper">
                 <label class="input__label">Investor/Funder Types<sup>*</sup></label>
                 <a [title]="">Why do we ask this?</a>
-
-
                 <p-dropdown   [options]="investorTypeOptions" optionLabel="title" optionValue="title" class="input__field"
-                  styleClass="w-full gap-4"  formControlName="investorType" placeholder="Select option" />
-
-
+                  styleClass="w-full gap-4"  formControlName="investorType" placeholder="Select option" >
+                  <!-- <ng-template let-option pTemplate="item"><div appTooltip="{{option.description}}">{{option.title}}</div></ng-template> -->
+                </p-dropdown>
               </div>
 
               <div class="input__wrapper">
@@ -231,6 +226,7 @@
                 <a [title]="">Why do we ask this?</a>
                 <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="investmentStructures"
                   [options]="investmentStructureOptions"  optionLabel="title"
+                  optionValue="title"
                   placeholder="Select investment structures">
                   <ng-template let-option pTemplate="item"><div appTooltip="{{option.description}}">{{option.title}}</div></ng-template>
                 
@@ -242,6 +238,7 @@
                 <a [title]="">Why do we ask this?</a>
                 <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="esgFocusAreas"
                   [options]="esgFocusAreaOptions" optionLabel="title" 
+                  optionValue="title"
                   placeholder="Select ESG focus areas">
 
                   <ng-template let-option pTemplate="item"><div appTooltip="{{option.description}}">{{option.title}}</div></ng-template>
@@ -254,6 +251,7 @@
                 <a [title]="">Why do we ask this?</a>
                 <p-multiSelect class="input__field" styleClass="w-full gap-4" formControlName="registrationStructures"
                   [options]="registrationStructureOptions" optionLabel="title"
+                  optionValue="title"
                   placeholder="Select registration structures">
                 
                   <ng-template let-option pTemplate="item"><div appTooltip="{{option.description}}">{{option.title}}</div></ng-template>
@@ -274,7 +272,7 @@
             <button class="btn btn-primary" type="button" (click)="setNextDetails()">Next</button>
           </div>
           <button type="submit" *ngIf="current_details==3" [disabled]="!formGroup.valid" class="btn"
-            [ngClass]="{'disabled-btn': !formGroup.valid}">{{investorProfileExists ? "Update" :"Submit"}}</button>
+            [ngClass]="{'disabled-btn': !formGroup.valid}">{{investorProfile ? "Update" :"Submit"}}</button>
         </div>
       </form>
     </ng-container>

@@ -53,7 +53,7 @@ export class LandingComponent implements OnInit {
   sectors: Sector[] = []
   subSectors: SubSector[] = []
   all_subsectors: SubSector[] = []
-  investorProfile: InvestorProfile = {} as InvestorProfile;
+  investorProfile: InvestorProfile | null = null;
   investorProfileExists = false  
 
   tooltipVisible = false;
@@ -104,19 +104,13 @@ export class LandingComponent implements OnInit {
       investmentStructures: [[], Validators.required],
       esgFocusAreas: [[], Validators.required],
       registrationStructures: [[], Validators.required],
-      sectors: this.selectedSectors,
-      subSectors: this.selectedSubSectors,
-
     });
 
     this.investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile => {
-      this.investorProfile = investorProfile
+      this.investorProfile = investorProfile ;
       this.patchForm(investorProfile);
-    }),
-    catchError(error => {
-      this.investorProfileExists = false; 
-      return of(null); 
-    }))
+    })  
+  )
 
 
   }
@@ -139,14 +133,13 @@ export class LandingComponent implements OnInit {
       minimumFunding : investorProfile.minimumFunding,
       maximumFunding: investorProfile.maximumFunding,
       noMaximumFunding: investorProfile.noMaximumFunding,
-
       investorType: investorProfile.investorType,
-      countriesOfInvestmentFocus: investorProfile.countriesOfInvestmentFocus.map(item => JSON.parse(item)),
-      useOfFunds: investorProfile.useOfFunds.map(item => JSON.parse(item)),
-      businessGrowthStages: investorProfile.businessGrowthStages.map(item => JSON.parse(item)),
-      investmentStructures: investorProfile.investmentStructures.map(item => JSON.parse(item)),
-      esgFocusAreas: investorProfile.esgFocusAreas.map(item => JSON.parse(item)),
-      registrationStructures: investorProfile.registrationStructures.map(item => JSON.parse(item)),
+      countriesOfInvestmentFocus: investorProfile.countriesOfInvestmentFocus,
+      useOfFunds: investorProfile.useOfFunds,
+      businessGrowthStages: investorProfile.businessGrowthStages,
+      investmentStructures: investorProfile.investmentStructures,
+      esgFocusAreas: investorProfile.esgFocusAreas,
+      registrationStructures: investorProfile.registrationStructures,
     });
 
 
@@ -156,24 +149,18 @@ export class LandingComponent implements OnInit {
   }
 
 
-  onSubmit(): void {
-
-    this.formGroup.value.countriesOfInvestmentFocus =this.formGroup.value.countriesOfInvestmentFocus.map((item: { name: string; }) => item.name);    
-    this.formGroup.value.useOfFunds =this.formGroup.value.useOfFunds.map((item: { title: string; }) => item.title);
-    this.formGroup.value.businessGrowthStages =this.formGroup.value.businessGrowthStages.map((item: { title: string; }) => item.title);
-    this.formGroup.value.investmentStructures =this.formGroup.value.investmentStructures.map((item: { title: string; }) => item.title);
-    this.formGroup.value.esgFocusAreas =this.formGroup.value.esgFocusAreas.map((item: { title: string; }) => item.title);
-    this.formGroup.value.registrationStructures =this.formGroup.value.registrationStructures.map((item: { title: string; }) => item.title);
-  
+  onSubmit(): void { 
     this.formGroup.value.sectors = this.selectedSectors
     this.formGroup.value.subSectors = this.selectedSubSectors
 
     this.formGroup.value.minimumFunding = parseFloat(this.formGroup.value.minimumFunding.replace(/,/g, ''))
     this.formGroup.value.maximumFunding = parseFloat(this.formGroup.value.maximumFunding.replace(/,/g, ''))
+    this.formGroup.value.availableFunding = parseFloat(this.formGroup.value.availableFunding.replace(/,/g, ''))
 
 
 
-    if (this.investorProfileExists) {
+
+    if (this.investorProfile) {
       this.formGroup.value.minimumFunding =  Number(this.formGroup.value.minimumFunding)
       this.formGroup.value.maximumFunding =  Number(this.formGroup.value.maximumFunding)
       if (this.formGroup.valid) {
@@ -182,17 +169,11 @@ export class LandingComponent implements OnInit {
           tap(res => {
             this._router.navigate(['/investor/contact-person']);
           }),
-          catchError((error: any) => {
-            this._feedbackService.error('Error Updating Investor Profile.', error);
-            return of(null);
-          }),
         )
 
       }
     } 
     else {
-      console.log('Form Value:', this.formGroup.value);
-
       if (this.formGroup.valid) {
         const formData = this.formGroup.value;
         this.submit$ = this._screenService.createInvestorProfile(formData).pipe(
@@ -358,15 +339,12 @@ export class LandingComponent implements OnInit {
     this.subSectors = sectors
   }))
 
-  investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile => {
-    this.investorProfile = investorProfile
-  }),
-  catchError(error => {
-    this.investorProfileExists = false; 
-    return of(null); 
-  })
+  
 
-)
+  investorProfile$ = this._screenService.getInvestorProfileById().pipe(tap(investorProfile => {
+    this.investorProfile = investorProfile || null;
+    this.patchForm(investorProfile);
+  }))
 
   investorTypeOptions$ = this._screenService.getInvestorTypes().pipe(tap(investorTypes => {
     this.investorTypeOptions = investorTypes

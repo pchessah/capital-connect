@@ -29,6 +29,7 @@ export class DynamicRoutingService {
   private _route = inject(Router)
   private _loadingService = inject(LoadingService)
   investorProfile: InvestorProfile = {} as InvestorProfile;
+  
 
   private _screenService = inject(InvestorScreensService)
 
@@ -203,9 +204,9 @@ export class DynamicRoutingService {
           this._route.navigateByUrl('/investor/onboarding');
           return false;
         }
-      }),
+      })
+      ,
       catchError((error: any) => {
-        console.error('Error fetching investor profile:', error);
         this._route.navigateByUrl('/investor/onboarding');
         return of(false);
       }),
