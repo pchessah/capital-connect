@@ -29,6 +29,7 @@ export class DynamicRoutingService {
   private _route = inject(Router)
   private _loadingService = inject(LoadingService)
   investorProfile: InvestorProfile = {} as InvestorProfile;
+  
 
   private _screenService = inject(InvestorScreensService)
 
@@ -191,11 +192,11 @@ export class DynamicRoutingService {
 
   getInvestorProfile() {
     this._loadingService.setLoading(true);
-
+  
     const investorProfile$ = this._screenService.getInvestorProfileById().pipe(
       map((investorProfile: InvestorProfile) => {
         this.investorProfile = investorProfile;
-
+  
         if (this.investorProfile) {
           this._route.navigateByUrl('/investor');
           return true;
@@ -203,16 +204,16 @@ export class DynamicRoutingService {
           this._route.navigateByUrl('/investor/onboarding');
           return false;
         }
-      }),
+      })
+      ,
       catchError((error: any) => {
-        console.error('Error fetching investor profile:', error);
         this._route.navigateByUrl('/investor/onboarding');
         return of(false);
       }),
       finalize(() => this._loadingService.setLoading(false))
     );
-
+  
     return investorProfile$;
   }
-
+  
 }
