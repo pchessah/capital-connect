@@ -31,9 +31,9 @@ export class SuccessScreenComponent {
 
   }
 
-   goToDashboard() {
+  goToInvestorPreparedness() {
     this._pageService.setCurrentPage(1);
     this._pageService.setCurrentStep(1);
-    this._router.navigateByUrl('/business');
+    this._router.navigateByUrl('/business/investor-preparedness');
   }
 }
