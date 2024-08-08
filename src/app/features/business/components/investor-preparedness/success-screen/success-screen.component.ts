@@ -35,9 +35,13 @@ export class SuccessScreenComponent {
     }));
 
   }
-  goToDashboard() {
-    this._pageService.setCurrentPage(1);
-    this._pageService.setCurrentStep(1);
-    this._router.navigateByUrl('/business');
+  // goToDashboard() {
+  //   this._pageService.setCurrentPage(1);
+  //   this._pageService.setCurrentStep(1);
+  //   this._router.navigateByUrl('/business');
+  // }
+
+  goToImpactAssessment() {
+    this._router.navigateByUrl('/business/impact-assessment');
   }
 }
