@@ -4,7 +4,7 @@
 <div class="container">
   <div class="content">
     <h2>Get Started</h2>
-    <p>Let's ask a few questions to understand your current status. This will help us get to know you better as an investor.</p>
+    <p>Let's ask a few questions to understand your current status. This will help us get to know you better as an investor/funder.</p>
     <ng-container *ngIf="questions$ | async as questions">
       <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
         <div *ngFor="let question of questions; let i = index" class="input__wrapper">

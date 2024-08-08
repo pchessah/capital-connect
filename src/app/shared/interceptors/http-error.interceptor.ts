@@ -24,6 +24,13 @@ export const HttpErrorInterceptor: HttpInterceptorFn = (req, next) => {
         return EMPTY;
       }
 
+      if (isValidInvestorProfilePath(error.url as string)) {
+        if (router.url !== '/investor/investor-details' && router.url !== '/investor/onboarding') {
+          router.navigateByUrl('/investor/onboarding');
+        }
+        return EMPTY;
+      }
+
       if (isValidAuthLoginPath(error.url as string)) {
         if (error.error.message.includes('Your email is not verified')) {
           router.navigateByUrl('/verify-email')
@@ -47,6 +54,12 @@ function isValidCompanyOwnerPath(path: string): boolean {
   const regex = /^.+\/company\/owner\/\d+$/;
   return regex.test(path);
 }
+
+function isValidInvestorProfilePath(path: string): boolean {
+  const regex = /^.+\/investor-profiles\/by-user\/\d+$/;
+  return regex.test(path);
+}
+
 
 function isValidAuthLoginPath(path: string): boolean {
   return path.includes('login');
