@@ -32,7 +32,7 @@ export class DynamicRoutingService {
   private _route = inject(Router)
   private _loadingService = inject(LoadingService)
   investorProfile: InvestorProfile = {} as InvestorProfile;
-  
+
 
   private _screenService = inject(InvestorScreensService)
 
@@ -120,6 +120,8 @@ export class DynamicRoutingService {
 
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
+
+                this._route.navigateByUrl(url)
                 this._loadingService.setLoading(false)
                 return (false)
               }
@@ -150,6 +152,7 @@ export class DynamicRoutingService {
 
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
+                this._route.navigateByUrl(url)
                 return (false)
               }
 
@@ -175,6 +178,8 @@ export class DynamicRoutingService {
 
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 3 } } })
                 }
+
+                this._route.navigateByUrl(url)
                 return (false)
               }
 
@@ -213,6 +218,7 @@ export class DynamicRoutingService {
                   this._route.navigateByUrl(url, { state: { data: { page: 2, step: 4 } } })
                 }
                 this._loadingService.setLoading(false)
+                this._route.navigateByUrl(url)
                 return (false)
               }
 
@@ -288,11 +294,11 @@ export class DynamicRoutingService {
 
   getInvestorProfile() {
     this._loadingService.setLoading(true);
-  
+
     const investorProfile$ = this._screenService.getInvestorProfileById().pipe(
       map((investorProfile: InvestorProfile) => {
         this.investorProfile = investorProfile;
-  
+
         if (this.investorProfile) {
           this._route.navigateByUrl('/investor');
           return true;
@@ -308,10 +314,10 @@ export class DynamicRoutingService {
       }),
       finalize(() => this._loadingService.setLoading(false))
     );
-  
+
     return investorProfile$;
   }
-  
+
 }
 
 
