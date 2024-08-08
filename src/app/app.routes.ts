@@ -15,11 +15,11 @@ export const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path:'verify-email',
+    path: 'verify-email',
     loadComponent: () => import('./features/auth/pages/verify-email/verify-email.component').then(c => c.VerifyEmailComponent)
   },
   {
-    path:'reset-password/:token',
+    path: 'reset-password/:token',
     loadComponent: () => import('./features/auth/pages/reset-password/reset-password.component').then(c => c.ResetPasswordComponent)
   },
   {
